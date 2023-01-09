@@ -15,7 +15,8 @@ const SidebarContainer = styled.div`
 const ImageContainer = styled.div`
   display: flex;
   justify-content: center;
-  margin-top: 3px;
+  border-bottom: 1px solid #d7d9dc;
+  padding-bottom: 1px;
 
   .imgSrc {
     display: block;

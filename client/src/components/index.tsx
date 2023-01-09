@@ -10,6 +10,7 @@ import PeoPleEditModal from "./PeopleEditModal";
 import DeleteModal from "./DeleteModal";
 import LoginModal from "./LoginModal";
 import KakaoMap from "./KakaoMap";
+import HeaderFeedHide from "./HeaderFeedHide";
 
 export {
   Header,
@@ -24,4 +25,5 @@ export {
   DeleteModal,
   LoginModal,
   KakaoMap,
+  HeaderFeedHide,
 };
