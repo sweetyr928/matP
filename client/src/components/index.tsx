@@ -8,6 +8,7 @@ import MatPickerCreate from "./MatPickerModal/MatPickerCreate";
 import MatPickerUpdate from "./MatPickerModal/MatPickerUpdate";
 import PeoPleEditModal from "./PeopleEditModal";
 import DeleteModal from "./DeleteModal";
+import LoginModal from "./LoginModal";
 
 export {
   Header,
@@ -20,4 +21,5 @@ export {
   MatPickerUpdate,
   PeoPleEditModal,
   DeleteModal,
+  LoginModal,
 };
