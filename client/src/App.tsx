@@ -1,3 +1,4 @@
+import { Route, Routes } from "react-router";
 import styled from "styled-components";
 import "./App.css";
 import { KakaoMap, Sidebar } from "./components";
@@ -11,7 +12,17 @@ function App() {
   return (
     <AppContainer>
       <Sidebar />
-      <Domain />
+      <Routes>
+        <Route path="/" element={<Domain />} />
+        {/* <Route path="/" element={<Domain />} /> */}
+        {/* <Route path="/" element={<Domain />} /> */}
+        {/* <Route path="/" element={<Domain />} /> */}
+        {/* <Route path="/" element={<Domain />} /> */}
+        {/* <Route path="/" element={<Domain />} /> */}
+        {/* <Route path="/" element={<Domain />} /> */}
+        {/* <Route path="/" element={<Domain />} /> */}
+        {/* <Route path="/" element={<Domain />} /> */}
+      </Routes>
       <KakaoMap />
     </AppContainer>
   );
