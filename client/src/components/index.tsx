@@ -5,9 +5,9 @@ import MatPostCreate from "./MatPostModal/MatPostCreate";
 import MatPostUpdate from "./MatPostModal/MatPostUpdate";
 import Sidebar from "./Sidebar";
 import MatPickerCreate from "./MatPickerModal/MatPickerCreate";
-import MatPickerDelete from "./MatPickerModal/MatPickerDelete";
 import MatPickerUpdate from "./MatPickerModal/MatPickerUpdate";
 import PeoPleEditModal from "./PeopleEditModal";
+import DeleteModal from "./DeleteModal";
 
 export {
   Header,
@@ -17,7 +17,7 @@ export {
   MatPostUpdate,
   Sidebar,
   MatPickerCreate,
-  MatPickerDelete,
   MatPickerUpdate,
   PeoPleEditModal,
+  DeleteModal,
 };
