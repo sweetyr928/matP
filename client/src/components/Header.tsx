@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 const HeaderContainer = styled.div`
   background-color: #ffffff;
-  height: 63px;
+  height: 57px;
   width: 100%;
   float: inline-start;
   z-index: 998;
