@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const FeedContainer = styled.div`
-  height: 100%;
+  height: 92%;
   /* height: 100vh; */
   min-width: calc(1340px * 2 / 5 - 63px);
   z-index: 997;
