@@ -16,9 +16,10 @@ const KakaoMap = () => {
     };
 
     const map = new window.kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
+    map.relayout();
   }, []);
 
-  return <div id="map" style={{ width: "100vw", height: "100vh" }} />;
+  return <div id="map" style={{ width: "100%", height: "100vh" }} />;
 };
 
 export default KakaoMap;

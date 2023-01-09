@@ -1,3 +1,4 @@
+import React from "react";
 import styled from "styled-components";
 
 const ButtonContainer = styled.button`
@@ -17,8 +18,16 @@ const ButtonContainer = styled.button`
   z-index: 100;
 `;
 
-const HeaderFeedHide = (props: any) => {
-  return <ButtonContainer>{"<"}</ButtonContainer>;
+interface OpenCloseProps {
+  openClose: boolean;
+  setOpenClose: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const HeaderFeedHide = ({ openClose, setOpenClose }: OpenCloseProps) => {
+  const changeOpenClose = () => {
+    setOpenClose(!openClose);
+  };
+  return <ButtonContainer onClick={changeOpenClose}>{openClose ? ">" : "<"}</ButtonContainer>;
 };
 
 export default HeaderFeedHide;
