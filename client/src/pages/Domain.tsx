@@ -10,7 +10,7 @@ const FeedContainer = styled.div`
   /* height: 100vh; */
   min-width: calc(1340px * 2 / 5 - 63px);
   z-index: 997;
-  padding: 0px 8px 0px 70px;
+  padding: 65px 8px 0px 70px;
   background-color: #f8f8f8;
   border-right: 1px solid #d7d9dc;
   display: flex;
@@ -41,25 +41,10 @@ interface Post {
 }
 
 const Domain: React.FC = () => {
-  const [posts, setPosts] = useState<Post[]>([]);
-
-  useEffect(() => {
-    try {
-      axios.get<Post[]>("http://localhost:3001/posts").then((res) => {
-        setPosts(res.data);
-      });
-    } catch (err) {
-      console.log(err);
-    }
-  }, []);
-
   return (
     <FeedContainer>
       <p>오늘의 맛 Post</p>
-      <PostsContainer>
-        {posts &&
-          posts.map((post) => <PostRead key={post.postId} post={post} />)}
-      </PostsContainer>
+      <PostsContainer></PostsContainer>
     </FeedContainer>
   );
 };
