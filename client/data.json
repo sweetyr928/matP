@@ -1,0 +1,45 @@
+{
+  "posts": [
+    {
+      "postId": 1,
+      "likes": 24,
+      "commentcount": 1,
+      "thumbnail_url": "https://cdn.crowdpic.net/detail-thumb/thumb_d_399B0E6A16DD05647D855800C2CF2B24.jpg"
+    },
+    {
+      "postId": 2,
+      "likes": 14,
+      "commentcount": 2,
+      "thumbnail_url": "https://health.chosun.com/site/data/img_dir/2022/07/11/2022071101596_0.jpg"
+    },
+    {
+      "postId": 3,
+      "likes": 10,
+      "commentcount": 2,
+      "thumbnail_url": "https://health.chosun.com/site/data/img_dir/2021/08/13/2021081301439_0.jpg"
+    },
+    {
+      "postId": 4,
+      "likes": 2,
+      "commentcount": 0,
+      "thumbnail_url": "https://w.namu.la/s/3ecf350374dce26cf56be1df4510e0a7b4d5724a4c769f96b0073134f1e660545c1b57481d983b301cfb4cfc5b2ade0276b703280b1ff70532c3620998fc0e808fb411ce9a78eeb8927f55bf0e191a0e0d4c6bb8fa11f3184461b652d7ab8426"
+    }
+  ],
+  "groups": [
+    {
+      "groupId": 1,
+      "name": "가고 싶은 곳",
+      "color": "#023f00"
+    },
+    {
+      "groupId": 2,
+      "name": "어제 갔던 곳",
+      "color": "#098f00"
+    },
+    {
+      "groupId": 3,
+      "name": "가고 싶지 않은 곳",
+      "color": "#09d800"
+    }
+  ]
+}

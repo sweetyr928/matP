@@ -3,7 +3,7 @@ import { Route, Routes } from "react-router";
 import styled from "styled-components";
 import "./App.css";
 import { KakaoMap, Sidebar, Header, HeaderFeedHide } from "./components";
-import { Domain } from "./pages";
+import { Domain, MyPage, MatPeople, MatPicker } from "./pages";
 
 const AppContainer = styled.div`
   display: flex;
@@ -29,13 +29,13 @@ function App() {
         <Routes>
           <Route path="/" element={<Domain />} />
           {/* <Route path="/" element={<Domain />} /> */}
+          <Route path="/pickers" element={<MatPicker />} />
           {/* <Route path="/" element={<Domain />} /> */}
           {/* <Route path="/" element={<Domain />} /> */}
           {/* <Route path="/" element={<Domain />} /> */}
           {/* <Route path="/" element={<Domain />} /> */}
-          {/* <Route path="/" element={<Domain />} /> */}
-          {/* <Route path="/" element={<Domain />} /> */}
-          {/* <Route path="/" element={<Domain />} /> */}
+          <Route path="/mypage" element={<MyPage />} />
+          <Route path="/people/:id" element={<MatPeople />} />
         </Routes>
       </div>
       <HeaderFeedHide openClose={openClose} setOpenClose={setOpenClose} />
