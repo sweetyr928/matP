@@ -1,6 +1,6 @@
 /* eslint-disable */
 
-import React from "react";
+import React, { useCallback } from "react";
 import styled from "styled-components";
 
 const ButtonContainer = styled.button`
@@ -15,21 +15,25 @@ const ButtonContainer = styled.button`
   display: flex;
   justify-content: center;
   position: absolute;
-  left: 472px;
-  top: 45%;
+  top: 50%;
+  transform: translate(-50%, -50%);
   z-index: 100;
 `;
 
-interface OpenCloseProps {
-  openClose: boolean;
-  setOpenClose: React.Dispatch<React.SetStateAction<boolean>>;
+interface VisibleProps {
+  visible: boolean;
+  setVisibility: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const HeaderFeedHide = ({ openClose, setOpenClose }: OpenCloseProps) => {
-  const changeOpenClose = () => {
-    setOpenClose(!openClose);
-  };
-  return <ButtonContainer onClick={changeOpenClose}>{openClose ? ">" : "<"}</ButtonContainer>;
+const HeaderFeedHide = ({ visible, setVisibility }: VisibleProps) => {
+  const onToggle = useCallback(
+    (e: any) => {
+      setVisibility(!visible);
+    },
+    [visible]
+  );
+
+  return <ButtonContainer onClick={onToggle}>{visible ? ">" : "<"}</ButtonContainer>;
 };
 
 export default HeaderFeedHide;

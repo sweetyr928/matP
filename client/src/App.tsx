@@ -19,12 +19,12 @@ const AppContainer = styled.div`
 `;
 
 function App() {
-  const [openClose, setOpenClose] = useState<boolean>(false);
+  const [visible, setVisibility] = useState<boolean>(false);
 
   return (
     <AppContainer>
       <Sidebar />
-      <div className={`feed_container_${openClose ? "hidden" : ""}`}>
+      <div className={`feed_container_${visible ? "hidden" : ""}`}>
         <Header />
         <Routes>
           <Route path="/" element={<Domain />} />
@@ -38,7 +38,7 @@ function App() {
           {/* <Route path="/" element={<Domain />} /> */}
         </Routes>
       </div>
-      <HeaderFeedHide openClose={openClose} setOpenClose={setOpenClose} />
+      <HeaderFeedHide visible={visible} setVisibility={setVisibility} />
       <KakaoMap />
     </AppContainer>
   );
