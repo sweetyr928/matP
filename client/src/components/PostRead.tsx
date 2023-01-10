@@ -5,11 +5,50 @@
 /* eslint-disable */
 
 import styled from "styled-components";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 
-const PostImg = styled.img`
+const ImgWrapper = styled.div`
   width: 130px;
   height: 130px;
+  position: relative;
+
+  .post_thumbnail {
+    width: 100%;
+    height: 100%;
+  }
+
+  .likes_on {
+    position: absolute;
+    top: 30%;
+    left: -30%;
+    z-index: 1;
+    font-size: 15px;
+    width: 60px;
+    text-align: center;
+    color: #ffffff;
+    font-weight: 700;
+    display: none;
+  }
+
+  &:hover .likes_on {
+    display: block;
+  }
+
+  .heartIcon {
+    width: 16px;
+    height: 12px;
+  }
+`;
+
+const PostImg = styled.img`
+  width: 100%;
+  height: 100%;
   object-fit: cover;
+  vertical-align: middle;
+
+  &:hover {
+    filter: brightness(0.5);
+  }
 `;
 
 interface PostsProps {
@@ -20,7 +59,17 @@ interface PostsProps {
 }
 
 const PostRead = ({ post }: { post: PostsProps }) => {
-  return <PostImg src={post.thumbnail_url} alt="thumbnail" />;
+  return (
+    <ImgWrapper>
+      <p className="likes_on">
+        <FavoriteIcon className="heartIcon" />
+        {post.likes}
+      </p>
+      <div className="post_thumbnail">
+        <PostImg src={post.thumbnail_url} alt="thumbnail" />
+      </div>
+    </ImgWrapper>
+  );
 };
 
 export default PostRead;
