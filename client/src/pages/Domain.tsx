@@ -17,6 +17,7 @@ const FeedContainer = styled.div`
   flex-direction: column;
   align-items: center;
   position: absolute;
+  margin: 56px 0px 0px 0px;
 
   p {
     margin: 20px 70px 20px 70px;
@@ -40,14 +41,21 @@ interface Post {
   thumbnail_url: string;
 }
 
+interface Posts {
+  post: Post[];
+}
+
 const Domain: React.FC = () => {
   const [posts, setPosts] = useState<Post[]>([]);
 
   useEffect(() => {
     try {
-      axios.get<Post[]>("http://localhost:3001/posts").then((res) => {
-        setPosts(res.data);
-      });
+      axios
+        .get<Posts>("http://localhost:3001/posts")
+        .then((res) => res.data)
+        .then((res) => {
+          setPosts(res.post);
+        });
     } catch (err) {
       console.log(err);
     }
