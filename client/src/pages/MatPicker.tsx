@@ -39,28 +39,10 @@ interface Pickers {
 }
 
 const MatPicker: React.FC = () => {
-  const [pickers, setPickers] = useState<Pickers[]>([]);
-
-  useEffect(() => {
-    try {
-      axios.get<Pickers[]>("http://localhost:3001/groups").then((res) => {
-        console.log(res.data);
-        setPickers(res.data);
-      });
-    } catch (err) {
-      console.log(err);
-    }
-  }, []);
-
   return (
     <MatPickerWrapper>
       <h1>맛픽커즈</h1>
-      <MatPickerBox>
-        {pickers &&
-          pickers.map((picker) => (
-            <MatPickersList key={picker.groupId} picker={picker} />
-          ))}
-      </MatPickerBox>
+      <MatPickerBox></MatPickerBox>
     </MatPickerWrapper>
   );
 };
