@@ -5,7 +5,7 @@
 
 ## 이슈 작성 후 커밋 규칙
 
-기본 형식 : [#이슈번호-] [commit type]: [commit message]
+기본 형식 : [#이슈번호 -] [commit type]: [commit message]
 예시 : #1 - feat: 로그인
 
 ## 깃 커밋 규칙
