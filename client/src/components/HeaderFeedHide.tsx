@@ -3,7 +3,11 @@
 import React, { useCallback } from "react";
 import styled from "styled-components";
 
-const ButtonContainer = styled.button`
+interface ButtonContainerProps {
+  toggle: boolean;
+}
+
+const ButtonContainer = styled.button<ButtonContainerProps>`
   min-width: 22px;
   min-height: 49px;
   height: 29px;
@@ -15,9 +19,10 @@ const ButtonContainer = styled.button`
   display: flex;
   justify-content: center;
   position: absolute;
-  top: 50%;
-  transform: translate(-50%, -50%);
+  top: 45%;
   z-index: 100;
+  left: ${(props) => (props.toggle ? "62px" : "472px")};
+  /* transition: 0.3s ease-in-out; */
 `;
 
 interface VisibleProps {
@@ -33,7 +38,11 @@ const HeaderFeedHide = ({ visible, setVisibility }: VisibleProps) => {
     [visible]
   );
 
-  return <ButtonContainer onClick={onToggle}>{visible ? ">" : "<"}</ButtonContainer>;
+  return (
+    <ButtonContainer onClick={onToggle} toggle={visible}>
+      {visible ? ">" : "<"}
+    </ButtonContainer>
+  );
 };
 
 export default HeaderFeedHide;

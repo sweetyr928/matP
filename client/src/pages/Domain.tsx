@@ -1,13 +1,15 @@
 import styled from "styled-components";
 
 const FeedContainer = styled.div`
-  height: 92%;
+  height: 100%;
   /* height: 100vh; */
   min-width: calc(1340px * 2 / 5 - 63px);
   z-index: 997;
+  padding-top: 57px;
   padding-left: 63px;
   background-color: #f8f8f8;
   border-right: 1px solid #d7d9dc;
+  position: absolute;
 `;
 
 const Domain = () => {
