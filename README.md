@@ -1,4 +1,4 @@
-# SEB 41기 Main-Project 12조 맛P
+# SEB 41기 Main-Project 12조 맛피
 
 ## 팀원 소개
 윤태연, 이희진, 전예린, 이종희, 임준건, 임준오

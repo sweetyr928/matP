@@ -6,7 +6,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 
 const FeedContainer = styled.div`
-  height: 92%;
+  height: 100%;
   /* height: 100vh; */
   min-width: calc(1340px * 2 / 5 - 63px);
   z-index: 997;
@@ -16,6 +16,7 @@ const FeedContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: absolute;
 
   p {
     margin: 20px 70px 20px 70px;
