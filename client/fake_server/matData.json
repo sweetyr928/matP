@@ -1,0 +1,84 @@
+{
+  "posts": {
+    "post": [
+      {
+        "postId": 1,
+        "likes": 24,
+        "commentcount": 2,
+        "thumbnail_url": "../src/images/Rhino.jpeg"
+      },
+      {
+        "postId": 2,
+        "likes": 3,
+        "commentcount": 4,
+        "thumbnail_url": "../src/images/Rhino.jpeg"
+      },
+      {
+        "postId": 3,
+        "likes": 34,
+        "commentcount": 4,
+        "thumbnail_url": "../src/images/Rhino.jpeg"
+      },
+      {
+        "postId": 4,
+        "likes": 5,
+        "commentcount": 43,
+        "thumbnail_url": "../src/images/Rhino.jpeg"
+      }
+    ]
+  },
+  "placesposts": [
+    {
+      "postId": 1,
+      "nickname": "닉네임",
+      "profileimg": "../src/images/Rhino.jpeg",
+      "createdat": "2022-10-22 17:34:00",
+      "title": "타이틀타이틀타이틀",
+      "content": "토스트 개맛있다개맛있다개맛있다개맛있다개맛있다개맛있다개맛있다개맛있다개맛있다개맛있다개맛있다개맛있다개맛있다개맛있다개맛있다개맛있다개맛있다",
+      "file_url": "../src/images/Rhino.jpeg",
+      "star": 4,
+      "comments": [
+        {
+          "commentId": 1,
+          "nickname": "먹보 1호",
+          "profileimg": "../src/images/Rhino.jpeg",
+          "comment": "너무 맛있어 보여요너무 맛있어 보여요너무 맛있어 보여요너무 맛있어 보여요너무 맛있어 보여요너무 맛있어 보여요너무 맛있어 보여요너무 맛있어 보여요너무 맛있어 보여요너무 맛있어 보여요너무 맛있어 보여요",
+          "createdat": "2022-10-22 17:34:00"
+        }
+      ]
+    }
+  ],
+  "groups": {
+    "pickers": [
+      {
+        "groupId": 1,
+        "name": "가고싶은곳",
+        "color": "#023f00"
+      },
+      {
+        "groupId": 2,
+        "name": "어제갔던곳",
+        "color": "#098f00"
+      },
+      {
+        "groupId": 3,
+        "name": "가고싶지않은곳",
+        "color": "#09d800"
+      }
+    ]
+  },
+  "members": {
+    "nickname": "윤뿔소",
+    "email": "hgd@gmail.com",
+    "birthday": "1998-08-24",
+    "profileImg": "../src/images/Rhino.jpeg",
+    "gender": "male",
+    "memo": "저쩌구어쩌구",
+    "createdAt": "2022-12-31",
+    "modifiedAt": "2023-01-05",
+    "followers": "1.2M",
+    "followings": "1.2K",
+    "postlist": [],
+    "picklist": []
+  }
+}
