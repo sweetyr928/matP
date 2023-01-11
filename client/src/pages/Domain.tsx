@@ -6,7 +6,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import UsePostsAxios from "../utils/usePostsAxios";
 
-const FeedContainer = styled.div`
+const StyledFeed = styled.div`
   height: 100%;
   /* height: 100vh; */
   min-width: calc(1340px * 2 / 5 - 63px);
@@ -27,7 +27,7 @@ const FeedContainer = styled.div`
   }
 `;
 
-const PostsContainer = styled.div`
+const StyledPosts = styled.div`
   width: 100%;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
@@ -40,13 +40,13 @@ const Domain: React.FC = () => {
   const { postsData } = UsePostsAxios(url);
 
   return (
-    <FeedContainer>
+    <StyledFeed>
       <p>오늘의 맛 Post</p>
-      <PostsContainer>
+      <StyledPosts>
         {postsData &&
           postsData.map((post) => <PostRead key={post.postId} post={post} />)}
-      </PostsContainer>
-    </FeedContainer>
+      </StyledPosts>
+    </StyledFeed>
   );
 };
 
