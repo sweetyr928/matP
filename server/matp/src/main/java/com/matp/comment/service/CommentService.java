@@ -1,5 +1,9 @@
 package com.matp.comment.service;
 
+import com.matp.comment.dto.CommentInfo;
+import com.matp.comment.dto.CommentResponse;
+import com.matp.comment.dto.PostCommentRequest;
+import com.matp.comment.entity.Comment;
 import com.matp.comment.repository.CommentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -29,7 +33,7 @@ public class CommentService {
         return listMono;
     }
 
-    public Mono<CommentResponse> save(SaveCommentRequest saveCommentRequest, Long postId) {
+    public Mono<CommentResponse> save(PostCommentRequest saveCommentRequest, Long postId) {
 
         Comment postComment = saveCommentRequest.toEntity();
         postComment.setUserId(3L);

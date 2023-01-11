@@ -1,6 +1,7 @@
 package com.matp.comment.repository;
 
 
+import com.matp.comment.dto.CommentSpecificInfo;
 import com.matp.comment.entity.Comment;
 import org.springframework.data.r2dbc.repository.Query;
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;

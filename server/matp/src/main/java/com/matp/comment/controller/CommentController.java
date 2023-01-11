@@ -1,5 +1,7 @@
 package com.matp.comment.controller;
 
+import com.matp.comment.dto.CommentResponse;
+import com.matp.comment.dto.PostCommentRequest;
 import com.matp.comment.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -14,7 +16,7 @@ public class CommentController {
     private final CommentService commentService;
 
     @PostMapping
-    public Mono<ResponseEntity<CommentResponse>> createComment(@RequestBody Mono<SaveCommentRequest> request,
+    public Mono<ResponseEntity<CommentResponse>> createComment(@RequestBody Mono<PostCommentRequest> request,
                                                                @PathVariable("post-id")Long postId) {
         Mono<ResponseEntity<CommentResponse>> map = request
                 .flatMap(saveCommentRequest -> commentService.save(saveCommentRequest,postId))
