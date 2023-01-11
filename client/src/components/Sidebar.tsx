@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import mainLogo from "../images/matLogo_basic.png";
+import SearchIcon from "@mui/icons-material/Search";
+import RoomIcon from "@mui/icons-material/Room";
 
 const SidebarContainer = styled.div`
   width: 63px;
@@ -14,6 +16,7 @@ const SidebarContainer = styled.div`
 
 const ImageContainer = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: center;
   border-bottom: 1px solid #d7d9dc;
   padding-bottom: 1px;
@@ -29,6 +32,20 @@ const ImageContainer = styled.div`
   }
 `;
 
+const MenuContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  a {
+    margin-top: 37px;
+    color: black;
+    .icon {
+      font-size: 45px;
+    }
+  }
+`;
+
 const Sidebar = () => {
   // 사이드바 구성 요소: 검색 페이지 버튼, 맛픽커 페이지 버튼
   return (
@@ -38,6 +55,14 @@ const Sidebar = () => {
           <img className="imgSrc" src={mainLogo} alt="맛피로고" />
         </Link>
       </ImageContainer>
+      <MenuContainer>
+        <Link to="/search">
+          <SearchIcon className="icon" />
+        </Link>
+        <Link to="/pickers">
+          <RoomIcon className="icon" />
+        </Link>
+      </MenuContainer>
     </SidebarContainer>
   );
 };
