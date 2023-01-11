@@ -57,7 +57,7 @@ const ModalBackdrop = styled.div`
   width: 100%;
   height: 100vh;
   position: fixed;
-  z-index: 9999;
+  z-index: 998;
   top: 0;
   left: 0;
   bottom: 0;
@@ -87,20 +87,23 @@ const PostRead = ({ post }: { post: IPostProps }) => {
   };
 
   return (
-    <ImgWrapper onClick={openModalHandler}>
-      <p className="likes_on">
-        <FavoriteIcon className="heartIcon" />
-        {post.likes}
-      </p>
-      <div className="post_thumbnail">
-        <PostImg src={post.thumbnail_url} alt="thumbnail" />
-      </div>
+    <>
+      <ImgWrapper onClick={openModalHandler}>
+        <p className="likes_on">
+          <FavoriteIcon className="heartIcon" />
+          {post.likes}
+        </p>
+        <div className="post_thumbnail">
+          <PostImg src={post.thumbnail_url} alt="thumbnail" />
+        </div>
+      </ImgWrapper>
       {isOpen === true ? (
-        <ModalBackdrop onClick={closeModalHandler}>
+        <>
           <MatPostRead closeModalHandler={closeModalHandler} />
-        </ModalBackdrop>
+          <ModalBackdrop onClick={closeModalHandler} />
+        </>
       ) : null}
-    </ImgWrapper>
+    </>
   );
 };
 

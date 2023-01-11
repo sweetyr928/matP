@@ -9,6 +9,11 @@ const StyledModal = styled.div`
   height: 800px;
   display: flex;
   flex-direction: column;
+  position: fixed;
+  margin: 0 auto;
+  left: 0;
+  right: 0;
+  z-index: 999;
 
   > span.close-btn {
     margin: 5px 0px 0px 1375px;
