@@ -3,6 +3,7 @@ package com.matp.post.controller;
 import com.matp.post.dto.PatchPostRequest;
 import com.matp.post.dto.PostRequest;
 import com.matp.post.dto.PostResponse;
+import com.matp.post.dto.PostResponseWithInfo;
 import com.matp.post.postexception.exception.PostNotFoundException;
 import com.matp.post.service.PostService;
 import lombok.RequiredArgsConstructor;
@@ -37,11 +38,12 @@ public class PostController {
      * @author 임준건
      **/
     @GetMapping("/{post-id}")
-    public Mono<ResponseEntity<PostResponse>> getOneMatPost(@PathVariable("post-id") Long matPostId) {
+    public Mono<ResponseEntity<PostResponseWithInfo>> getSpecific(@PathVariable("post-id") Long postId) {
 
-        return postService.getOne(matPostId)
-                .map(ResponseEntity::ok)
-                .switchIfEmpty(Mono.error(new PostNotFoundException(matPostId)));
+        Mono<ResponseEntity<PostResponseWithInfo>> map = postService.getPost(postId)
+                .map(ResponseEntity::ok);
+
+        return map;
     }
 
     /**

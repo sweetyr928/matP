@@ -5,6 +5,7 @@ import com.matp.post.dto.PatchPostRequest;
 import com.matp.post.dto.PostRequest;
 import com.matp.post.dto.PostResponse;
 import com.matp.post.dto.PostResponseWithInfo;
+import com.matp.post.dto.testdto.PostMemberInfo;
 import com.matp.post.entity.Post;
 import com.matp.post.repository.PostRepository;
 import lombok.RequiredArgsConstructor;

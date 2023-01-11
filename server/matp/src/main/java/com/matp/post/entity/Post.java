@@ -1,10 +1,12 @@
 package com.matp.post.entity;
 
+import com.matp.post.dto.testdto.PostMemberInfo;
 import lombok.*;
 import org.springframework.data.annotation.*;
 import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -29,8 +31,12 @@ public class Post {
 
     private Long memberId;
 
-//    @Transient
-//    private Member member;
+    @Transient
+    private PostMemberInfo member;
+
+    @Transient
+    private List<Comment> comments;
+
 
     @CreatedDate
     private LocalDateTime createdAt;
