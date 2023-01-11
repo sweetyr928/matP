@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 
-interface postsData {
+interface IPostsData {
   postId: number;
   likes: number;
   commentcount: number;
@@ -11,20 +11,20 @@ interface postsData {
 }
 
 interface UsePostsAxiosReturn {
-  postsData: postsData[] | null;
+  postsData: IPostsData[] | null;
   loading: boolean;
   error: Error | null;
 }
 
 const UsePostsAxios = (url: string): UsePostsAxiosReturn => {
-  const [postsData, setPostsData] = useState<postsData[] | null>(null);
+  const [postsData, setPostsData] = useState<IPostsData[] | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
 
   const axiosData = useCallback(async () => {
     setLoading(true);
     try {
-      const response = await axios.get<postsData[]>(url);
+      const response = await axios.get<IPostsData[]>(url);
       setPostsData(response.data);
     } catch (error) {
       setError(Object.assign(new Error(), error));
