@@ -99,10 +99,10 @@ const ModalContainer = styled.div`
 `;
 const ModalBackdrop = styled.div`
   position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
+  width: 410px;
+  height: 93vh;
+  top: -10px;
+  left: -204px;
   background: rgba(0, 0, 0, 0.5);
 `;
 const ModalView = styled.div.attrs(() => ({
@@ -111,15 +111,18 @@ const ModalView = styled.div.attrs(() => ({
   opacity: 1;
   transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
   position: absolute;
-  top: calc(50vh - 100px);
-  left: calc(50vw - 230px);
+  top: calc(50vh - 250px);
+  left: 8px;
   background-color: #fff;
   border-radius: 7px;
   padding: 24px;
-  width: 450px;
-  height: 200px;
+  width: 394px;
+  height: 394px;
   box-shadow: 1px 0px 86px -17px rgba(0, 0, 0, 0.75);
-  text-align: left;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   .button-container {
     margin-top: 24px;
     display: flex;
@@ -130,17 +133,25 @@ const Header = styled.h1`
   font-size: 2.07692308rem;
   font-weight: normal;
   line-height: calc((13+2) / 13);
-  margin-bottom: 30px;
   text-align: center;
+`;
+const EditUserImg = styled.img`
+  width: 132px;
+  height: 132px;
+  border-radius: 100%;
+  border: 1px solid #a6a6a6;
+  margin: 10px 0;
 `;
 const Input = styled.input`
   width: 100%;
   height: 40px;
   padding: 10px;
+  margin-bottom: 10px;
   font-size: 20px;
   color: #0c0d0e;
   border: 1px solid #e3e6e8;
   background-color: #fff;
+  border-radius: 5px;
 
   &:focus {
     outline: none;
@@ -155,13 +166,10 @@ const ModalBtn = styled.button`
   border-radius: 3px;
   margin: 4px;
   padding: 10px;
-  margin: 10px;
-  position: relative;
-  left: 37%;
+  margin: 10px 20px;
   font-size: 20px;
   text-align: center;
   text-decoration: none;
-
   :hover {
     background-color: #f8f9f9;
     cursor: pointer;
@@ -212,6 +220,22 @@ const MyPage: React.FC = () => {
 
   return (
     <FeedContainer>
+      {isModalOpen && (
+        <ModalContainer>
+          <ModalBackdrop>
+            <ModalView>
+              <Header>정보 수정하기</Header>
+              <EditUserImg src={profileImg} alt="프로필사진" />
+              <Input type="text" value={revisedName} onChange={onChangeName}></Input>
+              <Input type="text" value={revisedMemo} onChange={onChangeMemo}></Input>
+              <div className="button_container">
+                <ModalBtn onClick={onRevise}>제출</ModalBtn>
+                <ModalBtn onClick={modalCloseHandler}>취소</ModalBtn>
+              </div>
+            </ModalView>
+          </ModalBackdrop>
+        </ModalContainer>
+      )}
       <div className="userInfo_header_container">
         <UserImg src={profileImg} alt="프로필사진" />
         <UserInfo>
@@ -222,19 +246,7 @@ const MyPage: React.FC = () => {
           </UserRemainder>
         </UserInfo>
         <EditIconStyled onClick={modalOpenHandler} />
-        {isModalOpen && (
-          <ModalContainer>
-            <ModalBackdrop>
-              <ModalView>
-                <Header>Change Display name</Header>
-                <Input type="text" value={revisedName} onChange={onChangeName}></Input>
-                <Input type="text" value={revisedMemo} onChange={onChangeMemo}></Input>
-                <ModalBtn onClick={onRevise}>제출</ModalBtn>
-                <ModalBtn onClick={modalCloseHandler}>취소</ModalBtn>
-              </ModalView>
-            </ModalBackdrop>
-          </ModalContainer>
-        )}
+
         <LogoutIconStyled />
       </div>
       <ContentContainer>

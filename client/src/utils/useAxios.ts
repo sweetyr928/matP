@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
 
 interface MemberData {
   nickname: string;
@@ -42,10 +42,10 @@ const useAxios = (url: string): UseAxiosReturn => {
   const axiosData = useCallback(async () => {
     setLoading(true);
     try {
-      const response: AxiosResponse<MemberData> = await axios.get(url);
+      const response = await axios.get<MemberData>(url);
       setMemberData(response.data);
-    } catch (error: any) {
-      setError(error);
+    } catch (error) {
+      setError(Object.assign(new Error(), error));
     } finally {
       setLoading(false);
     }
