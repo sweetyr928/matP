@@ -32,6 +32,7 @@ public class Post {
 
     private Long memberId;
 
+    // member 정보를 담는 record
     @Transient
     private PostMemberInfo member;
 

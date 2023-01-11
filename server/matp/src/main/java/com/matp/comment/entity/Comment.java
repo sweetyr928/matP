@@ -1,5 +1,6 @@
 package com.matp.comment.entity;
 
+import com.matp.post.entity.testentity.TestMember;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
@@ -26,7 +27,7 @@ public class Comment {
     private Long feedId;
 
     @Transient
-    private Member member;
+    private TestMember member;
 
     @CreatedDate
     private LocalDateTime comment_createdAt;

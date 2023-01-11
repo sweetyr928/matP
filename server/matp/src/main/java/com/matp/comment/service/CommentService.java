@@ -5,6 +5,7 @@ import com.matp.comment.dto.CommentResponse;
 import com.matp.comment.dto.PostCommentRequest;
 import com.matp.comment.entity.Comment;
 import com.matp.comment.repository.CommentRepository;
+import com.matp.post.dto.testdto.PostMemberInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
@@ -18,7 +19,7 @@ public class CommentService {
     public Mono<List<CommentInfo>> getComments(Long postId) {
         Mono<List<CommentInfo>> listMono = commentRepository.findPost_CommentWithMember(postId).map(commentSpecificInfo -> {
 
-            var memberInfo = MemberInfo.builder()
+            var memberInfo = PostMemberInfo.builder()
                     .nickname(commentSpecificInfo.nickname())
                     .profileImg(commentSpecificInfo.profileImg())
                     .build();
