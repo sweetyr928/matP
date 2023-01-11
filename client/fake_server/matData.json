@@ -48,25 +48,29 @@
       ]
     }
   ],
-  "groups": {
-    "pickers": [
-      {
-        "groupId": 1,
-        "name": "가고싶은곳",
-        "color": "#023f00"
-      },
-      {
-        "groupId": 2,
-        "name": "어제갔던곳",
-        "color": "#098f00"
-      },
-      {
-        "groupId": 3,
-        "name": "가고싶지않은곳",
-        "color": "#09d800"
-      }
-    ]
-  },
+  "groups": [
+    {
+      "groupId": 1,
+      "name": "가고싶은곳",
+      "color": "#023f00"
+    },
+    {
+      "groupId": 2,
+      "name": "어제갔던곳",
+      "color": "#098f00"
+    },
+    {
+      "groupId": 3,
+      "name": "가고싶지않은곳",
+      "color": "#09d800",
+      "id": 1
+    },
+    {
+      "name": "두 번째 색상 선택 ",
+      "color": "#09d800",
+      "id": 2
+    }
+  ],
   "members": {
     "nickname": "윤뿔소ㅎㅎ",
     "email": "hgd@gmail.com",
