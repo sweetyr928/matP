@@ -37,10 +37,32 @@ public class PostService {
      * @apiNote 하나의 Post 를 {@link PostRepository} 에서 찾아오는 메서드
      * @author 임준건
      */
-    public Mono<PostResponse> getOne(Long PostId) {
+    public Mono<PostResponseWithInfo> getPost(Long postId) {
+        return PostRepository.findPostWithMemberInfo(postId)
+                .publishOn(Schedulers.boundedElastic())
+                .map(result -> {
 
-        return PostRepository.findById(PostId)
-                .map(PostResponse::from);
+                    var member = PostMemberInfo.builder()
+                            .nickname(result.nickname())
+                            .profileImg(result.profileImg())
+                            .build();
+
+                    var comments = commentService.getComments(postId).block();
+
+                    return PostResponseWithInfo.builder()
+                            .id(result.id())
+                            .title(result.title())
+                            .content(result.content())
+                            .likes(result.likes())
+                            .thumbnailUrl(result.thumbnailUrl())
+                            .star(result.star())
+                            .createdAt(result.createdAt())
+                            .modifiedAt(result.modifiedAt())
+                            .memberInfo(member)
+                            .comments(comments)
+                            .build();
+                });
+
     }
 
     /**
@@ -95,33 +117,5 @@ public class PostService {
 
         return PostRepository.findById(postId)
                 .flatMap(PostRepository::delete);
-    }
-
-    public Mono<PostResponseWithInfo> getPost(Long postId) {
-        return PostRepository.findPostWithMemberInfo(postId)
-                .publishOn(Schedulers.boundedElastic())
-                .map(result -> {
-
-                    var member = PostMemberInfo.builder()
-                            .nickname(result.nickname())
-                            .profileImg(result.profileImg())
-                            .build();
-
-                    var comments = commentService.getComments(postId).block();
-
-                    return PostResponseWithInfo.builder()
-                            .id(result.id())
-                            .title(result.title())
-                            .content(result.content())
-                            .likes(result.likes())
-                            .thumbnailUrl(result.thumbnailUrl())
-                            .star(result.star())
-                            .createdAt(result.createdAt())
-                            .modifiedAt(result.modifiedAt())
-                            .memberInfo(member)
-                            .comments(comments)
-                            .build();
-                });
-
     }
 }
