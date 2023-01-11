@@ -33,8 +33,6 @@ export const memberUpdate = async (
   }
 };
 
-interface Icomment {}
-
 export const commentCreate = async (
   nickname: string,
   profileimg: string,
