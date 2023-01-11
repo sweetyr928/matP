@@ -1,6 +1,7 @@
 package com.matp.post.service;
 
 
+import com.matp.comment.service.CommentService;
 import com.matp.post.dto.PatchPostRequest;
 import com.matp.post.dto.PostRequest;
 import com.matp.post.dto.PostResponse;
@@ -17,7 +18,7 @@ import reactor.core.scheduler.Schedulers;
 @Service
 @RequiredArgsConstructor
 public class PostService {
-
+    private final CommentService commentService;
     private final PostRepository PostRepository;
 
     /**
