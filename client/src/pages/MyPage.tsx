@@ -1,6 +1,10 @@
 import { useNavigate } from "react-router";
 import styled from "styled-components";
 import useAxios from "../utils/useAxios";
+import LogoutIcon from "@mui/icons-material/Logout";
+import EditIcon from "@mui/icons-material/Edit";
+import { useState } from "react";
+import { memberUpdate } from "../utils/API";
 
 const FeedContainer = styled.div`
   height: 100%;
@@ -24,6 +28,7 @@ const UserImg = styled.img`
   height: 132px;
   border-radius: 100%;
   margin: 32px 25px 0 0;
+  border: 1px solid #a6a6a6;
 `;
 const UserInfo = styled.div`
   display: flex;
@@ -39,6 +44,27 @@ const UserRemainder = styled.span`
   color: #373737;
   font-size: 15px;
   margin: 10px 0;
+`;
+
+const LogoutIconStyled = styled(LogoutIcon)`
+  color: #505050;
+  cursor: pointer;
+  border-radius: 30%;
+  position: absolute;
+  right: 10px;
+  &:hover {
+    background-color: rgb(218, 217, 217);
+  }
+`;
+const EditIconStyled = styled(EditIcon)`
+  color: #505050;
+  cursor: pointer;
+  border-radius: 30%;
+  position: absolute;
+  right: 44px;
+  &:hover {
+    background-color: rgb(218, 217, 217);
+  }
 `;
 
 const ContentContainer = styled.section`
@@ -66,6 +92,82 @@ const TabContainer = styled.div`
   }
 `;
 
+const ModalContainer = styled.div`
+  margin: auto;
+  position: absolute;
+  z-index: 2;
+`;
+const ModalBackdrop = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.5);
+`;
+const ModalView = styled.div.attrs(() => ({
+  role: "dialog",
+}))`
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
+  position: absolute;
+  top: calc(50vh - 100px);
+  left: calc(50vw - 230px);
+  background-color: #fff;
+  border-radius: 7px;
+  padding: 24px;
+  width: 450px;
+  height: 200px;
+  box-shadow: 1px 0px 86px -17px rgba(0, 0, 0, 0.75);
+  text-align: left;
+  .button-container {
+    margin-top: 24px;
+    display: flex;
+  }
+`;
+const Header = styled.h1`
+  color: #2961b9;
+  font-size: 2.07692308rem;
+  font-weight: normal;
+  line-height: calc((13+2) / 13);
+  margin-bottom: 30px;
+  text-align: center;
+`;
+const Input = styled.input`
+  width: 100%;
+  height: 40px;
+  padding: 10px;
+  font-size: 20px;
+  color: #0c0d0e;
+  border: 1px solid #e3e6e8;
+  background-color: #fff;
+
+  &:focus {
+    outline: none;
+    border-color: #babec1;
+  }
+`;
+const ModalBtn = styled.button`
+  background-color: #fff;
+  color: #7d858d;
+  text-decoration: none;
+  border: none;
+  border-radius: 3px;
+  margin: 4px;
+  padding: 10px;
+  margin: 10px;
+  position: relative;
+  left: 37%;
+  font-size: 20px;
+  text-align: center;
+  text-decoration: none;
+
+  :hover {
+    background-color: #f8f9f9;
+    cursor: pointer;
+  }
+`;
+
 const MyPage: React.FC = () => {
   const navigate = useNavigate();
   const onClickTab = () => {
@@ -75,9 +177,38 @@ const MyPage: React.FC = () => {
   const url = "http://localhost:3001/members";
   const { memberData } = useAxios(url);
 
-  if (!memberData) return <FeedContainer>Loading...</FeedContainer>;
+  const {
+    nickname = "",
+    profileImg = "",
+    memo = "",
+    followers = "",
+    followings = "",
+  } = memberData || {};
 
-  const { nickname, profileImg, memo, followers, followings } = memberData;
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [revisedName, setRevisedName] = useState(nickname);
+  const [revisedMemo, setRevisedMemo] = useState(memo);
+
+  const modalOpenHandler = () => {
+    setRevisedName(nickname);
+    setRevisedMemo(memo);
+    setIsModalOpen(true);
+  };
+  const modalCloseHandler = () => {
+    setIsModalOpen(false);
+  };
+
+  const onChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setRevisedName(e.target.value);
+  };
+  const onChangeMemo = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setRevisedMemo(e.target.value);
+  };
+
+  const onRevise = () => {
+    memberUpdate(revisedName, profileImg, revisedMemo);
+    modalCloseHandler();
+  };
 
   return (
     <FeedContainer>
@@ -90,6 +221,21 @@ const MyPage: React.FC = () => {
             팔로워 {followers} 팔로잉 {followings}
           </UserRemainder>
         </UserInfo>
+        <EditIconStyled onClick={modalOpenHandler} />
+        {isModalOpen && (
+          <ModalContainer>
+            <ModalBackdrop>
+              <ModalView>
+                <Header>Change Display name</Header>
+                <Input type="text" value={revisedName} onChange={onChangeName}></Input>
+                <Input type="text" value={revisedMemo} onChange={onChangeMemo}></Input>
+                <ModalBtn onClick={onRevise}>제출</ModalBtn>
+                <ModalBtn onClick={modalCloseHandler}>취소</ModalBtn>
+              </ModalView>
+            </ModalBackdrop>
+          </ModalContainer>
+        )}
+        <LogoutIconStyled />
       </div>
       <ContentContainer>
         <TabContainer>
