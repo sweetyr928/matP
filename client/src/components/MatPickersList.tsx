@@ -17,11 +17,7 @@ interface PickersProps {
 const MatPickersList = ({ picker }: { picker: PickersProps }) => {
   return (
     <>
-      <MatPickerSingleBox>
-        <span>{picker.name}</span>
-        <span>수정 버튼</span>
-        <span>삭제 버튼</span>
-      </MatPickerSingleBox>
+      <MatPickerSingleBox></MatPickerSingleBox>
     </>
   );
 };

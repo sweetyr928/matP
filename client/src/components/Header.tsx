@@ -1,4 +1,6 @@
 import styled from "styled-components";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import { Link } from "react-router-dom";
 
 const HeaderContainer = styled.div`
   background-color: #ffffff;
@@ -12,10 +14,34 @@ const HeaderContainer = styled.div`
   border-right: 1px solid #d7d9dc;
 `;
 
-// 비회원 헤더: 로그인 버튼, 회원 헤더: 유저 프로필 버튼
+const UserIconContainer = styled.div`
+  position: absolute;
+  right: 0;
+  width: 55px;
+  height: 55px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  &:hover {
+    filter: brightness(0.6);
+  }
+`;
 
-const Header = () => {
-  return <HeaderContainer></HeaderContainer>;
+const AccountCircleIconStyled = styled(AccountCircleIcon)`
+  color: #505050;
+`;
+
+const Header: React.FC = () => {
+  return (
+    <HeaderContainer>
+      <Link to={"/mypage"}>
+        <UserIconContainer>
+          <AccountCircleIconStyled fontSize="large" />
+        </UserIconContainer>
+      </Link>
+    </HeaderContainer>
+  );
 };
 
 export default Header;

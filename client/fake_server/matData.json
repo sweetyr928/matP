@@ -5,25 +5,25 @@
         "postId": 1,
         "likes": 24,
         "commentcount": 2,
-        "thumbnail_url": "../src/images/Rhino.jpeg"
+        "thumbnail_url": "https://user-images.githubusercontent.com/94962427/211693723-e10b0b7d-95ed-4918-b450-f952168bca3a.jpeg"
       },
       {
         "postId": 2,
         "likes": 3,
         "commentcount": 4,
-        "thumbnail_url": "../src/images/Rhino.jpeg"
+        "thumbnail_url": "https://user-images.githubusercontent.com/94962427/211693723-e10b0b7d-95ed-4918-b450-f952168bca3a.jpeg"
       },
       {
         "postId": 3,
         "likes": 34,
         "commentcount": 4,
-        "thumbnail_url": "../src/images/Rhino.jpeg"
+        "thumbnail_url": "https://user-images.githubusercontent.com/94962427/211693723-e10b0b7d-95ed-4918-b450-f952168bca3a.jpeg"
       },
       {
         "postId": 4,
         "likes": 5,
         "commentcount": 43,
-        "thumbnail_url": "../src/images/Rhino.jpeg"
+        "thumbnail_url": "https://user-images.githubusercontent.com/94962427/211693723-e10b0b7d-95ed-4918-b450-f952168bca3a.jpeg"
       }
     ]
   },
@@ -31,17 +31,17 @@
     {
       "postId": 1,
       "nickname": "닉네임",
-      "profileimg": "../src/images/Rhino.jpeg",
+      "profileimg": "https://user-images.githubusercontent.com/94962427/211693723-e10b0b7d-95ed-4918-b450-f952168bca3a.jpeg",
       "createdat": "2022-10-22 17:34:00",
       "title": "타이틀타이틀타이틀",
       "content": "토스트 개맛있다개맛있다개맛있다개맛있다개맛있다개맛있다개맛있다개맛있다개맛있다개맛있다개맛있다개맛있다개맛있다개맛있다개맛있다개맛있다개맛있다",
-      "file_url": "../src/images/Rhino.jpeg",
+      "file_url": "https://user-images.githubusercontent.com/94962427/211693723-e10b0b7d-95ed-4918-b450-f952168bca3a.jpeg",
       "star": 4,
       "comments": [
         {
           "commentId": 1,
           "nickname": "먹보 1호",
-          "profileimg": "../src/images/Rhino.jpeg",
+          "profileimg": "https://user-images.githubusercontent.com/94962427/211693723-e10b0b7d-95ed-4918-b450-f952168bca3a.jpeg",
           "comment": "너무 맛있어 보여요너무 맛있어 보여요너무 맛있어 보여요너무 맛있어 보여요너무 맛있어 보여요너무 맛있어 보여요너무 맛있어 보여요너무 맛있어 보여요너무 맛있어 보여요너무 맛있어 보여요너무 맛있어 보여요",
           "createdat": "2022-10-22 17:34:00"
         }
@@ -68,12 +68,12 @@
     ]
   },
   "members": {
-    "nickname": "윤뿔소",
+    "nickname": "윤뿔소ㅎㅎ",
     "email": "hgd@gmail.com",
     "birthday": "1998-08-24",
-    "profileImg": "../src/images/Rhino.jpeg",
+    "profileImg": "https://user-images.githubusercontent.com/94962427/211693723-e10b0b7d-95ed-4918-b450-f952168bca3a.jpeg",
     "gender": "male",
-    "memo": "저쩌구어쩌구",
+    "memo": "서울 맛집을 찾아",
     "createdAt": "2022-12-31",
     "modifiedAt": "2023-01-05",
     "followers": "1.2M",
