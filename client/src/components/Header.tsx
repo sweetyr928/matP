@@ -24,7 +24,7 @@ const UserIconContainer = styled.div`
   align-items: center;
   cursor: pointer;
   &:hover {
-    filter: brightness(0.7);
+    filter: brightness(0.6);
   }
 `;
 
