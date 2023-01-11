@@ -4,6 +4,7 @@ package com.matp.post.service;
 import com.matp.post.dto.PatchPostRequest;
 import com.matp.post.dto.PostRequest;
 import com.matp.post.dto.PostResponse;
+import com.matp.post.dto.PostResponseWithInfo;
 import com.matp.post.entity.Post;
 import com.matp.post.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
@@ -78,7 +79,6 @@ public class PostService {
             post.setContent(Post.getContent());
             post.setThumbnailUrl(Post.getThumbnailUrl());
             post.setStar(Post.getStar());
-            PostResponse.from(post);
             return PostRepository.save(post);
         }).map(PostResponse::from);
     }
@@ -94,9 +94,31 @@ public class PostService {
                 .flatMap(PostRepository::delete);
     }
 
-//    public Mono<List<PostUserSpecificInfo>> getPost() {
-//
-//        Mono<List<PostUserSpecificInfo>> listMono = customRepository.findPostByMember().collectList();
-//        return listMono;
-//    }
+    public Mono<PostResponseWithInfo> getPost(Long postId) {
+        return PostRepository.findPostWithMemberInfo(postId)
+                .publishOn(Schedulers.boundedElastic())
+                .map(result -> {
+
+                    var member = MemberInfo.builder()
+                            .nickname(result.nickname())
+                            .profileImg(result.profileImg())
+                            .build();
+
+                    var comments = commentService.getComments(postId).block();
+
+                    return PostResponseWithMember.builder()
+                            .id(result.id())
+                            .title(result.title())
+                            .content(result.content())
+                            .likes(result.likes())
+                            .thumbnailUrl(result.thumbnailUrl())
+                            .star(result.star())
+                            .createdAt(result.createdAt())
+                            .modifiedAt(result.modifiedAt())
+                            .memberInfo(member)
+                            .comments(comments)
+                            .build();
+                });
+
+    }
 }
