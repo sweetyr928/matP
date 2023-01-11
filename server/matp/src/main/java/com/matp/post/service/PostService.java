@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Schedulers;
 
 @Service
 @RequiredArgsConstructor
@@ -99,14 +100,14 @@ public class PostService {
                 .publishOn(Schedulers.boundedElastic())
                 .map(result -> {
 
-                    var member = MemberInfo.builder()
+                    var member = PostMemberInfo.builder()
                             .nickname(result.nickname())
                             .profileImg(result.profileImg())
                             .build();
 
                     var comments = commentService.getComments(postId).block();
 
-                    return PostResponseWithMember.builder()
+                    return PostResponseWithInfo.builder()
                             .id(result.id())
                             .title(result.title())
                             .content(result.content())

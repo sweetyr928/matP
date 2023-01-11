@@ -1,5 +1,6 @@
 package com.matp.post.dto;
 
+import com.matp.post.dto.testdto.PostMemberInfo;
 import lombok.Builder;
 
 import java.time.LocalDateTime;
@@ -8,5 +9,5 @@ import java.time.LocalDateTime;
 public record PostResponseWithInfo(Long id, String title,
                                    String content, int likes,
                                    String thumbnailUrl, LocalDateTime createdAt, LocalDateTime modifiedAt, int star,
-                                   MemberInfo memberInfo, List<CommentInfo> comments) {
+                                   PostMemberInfo memberInfo, List<CommentInfo> comments) {
 }
