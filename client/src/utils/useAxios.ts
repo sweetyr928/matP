@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { useState, useEffect, useCallback } from "react";
 import axios, { AxiosResponse } from "axios";
 

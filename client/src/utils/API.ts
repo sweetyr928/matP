@@ -1,7 +1,8 @@
-export {};
-// import axios from "axios";
+import axios from "axios";
 
-// export const questionCreate = async (title: string, content: string) => {
+const url = "http://localhost:3001";
+
+// export const questionCreate = async (url: string, title: string, content: string) => {
 //   try {
 //     await axios.post(`${url}/questions`, {
 //       title: title,
@@ -12,17 +13,22 @@ export {};
 //   }
 // };
 
-// export const questionUpdate = async (qid: number, title: string, content: string) => {
-//   try {
-//     await axios.patch(`${url}/questions/${qid}`, {
-//       title: title,
-//       content: content,
-//     });
-//     window.location.reload();
-//   } catch (error) {
-//     console.error("Error", error);
-//   }
-// };
+export const memberUpdate = async (
+  nickname: string,
+  profileImg: string,
+  memo: string
+): Promise<void> => {
+  try {
+    await axios.patch(`${url}/members`, {
+      nickname,
+      profileImg,
+      memo,
+    });
+  } catch (error) {
+    console.error("Error", error);
+    throw error;
+  }
+};
 
 // export const questionDelete = async (id: number) => {
 //   try {
