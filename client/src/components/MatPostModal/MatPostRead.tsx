@@ -4,6 +4,8 @@ import styled from "styled-components";
 import UsePlacesPostsAxios from "../../utils/usePlacesPostsAxios";
 import { useState } from "react";
 import { commentCreate } from "../../utils/API";
+import UseCommentsAxios from "../../utils/useCommentsAxios";
+import MatPostComment from "./MatPostComment";
 
 const StyledModal = styled.div`
   border-radius: 10px;
@@ -50,6 +52,7 @@ const StyledMid = styled.div`
   button {
     border: none;
     background-color: transparent;
+    color: #727272;
   }
 
   button:hover {
@@ -66,12 +69,12 @@ const StyledInfo = styled.div`
     width: 20px;
     height: 20px;
     border-radius: 50%;
-    margin: 0px 20px 0px 0px;
+    margin: 0px 10px 0px 0px;
   }
 
   .post_nickname {
     font-size: 15px;
-    margin: 0px 20px 0px 0px;
+    margin: 0px 10px 0px 0px;
   }
 
   .post_createdAt {
@@ -84,7 +87,7 @@ const StyledContent = styled.div`
 `;
 
 const StyledComment = styled.div`
-  margin: 10px 0px 0px 0px;
+  margin: 10px 0px 30px 0px;
   display: flex;
   justify-content: space-between;
 
@@ -123,8 +126,13 @@ const PostReadModal = ({
 }): JSX.Element => {
   const [comment, setComment] = useState<string>("");
 
-  const url = `http://localhost:3001/placesposts`;
-  const { placesPostsData } = UsePlacesPostsAxios(url);
+  const url_posts = `http://localhost:3001/placesposts`;
+  const { placesPostsData } = UsePlacesPostsAxios(url_posts);
+
+  const url_comments = `http://localhost:3001/comments`;
+  const { commentsData } = UseCommentsAxios(url_comments);
+
+  // console.log(commentsData);
 
   const {
     postId = 0,
@@ -142,11 +150,18 @@ const PostReadModal = ({
 
   const handleKeyUp = (e: React.KeyboardEvent) => {
     if (e.key === "Enter") {
-      handleClick(); // Enter 입력이 되면 클릭 이벤트 실행
+      commentCreate(
+        "rhino",
+        "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg",
+        comment,
+        new Date().toLocaleString()
+      );
+      setComment("");
+      e.preventDefault();
     }
   };
 
-  const handleClick = () => {
+  const handleClick = (e: any) => {
     commentCreate(
       "rhino",
       "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg",
@@ -154,6 +169,7 @@ const PostReadModal = ({
       new Date().toLocaleString()
     );
     setComment("");
+    e.preventDefault();
   };
 
   return (
@@ -174,7 +190,11 @@ const PostReadModal = ({
               <div className="post_nickname">{nickname}</div>
               <div className="post_createdAt">{createdat}</div>
             </StyledInfo>
-            <button>url 복사</button>
+            <div>
+              <button>수정</button>
+              <button>삭제</button>
+              <button>url 복사</button>
+            </div>
           </StyledMid>
           <StyledContent>
             <div>content</div>
@@ -189,6 +209,7 @@ const PostReadModal = ({
           ></input>
           <button onClick={handleClick}>게시</button>
         </StyledComment>
+        <MatPostComment></MatPostComment>
       </StyledDiv>
     </StyledModal>
   );
