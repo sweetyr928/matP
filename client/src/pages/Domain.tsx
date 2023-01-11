@@ -34,28 +34,21 @@ const PostsContainer = styled.div`
   margin: 0px 0px 0px 0px;
 `;
 
-interface Post {
+interface IPost {
   postId: number;
   likes: number;
   commentcount: number;
   thumbnail_url: string;
 }
 
-interface Posts {
-  post: Post[];
-}
-
 const Domain: React.FC = () => {
-  const [posts, setPosts] = useState<Post[]>([]);
+  const [posts, setPosts] = useState<IPost[]>([]);
 
   useEffect(() => {
     try {
-      axios
-        .get<Posts>("http://localhost:3001/posts")
-        .then((res) => res.data)
-        .then((res) => {
-          setPosts(res.post);
-        });
+      axios.get<IPost[]>("http://localhost:3001/posts").then((res) => {
+        setPosts(res.data);
+      });
     } catch (err) {
       console.log(err);
     }

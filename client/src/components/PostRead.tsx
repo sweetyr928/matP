@@ -6,6 +6,8 @@
 
 import styled from "styled-components";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import { useState } from "react";
+import { MatPostRead } from ".";
 
 const ImgWrapper = styled.div`
   width: 130px;
@@ -51,16 +53,34 @@ const PostImg = styled.img`
   }
 `;
 
-interface PostsProps {
+const ModalBackdrop = styled.div`
+  position: fixed;
+  z-index: 999;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: grid;
+  place-items: center;
+`;
+
+interface IPostProps {
   postId: number;
   likes: number;
   commentcount: number;
   thumbnail_url: string;
 }
 
-const PostRead = ({ post }: { post: PostsProps }) => {
+const PostRead = ({ post }: { post: IPostProps }) => {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+
+  const openModalHandler = () => {
+    setIsOpen(!isOpen);
+  };
+
   return (
-    <ImgWrapper>
+    <ImgWrapper onClick={openModalHandler}>
       <p className="likes_on">
         <FavoriteIcon className="heartIcon" />
         {post.likes}
@@ -68,6 +88,11 @@ const PostRead = ({ post }: { post: PostsProps }) => {
       <div className="post_thumbnail">
         <PostImg src={post.thumbnail_url} alt="thumbnail" />
       </div>
+      {isOpen === true ? (
+        <ModalBackdrop onClick={openModalHandler}>
+          <MatPostRead openModalHandler={openModalHandler} />
+        </ModalBackdrop>
+      ) : null}
     </ImgWrapper>
   );
 };

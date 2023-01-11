@@ -1,32 +1,30 @@
 {
-  "posts": {
-    "post": [
-      {
-        "postId": 1,
-        "likes": 24,
-        "commentcount": 2,
-        "thumbnail_url": "../src/images/Rhino.jpeg"
-      },
-      {
-        "postId": 2,
-        "likes": 3,
-        "commentcount": 4,
-        "thumbnail_url": "../src/images/Rhino.jpeg"
-      },
-      {
-        "postId": 3,
-        "likes": 34,
-        "commentcount": 4,
-        "thumbnail_url": "../src/images/Rhino.jpeg"
-      },
-      {
-        "postId": 4,
-        "likes": 5,
-        "commentcount": 43,
-        "thumbnail_url": "../src/images/Rhino.jpeg"
-      }
-    ]
-  },
+  "posts": [
+    {
+      "postId": 1,
+      "likes": 24,
+      "commentcount": 2,
+      "thumbnail_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShvWN6FLgG2lpiFwoT3zNUq9FMCyZiyaXXbA&usqp=CAU"
+    },
+    {
+      "postId": 2,
+      "likes": 3,
+      "commentcount": 4,
+      "thumbnail_url": "https://i.pinimg.com/550x/41/90/b4/4190b4283d11cf6934251698fa1b2e64.jpg"
+    },
+    {
+      "postId": 3,
+      "likes": 34,
+      "commentcount": 4,
+      "thumbnail_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQDuqH-2EX6uJe9UIR8lRz5ql8dSwDl1BJAzrxUNdEut8GVP6RtZVdWk4IwCIst4Jk-Rpg&usqp=CAU"
+    },
+    {
+      "postId": 4,
+      "likes": 5,
+      "commentcount": 43,
+      "thumbnail_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRh-tTdRm7D2U_IVczw3DxrexUbDL3CLOXEKjf1fNCa2dEYnGDSfG3WhrvWQVFRhcMg05c&usqp=CAU"
+    }
+  ],
   "placesposts": [
     {
       "postId": 1,
