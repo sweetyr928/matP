@@ -51,7 +51,7 @@ const MatPickerCreateBox = styled.div`
 `;
 
 interface Pickers {
-  groupId: number;
+  id: number;
   name: string;
   color: string;
 }
@@ -84,7 +84,7 @@ const MatPicker: React.FC = () => {
       <MatPickerBox>
         {pickers &&
           pickers.map((picker) => (
-            <MatPickersList key={picker.groupId} picker={picker} />
+            <MatPickersList key={picker.id} picker={picker} />
           ))}
         <div className="default_mat_pick">
           <MatPickerCreateBox onClick={onClickToggleModal}>

@@ -1,7 +1,7 @@
-/* eslint-disable */
 import { useState, useCallback } from "react";
 import styled from "styled-components";
 import MatPickerUpdate from "./MatPickerModal/MatPickerUpdate";
+import MatPickerDelete from "./MatPickerModal/MatPickerDelete";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 
@@ -46,23 +46,39 @@ const ButtonBox = styled.div`
 `;
 
 interface PickersProps {
-  groupId: number;
+  id: number;
   name: string;
   color: string;
 }
 
 const MatPickersList = ({ picker }: { picker: PickersProps }) => {
-  const [isOpenModal, setOpenModal] = useState<boolean>(false);
+  const [isOpenUpdateModal, setOpenUpdateModal] = useState<boolean>(false);
+  const [isOpenDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
 
-  const onClickToggleModal = useCallback(() => {
-    setOpenModal(!isOpenModal);
-  }, [isOpenModal]);
+  const onClickToggleUpdateModal = useCallback(() => {
+    setOpenUpdateModal(!isOpenUpdateModal);
+  }, [isOpenUpdateModal]);
+
+  const onClickToggleDeleteModal = useCallback(() => {
+    setOpenDeleteModal(!isOpenDeleteModal);
+  }, [isOpenDeleteModal]);
 
   return (
     <>
       <MatPickerSingleBox>
-        {isOpenModal && (
-          <MatPickerUpdate onClickToggleModal={onClickToggleModal} />
+        {isOpenUpdateModal && (
+          <MatPickerUpdate
+            id={picker.id}
+            color={picker.color}
+            name={picker.name}
+            onClickToggleModal={onClickToggleUpdateModal}
+          />
+        )}
+        {isOpenDeleteModal && (
+          <MatPickerDelete
+            id={picker.id}
+            onClickToggleModal={onClickToggleDeleteModal}
+          />
         )}
         <NameBox color={picker.color}>
           <div className="icon"></div>
@@ -73,13 +89,14 @@ const MatPickersList = ({ picker }: { picker: PickersProps }) => {
             className={`update_btn${
               picker.name === "기본 맛픽커즈" ? "_hidden" : ""
             }`}
-            onClick={onClickToggleModal}
+            onClick={onClickToggleUpdateModal}
           />
 
           <DeleteIcon
             className={`delete_btn${
               picker.name === "기본 맛픽커즈" ? "_hidden" : ""
             }`}
+            onClick={onClickToggleDeleteModal}
           />
         </ButtonBox>
       </MatPickerSingleBox>

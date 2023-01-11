@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { useState, PropsWithChildren } from "react";
 import styled from "styled-components";
 import axios from "axios";
@@ -55,6 +54,8 @@ const TabButton = styled.li`
   border: solid 1px black;
   border-radius: 20px;
   background-color: ${(props) => props.color || "gray"};
+  border: ${(props) =>
+    props.id === "focused" ? "3px solid red" : "1px solid black"};
 `;
 
 const Backdrop = styled.div`
@@ -141,6 +142,7 @@ const MatPickerCreate = ({
           {tabs.map((el) => (
             <TabButton
               key={el.index}
+              id={el.color === colorValue ? "focused" : ""}
               color={el.color}
               onClick={() => {
                 setColorValue(el.color);
