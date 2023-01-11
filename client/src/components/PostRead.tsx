@@ -54,8 +54,10 @@ const PostImg = styled.img`
 `;
 
 const ModalBackdrop = styled.div`
+  width: 100%;
+  height: 100vh;
   position: fixed;
-  z-index: 999;
+  z-index: 9999;
   top: 0;
   left: 0;
   bottom: 0;
@@ -76,7 +78,12 @@ const PostRead = ({ post }: { post: IPostProps }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const openModalHandler = () => {
-    setIsOpen(!isOpen);
+    setIsOpen(true);
+  };
+
+  const closeModalHandler = (e: any) => {
+    setIsOpen(false);
+    e.stopPropagation();
   };
 
   return (
@@ -89,8 +96,8 @@ const PostRead = ({ post }: { post: IPostProps }) => {
         <PostImg src={post.thumbnail_url} alt="thumbnail" />
       </div>
       {isOpen === true ? (
-        <ModalBackdrop onClick={openModalHandler}>
-          <MatPostRead openModalHandler={openModalHandler} />
+        <ModalBackdrop onClick={closeModalHandler}>
+          <MatPostRead closeModalHandler={closeModalHandler} />
         </ModalBackdrop>
       ) : null}
     </ImgWrapper>

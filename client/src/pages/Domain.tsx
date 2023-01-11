@@ -9,7 +9,7 @@ const FeedContainer = styled.div`
   height: 100%;
   /* height: 100vh; */
   min-width: calc(1340px * 2 / 5 - 63px);
-  z-index: 997;
+  z-index: 990;
   padding: 0px 8px 0px 70px;
   background-color: #f8f8f8;
   border-right: 1px solid #d7d9dc;
