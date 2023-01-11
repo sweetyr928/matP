@@ -25,25 +25,37 @@
       "thumbnail_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRh-tTdRm7D2U_IVczw3DxrexUbDL3CLOXEKjf1fNCa2dEYnGDSfG3WhrvWQVFRhcMg05c&usqp=CAU"
     }
   ],
-  "placesposts": [
+  "placesposts": {
+    "postId": 1,
+    "nickname": "닉네임",
+    "profileimg": "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg",
+    "createdat": "2022-10-22 17:34:00",
+    "title": "타이틀타이틀타이틀",
+    "content": "토스트 개맛있다개맛있다개맛있다개맛있다개맛있다개맛있다개맛있다개맛있다개맛있다개맛있다개맛있다개맛있다개맛있다개맛있다개맛있다개맛있다개맛있다",
+    "file_url": "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg",
+    "star": 4
+  },
+  "comments": [
     {
-      "postId": 1,
-      "nickname": "닉네임",
-      "profileimg": "../src/images/Rhino.jpeg",
-      "createdat": "2022-10-22 17:34:00",
-      "title": "타이틀타이틀타이틀",
-      "content": "토스트 개맛있다개맛있다개맛있다개맛있다개맛있다개맛있다개맛있다개맛있다개맛있다개맛있다개맛있다개맛있다개맛있다개맛있다개맛있다개맛있다개맛있다",
-      "file_url": "../src/images/Rhino.jpeg",
-      "star": 4,
-      "comments": [
-        {
-          "commentId": 1,
-          "nickname": "먹보 1호",
-          "profileimg": "../src/images/Rhino.jpeg",
-          "comment": "너무 맛있어 보여요너무 맛있어 보여요너무 맛있어 보여요너무 맛있어 보여요너무 맛있어 보여요너무 맛있어 보여요너무 맛있어 보여요너무 맛있어 보여요너무 맛있어 보여요너무 맛있어 보여요너무 맛있어 보여요",
-          "createdat": "2022-10-22 17:34:00"
-        }
-      ]
+      "id": 1,
+      "nickname": "먹보 1호",
+      "profileimg": "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg",
+      "comment": "너무 맛있어 보여요너무 맛있어 보여요너무 맛있어 보여요너무 맛있어 보여요너무 맛있어 보여요너무 맛있어 보여요너무 맛있어 보여요너무 맛있어 보여요너무 맛있어 보여요너무 맛있어 보여요너무 맛있어 보여요",
+      "createdat": "2022-10-22 17:34:00"
+    },
+    {
+      "nickname": "rhino",
+      "profileimg": "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg",
+      "comment": "와 겁나 맛있어보인다",
+      "createdat": "2023. 1. 11. 오후 8:36:29",
+      "id": 2
+    },
+    {
+      "nickname": "rhino",
+      "profileimg": "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg",
+      "comment": "꼭 가야지~",
+      "createdat": "2023. 1. 11. 오후 8:40:46",
+      "id": 3
     }
   ],
   "groups": {
@@ -69,7 +81,7 @@
     "nickname": "윤뿔소",
     "email": "hgd@gmail.com",
     "birthday": "1998-08-24",
-    "profileImg": "../src/images/Rhino.jpeg",
+    "profileImg": "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg",
     "gender": "male",
     "memo": "저쩌구어쩌구",
     "createdAt": "2022-12-31",

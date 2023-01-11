@@ -1,28 +1,61 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 
-function useAxios() {
-  // null설정한 이유: 모든 data가 같진 않기 때문
-  const [questionData, setQuestionData] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+interface MemberData {
+  nickname: string;
+  email: string;
+  birthday: string;
+  profileImg: string;
+  gender: string;
+  memo: string;
+  createdAt: string;
+  modifiedAt: string;
+  followers: string;
+  followings: string;
+  postlist: Array<Post>;
+  picklist: Array<Pick>;
+}
 
-  useEffect(() => {
-    const axiosData = async () => {
-      setLoading(true);
-      try {
-        const response = await axios.get(``);
-        setQuestionData(response.data);
-      } catch (err) {
-        setError(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    axiosData();
+interface Post {
+  postId: number;
+  likes: number;
+  commentcount: number;
+  thumbnail_url: string;
+}
+
+interface Pick {
+  groupId: number;
+  name: string;
+  color: string;
+}
+interface UseAxiosReturn {
+  memberData: MemberData | null;
+  loading: boolean;
+  error: Error | null;
+}
+
+const useAxios = (url: string): UseAxiosReturn => {
+  const [memberData, setMemberData] = useState<MemberData | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<Error | null>(null);
+
+  const axiosData = useCallback(async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get<MemberData>(url);
+      setMemberData(response.data);
+    } catch (error) {
+      setError(Object.assign(new Error(), error));
+    } finally {
+      setLoading(false);
+    }
   }, [url]);
 
-  return { questionData, loading, error };
-}
+  useEffect(() => {
+    axiosData();
+  }, [axiosData]);
+
+  return { memberData, loading, error };
+};
 
 export default useAxios;

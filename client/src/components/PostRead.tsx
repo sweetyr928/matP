@@ -6,7 +6,7 @@
 
 import styled from "styled-components";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MatPostRead } from ".";
 
 const ImgWrapper = styled.div`
@@ -76,9 +76,11 @@ interface IPostProps {
 
 const PostRead = ({ post }: { post: IPostProps }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [selectedPost, setSelectedPost] = useState<number>(1);
 
   const openModalHandler = () => {
     setIsOpen(true);
+    setSelectedPost(post.postId);
   };
 
   const closeModalHandler = (e: any) => {
@@ -99,7 +101,10 @@ const PostRead = ({ post }: { post: IPostProps }) => {
       </ImgWrapper>
       {isOpen === true ? (
         <>
-          <MatPostRead closeModalHandler={closeModalHandler} />
+          <MatPostRead
+            closeModalHandler={closeModalHandler}
+            selectedPost={selectedPost}
+          />
           <ModalBackdrop onClick={closeModalHandler} />
         </>
       ) : null}

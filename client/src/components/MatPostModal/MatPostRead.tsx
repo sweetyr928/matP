@@ -1,6 +1,9 @@
 /* eslint-disable */
 
 import styled from "styled-components";
+import UsePlacesPostsAxios from "../../utils/usePlacesPostsAxios";
+import { useState } from "react";
+import { commentCreate } from "../../utils/API";
 
 const StyledModal = styled.div`
   border-radius: 10px;
@@ -113,9 +116,46 @@ const StyledComment = styled.div`
 
 const PostReadModal = ({
   closeModalHandler,
+  selectedPost,
 }: {
   closeModalHandler?: React.MouseEventHandler;
+  selectedPost: number;
 }): JSX.Element => {
+  const [comment, setComment] = useState<string>("");
+
+  const url = `http://localhost:3001/placesposts`;
+  const { placesPostsData } = UsePlacesPostsAxios(url);
+
+  const {
+    postId = 0,
+    nickname = "",
+    profileimg = "",
+    createdat = "",
+    title = "",
+    star = 0,
+    comments = [],
+  } = placesPostsData || {};
+
+  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setComment(e.target.value);
+  };
+
+  const handleKeyUp = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") {
+      handleClick(); // Enter 입력이 되면 클릭 이벤트 실행
+    }
+  };
+
+  const handleClick = () => {
+    commentCreate(
+      "rhino",
+      "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg",
+      comment,
+      new Date().toLocaleString()
+    );
+    setComment("");
+  };
+
   return (
     <StyledModal>
       <span
@@ -127,15 +167,12 @@ const PostReadModal = ({
       </span>
       <StyledDiv>
         <StyledContentWrapper>
-          <div className="post_title">title</div>
+          <div className="post_title">{title}</div>
           <StyledMid>
             <StyledInfo>
-              <img
-                src="https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg"
-                alt="profileImg"
-              ></img>
-              <div className="post_nickname">닉네임</div>
-              <div className="post_createdAt">2022. 10. 22. 17:34</div>
+              <img src={profileimg} alt="profileImg"></img>
+              <div className="post_nickname">{nickname}</div>
+              <div className="post_createdAt">{createdat}</div>
             </StyledInfo>
             <button>url 복사</button>
           </StyledMid>
@@ -144,8 +181,13 @@ const PostReadModal = ({
           </StyledContent>
         </StyledContentWrapper>
         <StyledComment>
-          <input placeholder="댓글을 입력해주세요"></input>
-          <button>게시</button>
+          <input
+            placeholder="댓글을 입력해주세요"
+            onChange={handleInput}
+            value={comment}
+            onKeyUp={handleKeyUp}
+          ></input>
+          <button onClick={handleClick}>게시</button>
         </StyledComment>
       </StyledDiv>
     </StyledModal>
