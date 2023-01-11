@@ -43,6 +43,15 @@ const StyledMid = styled.div`
   display: flex;
   justify-content: space-between;
   margin: 0px 0px 30px 0px;
+
+  button {
+    border: none;
+    background-color: transparent;
+  }
+
+  button:hover {
+    font-weight: 700;
+  }
 `;
 
 const StyledInfo = styled.div`
@@ -75,6 +84,31 @@ const StyledComment = styled.div`
   margin: 10px 0px 0px 0px;
   display: flex;
   justify-content: space-between;
+
+  input {
+    min-width: 1080px;
+    height: 30px;
+    border: none;
+    border-bottom: 1px solid;
+    font-size: 15px;
+  }
+
+  input:focus {
+    outline: none;
+  }
+
+  button {
+    width: 100px;
+    background-color: #874356;
+    color: #ffffff;
+    border: none;
+    border-radius: 30px;
+    font-size: 15px;
+  }
+
+  button:hover {
+    font-weight: 700;
+  }
 `;
 
 const PostReadModal = ({
@@ -110,7 +144,7 @@ const PostReadModal = ({
           </StyledContent>
         </StyledContentWrapper>
         <StyledComment>
-          <input></input>
+          <input placeholder="댓글을 입력해주세요"></input>
           <button>게시</button>
         </StyledComment>
       </StyledDiv>
