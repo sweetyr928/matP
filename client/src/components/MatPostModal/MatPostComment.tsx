@@ -1,9 +1,12 @@
+/* eslint-disable */
+
 import styled from "styled-components";
 
 const StyledComment = styled.div`
   display: flex;
   flex-direction: column;
   border-bottom: 1.4px solid #a19e9e;
+  margin: 0px 0px 5px 0px;
 `;
 
 const StyledDiv = styled.div`
@@ -46,21 +49,39 @@ const StyledInfo = styled.div`
 
 const StyledContent = styled.div`
   margin: 0px 0px 10px 0px;
+
+  div {
+    max-width: 1100px;
+    line-height: 25px;
+  }
 `;
 
-const MatPostComment = () => {
+interface IcommentProps {
+  nickname: string;
+  profileimg: string;
+  comment: string;
+  createdat: string;
+}
+
+const MatPostComment = ({
+  singleComment,
+}: {
+  singleComment: IcommentProps;
+}) => {
+  const {
+    nickname = "",
+    profileimg = "",
+    comment = "",
+    createdat = "",
+  } = singleComment || {};
+
   return (
     <StyledComment>
       <StyledDiv>
         <StyledInfo>
-          <img
-            src={
-              "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg"
-            }
-            alt="profileImg"
-          ></img>
-          <div className="post_nickname">nickname</div>
-          <div className="post_createdAt">createdat</div>
+          <img src={profileimg} alt="profileImg"></img>
+          <div className="post_nickname">{nickname}</div>
+          <div className="post_createdAt">{createdat}</div>
         </StyledInfo>
         <div>
           <button>수정</button>
@@ -68,7 +89,7 @@ const MatPostComment = () => {
         </div>
       </StyledDiv>
       <StyledContent>
-        <div>comment</div>
+        <div>{comment}</div>
       </StyledContent>
     </StyledComment>
   );

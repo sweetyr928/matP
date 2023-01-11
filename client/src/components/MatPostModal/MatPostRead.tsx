@@ -117,6 +117,11 @@ const StyledComment = styled.div`
   }
 `;
 
+const StyledCommentContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
 const PostReadModal = ({
   closeModalHandler,
   selectedPost,
@@ -131,8 +136,6 @@ const PostReadModal = ({
 
   const url_comments = `http://localhost:3001/comments`;
   const { commentsData } = UseCommentsAxios(url_comments);
-
-  // console.log(commentsData);
 
   const {
     postId = 0,
@@ -209,7 +212,15 @@ const PostReadModal = ({
           ></input>
           <button onClick={handleClick}>게시</button>
         </StyledComment>
-        <MatPostComment></MatPostComment>
+        <StyledCommentContainer>
+          {commentsData &&
+            commentsData
+              .slice(0)
+              .reverse()
+              .map((comment) => (
+                <MatPostComment key={comment.id} singleComment={comment} />
+              ))}
+        </StyledCommentContainer>
       </StyledDiv>
     </StyledModal>
   );
