@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 import styled from "styled-components";
 import { useState } from "react";
 import { commentUpdate, commentDelete } from "../../utils/API";
