@@ -169,7 +169,6 @@ const PostReadModal = ({
     await axios
       .get<IComment[]>("http://localhost:3001/comments")
       .then((res) => {
-        console.log(res.data);
         setAllComment(res.data);
       })
       .catch((error: any) => {
