@@ -18,6 +18,7 @@ const ImageContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
   border-bottom: 1px solid #d7d9dc;
   padding-bottom: 1px;
 

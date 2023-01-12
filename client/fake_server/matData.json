@@ -52,17 +52,77 @@
     {
       "id": 1,
       "name": "기본 맛픽커즈",
-      "color": "#023f00"
+      "color": "#023f00",
+      "pickPlaces": [
+        {
+          "id": 1,
+          "name": "베이커리",
+          "address": "서울 강남",
+          "star": 5
+        },
+        {
+          "id": 2,
+          "name": "중국집",
+          "address": "서울 강남",
+          "star": 5
+        },
+        {
+          "id": 3,
+          "name": "초밥집",
+          "address": "서울 강남",
+          "star": 5
+        }
+      ]
     },
     {
       "name": "한식",
       "color": "#09d800",
-      "id": 2
+      "id": 2,
+      "pickPlaces": [
+        {
+          "id": 1,
+          "name": "땀땀",
+          "address": "서울 강남",
+          "star": 5
+        },
+        {
+          "id": 2,
+          "name": "햄버거",
+          "address": "서울 강남",
+          "star": 5
+        },
+        {
+          "id": 3,
+          "name": "초밥집",
+          "address": "서울 강남",
+          "star": 5
+        }
+      ]
     },
     {
       "name": "중식",
       "color": "#023f00",
-      "id": 3
+      "id": 3,
+      "pickPlaces": [
+        {
+          "id": 1,
+          "name": "베이커리",
+          "address": "서울 강남",
+          "star": 5
+        },
+        {
+          "id": 2,
+          "name": "유부초밥집",
+          "address": "서울 강남",
+          "star": 5
+        },
+        {
+          "id": 3,
+          "name": "초밥집",
+          "address": "서울 강남",
+          "star": 5
+        }
+      ]
     }
   ],
   "members": {

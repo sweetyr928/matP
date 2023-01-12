@@ -1,4 +1,5 @@
 import { useState, useCallback } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import MatPickerUpdate from "./MatPickerModal/MatPickerUpdate";
 import MatPickerDelete from "./MatPickerModal/MatPickerDelete";
@@ -13,6 +14,11 @@ const MatPickerSingleBox = styled.div`
   height: 50px;
   padding: 15px;
   border-bottom: 1px solid black;
+
+  a {
+    text-decoration: none;
+    color: black;
+  }
 `;
 
 const NameBox = styled.div`
@@ -80,10 +86,12 @@ const MatPickersList = ({ picker }: { picker: PickersProps }) => {
             onClickToggleModal={onClickToggleDeleteModal}
           />
         )}
-        <NameBox color={picker.color}>
-          <div className="icon"></div>
-          <div>{picker.name}</div>
-        </NameBox>
+        <Link to={`/pickers/${picker.id}`}>
+          <NameBox color={picker.color}>
+            <div className="icon"></div>
+            <div>{picker.name}</div>
+          </NameBox>
+        </Link>
         <ButtonBox>
           <EditIcon
             className={`update_btn${
