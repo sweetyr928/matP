@@ -24,14 +24,15 @@ public class PostController {
     private final PostService postService;
 
     /**
-     * 모든 게시물을 조회하는 기능
+     * 게시물 페이지네이션
+     * @parameter : page: 시작페이지, size : 게시물 개수
      * @author 임준건
      **/
     @GetMapping
-    public Mono<ResponseEntity<List<PostResponse>>> getAllMatPosts() {
+    public Flux<PostResponse> getAllMatPosts(@RequestParam(defaultValue = "0") int page,
+                                                @RequestParam(defaultValue = "10") int size) {
 
-        return postService.getAll().collectList()
-                .map(ResponseEntity::ok);
+        return postService.getAll(page, size);
     }
 
     /**

@@ -26,13 +26,14 @@ public class PostService {
 
     /**
      * @return Flux<PostResponse>
-     * @apiNote 모든 Post 를 {@link PostRepository} 에서 찾아오는 메서드
+     * @apiNote Post 를 {@link PostRepository} 에서 페이지네이션 해오는 메서드
      * @author 임준건
      */
-    public Flux<PostResponse> getAll() {
+    public Flux<PostResponse> getAll(int page,int size) {
 
-        return PostRepository.findAll()
-                .map(PostResponse::from);
+        Flux<PostResponse> map = PostRepository.findAll().skip(page * size).take(size).map(PostResponse::from);
+
+        return map;
     }
 
     /**
