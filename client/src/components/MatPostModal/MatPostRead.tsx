@@ -2,10 +2,10 @@
 
 import styled from "styled-components";
 import UsePlacesPostsAxios from "../../utils/usePlacesPostsAxios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { commentCreate } from "../../utils/API";
-import UseCommentsAxios from "../../utils/useCommentsAxios";
 import MatPostComment from "./MatPostComment";
+import axios from "axios";
 
 const StyledModal = styled.div`
   border-radius: 10px;
@@ -128,6 +128,14 @@ const StyledCommentContainer = styled.div`
   }
 `;
 
+interface IComment {
+  id: number;
+  nickname: string;
+  profileimg: string;
+  comment: string;
+  createdat: string;
+}
+
 const PostReadModal = ({
   closeModalHandler,
   selectedPost,
@@ -136,12 +144,11 @@ const PostReadModal = ({
   selectedPost: number;
 }): JSX.Element => {
   const [comment, setComment] = useState<string>("");
+  const [allComment, setAllComment] = useState<IComment[] | null>([]);
 
+  // 단일 post data GET
   const url_posts = `http://localhost:3001/placesposts`;
   const { placesPostsData } = UsePlacesPostsAxios(url_posts);
-
-  const url_comments = `http://localhost:3001/comments`;
-  const { commentsData } = UseCommentsAxios(url_comments);
 
   const {
     postId = 0,
@@ -153,10 +160,28 @@ const PostReadModal = ({
     comments = [],
   } = placesPostsData || {};
 
+  useEffect(() => {
+    getAllComment();
+  }, [allComment]);
+
+  // 댓글 실시간 업데이트
+  const getAllComment = async () => {
+    await axios
+      .get<IComment[]>("http://localhost:3001/comments")
+      .then((res) => {
+        setAllComment(res.data);
+      })
+      .catch((error: any) => {
+        console.log(error);
+      });
+  };
+
+  // 댓글 input 창
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setComment(e.target.value);
   };
 
+  // enter 키 누를 시 댓글 업로드
   const handleKeyUp = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && comment.length > 0) {
       commentCreate(
@@ -166,11 +191,11 @@ const PostReadModal = ({
         new Date().toLocaleString()
       );
       setComment("");
-      // const { commentsData } = UseCommentsAxios(url_comments);
-      // e.preventDefault();
     }
+    getAllComment();
   };
 
+  // '게시' 버튼 누를 시 댓글 업로드
   const handleClick = (e: React.MouseEvent<HTMLElement>) => {
     if (comment.length > 0) {
       commentCreate(
@@ -180,9 +205,8 @@ const PostReadModal = ({
         new Date().toLocaleString()
       );
       setComment("");
-      // const { commentsData } = UseCommentsAxios(url_comments);
-      // e.preventDefault();
     }
+    getAllComment();
   };
 
   return (
@@ -223,8 +247,8 @@ const PostReadModal = ({
           <button onClick={handleClick}>게시</button>
         </StyledComment>
         <StyledCommentContainer>
-          {commentsData &&
-            commentsData
+          {allComment &&
+            allComment
               .slice(0)
               .reverse()
               .map((comment) => (
