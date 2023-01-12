@@ -52,6 +52,26 @@ export const commentCreate = async (
   }
 };
 
+export const commentUpdate = async (
+  nickname: string,
+  profileimg: string,
+  comment: string,
+  createdat: string,
+  id: number
+): Promise<void> => {
+  try {
+    await axios.patch(`${url}/comments/${id}`, {
+      nickname,
+      profileimg,
+      comment,
+      createdat,
+    });
+  } catch (error) {
+    console.error("Error", error);
+    throw error;
+  }
+};
+
 // export const questionDelete = async (id) => {
 //   try {
 //     await axios.delete(`${url}/questions/${id}`);

@@ -92,7 +92,7 @@ const StyledComment = styled.div`
   justify-content: space-between;
 
   input {
-    min-width: 1080px;
+    width: 1080px;
     height: 30px;
     border: none;
     border-bottom: 1px solid;
@@ -162,7 +162,7 @@ const PostReadModal = ({
 
   useEffect(() => {
     getAllComment();
-  }, [allComment]);
+  }, []);
 
   // 댓글 실시간 업데이트
   const getAllComment = async () => {
@@ -174,6 +174,10 @@ const PostReadModal = ({
       .catch((error: any) => {
         console.log(error);
       });
+  };
+
+  const handleGetAllComment = () => {
+    getAllComment();
   };
 
   // 댓글 input 창
@@ -252,7 +256,11 @@ const PostReadModal = ({
               .slice(0)
               .reverse()
               .map((comment) => (
-                <MatPostComment key={comment.id} singleComment={comment} />
+                <MatPostComment
+                  key={comment.id}
+                  singleComment={comment}
+                  handleGetAllComment={handleGetAllComment}
+                />
               ))}
         </StyledCommentContainer>
       </StyledDiv>

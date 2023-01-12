@@ -1,6 +1,9 @@
 /* eslint-disable */
 
 import styled from "styled-components";
+import { useEffect, useState } from "react";
+import { commentUpdate } from "../../utils/API";
+import axios from "axios";
 
 const StyledComment = styled.div`
   display: flex;
@@ -47,6 +50,19 @@ const StyledInfo = styled.div`
   }
 `;
 
+const StyledEdit = styled.form`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin: 0px 0px 10px 0px;
+
+  input {
+    width: 1100px;
+    line-height: 25px;
+    border: none;
+  }
+`;
+
 const StyledContent = styled.div`
   margin: 0px 0px 10px 0px;
 
@@ -57,6 +73,7 @@ const StyledContent = styled.div`
 `;
 
 interface IcommentProps {
+  id: number;
   nickname: string;
   profileimg: string;
   comment: string;
@@ -65,15 +82,46 @@ interface IcommentProps {
 
 const MatPostComment = ({
   singleComment,
+  handleGetAllComment,
 }: {
   singleComment: IcommentProps;
+  handleGetAllComment: () => void;
 }) => {
+  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [editedComment, setEditedComment] = useState<string>("");
+
   const {
+    id = 0,
     nickname = "",
     profileimg = "",
     comment = "",
     createdat = "",
   } = singleComment || {};
+
+  useEffect(() => {}, [isEditing]);
+
+  const handleEdit = () => {
+    setIsEditing(!isEditing);
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEditedComment(e.target.value);
+  };
+
+  const handleKeyUp = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" && editedComment.length > 0) {
+      commentUpdate(
+        "rhino",
+        "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg",
+        editedComment,
+        new Date().toLocaleString(),
+        id
+      );
+      setEditedComment("");
+      setIsEditing(!isEditing);
+    }
+    handleGetAllComment();
+  };
 
   return (
     <StyledComment>
@@ -84,12 +132,23 @@ const MatPostComment = ({
           <div className="post_createdAt">{createdat}</div>
         </StyledInfo>
         <div>
-          <button>수정</button>
+          <button onClick={handleEdit}>수정</button>
           <button>삭제</button>
         </div>
       </StyledDiv>
       <StyledContent>
-        <div>{comment}</div>
+        {isEditing ? (
+          <StyledEdit>
+            <input
+              onChange={handleChange}
+              onKeyUp={handleKeyUp}
+              value={editedComment}
+              type="text"
+            />
+          </StyledEdit>
+        ) : (
+          <div>{comment}</div>
+        )}
       </StyledContent>
     </StyledComment>
   );
