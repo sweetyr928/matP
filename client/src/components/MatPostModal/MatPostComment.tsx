@@ -1,9 +1,8 @@
 /* eslint-disable */
 
 import styled from "styled-components";
-import { useEffect, useState } from "react";
-import { commentUpdate } from "../../utils/API";
-import axios from "axios";
+import { useState } from "react";
+import { commentUpdate, commentDelete } from "../../utils/API";
 
 const StyledComment = styled.div`
   display: flex;
@@ -50,16 +49,33 @@ const StyledInfo = styled.div`
   }
 `;
 
-const StyledEdit = styled.form`
-  width: 100%;
+const StyledEdit = styled.div`
   display: flex;
   justify-content: space-between;
   margin: 0px 0px 10px 0px;
 
   input {
-    width: 1100px;
+    width: 1080px;
     line-height: 25px;
     border: none;
+    font-size: 15px;
+  }
+
+  input:focus {
+    outline: none;
+  }
+
+  button {
+    width: 100px;
+    background-color: #874356;
+    color: #ffffff;
+    border: none;
+    border-radius: 30px;
+    font-size: 15px;
+  }
+
+  button:hover {
+    font-weight: 700;
   }
 `;
 
@@ -67,7 +83,6 @@ const StyledContent = styled.div`
   margin: 0px 0px 10px 0px;
 
   div {
-    max-width: 1100px;
     line-height: 25px;
   }
 `;
@@ -98,16 +113,20 @@ const MatPostComment = ({
     createdat = "",
   } = singleComment || {};
 
-  useEffect(() => {}, [isEditing]);
-
   const handleEdit = () => {
     setIsEditing(!isEditing);
+  };
+
+  const handleDelete = () => {
+    commentDelete(id);
+    handleGetAllComment();
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEditedComment(e.target.value);
   };
 
+  // enter 키 누를 시 comment 업데이트
   const handleKeyUp = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && editedComment.length > 0) {
       commentUpdate(
@@ -123,6 +142,10 @@ const MatPostComment = ({
     handleGetAllComment();
   };
 
+  const handleCancel = () => {
+    setIsEditing(!isEditing);
+  };
+
   return (
     <StyledComment>
       <StyledDiv>
@@ -133,7 +156,7 @@ const MatPostComment = ({
         </StyledInfo>
         <div>
           <button onClick={handleEdit}>수정</button>
-          <button>삭제</button>
+          <button onClick={handleDelete}>삭제</button>
         </div>
       </StyledDiv>
       <StyledContent>
@@ -145,6 +168,7 @@ const MatPostComment = ({
               value={editedComment}
               type="text"
             />
+            <button onClick={handleCancel}>취소</button>
           </StyledEdit>
         ) : (
           <div>{comment}</div>
