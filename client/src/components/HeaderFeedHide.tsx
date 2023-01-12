@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 import React, { useCallback } from "react";
 import styled from "styled-components";
 
@@ -31,12 +29,9 @@ interface VisibleProps {
 }
 
 const HeaderFeedHide = ({ visible, setVisibility }: VisibleProps) => {
-  const onToggle = useCallback(
-    (e: any) => {
-      setVisibility(!visible);
-    },
-    [visible]
-  );
+  const onToggle = useCallback(() => {
+    setVisibility(!visible);
+  }, [visible]);
 
   return (
     <ButtonContainer onClick={onToggle} toggle={visible}>
