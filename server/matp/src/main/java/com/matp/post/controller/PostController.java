@@ -91,7 +91,7 @@ public class PostController {
     public Mono<ResponseEntity<Void>> deleteMatPost(@PathVariable("post-id") Long postId) {
 
         return postService.delete(postId)
-                .map(response -> ResponseEntity.ok().<Void>build())
+                .map(response -> ResponseEntity.noContent().<Void>build())
                 .defaultIfEmpty(ResponseEntity.noContent().build());
     }
 
