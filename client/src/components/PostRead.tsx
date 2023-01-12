@@ -5,22 +5,111 @@
 /* eslint-disable */
 
 import styled from "styled-components";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import { useState } from "react";
+import { MatPostRead } from ".";
 
-const PostImg = styled.img`
+const ImgWrapper = styled.div`
   width: 130px;
   height: 130px;
-  object-fit: cover;
+  position: relative;
+
+  .post_thumbnail {
+    width: 100%;
+    height: 100%;
+  }
+
+  .likes_on {
+    position: absolute;
+    top: 30%;
+    left: -30%;
+    z-index: 1;
+    font-size: 15px;
+    width: 60px;
+    text-align: center;
+    color: #ffffff;
+    font-weight: 700;
+    display: none;
+  }
+
+  &:hover .likes_on {
+    display: block;
+  }
+
+  .heartIcon {
+    width: 16px;
+    height: 12px;
+  }
 `;
 
-interface PostsProps {
+const PostImg = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  vertical-align: middle;
+
+  &:hover {
+    filter: brightness(0.5);
+  }
+`;
+
+const ModalBackdrop = styled.div`
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  z-index: 998;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: grid;
+  place-items: center;
+`;
+
+interface IPostProps {
   postId: number;
   likes: number;
   commentcount: number;
   thumbnail_url: string;
 }
 
-const PostRead = ({ post }: { post: PostsProps }) => {
-  return <PostImg src={post.thumbnail_url} alt="thumbnail" />;
+const PostRead = ({ post }: { post: IPostProps }) => {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [selectedPost, setSelectedPost] = useState<number>(1);
+
+  const openModalHandler = () => {
+    setIsOpen(true);
+    setSelectedPost(post.postId);
+  };
+
+  const closeModalHandler = (e: React.MouseEvent<HTMLElement>) => {
+    setIsOpen(false);
+    e.stopPropagation();
+  };
+
+  return (
+    <>
+      <ImgWrapper onClick={openModalHandler}>
+        <p className="likes_on">
+          <FavoriteIcon className="heartIcon" />
+          {post.likes}
+        </p>
+        <div className="post_thumbnail">
+          <PostImg src={post.thumbnail_url} alt="thumbnail" />
+        </div>
+      </ImgWrapper>
+      {isOpen === true ? (
+        <>
+          <MatPostRead
+            closeModalHandler={closeModalHandler}
+            selectedPost={selectedPost}
+          />
+          <ModalBackdrop onClick={closeModalHandler} />
+        </>
+      ) : null}
+    </>
+  );
 };
 
 export default PostRead;
