@@ -8,6 +8,8 @@ const MapContainer = styled.div`
   height: 100vh;
 `;
 
+const SearchResultContainer = styled.div``;
+
 interface placeType {
   place_name: string;
   road_address_name: string;
@@ -252,16 +254,16 @@ const KakaoMap = (props: propsType) => {
   return (
     <MapContainer>
       <div id="map" className="map" style={{ width: "100%", height: "100vh" }}></div>
-      <div id="search-result">
+      <SearchResultContainer id="search-result">
         <p className="result-text">
-          <span className="result-keyword">{props.searchKeyword}</span>
           검색 결과
+          <span className="result-keyword">{props.searchKeyword}</span>
         </p>
         <div className="scroll-wrapper">
           <ul id="places-list"></ul>
         </div>
         <div id="pagination"></div>
-      </div>
+      </SearchResultContainer>
     </MapContainer>
   );
 };

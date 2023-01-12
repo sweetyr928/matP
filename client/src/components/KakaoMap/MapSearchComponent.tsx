@@ -16,6 +16,15 @@ const SearchForm = styled.form`
 const FormLabel = styled.label`
   display: flex;
 `;
+const SearchInput = styled.input`
+  margin: 10px;
+  width: 260px;
+  font-size: 17px;
+  background-color: #fff;
+  outline: none;
+  border: none;
+  border-radius: 5px;
+`;
 
 export interface propsType {
   searchKeyword: string;
@@ -29,7 +38,6 @@ const MapSearchComponent = (): JSX.Element => {
 
   // 입력 폼 변화 감지하여 입력 값을 state에 담아주는 함수
   const keywordChange = (e: { preventDefault: () => void; target: { value: string } }) => {
-    e.preventDefault();
     setValue(e.target.value);
   };
 
@@ -40,8 +48,10 @@ const MapSearchComponent = (): JSX.Element => {
   };
 
   // 검색어를 입력하지 않고 검색 버튼을 눌렀을 경우
-  const valueChecker = () => {
-    if (Value === "") {
+  const valueChecker = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" && Value !== "") {
+      submitKeyword(e);
+    } else if (e.key === "Enter" && Value === "") {
       alert("검색어를 입력해주세요.");
     }
   };
@@ -52,23 +62,14 @@ const MapSearchComponent = (): JSX.Element => {
         <div className="search-form-container">
           <SearchForm onSubmit={submitKeyword}>
             <FormLabel htmlFor="place">
-              <input
+              <SearchInput
                 type="text"
-                id="movie-title"
-                className="form__input"
                 name="place"
                 onChange={keywordChange}
-                placeholder="검색어를 입력해주세요. (ex: 강남 맛집)"
+                onKeyDown={valueChecker}
+                placeholder="검색어를 입력하고 Enter를 누르세요."
                 required
               />
-              <div className="btn-box">
-                <input
-                  className="btn form__submit"
-                  type="submit"
-                  value="검색"
-                  onClick={valueChecker}
-                />
-              </div>
             </FormLabel>
           </SearchForm>
         </div>
