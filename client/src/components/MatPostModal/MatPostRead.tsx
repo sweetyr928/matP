@@ -120,6 +120,12 @@ const StyledComment = styled.div`
 const StyledCommentContainer = styled.div`
   display: flex;
   flex-direction: column;
+  max-height: 200px;
+  overflow-y: scroll;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const PostReadModal = ({
@@ -152,7 +158,7 @@ const PostReadModal = ({
   };
 
   const handleKeyUp = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") {
+    if (e.key === "Enter" && comment.length > 0) {
       commentCreate(
         "rhino",
         "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg",
@@ -160,19 +166,23 @@ const PostReadModal = ({
         new Date().toLocaleString()
       );
       setComment("");
+      // const { commentsData } = UseCommentsAxios(url_comments);
       // e.preventDefault();
     }
   };
 
   const handleClick = (e: React.MouseEvent<HTMLElement>) => {
-    commentCreate(
-      "rhino",
-      "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg",
-      comment,
-      new Date().toLocaleString()
-    );
-    setComment("");
-    // e.preventDefault();
+    if (comment.length > 0) {
+      commentCreate(
+        "rhino",
+        "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg",
+        comment,
+        new Date().toLocaleString()
+      );
+      setComment("");
+      // const { commentsData } = UseCommentsAxios(url_comments);
+      // e.preventDefault();
+    }
   };
 
   return (
