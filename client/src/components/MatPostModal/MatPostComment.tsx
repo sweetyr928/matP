@@ -113,20 +113,23 @@ const MatPostComment = ({
     createdat = "",
   } = singleComment || {};
 
+  // 댓글 수정
   const handleEdit = () => {
     setIsEditing(!isEditing);
   };
 
+  // 댓글 삭제
   const handleDelete = () => {
     commentDelete(id);
     handleGetAllComment();
   };
 
+  // 댓글 수정 input
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEditedComment(e.target.value);
   };
 
-  // enter 키 누를 시 comment 업데이트
+  // enter 키 누를 시 댓글 업데이트
   const handleKeyUp = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && editedComment.length > 0) {
       commentUpdate(
@@ -142,6 +145,7 @@ const MatPostComment = ({
     handleGetAllComment();
   };
 
+  // 댓글 수정 취소
   const handleCancel = () => {
     setIsEditing(!isEditing);
   };

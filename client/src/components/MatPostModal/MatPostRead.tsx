@@ -179,7 +179,7 @@ const PostReadModal = ({
 
   // getAllComment 함수 실행 시켜주는 함수(MatPostComment 컴포넌트에 props로 내려줌으로써 comment 수정사항 실시간 업데이트)
   const handleGetAllComment = () => {
-    setTimeout(() => getAllComment(), 300);
+    setTimeout(() => getAllComment(), 100);
   };
 
   // 댓글 input 창
