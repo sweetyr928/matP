@@ -58,32 +58,90 @@
       "id": 3
     }
   ],
-  "groups": {
-    "pickers": [
-      {
-        "groupId": 1,
-        "name": "가고싶은곳",
-        "color": "#023f00"
-      },
-      {
-        "groupId": 2,
-        "name": "어제갔던곳",
-        "color": "#098f00"
-      },
-      {
-        "groupId": 3,
-        "name": "가고싶지않은곳",
-        "color": "#09d800"
-      }
-    ]
-  },
+  "groups": [
+    {
+      "id": 1,
+      "name": "기본 맛픽커즈",
+      "color": "#023f00",
+      "pickPlaces": [
+        {
+          "id": 1,
+          "name": "베이커리",
+          "address": "서울 강남",
+          "star": 5
+        },
+        {
+          "id": 2,
+          "name": "중국집",
+          "address": "서울 강남",
+          "star": 5
+        },
+        {
+          "id": 3,
+          "name": "초밥집",
+          "address": "서울 강남",
+          "star": 5
+        }
+      ]
+    },
+    {
+      "name": "한식",
+      "color": "#09d800",
+      "id": 2,
+      "pickPlaces": [
+        {
+          "id": 1,
+          "name": "땀땀",
+          "address": "서울 강남",
+          "star": 5
+        },
+        {
+          "id": 2,
+          "name": "햄버거",
+          "address": "서울 강남",
+          "star": 5
+        },
+        {
+          "id": 3,
+          "name": "초밥집",
+          "address": "서울 강남",
+          "star": 5
+        }
+      ]
+    },
+    {
+      "name": "중식",
+      "color": "#023f00",
+      "id": 3,
+      "pickPlaces": [
+        {
+          "id": 1,
+          "name": "베이커리",
+          "address": "서울 강남",
+          "star": 5
+        },
+        {
+          "id": 2,
+          "name": "유부초밥집",
+          "address": "서울 강남",
+          "star": 5
+        },
+        {
+          "id": 3,
+          "name": "초밥집",
+          "address": "서울 강남",
+          "star": 5
+        }
+      ]
+    }
+  ],
   "members": {
     "nickname": "윤뿔소ㅎㅎ",
     "email": "hgd@gmail.com",
     "birthday": "1998-08-24",
     "profileImg": "https://user-images.githubusercontent.com/94962427/211693723-e10b0b7d-95ed-4918-b450-f952168bca3a.jpeg",
     "gender": "male",
-    "memo": "서울 맛집을 찾아",
+    "memo": "서울 맛집을 찾아???",
     "createdAt": "2022-12-31",
     "modifiedAt": "2023-01-05",
     "followers": "1.2M",
