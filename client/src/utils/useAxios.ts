@@ -15,7 +15,6 @@ interface MemberData {
   postlist: Array<Post>;
   picklist: Array<Pick>;
 }
-
 interface Post {
   postId: number;
   likes: number;
