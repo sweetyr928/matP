@@ -15,7 +15,7 @@ const StyledModal = styled.div`
   display: flex;
   flex-direction: column;
   position: fixed;
-  margin: 0 auto;
+  margin: -17px auto;
   left: 0;
   right: 0;
   z-index: 999;
@@ -160,11 +160,11 @@ const PostReadModal = ({
         new Date().toLocaleString()
       );
       setComment("");
-      e.preventDefault();
+      // e.preventDefault();
     }
   };
 
-  const handleClick = (e: any) => {
+  const handleClick = (e: React.MouseEvent<HTMLElement>) => {
     commentCreate(
       "rhino",
       "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg",
@@ -172,7 +172,7 @@ const PostReadModal = ({
       new Date().toLocaleString()
     );
     setComment("");
-    e.preventDefault();
+    // e.preventDefault();
   };
 
   return (

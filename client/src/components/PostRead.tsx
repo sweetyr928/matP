@@ -6,7 +6,7 @@
 
 import styled from "styled-components";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { MatPostRead } from ".";
 
 const ImgWrapper = styled.div`
@@ -55,7 +55,7 @@ const PostImg = styled.img`
 
 const ModalBackdrop = styled.div`
   width: 100%;
-  height: 100vh;
+  height: 100%;
   position: fixed;
   z-index: 998;
   top: 0;
@@ -83,7 +83,7 @@ const PostRead = ({ post }: { post: IPostProps }) => {
     setSelectedPost(post.postId);
   };
 
-  const closeModalHandler = (e: any) => {
+  const closeModalHandler = (e: React.MouseEvent<HTMLElement>) => {
     setIsOpen(false);
     e.stopPropagation();
   };
