@@ -1,11 +1,11 @@
 package com.matp.post.controller;
 
 import com.matp.comment.dto.MultiResponseDto;
+import com.matp.exception.CustomErrorCode;
+import com.matp.exception.PostNotFoundException;
 import com.matp.post.dto.PatchPostRequest;
 import com.matp.post.dto.PostRequest;
 import com.matp.post.dto.PostResponse;
-import com.matp.post.dto.PostResponseWithInfo;
-import com.matp.post.postexception.exception.PostNotFoundException;
 import com.matp.post.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -42,7 +42,8 @@ public class PostController {
     public Mono<ResponseEntity<MultiResponseDto>> getSpecific(@PathVariable("post-id") Long postId) {
 
         Mono<ResponseEntity<MultiResponseDto>> map = postService.getPost(postId)
-                .map(ResponseEntity::ok);
+                .map(ResponseEntity::ok)
+                .switchIfEmpty(Mono.error(new PostNotFoundException(CustomErrorCode.POST_NOT_FOUND)));
 
         return map;
     }
@@ -54,7 +55,7 @@ public class PostController {
     @GetMapping("/search")
     public Flux<PostResponse> getSearchMatPost(@RequestParam("keyword") String keyword) {
 
-        return postService.findPostByKeyword(keyword);
+        return postService.findPostByKeyword(keyword).switchIfEmpty(Mono.error(new PostNotFoundException(CustomErrorCode.POST_NOT_FOUND)));
     }
 
     /**
