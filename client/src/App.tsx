@@ -4,7 +4,14 @@ import { Route, Routes } from "react-router";
 import styled from "styled-components";
 import "./App.css";
 import { MapSearchComponent, Sidebar, Header, HeaderFeedHide } from "./components";
-import { Domain, MyPage, MatPeople, MatPicker } from "./pages";
+import {
+  Domain,
+  MyPage,
+  MatPeople,
+  MatPicker,
+  MatPickerDetail,
+  SearchPage,
+} from "./pages";
 
 interface AppContainerProps {
   toggle: boolean;
@@ -35,9 +42,9 @@ function App() {
         <Header />
         <Routes>
           <Route path="/" element={<Domain />} />
-          {/* <Route path="/" element={<Domain />} /> */}
+          <Route path="/search" element={<SearchPage />} />
           <Route path="/pickers" element={<MatPicker />} />
-          {/* <Route path="/" element={<Domain />} /> */}
+          <Route path="/pickers/:id" element={<MatPickerDetail />} />
           {/* <Route path="/" element={<Domain />} /> */}
           {/* <Route path="/" element={<Domain />} /> */}
           {/* <Route path="/" element={<Domain />} /> */}

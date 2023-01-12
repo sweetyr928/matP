@@ -1,79 +1,147 @@
 {
-  "posts": {
-    "post": [
-      {
-        "postId": 1,
-        "likes": 24,
-        "commentcount": 2,
-        "thumbnail_url": "https://user-images.githubusercontent.com/94962427/211693723-e10b0b7d-95ed-4918-b450-f952168bca3a.jpeg"
-      },
-      {
-        "postId": 2,
-        "likes": 3,
-        "commentcount": 4,
-        "thumbnail_url": "https://user-images.githubusercontent.com/94962427/211693723-e10b0b7d-95ed-4918-b450-f952168bca3a.jpeg"
-      },
-      {
-        "postId": 3,
-        "likes": 34,
-        "commentcount": 4,
-        "thumbnail_url": "https://user-images.githubusercontent.com/94962427/211693723-e10b0b7d-95ed-4918-b450-f952168bca3a.jpeg"
-      },
-      {
-        "postId": 4,
-        "likes": 5,
-        "commentcount": 43,
-        "thumbnail_url": "https://user-images.githubusercontent.com/94962427/211693723-e10b0b7d-95ed-4918-b450-f952168bca3a.jpeg"
-      }
-    ]
-  },
-  "placesposts": [
+  "posts": [
     {
       "postId": 1,
-      "nickname": "닉네임",
-      "profileimg": "https://user-images.githubusercontent.com/94962427/211693723-e10b0b7d-95ed-4918-b450-f952168bca3a.jpeg",
-      "createdat": "2022-10-22 17:34:00",
-      "title": "타이틀타이틀타이틀",
-      "content": "토스트 개맛있다개맛있다개맛있다개맛있다개맛있다개맛있다개맛있다개맛있다개맛있다개맛있다개맛있다개맛있다개맛있다개맛있다개맛있다개맛있다개맛있다",
-      "file_url": "https://user-images.githubusercontent.com/94962427/211693723-e10b0b7d-95ed-4918-b450-f952168bca3a.jpeg",
-      "star": 4,
-      "comments": [
+      "likes": 24,
+      "commentcount": 2,
+      "thumbnail_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShvWN6FLgG2lpiFwoT3zNUq9FMCyZiyaXXbA&usqp=CAU"
+    },
+    {
+      "postId": 2,
+      "likes": 3,
+      "commentcount": 4,
+      "thumbnail_url": "https://i.pinimg.com/550x/41/90/b4/4190b4283d11cf6934251698fa1b2e64.jpg"
+    },
+    {
+      "postId": 3,
+      "likes": 34,
+      "commentcount": 4,
+      "thumbnail_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQDuqH-2EX6uJe9UIR8lRz5ql8dSwDl1BJAzrxUNdEut8GVP6RtZVdWk4IwCIst4Jk-Rpg&usqp=CAU"
+    },
+    {
+      "postId": 4,
+      "likes": 5,
+      "commentcount": 43,
+      "thumbnail_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRh-tTdRm7D2U_IVczw3DxrexUbDL3CLOXEKjf1fNCa2dEYnGDSfG3WhrvWQVFRhcMg05c&usqp=CAU"
+    }
+  ],
+  "placesposts": {
+    "postId": 1,
+    "nickname": "닉네임",
+    "profileimg": "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg",
+    "createdat": "2022-10-22 17:34:00",
+    "title": "타이틀타이틀타이틀",
+    "content": "토스트 개맛있다개맛있다개맛있다개맛있다개맛있다개맛있다개맛있다개맛있다개맛있다개맛있다개맛있다개맛있다개맛있다개맛있다개맛있다개맛있다개맛있다",
+    "file_url": "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg",
+    "star": 4
+  },
+  "comments": [
+    {
+      "id": 1,
+      "nickname": "먹보 1호",
+      "profileimg": "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg",
+      "comment": "너무 맛있어 보여요너무 맛있어 보여요너무 맛있어 보여요너무 맛있어 보여요너무 맛있어 보여요너무 맛있어 보여요너무 맛있어 보여요너무 맛있어 보여요너무 맛있어 보여요너무 맛있어 보여요너무 맛있어 보여요",
+      "createdat": "2022-10-22 17:34:00"
+    },
+    {
+      "nickname": "rhino",
+      "profileimg": "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg",
+      "comment": "와 겁나 맛있어보인다",
+      "createdat": "2023. 1. 11. 오후 8:36:29",
+      "id": 2
+    },
+    {
+      "nickname": "rhino",
+      "profileimg": "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg",
+      "comment": "넘나 먹고싶은걸?",
+      "createdat": "2023. 1. 12. 오후 2:52:35",
+      "id": 3
+    }
+  ],
+  "groups": [
+    {
+      "id": 1,
+      "name": "기본 맛픽커즈",
+      "color": "#023f00",
+      "pickPlaces": [
         {
-          "commentId": 1,
-          "nickname": "먹보 1호",
-          "profileimg": "https://user-images.githubusercontent.com/94962427/211693723-e10b0b7d-95ed-4918-b450-f952168bca3a.jpeg",
-          "comment": "너무 맛있어 보여요너무 맛있어 보여요너무 맛있어 보여요너무 맛있어 보여요너무 맛있어 보여요너무 맛있어 보여요너무 맛있어 보여요너무 맛있어 보여요너무 맛있어 보여요너무 맛있어 보여요너무 맛있어 보여요",
-          "createdat": "2022-10-22 17:34:00"
+          "id": 1,
+          "name": "베이커리",
+          "address": "서울 강남",
+          "star": 5
+        },
+        {
+          "id": 2,
+          "name": "중국집",
+          "address": "서울 강남",
+          "star": 5
+        },
+        {
+          "id": 3,
+          "name": "초밥집",
+          "address": "서울 강남",
+          "star": 5
+        }
+      ]
+    },
+    {
+      "name": "한식",
+      "color": "#09d800",
+      "id": 2,
+      "pickPlaces": [
+        {
+          "id": 1,
+          "name": "땀땀",
+          "address": "서울 강남",
+          "star": 5
+        },
+        {
+          "id": 2,
+          "name": "햄버거",
+          "address": "서울 강남",
+          "star": 5
+        },
+        {
+          "id": 3,
+          "name": "초밥집",
+          "address": "서울 강남",
+          "star": 5
+        }
+      ]
+    },
+    {
+      "name": "중식",
+      "color": "#023f00",
+      "id": 3,
+      "pickPlaces": [
+        {
+          "id": 1,
+          "name": "베이커리",
+          "address": "서울 강남",
+          "star": 5
+        },
+        {
+          "id": 2,
+          "name": "유부초밥집",
+          "address": "서울 강남",
+          "star": 5
+        },
+        {
+          "id": 3,
+          "name": "초밥집",
+          "address": "서울 강남",
+          "star": 5
         }
       ]
     }
   ],
-  "groups": {
-    "pickers": [
-      {
-        "groupId": 1,
-        "name": "가고싶은곳",
-        "color": "#023f00"
-      },
-      {
-        "groupId": 2,
-        "name": "어제갔던곳",
-        "color": "#098f00"
-      },
-      {
-        "groupId": 3,
-        "name": "가고싶지않은곳",
-        "color": "#09d800"
-      }
-    ]
-  },
   "members": {
     "nickname": "윤뿔소ㅎㅎ",
     "email": "hgd@gmail.com",
     "birthday": "1998-08-24",
     "profileImg": "https://user-images.githubusercontent.com/94962427/211693723-e10b0b7d-95ed-4918-b450-f952168bca3a.jpeg",
     "gender": "male",
-    "memo": "서울 맛집을 찾아",
+    "memo": "서울 맛집을 찾아???",
     "createdAt": "2022-12-31",
     "modifiedAt": "2023-01-05",
     "followers": "1.2M",
