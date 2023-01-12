@@ -43,7 +43,7 @@ public class PostController {
 
         Mono<ResponseEntity<MultiResponseDto>> map = postService.getPost(postId)
                 .map(ResponseEntity::ok)
-                .switchIfEmpty(Mono.error(new PostNotFoundException(CustomErrorCode.POST_NOT_FOUND)));
+                .switchIfEmpty(Mono.defer(() -> Mono.error(new PostNotFoundException(CustomErrorCode.POST_NOT_FOUND))));
 
         return map;
     }
@@ -55,7 +55,8 @@ public class PostController {
     @GetMapping("/search")
     public Flux<PostResponse> getSearchMatPost(@RequestParam("keyword") String keyword) {
 
-        return postService.findPostByKeyword(keyword).switchIfEmpty(Mono.error(new PostNotFoundException(CustomErrorCode.POST_NOT_FOUND)));
+        return postService.findPostByKeyword(keyword)
+                .switchIfEmpty(Mono.defer(() -> Mono.error(new PostNotFoundException(CustomErrorCode.POST_NOT_FOUND))));
     }
 
     /**
@@ -79,8 +80,7 @@ public class PostController {
 
         return request
                 .flatMap((PatchPostRequest patchPostRequest) -> postService.update(patchPostRequest, postId))
-                .map(ResponseEntity::ok)
-                .defaultIfEmpty(ResponseEntity.badRequest().build());
+                .map(ResponseEntity::ok);
     }
 
     /**
@@ -91,8 +91,7 @@ public class PostController {
     public Mono<ResponseEntity<Void>> deleteMatPost(@PathVariable("post-id") Long postId) {
 
         return postService.delete(postId)
-                .map(response -> ResponseEntity.noContent().<Void>build())
-                .defaultIfEmpty(ResponseEntity.noContent().build());
+                .map(response -> ResponseEntity.noContent().build());
     }
 
 }
