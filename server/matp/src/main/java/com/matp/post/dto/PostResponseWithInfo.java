@@ -11,5 +11,5 @@ import java.util.List;
 public record PostResponseWithInfo(Long id, String title,
                                    String content, int likes,
                                    String thumbnailUrl, LocalDateTime createdAt, LocalDateTime modifiedAt, int star,
-                                   PostMemberInfo memberInfo, List<CommentInfo> comments) {
+                                   PostMemberInfo memberInfo) {
 }

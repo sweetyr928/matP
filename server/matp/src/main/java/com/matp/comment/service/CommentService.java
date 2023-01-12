@@ -25,6 +25,7 @@ public class CommentService {
                     .build();
 
             return CommentInfo.builder()
+                    .CommentId(commentSpecificInfo.id())
                     .commentContent(commentSpecificInfo.commentContent())
                     .commentCreatedAt(commentSpecificInfo.commentCreatedAt())
                     .memberInfo(memberInfo)

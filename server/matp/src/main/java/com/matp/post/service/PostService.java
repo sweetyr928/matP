@@ -1,6 +1,7 @@
 package com.matp.post.service;
 
 
+import com.matp.comment.dto.MultiResponseDto;
 import com.matp.comment.service.CommentService;
 import com.matp.post.dto.PatchPostRequest;
 import com.matp.post.dto.PostRequest;
@@ -11,10 +12,12 @@ import com.matp.post.entity.Post;
 import com.matp.post.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
 
+@Transactional
 @Service
 @RequiredArgsConstructor
 public class PostService {
@@ -37,7 +40,8 @@ public class PostService {
      * @apiNote 하나의 Post 를 {@link PostRepository} 에서 찾아오는 메서드
      * @author 임준건
      */
-    public Mono<PostResponseWithInfo> getPost(Long postId) {
+    @Transactional(readOnly = true)
+    public Mono<MultiResponseDto> getPost(Long postId) {
         return PostRepository.findPostWithMemberInfo(postId)
                 .publishOn(Schedulers.boundedElastic())
                 .map(result -> {
@@ -49,7 +53,7 @@ public class PostService {
 
                     var comments = commentService.getComments(postId).block();
 
-                    return PostResponseWithInfo.builder()
+                    PostResponseWithInfo postResponseWithInfo = PostResponseWithInfo.builder()
                             .id(result.id())
                             .title(result.title())
                             .content(result.content())
@@ -59,10 +63,9 @@ public class PostService {
                             .createdAt(result.createdAt())
                             .modifiedAt(result.modifiedAt())
                             .memberInfo(member)
-                            .comments(comments)
                             .build();
+                    return new MultiResponseDto(postResponseWithInfo, comments);
                 });
-
     }
 
     /**

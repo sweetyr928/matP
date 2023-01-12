@@ -1,5 +1,6 @@
 package com.matp.post.controller;
 
+import com.matp.comment.dto.MultiResponseDto;
 import com.matp.post.dto.PatchPostRequest;
 import com.matp.post.dto.PostRequest;
 import com.matp.post.dto.PostResponse;
@@ -38,9 +39,9 @@ public class PostController {
      * @author 임준건
      **/
     @GetMapping("/{post-id}")
-    public Mono<ResponseEntity<PostResponseWithInfo>> getSpecific(@PathVariable("post-id") Long postId) {
+    public Mono<ResponseEntity<MultiResponseDto>> getSpecific(@PathVariable("post-id") Long postId) {
 
-        Mono<ResponseEntity<PostResponseWithInfo>> map = postService.getPost(postId)
+        Mono<ResponseEntity<MultiResponseDto>> map = postService.getPost(postId)
                 .map(ResponseEntity::ok);
 
         return map;

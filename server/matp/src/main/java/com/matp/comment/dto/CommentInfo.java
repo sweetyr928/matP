@@ -6,5 +6,5 @@ import lombok.Builder;
 import java.time.LocalDateTime;
 
 @Builder
-public record CommentInfo(String commentContent, LocalDateTime commentCreatedAt, PostMemberInfo memberInfo) {
+public record CommentInfo(Long CommentId,String commentContent, LocalDateTime commentCreatedAt, PostMemberInfo memberInfo) {
 }
