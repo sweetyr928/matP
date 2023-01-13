@@ -64,7 +64,7 @@ const KakaoMap = (props: propsType) => {
         // 정상적으로 검색이 완료됐으면
         // 검색 목록과 마커를 표출
         displayPlaces(data);
-
+        console.log(data);
         // 페이지 번호를 표출
         displayPagination(pagination);
       } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
