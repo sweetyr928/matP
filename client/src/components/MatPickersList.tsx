@@ -1,8 +1,7 @@
 import { useState, useCallback } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import MatPickerUpdate from "./MatPickerModal/MatPickerUpdate";
-import MatPickerDelete from "./MatPickerModal/MatPickerDelete";
+import { MatPickerUpdate, MatPickerDelete, ModalPortal } from ".";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 
@@ -73,18 +72,22 @@ const MatPickersList = ({ picker }: { picker: PickersProps }) => {
     <>
       <MatPickerSingleBox>
         {isOpenUpdateModal && (
-          <MatPickerUpdate
-            id={picker.id}
-            color={picker.color}
-            name={picker.name}
-            onClickToggleModal={onClickToggleUpdateModal}
-          />
+          <ModalPortal>
+            <MatPickerUpdate
+              id={picker.id}
+              color={picker.color}
+              name={picker.name}
+              onClickToggleModal={onClickToggleUpdateModal}
+            />
+          </ModalPortal>
         )}
         {isOpenDeleteModal && (
-          <MatPickerDelete
-            id={picker.id}
-            onClickToggleModal={onClickToggleDeleteModal}
-          />
+          <ModalPortal>
+            <MatPickerDelete
+              id={picker.id}
+              onClickToggleModal={onClickToggleDeleteModal}
+            />
+          </ModalPortal>
         )}
         <Link to={`/pickers/${picker.id}`}>
           <NameBox color={picker.color}>
