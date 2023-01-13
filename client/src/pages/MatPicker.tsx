@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import axios from "axios";
 import { useState, useEffect, useCallback } from "react";
-import { MatPickersList, MatPickerCreate } from "../components";
+import { MatPickersList, MatPickerCreate, ModalPortal } from "../components";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
 const MatPickerWrapper = styled.div`
@@ -78,7 +78,9 @@ const MatPicker: React.FC = () => {
   return (
     <MatPickerWrapper>
       {isOpenModal && (
-        <MatPickerCreate onClickToggleModal={onClickToggleModal} />
+        <ModalPortal>
+          <MatPickerCreate onClickToggleModal={onClickToggleModal} />
+        </ModalPortal>
       )}
       <h1>맛픽커즈</h1>
       <MatPickerBox>
