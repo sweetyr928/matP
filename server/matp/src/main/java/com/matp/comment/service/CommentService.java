@@ -1,8 +1,8 @@
 package com.matp.comment.service;
 
 import com.matp.comment.dto.CommentInfo;
+import com.matp.comment.dto.CommentRequest;
 import com.matp.comment.dto.CommentResponse;
-import com.matp.comment.dto.PostCommentRequest;
 import com.matp.comment.entity.Comment;
 import com.matp.comment.repository.CommentRepository;
 import com.matp.post.dto.testdto.PostMemberInfo;
@@ -35,7 +35,7 @@ public class CommentService {
         return listMono;
     }
 
-    public Mono<CommentResponse> save(PostCommentRequest saveCommentRequest, Long postId) {
+    public Mono<CommentResponse> save(CommentRequest saveCommentRequest, Long postId) {
 
         Comment postComment = saveCommentRequest.toEntity();
         postComment.setUserId(3L);
@@ -43,6 +43,22 @@ public class CommentService {
         Mono<Comment> save = commentRepository.save(postComment);
         Mono<CommentResponse> map = save.map(CommentResponse::from);
         return map;
+    }
+
+    public Mono<CommentResponse> updateComment(CommentRequest saveCommentRequest, Long postId, Long commentId) {
+        Comment patchComment = saveCommentRequest.toEntity();
+
+        return commentRepository.findById(commentId).flatMap(comment -> {
+            comment.setId(commentId);
+            comment.setFeedId(postId);
+            comment.setComment_content(patchComment.getComment_content());
+            return commentRepository.save(comment);
+        }).map(CommentResponse::from);
+
+    }
+
+    public Mono<Void> deleteComment(Long commentId) {
+        return commentRepository.deleteById(commentId);
     }
 
 }
