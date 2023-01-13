@@ -18,8 +18,8 @@ const ImgWrapper = styled.div`
 
   .likes_on {
     position: absolute;
-    top: 30%;
-    left: -30%;
+    top: 45%;
+    left: 25%;
     z-index: 1;
     font-size: 15px;
     width: 60px;
