@@ -13,10 +13,9 @@ const StyledModal = styled.div`
   display: flex;
   flex-direction: column;
   position: fixed;
-  margin: -17px auto;
-  left: 0;
-  right: 0;
-  z-index: 999;
+  top: 10%;
+  left: 15%;
+  z-index: 10000;
 
   > span.close-btn {
     margin: 5px 0px 0px 1375px;

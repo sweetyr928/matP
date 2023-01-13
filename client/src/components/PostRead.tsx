@@ -4,7 +4,7 @@
 import styled from "styled-components";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useState } from "react";
-import { MatPostRead } from ".";
+import { MatPostRead, ModalPortal } from ".";
 
 const ImgWrapper = styled.div`
   width: 130px;
@@ -54,7 +54,7 @@ const ModalBackdrop = styled.div`
   width: 100%;
   height: 100%;
   position: fixed;
-  z-index: 998;
+  z-index: 1000;
   top: 0;
   left: 0;
   bottom: 0;
@@ -97,13 +97,13 @@ const PostRead = ({ post }: { post: IPostProps }) => {
         </div>
       </ImgWrapper>
       {isOpen === true ? (
-        <>
+        <ModalPortal>
           <MatPostRead
             closeModalHandler={closeModalHandler}
             selectedPost={selectedPost}
           />
           <ModalBackdrop onClick={closeModalHandler} />
-        </>
+        </ModalPortal>
       ) : null}
     </>
   );
