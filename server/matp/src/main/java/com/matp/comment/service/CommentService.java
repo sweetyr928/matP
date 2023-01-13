@@ -16,6 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CommentService {
     private final CommentRepository commentRepository;
+
     public Mono<List<CommentInfo>> getComments(Long postId) {
         Mono<List<CommentInfo>> listMono = commentRepository.findPost_CommentWithMember(postId).map(commentSpecificInfo -> {
 
@@ -48,12 +49,12 @@ public class CommentService {
     public Mono<CommentResponse> updateComment(CommentRequest saveCommentRequest, Long postId, Long commentId) {
         Comment patchComment = saveCommentRequest.toEntity();
 
-        return commentRepository.findById(commentId).flatMap(comment -> {
-            comment.setId(commentId);
-            comment.setFeedId(postId);
-            comment.setComment_content(patchComment.getComment_content());
-            return commentRepository.save(comment);
-        }).map(CommentResponse::from);
+        return commentRepository.findById(commentId)
+                .flatMap(comment -> {
+                    comment.setComment_content(patchComment.getComment_content());
+                    return commentRepository.save(comment);
+                })
+                .map(CommentResponse::from);
 
     }
 
