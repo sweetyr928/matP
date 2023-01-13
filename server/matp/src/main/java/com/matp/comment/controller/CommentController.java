@@ -38,7 +38,9 @@ public class CommentController {
     @DeleteMapping("/{comment-id}")
     public Mono<ResponseEntity<Void>> deleteComment(@PathVariable("comment-id") Long commentId) {
 
-        return commentService.deleteComment(commentId).map(response -> ResponseEntity.noContent().build());
+        return commentService.deleteComment(commentId)
+                .map(response -> ResponseEntity.noContent().<Void>build())
+                .switchIfEmpty(Mono.just(new ResponseEntity<>(HttpStatus.NO_CONTENT)));
     }
 
     //TODO 특정 게시글의 댓글들 조회 ( 필요시 반영 )
