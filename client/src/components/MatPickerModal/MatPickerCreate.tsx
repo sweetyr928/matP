@@ -3,15 +3,25 @@ import styled from "styled-components";
 import axios from "axios";
 
 const ModalContainer = styled.div`
-  width: 411px;
   height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  width: calc(1340px * 2 / 5 - 63px);
+  z-index: 1000;
+`;
+
+const Backdrop = styled.div`
+  top: 0;
+  left: 0;
+  width: calc(1340px * 2 / 5 - 63px);
+  height: 100vh;
   position: fixed;
+  z-index: 10000;
+  background-color: rgba(0, 0, 0, 0.2);
 `;
 
 const DialogBox = styled.dialog`
+  top: 250px;
+  left: 79px;
+  margin: 0;
   width: 370px;
   height: 440px;
   display: flex;
@@ -21,7 +31,8 @@ const DialogBox = styled.dialog`
   border-radius: 3px;
   box-sizing: border-box;
   background-color: white;
-  z-index: 10000;
+  position: fixed;
+  z-index: 10020;
 
   h3 {
     margin: 40px 0;
@@ -56,14 +67,6 @@ const TabButton = styled.li`
   background-color: ${(props) => props.color || "gray"};
   border: ${(props) =>
     props.id === "focused" ? "3px solid red" : "1px solid black"};
-`;
-
-const Backdrop = styled.div`
-  width: 100%;
-  height: 100vh;
-  top: 0;
-  z-index: 9999;
-  background-color: rgba(0, 0, 0, 0.2);
 `;
 
 const ButtonContainer = styled.div`
