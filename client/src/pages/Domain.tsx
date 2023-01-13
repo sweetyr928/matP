@@ -17,7 +17,7 @@ const StyledFeed = styled.div`
   align-items: center;
   position: absolute;
 
-  p {
+  h1 {
     margin: 20px 70px 20px 70px;
     font-size: 23px;
     font-weight: 600;
@@ -38,7 +38,7 @@ const Domain: React.FC = () => {
 
   return (
     <StyledFeed>
-      <p>오늘의 맛 Post</p>
+      <h1>오늘의 맛 Post</h1>
       <StyledPosts>
         {postsData &&
           postsData.map((post) => <PostRead key={post.postId} post={post} />)}
