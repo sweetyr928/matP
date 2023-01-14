@@ -1,8 +1,8 @@
 package com.matp.comment.service;
 
 import com.matp.comment.dto.CommentInfo;
+import com.matp.comment.dto.CommentRequest;
 import com.matp.comment.dto.CommentResponse;
-import com.matp.comment.dto.PostCommentRequest;
 import com.matp.comment.entity.Comment;
 import com.matp.comment.repository.CommentRepository;
 import com.matp.post.dto.testdto.PostMemberInfo;
@@ -16,6 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CommentService {
     private final CommentRepository commentRepository;
+
     public Mono<List<CommentInfo>> getComments(Long postId) {
         Mono<List<CommentInfo>> listMono = commentRepository.findPost_CommentWithMember(postId).map(commentSpecificInfo -> {
 
@@ -35,14 +36,30 @@ public class CommentService {
         return listMono;
     }
 
-    public Mono<CommentResponse> save(PostCommentRequest saveCommentRequest, Long postId) {
+    public Mono<CommentResponse> save(CommentRequest saveCommentRequest, Long postId) {
 
         Comment postComment = saveCommentRequest.toEntity();
         postComment.setUserId(3L);
-        postComment.setFeedId(postId);
+        postComment.setPostId(postId);
         Mono<Comment> save = commentRepository.save(postComment);
         Mono<CommentResponse> map = save.map(CommentResponse::from);
         return map;
+    }
+
+    public Mono<CommentResponse> updateComment(CommentRequest saveCommentRequest, Long postId, Long commentId) {
+        Comment patchComment = saveCommentRequest.toEntity();
+
+        return commentRepository.findById(commentId)
+                .flatMap(comment -> {
+                    comment.setComment_content(patchComment.getComment_content());
+                    return commentRepository.save(comment);
+                })
+                .map(CommentResponse::from);
+
+    }
+
+    public Mono<Void> deleteComment(Long commentId) {
+        return commentRepository.deleteById(commentId);
     }
 
 }
