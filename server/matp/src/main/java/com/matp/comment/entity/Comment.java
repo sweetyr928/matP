@@ -24,7 +24,7 @@ public class Comment {
 
     private Long userId;
 
-    private Long feedId;
+    private Long postId;
 
     @Transient
     private TestMember member;

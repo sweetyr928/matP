@@ -40,7 +40,7 @@ public class CommentService {
 
         Comment postComment = saveCommentRequest.toEntity();
         postComment.setUserId(3L);
-        postComment.setFeedId(postId);
+        postComment.setPostId(postId);
         Mono<Comment> save = commentRepository.save(postComment);
         Mono<CommentResponse> map = save.map(CommentResponse::from);
         return map;
