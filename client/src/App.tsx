@@ -3,15 +3,8 @@ import { useState } from "react";
 import { Route, Routes } from "react-router";
 import styled from "styled-components";
 import "./App.css";
-import { MapSearchComponent, Sidebar, Header, HeaderFeedHide } from "./components";
-import {
-  Domain,
-  MyPage,
-  MatPeople,
-  MatPicker,
-  MatPickerDetail,
-  SearchPage,
-} from "./pages";
+import { KakaoMap, Sidebar, Header, HeaderFeedHide } from "./components";
+import { Domain, MyPage, MatPeople, MatPicker, MatPickerDetail, SearchPage } from "./pages";
 
 interface AppContainerProps {
   toggle: boolean;
@@ -53,7 +46,7 @@ function App() {
         </Routes>
       </div>
       <HeaderFeedHide visible={visible} setVisibility={setVisibility} />
-      <MapSearchComponent />
+      <KakaoMap />
     </AppContainer>
   );
 }

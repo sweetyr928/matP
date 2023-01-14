@@ -11,7 +11,7 @@ import PeoPleEditModal from "./PeopleEditModal";
 import DeleteModal from "./DeleteModal";
 import LoginModal from "./LoginModal";
 import MapSearchComponent from "./KakaoMap/HoldSearchComponent/MapSearchComponent";
-import KakaoMap from "./KakaoMap/HoldSearchComponent/KakaoMap";
+import KakaoMap from "./KakaoMap/KakaoMap";
 import HeaderFeedHide from "./HeaderFeedHide";
 import ModalPortal from "./ModalPortal";
 
