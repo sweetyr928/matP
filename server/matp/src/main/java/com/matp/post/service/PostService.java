@@ -88,7 +88,7 @@ public class PostService {
     public Mono<PostResponse> save(PostRequest request) {
 
         Post Post = request.toEntity();
-        Post.setMemberId(2L);
+//        Post.setMemberId(2L);
 
         Mono<Post> save = PostRepository.save(Post);
 
@@ -101,15 +101,9 @@ public class PostService {
      * @author 임준건
      */
     public Mono<PostResponse> update(PatchPostRequest updatePostRequest, Long postId) {
-        Post Post = updatePostRequest.toEntity();
+        Post updatePost = updatePostRequest.toEntity();
 
-        return PostRepository.findById(postId).flatMap(post -> {
-            post.setTitle(Post.getTitle());
-            post.setContent(Post.getContent());
-            post.setThumbnailUrl(Post.getThumbnailUrl());
-            post.setStar(Post.getStar());
-            return PostRepository.save(post);
-        }).map(PostResponse::from);
+        return PostRepository.findById(postId).flatMap(post -> PostRepository.save(post.settingPost(updatePost))).map(PostResponse::from);
     }
 
     /**
