@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Route, Routes } from "react-router";
 import styled from "styled-components";
 import "./App.css";
+import { RecoilRoot } from "recoil";
 import { KakaoMap, Sidebar, Header, HeaderFeedHide } from "./components";
 import { Domain, MyPage, MatPeople, MatPicker, MatPickerDetail, SearchPage } from "./pages";
 
@@ -29,25 +30,27 @@ function App() {
   const [visible, setVisibility] = useState<boolean>(false);
 
   return (
-    <AppContainer toggle={visible}>
-      <Sidebar />
-      <div className={`feed_container_${visible ? "hidden" : ""}`}>
-        <Header />
-        <Routes>
-          <Route path="/" element={<Domain />} />
-          <Route path="/search" element={<SearchPage />} />
-          <Route path="/pickers" element={<MatPicker />} />
-          <Route path="/pickers/:id" element={<MatPickerDetail />} />
-          {/* <Route path="/" element={<Domain />} /> */}
-          {/* <Route path="/" element={<Domain />} /> */}
-          {/* <Route path="/" element={<Domain />} /> */}
-          <Route path="/mypage" element={<MyPage />} />
-          <Route path="/people/:id" element={<MatPeople />} />
-        </Routes>
-      </div>
-      <HeaderFeedHide visible={visible} setVisibility={setVisibility} />
-      <KakaoMap />
-    </AppContainer>
+    <RecoilRoot>
+      <AppContainer toggle={visible}>
+        <Sidebar />
+        <div className={`feed_container_${visible ? "hidden" : ""}`}>
+          <Header />
+          <Routes>
+            <Route path="/" element={<Domain />} />
+            <Route path="/search" element={<SearchPage />} />
+            <Route path="/pickers" element={<MatPicker />} />
+            <Route path="/pickers/:id" element={<MatPickerDetail />} />
+            {/* <Route path="/" element={<Domain />} /> */}
+            {/* <Route path="/" element={<Domain />} /> */}
+            {/* <Route path="/" element={<Domain />} /> */}
+            <Route path="/mypage" element={<MyPage />} />
+            <Route path="/people/:id" element={<MatPeople />} />
+          </Routes>
+        </div>
+        <HeaderFeedHide visible={visible} setVisibility={setVisibility} />
+        <KakaoMap />
+      </AppContainer>
+    </RecoilRoot>
   );
 }
 
