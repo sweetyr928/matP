@@ -17,21 +17,21 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
 
-@Transactional
-@Service
+
 @RequiredArgsConstructor
 public class PostService {
     private final CommentService commentService;
-    private final PostRepository PostRepository;
+    private final PostRepository postRepository;
 
     /**
      * @return Flux<PostResponse>
      * @apiNote Post 를 {@link PostRepository} 에서 페이지네이션 해오는 메서드
      * @author 임준건
      */
+    @Transactional
     public Flux<PostResponse> getAll(int page,int size) {
 
-        Flux<PostResponse> map = PostRepository.findAll().skip(page * size).take(size).map(PostResponse::from);
+        Flux<PostResponse> map = postRepository.findAll().skip(page * size).take(size).map(PostResponse::from);
 
         return map;
     }
@@ -41,9 +41,9 @@ public class PostService {
      * @apiNote 하나의 Post 를 {@link PostRepository} 에서 찾아오는 메서드
      * @author 임준건
      */
-    @Transactional(readOnly = true)
+    @Transactional
     public Mono<MultiResponseDto> getPost(Long postId) {
-        return PostRepository.findPostWithMemberInfo(postId)
+        return postRepository.findPostWithMemberInfo(postId)
                 .publishOn(Schedulers.boundedElastic())
                 .map(result -> {
 
@@ -65,6 +65,12 @@ public class PostService {
                             .modifiedAt(result.modifiedAt())
                             .memberInfo(member)
                             .build();
+                    postRepository.findById(postId)
+                            .map(findPost -> {
+                                findPost.settingLikesCount(result.likes());
+                                return findPost;
+                            })
+                            .flatMap(postRepository::save).subscribe();
                     return new MultiResponseDto(postResponseWithInfo, comments);
                 });
     }
@@ -74,9 +80,10 @@ public class PostService {
      * @apiNote keyword 로 Post 를 {@link PostRepository} 에서 찾아오는 메서드
      * @author 임준건
      */
+    @Transactional
     public Flux<PostResponse> findPostByKeyword(String keyword) {
 
-        return PostRepository.searchPostByKeyword(keyword)
+        return postRepository.searchPostByKeyword(keyword)
                 .map(PostResponse::from);
     }
 
@@ -85,12 +92,13 @@ public class PostService {
      * @apiNote PostRequest 를 {@link PostRepository} 에 저장하는 메서드
      * @author 임준건
      */
+    @Transactional
     public Mono<PostResponse> save(PostRequest request) {
 
         Post Post = request.toEntity();
 //        Post.setMemberId(2L);
 
-        Mono<Post> save = PostRepository.save(Post);
+        Mono<Post> save = postRepository.save(Post);
 
         return save.map(PostResponse::from);
     }
@@ -100,10 +108,11 @@ public class PostService {
      * @apiNote PatchPostRequest 를 {@link PostRepository} 에 저장하는 메서드
      * @author 임준건
      */
+    @Transactional
     public Mono<PostResponse> update(PatchPostRequest updatePostRequest, Long postId) {
         Post updatePost = updatePostRequest.toEntity();
 
-        return PostRepository.findById(postId).flatMap(post -> PostRepository.save(post.settingPost(updatePost))).map(PostResponse::from);
+        return postRepository.findById(postId).flatMap(post -> postRepository.save(post.settingPost(updatePost))).map(PostResponse::from);
     }
 
     /**
@@ -111,9 +120,10 @@ public class PostService {
      * @apiNote 특정 Post 를 {@link PostRepository} 에서 삭제하는 메서드
      * @author 임준건
      */
+    @Transactional
     public Mono<Void> delete(Long postId) {
 
-        return PostRepository.findById(postId)
-                .flatMap(PostRepository::delete);
+        return postRepository.findById(postId)
+                .flatMap(postRepository::delete);
     }
 }
