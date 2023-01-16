@@ -48,12 +48,12 @@ public class Post {
     public void settingLikesCount(int count) {
         this.likes = count;
     }
-    public Post settingPost(Post post) {
-        this.title = post.getTitle();
-        this.content = post.getContent();
-        this.thumbnailUrl = post.getThumbnailUrl();
-        this.star = post.getStar();
+    public Post settingPost(Post post, Post updatePost) {
+        this.id = post.getId();
+        this.title = updatePost.getTitle();
+        this.content = updatePost.getContent();
+        this.thumbnailUrl = updatePost.getThumbnailUrl();
+        this.star = updatePost.getStar();
         return post;
     }
-
 }

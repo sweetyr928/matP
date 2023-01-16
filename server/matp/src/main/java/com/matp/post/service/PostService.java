@@ -113,7 +113,7 @@ public class PostService {
     public Mono<PostResponse> update(PatchPostRequest updatePostRequest, Long postId) {
         Post updatePost = updatePostRequest.toEntity();
 
-        return postRepository.findById(postId).flatMap(post -> postRepository.save(post.settingPost(updatePost))).map(PostResponse::from);
+        return postRepository.findById(postId).flatMap(post -> postRepository.save(post.settingPost(post,updatePost))).map(PostResponse::from);
     }
 
     /**
