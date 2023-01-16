@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { MapMarker } from "react-kakao-maps-sdk";
 import styled from "styled-components";
+// import { useRecoilValue } from "recoil";
+// import { searchResultsState } from "../../store/searchAtoms";
 
 const InfoWindowContainer = styled.div`
   min-width: 150px;
@@ -11,11 +13,13 @@ const InfoValue = styled.div`
 `;
 
 const MapMarkerComponent = () => {
+  // const searchResults = useRecoilValue(searchResultsState);
+
   const [isOpen, setIsOpen] = useState(false);
   return (
     <MapMarker // 마커를 생성합니다
       position={{
-        // 마커가 표시될 위치입니다
+        // 마커가 표시될 위치
         lat: 37.50039427271689,
         lng: 127.02796438287635,
       }}
@@ -46,6 +50,21 @@ const MapMarkerComponent = () => {
           <InfoValue>땀땀</InfoValue>
         </InfoWindowContainer>
       )}
+      {/* 검색 데이터 오면 쓸 map 함수 */}
+      {/* {searchResults.map((result) => (
+        <MapMarker
+          key={result.id}
+          position={{ lat: result.latitude, lng: result.longitude }}
+          clickable={true}
+          onClick={() => setIsOpen(true)}
+        >
+          {isOpen && (
+            <InfoWindowContainer onClick={() => setIsOpen(false)}>
+              <InfoValue>{result.name}</InfoValue>
+            </InfoWindowContainer>
+          )}
+        </MapMarker>
+      ))} */}
     </MapMarker>
   );
 };
