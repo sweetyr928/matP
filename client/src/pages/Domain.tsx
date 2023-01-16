@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 import styled from "styled-components";
 import PostRead from "../components/PostRead";
 import UsePostsAxios from "../utils/usePostsAxios";

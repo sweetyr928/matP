@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 import styled from "styled-components";
 import UsePlacesPostsAxios from "../../utils/usePlacesPostsAxios";
 import { useEffect, useState } from "react";
@@ -15,10 +13,9 @@ const StyledModal = styled.div`
   display: flex;
   flex-direction: column;
   position: fixed;
-  margin: -17px auto;
-  left: 0;
-  right: 0;
-  z-index: 999;
+  top: 10%;
+  left: 15%;
+  z-index: 10000;
 
   > span.close-btn {
     margin: 5px 0px 0px 1375px;
@@ -151,13 +148,13 @@ const PostReadModal = ({
   const { placesPostsData } = UsePlacesPostsAxios(url_posts);
 
   const {
-    postId = 0,
+    // postId = 0,
     nickname = "",
     profileimg = "",
     createdat = "",
     title = "",
-    star = 0,
-    comments = [],
+    // star = 0,
+    // comments = [],
   } = placesPostsData || {};
 
   useEffect(() => {
@@ -171,7 +168,7 @@ const PostReadModal = ({
       .then((res) => {
         setAllComment(res.data);
       })
-      .catch((error: any) => {
+      .catch((error: Error) => {
         console.log(error);
       });
   };
@@ -201,7 +198,7 @@ const PostReadModal = ({
   };
 
   // '게시' 버튼 누를 시 댓글 업로드
-  const handleClick = (e: React.MouseEvent<HTMLElement>) => {
+  const handleClick = () => {
     if (comment.length > 0) {
       commentCreate(
         "rhino",

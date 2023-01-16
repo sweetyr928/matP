@@ -13,7 +13,7 @@ public interface CommentRepository extends ReactiveCrudRepository<Comment, Long>
     @Query("""
             SELECT
             pc.id,
-            pc.feed_id,
+            pc.post_id,
             pc.user_id,
             pc.comment_content,
             pc.comment_created_at,
@@ -21,7 +21,8 @@ public interface CommentRepository extends ReactiveCrudRepository<Comment, Long>
             m.profile_img
             FROM post_comment pc
             INNER JOIN member m
-            where pc.feed_id = :postId
+            ON pc.user_id = m.id
+            where pc.post_id = :postId
            """)
     Flux<CommentSpecificInfo> findPost_CommentWithMember(Long PostId);
 
