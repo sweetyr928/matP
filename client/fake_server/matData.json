@@ -53,9 +53,16 @@
     {
       "nickname": "rhino",
       "profileimg": "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg",
-      "comment": "넘나 먹고싶은걸?",
-      "createdat": "2023. 1. 12. 오후 2:52:35",
+      "comment": "???",
+      "createdat": "2023. 1. 12. 오후 3:59:00",
       "id": 3
+    },
+    {
+      "nickname": "rhino",
+      "profileimg": "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg",
+      "comment": "할루?",
+      "createdat": "2023. 1. 12. 오후 4:06:28",
+      "id": 4
     }
   ],
   "groups": [
