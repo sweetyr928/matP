@@ -3,7 +3,14 @@ import { useState } from "react";
 import { Route, Routes } from "react-router";
 import styled from "styled-components";
 import "./App.css";
-import { MapSearchComponent, Sidebar, Header, HeaderFeedHide } from "./components";
+import {
+  MapSearchComponent,
+  Sidebar,
+  Header,
+  HeaderFeedHide,
+  MatPostCreate,
+  MatPostUpdate,
+} from "./components";
 import {
   Domain,
   MyPage,
@@ -50,6 +57,8 @@ function App() {
           {/* <Route path="/" element={<Domain />} /> */}
           <Route path="/mypage" element={<MyPage />} />
           <Route path="/people/:id" element={<MatPeople />} />
+          <Route path="/mat" element={<MatPostCreate />} />
+          <Route path="/edit/:id" element={<MatPostUpdate />} />
         </Routes>
       </div>
       <HeaderFeedHide visible={visible} setVisibility={setVisibility} />

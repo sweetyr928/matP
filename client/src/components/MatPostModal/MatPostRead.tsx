@@ -5,6 +5,7 @@ import { commentCreate } from "../../utils/API";
 import MatPostComment from "./MatPostComment";
 import axios from "axios";
 import StarRate from "./StarRate";
+import { useNavigate } from "react-router";
 
 const StyledModal = styled.div`
   border-radius: 10px;
@@ -169,11 +170,13 @@ const PostReadModal = ({
   closeModalHandler?: React.MouseEventHandler;
   selectedPost: number;
 }): JSX.Element => {
+  console.log(selectedPost);
+
   const [comment, setComment] = useState<string>("");
   const [allComment, setAllComment] = useState<IComment[] | null>([]);
 
-  // 단일 post data GET
-  const url_posts = `http://localhost:3001/placesposts/2`;
+  // post data GET
+  const url_posts = `http://localhost:3001/placesposts/${selectedPost}`;
   const { placesPostsData } = UsePlacesPostsAxios(url_posts);
 
   const {
@@ -187,6 +190,13 @@ const PostReadModal = ({
     // comments = [],
   } = placesPostsData || {};
 
+  const navigate = useNavigate();
+
+  // '수정' 버튼 클릭 시 PostUpdateModal로 이동
+  const handleEdit = () => {
+    navigate(`/edit/${selectedPost}`);
+  };
+
   // 별점 불러오기
   const clicked = new Array(5).fill(true, 0, star);
 
@@ -196,23 +206,6 @@ const PostReadModal = ({
   useEffect(() => {
     getAllComment();
   }, []);
-
-  // 댓글 실시간 업데이트
-  const getAllComment = async () => {
-    await axios
-      .get<IComment[]>("http://localhost:3001/comments")
-      .then((res) => {
-        setAllComment(res.data);
-      })
-      .catch((error: Error) => {
-        console.log(error);
-      });
-  };
-
-  // getAllComment 함수 실행 시켜주는 함수(MatPostComment 컴포넌트에 props로 내려줌으로써 comment 수정사항 실시간 업데이트)
-  const handleGetAllComment = () => {
-    setTimeout(() => getAllComment(), 100);
-  };
 
   // 댓글 input 창
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -231,6 +224,23 @@ const PostReadModal = ({
       setComment("");
     }
     getAllComment();
+  };
+
+  // 댓글 실시간 업데이트
+  const getAllComment = async () => {
+    await axios
+      .get<IComment[]>("http://localhost:3001/comments")
+      .then((res) => {
+        setAllComment(res.data);
+      })
+      .catch((error: Error) => {
+        console.log(error);
+      });
+  };
+
+  // getAllComment 함수 실행 시켜주는 함수(MatPostComment 컴포넌트에 props로 내려줌으로써 comment 수정사항 실시간 업데이트)
+  const handleGetAllComment = () => {
+    setTimeout(() => getAllComment(), 100);
   };
 
   // '게시' 버튼 누를 시 댓글 업로드
@@ -266,7 +276,7 @@ const PostReadModal = ({
               <div className="post_createdAt">{createdat}</div>
             </StyledInfo>
             <div>
-              <button>수정</button>
+              <button onClick={handleEdit}>수정</button>
               <button>삭제</button>
               <button>url 복사</button>
             </div>
