@@ -28,7 +28,7 @@ public class PostService {
      * @apiNote Post 를 {@link PostRepository} 에서 페이지네이션 해오는 메서드
      * @author 임준건
      */
-    @Transactional
+    @Transactional(readOnly = true)
     public Flux<PostResponse> getAll(int page,int size) {
 
         Flux<PostResponse> map = postRepository.findAll().skip(page * size).take(size).map(PostResponse::from);
@@ -41,7 +41,7 @@ public class PostService {
      * @apiNote 하나의 Post 를 {@link PostRepository} 에서 찾아오는 메서드
      * @author 임준건
      */
-    @Transactional
+    @Transactional(readOnly = true)
     public Mono<MultiResponseDto> getPost(Long postId) {
         return postRepository.findPostWithMemberInfo(postId)
                 .publishOn(Schedulers.boundedElastic())
@@ -80,7 +80,7 @@ public class PostService {
      * @apiNote keyword 로 Post 를 {@link PostRepository} 에서 찾아오는 메서드
      * @author 임준건
      */
-    @Transactional
+    @Transactional(readOnly = true)
     public Flux<PostResponse> findPostByKeyword(String keyword) {
 
         return postRepository.searchPostByKeyword(keyword)

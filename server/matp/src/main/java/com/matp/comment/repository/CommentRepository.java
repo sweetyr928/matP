@@ -24,6 +24,6 @@ public interface CommentRepository extends ReactiveCrudRepository<Comment, Long>
             ON pc.user_id = m.id
             where pc.post_id = :postId
            """)
-    Flux<CommentSpecificInfo> findPost_CommentWithMember(Long PostId);
+    Flux<CommentSpecificInfo> findPostCommentWithMember(Long PostId);
 
 }
