@@ -80,6 +80,29 @@ export const commentDelete = async (id: number): Promise<void> => {
   }
 };
 
+export const postCreate = async (
+  nickname: string,
+  profileimg: string,
+  title: string,
+  content: string,
+  createdat: string,
+  star: number
+): Promise<void> => {
+  try {
+    await axios.post(`${url}/placesposts`, {
+      nickname,
+      profileimg,
+      title,
+      content,
+      createdat,
+      star,
+    });
+  } catch (error) {
+    console.error("Error", error);
+    throw error;
+  }
+};
+
 // export const questionDelete = async (id) => {
 //   try {
 //     await axios.delete(`${url}/questions/${id}`);

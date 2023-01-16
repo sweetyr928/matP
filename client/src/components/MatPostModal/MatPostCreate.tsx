@@ -1,8 +1,8 @@
 /* eslint-disable */
 
 import styled from "styled-components";
-import { useState, useEffect } from "react";
-import axios from "axios";
+import { useState } from "react";
+import { postCreate } from "../../utils/API";
 import MatEditor from "./MatEditor";
 import StarRate from "./StarRate";
 
@@ -123,7 +123,7 @@ const StyledStar = styled.div`
 const PostCreateModal = ({}: // closeModalHandler,
 {
   // closeModalHandler?: React.MouseEventHandler;
-}): JSX.Element => {
+}) => {
   const [title, setTitle] = useState<string>("");
   const [htmlContent, setHtmlContent] = useState<string>("");
 
@@ -139,24 +139,23 @@ const PostCreateModal = ({}: // closeModalHandler,
   // 항상 별이 총 5개(더미 array)
   const array: Array<number> = [0, 1, 2, 3, 4];
 
-  // 단일 post data GET
-  const url_posts = `http://localhost:3001/placesposts`;
-
   // 제목 input 창
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
   };
 
-  // '게시' 버튼 누를 시 업로드
+  // '게시' 버튼 누를 시 post 업로드
   const handleClick = (e: React.MouseEvent<HTMLElement>) => {
-    console.log(clicked.filter(Boolean).length);
-    // if (comment.length > 0) {
-    //   commentCreate(
-    //     "rhino",
-    //     "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg",
-    //     comment,
-    //     new Date().toLocaleString()
-    //   );
+    if (title.length > 0 && htmlContent.length > 0) {
+      postCreate(
+        "rhino",
+        "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg",
+        title,
+        htmlContent,
+        new Date().toLocaleString(),
+        clicked.filter(Boolean).length
+      );
+    }
   };
 
   // '취소' 버튼 누를시 초기화

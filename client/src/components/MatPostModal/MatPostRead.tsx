@@ -144,7 +144,7 @@ const PostReadModal = ({
   const [allComment, setAllComment] = useState<IComment[] | null>([]);
 
   // 단일 post data GET
-  const url_posts = `http://localhost:3001/placesposts`;
+  const url_posts = `http://localhost:3001/placesposts/2`;
   const { placesPostsData } = UsePlacesPostsAxios(url_posts);
 
   const {
@@ -153,6 +153,7 @@ const PostReadModal = ({
     profileimg = "",
     createdat = "",
     title = "",
+    content = "",
     // star = 0,
     // comments = [],
   } = placesPostsData || {};
@@ -236,7 +237,7 @@ const PostReadModal = ({
             </div>
           </StyledMid>
           <StyledContent>
-            <div>content</div>
+            <div dangerouslySetInnerHTML={{ __html: content }}></div>
           </StyledContent>
         </StyledContentWrapper>
         <StyledComment>

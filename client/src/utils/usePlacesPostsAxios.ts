@@ -7,6 +7,7 @@ interface placesPostsData {
   profileimg: string;
   createdat: string;
   title: string;
+  content: string;
   star: number;
   comments: Array<Comments>;
 }
