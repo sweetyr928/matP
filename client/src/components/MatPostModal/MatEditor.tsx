@@ -140,8 +140,8 @@ const MatEditor = ({ htmlContent, setHtmlContent }: QuillEditorProps) => {
       onChange={setHtmlContent}
       modules={modules}
       theme="snow"
-      placeholder="내용을 작성해주세요"
-      style={{ width: "1200px", height: "450px" }}
+      placeholder="이미지를 한 개 이상 첨부하여 작성해주세요"
+      style={{ width: "1200px", height: "500px" }}
     />
   );
 };
