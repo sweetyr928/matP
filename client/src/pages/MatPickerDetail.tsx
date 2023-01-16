@@ -1,6 +1,5 @@
 import styled from "styled-components";
-import axios from "axios";
-import { useState, useEffect } from "react";
+import { getMatPickersDetail } from "../utils/usePickersAxios";
 import { useParams } from "react-router-dom";
 
 const MatPickPlaceWrapper = styled.div`
@@ -35,36 +34,9 @@ const MatPickPlaceBox = styled.div`
   }
 `;
 
-interface PickPlaces {
-  id: number;
-  name: string;
-  address: string;
-  star: number;
-}
-
-interface Pickers {
-  id: number;
-  name: string;
-  color: string;
-  pickPlaces: Array<PickPlaces>;
-}
-
 const MatPickerDetail: React.FC = () => {
   const { id } = useParams();
-  const [pickersTitle, setPickersTitle] = useState("");
-  const [pickPlaces, setPickPlace] = useState<PickPlaces[]>([]);
-
-  useEffect(() => {
-    try {
-      axios.get<Pickers>(`http://localhost:3001/groups/${id}`).then((res) => {
-        console.log(res.data);
-        setPickersTitle(res.data.name);
-        setPickPlace(res.data.pickPlaces);
-      });
-    } catch (err) {
-      console.log(err);
-    }
-  }, []);
+  const { pickersTitle, pickPlaces } = getMatPickersDetail(id);
 
   return (
     <MatPickPlaceWrapper>

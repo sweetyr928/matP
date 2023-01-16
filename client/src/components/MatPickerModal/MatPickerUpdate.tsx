@@ -1,6 +1,6 @@
 import React, { PropsWithChildren, useState } from "react";
 import styled from "styled-components";
-import axios from "axios";
+import { updateMatPickers } from "../../utils/usePickersAxios";
 
 const ModalContainer = styled.div`
   height: 100%;
@@ -120,21 +120,8 @@ const MatPickerUpdate = ({
   const handleMatPickPatch = () => {
     if (newNameValue && newColorValue) {
       updateMatPickers(id, newNameValue, newColorValue);
+      window.location.replace("/pickers");
     }
-  };
-
-  const updateMatPickers = async (id: number, name: string, color: string) => {
-    await axios
-      .patch(`http://localhost:3001/groups/${id}`, {
-        name,
-        color,
-      })
-      .then(() => {
-        window.location.replace("/pickers");
-      })
-      .catch((error: any) => {
-        console.log(error);
-      });
   };
 
   return (

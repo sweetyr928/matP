@@ -1,6 +1,6 @@
 import React, { PropsWithChildren } from "react";
 import styled from "styled-components";
-import axios from "axios";
+import { deleteMatPickers } from "../../utils/usePickersAxios";
 
 const ModalContainer = styled.div`
   height: 100%;
@@ -65,18 +65,8 @@ const MatPickerDelete = ({
   };
 
   const handleMatPickDelete = () => {
-    deleteMatPickers();
-  };
-
-  const deleteMatPickers = async () => {
-    await axios
-      .delete(`http://localhost:3001/groups/${id}`)
-      .then(() => {
-        window.location.replace("/pickers");
-      })
-      .catch((error: any) => {
-        console.log(error);
-      });
+    deleteMatPickers(id);
+    window.location.replace("/pickers");
   };
 
   return (
