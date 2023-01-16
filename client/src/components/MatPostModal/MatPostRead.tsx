@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { commentCreate } from "../../utils/API";
 import MatPostComment from "./MatPostComment";
 import axios from "axios";
+import StarRate from "./StarRate";
 
 const StyledModal = styled.div`
   border-radius: 10px;
@@ -28,23 +29,31 @@ const StyledDiv = styled.div`
   margin: 25px 100px 10px 100px;
   display: flex;
   flex-direction: column;
+
+  .middle_line {
+    border: 0;
+    width: 100%;
+    height: 1.3px;
+    background: #b8b8b8;
+    margin: 5px 0px 10px 0px;
+  }
 `;
 
 const StyledContentWrapper = styled.div`
-  margin: 10px 0px 0px 0px;
+  margin: 10px 0px 10px 0px;
   display: flex;
   flex-direction: column;
 
   .post_title {
     font-size: 40px;
-    margin: 0px 0px 20px 0px;
+    margin: 0px 0px 15px 0px;
   }
 `;
 
 const StyledMid = styled.div`
   display: flex;
   justify-content: space-between;
-  margin: 0px 0px 30px 0px;
+  margin: 0px 0px 15px 0px;
 
   button {
     border: none;
@@ -80,7 +89,27 @@ const StyledInfo = styled.div`
 `;
 
 const StyledContent = styled.div`
-  margin: 0px 0px 30px 0px;
+  margin: 0px 0px 15px 0px;
+  max-height: 300px;
+`;
+
+const StyledStarsWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const StyledStar = styled.div`
+  display: flex;
+  width: 125px;
+  padding: 5px 0px 0px 0px;
+
+  & svg {
+    color: gray;
+  }
+
+  .yellow {
+    color: #fcc419;
+  }
 `;
 
 const StyledComment = styled.div`
@@ -148,15 +177,21 @@ const PostReadModal = ({
   const { placesPostsData } = UsePlacesPostsAxios(url_posts);
 
   const {
-    // postId = 0,
+    id = 0,
     nickname = "",
     profileimg = "",
     createdat = "",
     title = "",
     content = "",
-    // star = 0,
+    star = 0,
     // comments = [],
   } = placesPostsData || {};
+
+  // 별점 불러오기
+  const clicked = new Array(5).fill(true, 0, star);
+
+  // 항상 별이 총 5개(더미 array)
+  const array: Array<number> = [0, 1, 2, 3, 4];
 
   useEffect(() => {
     getAllComment();
@@ -239,7 +274,21 @@ const PostReadModal = ({
           <StyledContent>
             <div dangerouslySetInnerHTML={{ __html: content }}></div>
           </StyledContent>
+          <StyledStarsWrapper>
+            <StyledStar>
+              {array.map((el, idx) => {
+                return (
+                  <StarRate
+                    key={idx}
+                    size="50"
+                    className={clicked[el] ? "yellow" : ""}
+                  />
+                );
+              })}
+            </StyledStar>
+          </StyledStarsWrapper>
         </StyledContentWrapper>
+        <hr className="middle_line" />
         <StyledComment>
           <input
             placeholder="댓글을 입력해주세요"

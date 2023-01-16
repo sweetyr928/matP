@@ -3,7 +3,7 @@ import SvgIcon from "@mui/material/SvgIcon";
 interface IProps {
   key: number;
   size: string;
-  onClick: () => void;
+  onClick?: () => void;
   className: string;
 }
 

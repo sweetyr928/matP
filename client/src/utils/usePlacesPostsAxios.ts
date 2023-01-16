@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 
 interface placesPostsData {
-  postId: number;
+  id: number;
   nickname: string;
   profileimg: string;
   createdat: string;
