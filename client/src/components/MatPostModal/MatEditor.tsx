@@ -7,10 +7,10 @@ import ImageResize from "@looop/quill-image-resize-module-react";
 
 Quill.register("modules/imageResize", ImageResize);
 
-type QuillEditorProps = {
+interface QuillEditorProps {
   htmlContent: string;
   setHtmlContent: (htmlContent: string) => void;
-};
+}
 
 const MatEditor = ({ htmlContent, setHtmlContent }: QuillEditorProps) => {
   const QuillRef = useRef<ReactQuill>();
