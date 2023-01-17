@@ -6,6 +6,8 @@ import MatPostComment from "./MatPostComment";
 import axios from "axios";
 import StarRate from "./StarRate";
 import { useNavigate } from "react-router";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 
 const StyledModal = styled.div`
   border-radius: 10px;
@@ -31,7 +33,7 @@ const StyledDiv = styled.div`
   display: flex;
   flex-direction: column;
 
-  .middle_line {
+  .post_middle_line {
     border: 0;
     width: 100%;
     height: 1.3px;
@@ -174,6 +176,7 @@ const PostReadModal = ({
 
   const [comment, setComment] = useState<string>("");
   const [allComment, setAllComment] = useState<IComment[] | null>([]);
+  const [isLiked, setIsLiked] = useState<boolean>(false);
 
   // post data GET
   const url_posts = `http://localhost:3001/placesposts/${selectedPost}`;
@@ -192,11 +195,6 @@ const PostReadModal = ({
 
   const navigate = useNavigate();
 
-  // '수정' 버튼 클릭 시 PostUpdateModal로 이동
-  const handleEdit = () => {
-    navigate(`/edit/${selectedPost}`);
-  };
-
   // 별점 불러오기
   const clicked = new Array(5).fill(true, 0, star);
 
@@ -206,6 +204,16 @@ const PostReadModal = ({
   useEffect(() => {
     getAllComment();
   }, []);
+
+  // '수정' 버튼 클릭 시 PostUpdateModal로 이동
+  const handleEdit = () => {
+    navigate(`/edit/${selectedPost}`);
+  };
+
+  // '하트' 이모지 클릭 시 like / default 상태로 바뀜
+  const handleLike = () => {
+    setIsLiked(!isLiked);
+  };
 
   // 댓글 input 창
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -298,7 +306,10 @@ const PostReadModal = ({
             </StyledStar>
           </StyledStarsWrapper>
         </StyledContentWrapper>
-        <hr className="middle_line" />
+        <hr className="post_middle_line" />
+        <div className="post_like" onClick={handleLike} role="presentation">
+          {isLiked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+        </div>
         <StyledComment>
           <input
             placeholder="댓글을 입력해주세요"
