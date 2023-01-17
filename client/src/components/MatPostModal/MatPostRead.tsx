@@ -94,11 +94,15 @@ const StyledInfo = styled.div`
 
 const StyledContent = styled.div`
   margin: 0px 0px 5px 0px;
+  padding: 1px 0px 0px 0px;
   max-height: 300px;
   overflow-y: scroll;
 
   &::-webkit-scrollbar {
     display: none;
+  }
+
+  .p {
   }
 `;
 
