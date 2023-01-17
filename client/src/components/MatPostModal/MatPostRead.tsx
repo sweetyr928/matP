@@ -180,8 +180,6 @@ const PostReadModal = ({
   closeModalHandler?: React.MouseEventHandler;
   selectedPost: number;
 }): JSX.Element => {
-  console.log(selectedPost);
-
   const [comment, setComment] = useState<string>("");
   const [allComment, setAllComment] = useState<IComment[] | null>([]);
   const [isLiked, setIsLiked] = useState<boolean>(false);
@@ -198,8 +196,11 @@ const PostReadModal = ({
     title = "",
     content = "",
     star = 0,
+    likes = 0,
     // comments = [],
   } = placesPostsData || {};
+
+  console.log(likes);
 
   const navigate = useNavigate();
 
@@ -211,6 +212,9 @@ const PostReadModal = ({
 
   useEffect(() => {
     getAllComment();
+    /**
+     * TODO: 해당 유저가 이 post에 '좋아요' 했는지 식별하기 위해 /places/post/post-id/likes로 get 요청 보낸 후 isLiked 값 변경 필요
+     */
   }, []);
 
   // '수정' 버튼 클릭 시 PostUpdateModal로 이동

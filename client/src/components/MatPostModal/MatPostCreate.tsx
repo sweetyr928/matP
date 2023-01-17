@@ -153,7 +153,8 @@ const PostCreateModal = ({}: // closeModalHandler,
         title,
         htmlContent,
         new Date().toLocaleString(),
-        clicked.filter(Boolean).length
+        clicked.filter(Boolean).length,
+        0
       );
     }
   };

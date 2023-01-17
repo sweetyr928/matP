@@ -86,7 +86,8 @@ export const postCreate = async (
   title: string,
   content: string,
   createdat: string,
-  star: number
+  star: number,
+  likes: 0
 ): Promise<void> => {
   try {
     await axios.post(`${url}/placesposts`, {
@@ -96,6 +97,7 @@ export const postCreate = async (
       content,
       createdat,
       star,
+      likes,
     });
   } catch (error) {
     console.error("Error", error);

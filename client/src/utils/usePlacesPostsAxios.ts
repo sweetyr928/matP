@@ -9,6 +9,7 @@ interface placesPostsData {
   title: string;
   content: string;
   star: number;
+  likes: number;
   comments: Array<Comments>;
 }
 
