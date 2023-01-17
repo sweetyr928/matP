@@ -19,6 +19,7 @@ import {
   MatPickerDetail,
   SearchPage,
 } from "./pages";
+import { RecoilRoot } from "recoil";
 
 interface AppContainerProps {
   toggle: boolean;
@@ -43,6 +44,7 @@ function App() {
   const [visible, setVisibility] = useState<boolean>(false);
 
   return (
+    <RecoilRoot>
     <AppContainer toggle={visible}>
       <Sidebar />
       <div className={`feed_container_${visible ? "hidden" : ""}`}>
@@ -64,6 +66,7 @@ function App() {
       <HeaderFeedHide visible={visible} setVisibility={setVisibility} />
       <MapSearchComponent />
     </AppContainer>
+    </RecoilRoot>
   );
 }
 
