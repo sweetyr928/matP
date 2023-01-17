@@ -5,6 +5,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import EditIcon from "@mui/icons-material/Edit";
 import { useState } from "react";
 import { memberUpdate } from "../utils/API";
+import { ModalPortal } from "../components";
 
 const FeedContainer = styled.div`
   height: 100%;
@@ -95,15 +96,16 @@ const TabContainer = styled.div`
 const ModalContainer = styled.div`
   margin: auto;
   position: absolute;
-  z-index: 2;
+  z-index: 1000;
 `;
 const ModalBackdrop = styled.div`
-  position: absolute;
-  width: 410px;
-  height: 93vh;
-  top: -10px;
-  left: -204px;
-  background: rgba(0, 0, 0, 0.5);
+  top: 0;
+  left: 0;
+  width: calc(1340px * 2 / 5 - 63px);
+  height: 100vh;
+  position: fixed;
+  z-index: 10000;
+  background-color: rgba(0, 0, 0, 0.2);
 `;
 const ModalView = styled.div.attrs(() => ({
   role: "dialog",
@@ -111,8 +113,8 @@ const ModalView = styled.div.attrs(() => ({
   opacity: 1;
   transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
   position: absolute;
-  top: calc(50vh - 250px);
-  left: 8px;
+  top: calc(50vh - 230px);
+  left: 70px;
   background-color: #fff;
   border-radius: 7px;
   padding: 24px;
@@ -221,20 +223,22 @@ const MyPage: React.FC = () => {
   return (
     <FeedContainer>
       {isModalOpen && (
-        <ModalContainer>
-          <ModalBackdrop>
-            <ModalView>
-              <Header>정보 수정하기</Header>
-              <EditUserImg src={profileImg} alt="프로필사진" />
-              <Input type="text" value={revisedName} onChange={onChangeName}></Input>
-              <Input type="text" value={revisedMemo} onChange={onChangeMemo}></Input>
-              <div className="button_container">
-                <ModalBtn onClick={onRevise}>제출</ModalBtn>
-                <ModalBtn onClick={modalCloseHandler}>취소</ModalBtn>
-              </div>
-            </ModalView>
-          </ModalBackdrop>
-        </ModalContainer>
+        <ModalPortal>
+          <ModalContainer>
+            <ModalBackdrop>
+              <ModalView>
+                <Header>정보 수정하기</Header>
+                <EditUserImg src={profileImg} alt="프로필사진" />
+                <Input type="text" value={revisedName} onChange={onChangeName}></Input>
+                <Input type="text" value={revisedMemo} onChange={onChangeMemo}></Input>
+                <div className="button_container">
+                  <ModalBtn onClick={onRevise}>제출</ModalBtn>
+                  <ModalBtn onClick={modalCloseHandler}>취소</ModalBtn>
+                </div>
+              </ModalView>
+            </ModalBackdrop>
+          </ModalContainer>
+        </ModalPortal>
       )}
       <div className="userInfo_header_container">
         <UserImg src={profileImg} alt="프로필사진" />
