@@ -45,9 +45,6 @@ public class Post {
     @LastModifiedDate
     private LocalDateTime modifiedAt;
 
-    public void settingLikesCount(int count) {
-        this.likes = count;
-    }
     public Post settingPost(Post post, Post updatePost) {
         this.id = post.getId();
         this.title = updatePost.getTitle();

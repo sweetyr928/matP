@@ -11,6 +11,8 @@ import com.matp.post.dto.testdto.PostMemberInfo;
 import com.matp.post.entity.Post;
 import com.matp.post.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.relational.core.sql.LockMode;
+import org.springframework.data.relational.repository.Lock;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Flux;
@@ -66,12 +68,6 @@ public class PostService {
                             .modifiedAt(result.modifiedAt())
                             .memberInfo(member)
                             .build();
-                    postRepository.findById(postId)
-                            .map(findPost -> {
-                                findPost.settingLikesCount(result.likes());
-                                return findPost;
-                            })
-                            .flatMap(postRepository::save).subscribe();
                     return new MultiResponseDto(postResponseWithInfo, comments);
                 });
     }
