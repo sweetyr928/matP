@@ -123,6 +123,15 @@ export const postUpdate = async (
   }
 };
 
+export const postDelete = async (id: number): Promise<void> => {
+  try {
+    await axios.delete(`${url}/placesposts/${id}`);
+  } catch (error) {
+    console.error("Error", error);
+    throw error;
+  }
+};
+
 // export const questionDelete = async (id) => {
 //   try {
 //     await axios.delete(`${url}/questions/${id}`);

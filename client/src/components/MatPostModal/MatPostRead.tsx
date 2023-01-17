@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import UsePlacesPostsAxios from "../../utils/usePlacesPostsAxios";
 import { useEffect, useState } from "react";
-import { commentCreate } from "../../utils/API";
+import { commentCreate, postDelete } from "../../utils/API";
 import MatPostComment from "./MatPostComment";
 import axios from "axios";
 import StarRate from "./StarRate";
@@ -210,6 +210,12 @@ const PostReadModal = ({
     navigate(`/edit/${selectedPost}`);
   };
 
+  // '삭제' 버튼 클릭 시 Post 삭제
+  const handleDelete = () => {
+    postDelete(id);
+    window.location.replace("/");
+  };
+
   // '하트' 이모지 클릭 시 like / default 상태로 바뀜
   const handleLike = () => {
     setIsLiked(!isLiked);
@@ -285,7 +291,7 @@ const PostReadModal = ({
             </StyledInfo>
             <div>
               <button onClick={handleEdit}>수정</button>
-              <button>삭제</button>
+              <button onClick={handleDelete}>삭제</button>
               <button>url 복사</button>
             </div>
           </StyledMid>
