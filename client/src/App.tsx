@@ -11,7 +11,14 @@ import {
   MatPostCreate,
   MatPostUpdate,
 } from "./components";
-import { Domain, MyPage, MatPeople, MatPicker, MatPickerDetail, SearchPage } from "./pages";
+import {
+  Domain,
+  MyPage,
+  MatPeople,
+  MatPicker,
+  MatPickerDetail,
+  SearchPage,
+} from "./pages";
 import { RecoilRoot } from "recoil";
 
 interface AppContainerProps {
@@ -51,7 +58,7 @@ function App() {
             {/* <Route path="/" element={<Domain />} /> */}
             {/* <Route path="/" element={<Domain />} /> */}
             <Route path="/mypage" element={<MyPage />} />
-            <Route path="/people/:id" element={<MatPeople />} />
+            <Route path="/people" element={<MatPeople />} />
             <Route path="/mat" element={<MatPostCreate />} />
             <Route path="/edit/:id" element={<MatPostUpdate />} />
           </Routes>
