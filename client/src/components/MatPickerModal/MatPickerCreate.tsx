@@ -1,6 +1,6 @@
 import React, { useState, PropsWithChildren } from "react";
 import styled from "styled-components";
-import axios from "axios";
+import { addMatPickers } from "../../utils/usePickersAxios";
 
 const ModalContainer = styled.div`
   height: 100%;
@@ -111,21 +111,8 @@ const MatPickerCreate = ({
   const handleMatPickPost = () => {
     if (nameValue && colorValue) {
       addMatPickers(nameValue, colorValue);
+      window.location.replace("/pickers");
     }
-  };
-
-  const addMatPickers = async (name: string, color: string) => {
-    await axios
-      .post("http://localhost:3001/groups", {
-        name,
-        color,
-      })
-      .then(() => {
-        window.location.replace("/pickers");
-      })
-      .catch((error: any) => {
-        console.log(error);
-      });
   };
 
   return (
