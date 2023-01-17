@@ -29,7 +29,7 @@ const StyledModal = styled.div`
 `;
 
 const StyledDiv = styled.div`
-  margin: 25px 100px 10px 100px;
+  margin: 0px 100px 10px 100px;
   display: flex;
   flex-direction: column;
   overflow-y: auto;
