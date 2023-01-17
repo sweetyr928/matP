@@ -32,6 +32,7 @@ const StyledDiv = styled.div`
   margin: 25px 100px 10px 100px;
   display: flex;
   flex-direction: column;
+  overflow-y: auto;
 
   .post_middle_line {
     border: 0;
@@ -92,8 +93,13 @@ const StyledInfo = styled.div`
 `;
 
 const StyledContent = styled.div`
-  margin: 0px 0px 15px 0px;
+  margin: 0px 0px 5px 0px;
   max-height: 300px;
+  overflow-y: scroll;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const StyledStarsWrapper = styled.div`
