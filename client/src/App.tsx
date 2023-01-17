@@ -4,21 +4,14 @@ import { Route, Routes } from "react-router";
 import styled from "styled-components";
 import "./App.css";
 import {
-  MapSearchComponent,
+  KakaoMap,
   Sidebar,
   Header,
   HeaderFeedHide,
   MatPostCreate,
   MatPostUpdate,
 } from "./components";
-import {
-  Domain,
-  MyPage,
-  MatPeople,
-  MatPicker,
-  MatPickerDetail,
-  SearchPage,
-} from "./pages";
+import { Domain, MyPage, MatPeople, MatPicker, MatPickerDetail, SearchPage } from "./pages";
 import { RecoilRoot } from "recoil";
 
 interface AppContainerProps {
@@ -45,27 +38,27 @@ function App() {
 
   return (
     <RecoilRoot>
-    <AppContainer toggle={visible}>
-      <Sidebar />
-      <div className={`feed_container_${visible ? "hidden" : ""}`}>
-        <Header />
-        <Routes>
-          <Route path="/" element={<Domain />} />
-          <Route path="/search" element={<SearchPage />} />
-          <Route path="/pickers" element={<MatPicker />} />
-          <Route path="/pickers/:id" element={<MatPickerDetail />} />
-          {/* <Route path="/" element={<Domain />} /> */}
-          {/* <Route path="/" element={<Domain />} /> */}
-          {/* <Route path="/" element={<Domain />} /> */}
-          <Route path="/mypage" element={<MyPage />} />
-          <Route path="/people/:id" element={<MatPeople />} />
-          <Route path="/mat" element={<MatPostCreate />} />
-          <Route path="/edit/:id" element={<MatPostUpdate />} />
-        </Routes>
-      </div>
-      <HeaderFeedHide visible={visible} setVisibility={setVisibility} />
-      <MapSearchComponent />
-    </AppContainer>
+      <AppContainer toggle={visible}>
+        <Sidebar />
+        <div className={`feed_container_${visible ? "hidden" : ""}`}>
+          <Header />
+          <Routes>
+            <Route path="/" element={<Domain />} />
+            <Route path="/search" element={<SearchPage />} />
+            <Route path="/pickers" element={<MatPicker />} />
+            <Route path="/pickers/:id" element={<MatPickerDetail />} />
+            {/* <Route path="/" element={<Domain />} /> */}
+            {/* <Route path="/" element={<Domain />} /> */}
+            {/* <Route path="/" element={<Domain />} /> */}
+            <Route path="/mypage" element={<MyPage />} />
+            <Route path="/people/:id" element={<MatPeople />} />
+            <Route path="/mat" element={<MatPostCreate />} />
+            <Route path="/edit/:id" element={<MatPostUpdate />} />
+          </Routes>
+        </div>
+        <HeaderFeedHide visible={visible} setVisibility={setVisibility} />
+        <KakaoMap />
+      </AppContainer>
     </RecoilRoot>
   );
 }
