@@ -1,33 +1,57 @@
-import { useRef, useState, useMemo } from "react";
-import styled from "styled-components";
+/* eslint-disable */
+
+import React, { useRef, useState, useMemo } from "react";
 import ReactQuill, { Quill } from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import ImageResize from "@looop/quill-image-resize-module-react";
 
 Quill.register("modules/imageResize", ImageResize);
 
-const StyledEditor = styled.div`
-  width: 1010px;
-  height: 350px;
-  display: flex;
-  flex-direction: column;
+type QuillEditorProps = {
+  htmlContent: string;
+  setHtmlContent: (htmlContent: string) => void;
+};
 
-  .ql-editor p strong {
-    font-weight: bold;
-  }
-
-  .ql-editor p em {
-    font-style: italic;
-  }
-`;
-
-const MatEditor = () => {
+const MatEditor = ({ htmlContent, setHtmlContent }: QuillEditorProps) => {
   const QuillRef = useRef<ReactQuill>();
-  const [contents, setContents] = useState("");
 
   /**
    *  이미지를 업로드 하기 위한 함수
    */
+  // const imageHandler = () => {
+  // 이미지 업로드 핸들러, modules 설정보다 위에 있어야 정상 적용
+  //   const imageHandler = () => {
+  //     // file input 임의 생성
+  //     const input = document.createElement('input');
+  //     input.setAttribute('type', 'file');
+  //     input.click();
+
+  //     input.onchange = async() => {
+  //         const file = input.files;
+  //         const formData = new FormData();
+
+  //         if(file) {
+  //             formData.append("multipartFiles", file[0]);
+  //         }
+
+  //         // file 데이터 담아서 서버에 전달하여 이미지 업로드
+  //         const res = await axios.post('http://localhost:8080/uploadImage', formData);
+
+  //         if(quillRef.current) {
+  //             // 현재 Editor 커서 위치에 서버로부터 전달받은 이미지 불러오는 url을 이용하여 이미지 태그 추가
+  //             const index = (quillRef.current.getEditor().getSelection() as RangeStatic).index;
+
+  //             const quillEditor = quillRef.current.getEditor();
+  //             quillEditor.setSelection(index, 1);
+
+  //             quillEditor.clipboard.dangerouslyPasteHTML(
+  //                 index,
+  //                 `<img src=${res.data} alt=${'alt text'} />`
+  //             );
+  //         }
+  //     }
+  // }
+
   // const imageHandler = () => {
   // 	// 파일을 업로드 하기 위한 input 태그 생성
   //   const input = document.createElement("input");
@@ -106,20 +130,19 @@ const MatEditor = () => {
   );
 
   return (
-    <StyledEditor>
-      <ReactQuill
-        ref={(element) => {
-          if (element !== null) {
-            QuillRef.current = element;
-          }
-        }}
-        value={contents}
-        onChange={setContents}
-        modules={modules}
-        theme="snow"
-        style={{ width: "1000px", height: "400px", margin: "10px" }}
-      />
-    </StyledEditor>
+    <ReactQuill
+      ref={(element) => {
+        if (element !== null) {
+          QuillRef.current = element;
+        }
+      }}
+      value={htmlContent}
+      onChange={setHtmlContent}
+      modules={modules}
+      theme="snow"
+      placeholder="이미지를 한 개 이상 첨부하여 작성해주세요"
+      style={{ width: "1200px", height: "500px" }}
+    />
   );
 };
 

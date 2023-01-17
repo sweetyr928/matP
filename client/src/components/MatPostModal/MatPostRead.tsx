@@ -1,9 +1,13 @@
 import styled from "styled-components";
 import UsePlacesPostsAxios from "../../utils/usePlacesPostsAxios";
 import { useEffect, useState } from "react";
-import { commentCreate } from "../../utils/API";
+import { commentCreate, postDelete } from "../../utils/API";
 import MatPostComment from "./MatPostComment";
 import axios from "axios";
+import StarRate from "./StarRate";
+import { useNavigate } from "react-router";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 
 const StyledModal = styled.div`
   border-radius: 10px;
@@ -25,26 +29,35 @@ const StyledModal = styled.div`
 `;
 
 const StyledDiv = styled.div`
-  margin: 25px 100px 10px 100px;
+  margin: 0px 100px 10px 100px;
   display: flex;
   flex-direction: column;
+  overflow-y: auto;
+
+  .post_middle_line {
+    border: 0;
+    width: 100%;
+    height: 1.3px;
+    background: #b8b8b8;
+    margin: 5px 0px 10px 0px;
+  }
 `;
 
 const StyledContentWrapper = styled.div`
-  margin: 10px 0px 0px 0px;
+  margin: 10px 0px 10px 0px;
   display: flex;
   flex-direction: column;
 
   .post_title {
     font-size: 40px;
-    margin: 0px 0px 20px 0px;
+    margin: 0px 0px 15px 0px;
   }
 `;
 
 const StyledMid = styled.div`
   display: flex;
   justify-content: space-between;
-  margin: 0px 0px 30px 0px;
+  margin: 0px 0px 15px 0px;
 
   button {
     border: none;
@@ -80,7 +93,34 @@ const StyledInfo = styled.div`
 `;
 
 const StyledContent = styled.div`
-  margin: 0px 0px 30px 0px;
+  margin: 0px 0px 5px 0px;
+  padding: 1px 0px 0px 0px;
+  min-height: 270px;
+  max-height: 270px;
+  overflow-y: scroll;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+`;
+
+const StyledStarsWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const StyledStar = styled.div`
+  display: flex;
+  width: 125px;
+  padding: 5px 0px 0px 0px;
+
+  & svg {
+    color: gray;
+  }
+
+  .yellow {
+    color: #fcc419;
+  }
 `;
 
 const StyledComment = styled.div`
@@ -142,40 +182,55 @@ const PostReadModal = ({
 }): JSX.Element => {
   const [comment, setComment] = useState<string>("");
   const [allComment, setAllComment] = useState<IComment[] | null>([]);
+  const [isLiked, setIsLiked] = useState<boolean>(false);
 
-  // 단일 post data GET
-  const url_posts = `http://localhost:3001/placesposts`;
+  // post data GET
+  const url_posts = `http://localhost:3001/placesposts/${selectedPost}`;
   const { placesPostsData } = UsePlacesPostsAxios(url_posts);
 
   const {
-    // postId = 0,
+    id = 0,
     nickname = "",
     profileimg = "",
     createdat = "",
     title = "",
-    // star = 0,
+    content = "",
+    star = 0,
+    likes = 0,
     // comments = [],
   } = placesPostsData || {};
 
+  console.log(likes);
+
+  const navigate = useNavigate();
+
+  // 별점 불러오기
+  const clicked = new Array(5).fill(true, 0, star);
+
+  // 항상 별이 총 5개(더미 array)
+  const array: Array<number> = [0, 1, 2, 3, 4];
+
   useEffect(() => {
     getAllComment();
+    /**
+     * TODO: 해당 유저가 이 post에 '좋아요' 했는지 식별하기 위해 /places/post/post-id/likes로 get 요청 보낸 후 isLiked 값 변경 필요
+     */
   }, []);
 
-  // 댓글 실시간 업데이트
-  const getAllComment = async () => {
-    await axios
-      .get<IComment[]>("http://localhost:3001/comments")
-      .then((res) => {
-        setAllComment(res.data);
-      })
-      .catch((error: Error) => {
-        console.log(error);
-      });
+  // '수정' 버튼 클릭 시 PostUpdateModal로 이동
+  const handleEdit = () => {
+    navigate(`/edit/${selectedPost}`);
   };
 
-  // getAllComment 함수 실행 시켜주는 함수(MatPostComment 컴포넌트에 props로 내려줌으로써 comment 수정사항 실시간 업데이트)
-  const handleGetAllComment = () => {
-    setTimeout(() => getAllComment(), 100);
+  // '삭제' 버튼 클릭 시 Post 삭제
+  const handleDelete = () => {
+    postDelete(id);
+    window.location.replace("/");
+  };
+
+  // '하트' 이모지 클릭 시 like / default 상태로 바뀜
+  const handleLike = () => {
+    setIsLiked(!isLiked);
   };
 
   // 댓글 input 창
@@ -195,6 +250,23 @@ const PostReadModal = ({
       setComment("");
     }
     getAllComment();
+  };
+
+  // 댓글 실시간 업데이트
+  const getAllComment = async () => {
+    await axios
+      .get<IComment[]>("http://localhost:3001/comments")
+      .then((res) => {
+        setAllComment(res.data);
+      })
+      .catch((error: Error) => {
+        console.log(error);
+      });
+  };
+
+  // getAllComment 함수 실행 시켜주는 함수(MatPostComment 컴포넌트에 props로 내려줌으로써 comment 수정사항 실시간 업데이트)
+  const handleGetAllComment = () => {
+    setTimeout(() => getAllComment(), 100);
   };
 
   // '게시' 버튼 누를 시 댓글 업로드
@@ -230,15 +302,32 @@ const PostReadModal = ({
               <div className="post_createdAt">{createdat}</div>
             </StyledInfo>
             <div>
-              <button>수정</button>
-              <button>삭제</button>
+              <button onClick={handleEdit}>수정</button>
+              <button onClick={handleDelete}>삭제</button>
               <button>url 복사</button>
             </div>
           </StyledMid>
           <StyledContent>
-            <div>content</div>
+            <div dangerouslySetInnerHTML={{ __html: content }}></div>
           </StyledContent>
+          <StyledStarsWrapper>
+            <StyledStar>
+              {array.map((el, idx) => {
+                return (
+                  <StarRate
+                    key={idx}
+                    size="50"
+                    className={clicked[el] ? "yellow" : ""}
+                  />
+                );
+              })}
+            </StyledStar>
+          </StyledStarsWrapper>
         </StyledContentWrapper>
+        <hr className="post_middle_line" />
+        <div className="post_like" onClick={handleLike} role="presentation">
+          {isLiked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+        </div>
         <StyledComment>
           <input
             placeholder="댓글을 입력해주세요"
