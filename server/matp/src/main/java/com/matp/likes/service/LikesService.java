@@ -23,7 +23,10 @@ public class LikesService {
         likes.settingLikes(memberId,postId,likeRequest.likesCheck());
 
         return likesRepository.save(likes)
-                .then(likesRepository.increasePostLikesCount(postId));
+                .then(likesRepository.increasePostLikesCount(postId))
+                .then(likesRepository.getLikesCount(postId)
+                        .flatMap(countInteger -> likesRepository.updatePostLikes(postId, countInteger.intValue()))
+                );
 
     }
     @Transactional
@@ -31,6 +34,9 @@ public class LikesService {
         //TODO 멤버 검증로직 들어가야함 .
 
         return likesRepository.findLikes(postId, memberId).flatMap(likesRepository::delete)
-                .then(likesRepository.decreasePostLikesCount(postId));
+                .then(likesRepository.decreasePostLikesCount(postId))
+                .then(likesRepository.getLikesCount(postId)
+                        .flatMap(countInteger -> likesRepository.updatePostLikes(postId, countInteger.intValue()))
+                );
     }
 }

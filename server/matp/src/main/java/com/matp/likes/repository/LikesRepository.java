@@ -17,21 +17,34 @@ public interface LikesRepository extends ReactiveCrudRepository<Likes, Long> {
 
     @Modifying
     @Query("""
-            update
-            post p
-            set
-            p.likes = p.likes + 1
-            where p.id = :postId
+            insert into likes_count(likes, likes_post_id) values(likes + 1,:postId)
+            ON DUPLICATE KEY UPDATE likes = likes + 1
             """)
     Mono<Void> increasePostLikesCount(Long postId);
 
     @Modifying
     @Query("""
             update
-            post p
+            likes_count lc
             set
-            p.likes = p.likes - 1
-            where p.id = :postId
+            lc.likes = lc.likes - 1
+            where lc.likes_post_id = :postId
             """)
     Mono<Void> decreasePostLikesCount(Long PostId);
+
+    @Modifying
+    @Query("""
+            update post p
+            set
+            p.likes = :count
+            where p.id = :postId
+            """)
+    Mono<Void> updatePostLikes(Long postId,int count);
+
+    @Query("""
+            select likes
+            from likes_count lc
+            where lc.likes_post_id = :postId;
+            """)
+    Mono<Integer> getLikesCount(Long postId);
 }
