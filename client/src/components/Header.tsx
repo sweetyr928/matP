@@ -49,7 +49,7 @@ const Header: React.FC = () => {
     <HeaderContainer>
       {/* 나중에 토큰 조건 분기에 따라 로그인 바뀜 */}
       <IconContainer>
-        <LogInButton onClick={onClickToggleLoginModal} />
+        <LogInButton onClick={onClickToggleLoginModal} fontSize="large" />
       </IconContainer>
       {isModalOpen && (
         <ModalPortal>
