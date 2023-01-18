@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 import styled from "styled-components";
 import { useState } from "react";
 import { commentUpdate, commentDelete } from "../../utils/API";
@@ -103,7 +101,6 @@ const MatPostComment = ({
   handleGetAllComment: () => void;
 }) => {
   const [isEditing, setIsEditing] = useState<boolean>(false);
-  const [editedComment, setEditedComment] = useState<string>("");
 
   const {
     id = 0,
@@ -112,6 +109,8 @@ const MatPostComment = ({
     comment = "",
     createdat = "",
   } = singleComment || {};
+
+  const [editedComment, setEditedComment] = useState<string>(comment);
 
   // 댓글 수정
   const handleEdit = () => {

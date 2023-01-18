@@ -1,20 +1,27 @@
 import React, { PropsWithChildren } from "react";
 import styled from "styled-components";
-import axios from "axios";
+import { deleteMatPickers } from "../../utils/usePickersAxios";
 
 const ModalContainer = styled.div`
-  top: 57px;
-  left: 62px;
-  width: 411px;
   height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  width: calc(1340px * 2 / 5 - 63px);
+  z-index: 1000;
+`;
+
+const Backdrop = styled.div`
+  top: 0;
+  left: 0;
+  width: calc(1340px * 2 / 5 - 63px);
+  height: 100vh;
   position: fixed;
+  z-index: 10000;
+  background-color: rgba(0, 0, 0, 0.2);
 `;
 
 const DialogBox = styled.dialog`
-  top: 340px;
+  top: 400px;
+  left: 79px;
+  margin: 0;
   width: 370px;
   height: 200px;
   display: flex;
@@ -25,15 +32,8 @@ const DialogBox = styled.dialog`
   border-radius: 3px;
   box-sizing: border-box;
   background-color: white;
-  z-index: 10000;
-`;
-
-const Backdrop = styled.div`
-  width: 100%;
-  height: 100vh;
-  top: 0;
-  z-index: 9999;
-  background-color: rgba(0, 0, 0, 0.2);
+  position: fixed;
+  z-index: 10020;
 `;
 
 const ButtonContainer = styled.div`
@@ -65,18 +65,8 @@ const MatPickerDelete = ({
   };
 
   const handleMatPickDelete = () => {
-    deleteMatPickers();
-  };
-
-  const deleteMatPickers = async () => {
-    await axios
-      .delete(`http://localhost:3001/groups/${id}`)
-      .then(() => {
-        window.location.replace("/pickers");
-      })
-      .catch((error: any) => {
-        console.log(error);
-      });
+    deleteMatPickers(id);
+    window.location.replace("/pickers");
   };
 
   return (

@@ -29,7 +29,8 @@ public interface PostRepository extends ReactiveCrudRepository<Post, Long> {
             p.created_at,
             p.modified_at,
             m.nickname,
-            m.profile_img FROM mat_post p
+            m.profile_img,
+            (select count(*) from post_likes pl where pl.post_id = :postId) as likes FROM mat_post p
             INNER JOIN member m
             ON p.member_id = m.id
             where p.id = :postId

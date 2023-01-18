@@ -1,4 +1,3 @@
-/* eslint-disable */
 import axios from "axios";
 
 const url = "http://localhost:3001";
@@ -75,6 +74,60 @@ export const commentUpdate = async (
 export const commentDelete = async (id: number): Promise<void> => {
   try {
     await axios.delete(`${url}/comments/${id}`);
+  } catch (error) {
+    console.error("Error", error);
+    throw error;
+  }
+};
+
+export const postCreate = async (
+  nickname: string,
+  profileimg: string,
+  title: string,
+  content: string,
+  createdat: string,
+  star: number,
+  likes: 0
+): Promise<void> => {
+  try {
+    await axios.post(`${url}/placesposts`, {
+      nickname,
+      profileimg,
+      title,
+      content,
+      createdat,
+      star,
+      likes,
+    });
+  } catch (error) {
+    console.error("Error", error);
+    throw error;
+  }
+};
+
+export const postUpdate = async (
+  title: string,
+  content: string,
+  createdat: string,
+  star: number,
+  id: number
+): Promise<void> => {
+  try {
+    await axios.patch(`${url}/placesposts/${id}`, {
+      title,
+      content,
+      createdat,
+      star,
+    });
+  } catch (error) {
+    console.error("Error", error);
+    throw error;
+  }
+};
+
+export const postDelete = async (id: number): Promise<void> => {
+  try {
+    await axios.delete(`${url}/placesposts/${id}`);
   } catch (error) {
     console.error("Error", error);
     throw error;
