@@ -90,7 +90,7 @@ const MatEditor = ({ htmlContent, setHtmlContent }: QuillEditorProps) => {
           ["image"],
         ],
         handlers: {
-          image: imageHandler,
+          // image: imageHandler,
         },
       },
       imageResize: {

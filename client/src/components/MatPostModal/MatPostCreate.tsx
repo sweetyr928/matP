@@ -163,10 +163,11 @@ const PostCreateModal = ({}: // closeModalHandler,
   const handleClick = (e: React.MouseEvent<HTMLElement>) => {
     if (htmlContent.indexOf(`<img src="`) > 0) {
       const firstIndex = htmlContent.indexOf(`<img src="`);
-      const secondIndex = htmlContent.indexOf(`">`, firstIndex);
+      // 서버 연결 후 ` a`로 변경할 것(MatEditor.tsx 참고)
+      const secondIndex = htmlContent.indexOf('"></p>', firstIndex);
       thumbnailUrl = htmlContent.slice(firstIndex + 10, secondIndex);
     }
-    setTimeout(() => postSubmit(), 300);
+    postSubmit();
   };
 
   // 썸네일 이미지 url 추출 후 post 등록 요청

@@ -161,6 +161,7 @@ const PostUpdateModal = ({}: // closeModalHandler,
           setNewTitle(res.data.title);
           setHtmlContent(res.data.content);
           setClicked(new Array(5).fill(true, 0, res.data.star));
+          thumbnailUrl = res.data.thumbnailUrl;
         });
     } catch (err) {
       console.log(err);
@@ -188,10 +189,11 @@ const PostUpdateModal = ({}: // closeModalHandler,
   const handleClick = (e: React.MouseEvent<HTMLElement>) => {
     if (htmlContent.indexOf(`<img src="`) > 0) {
       const firstIndex = htmlContent.indexOf(`<img src="`);
-      const secondIndex = htmlContent.indexOf(`">`, firstIndex);
+      // 서버 연결 후 ` a`로 변경할 것(MatEditor.tsx 참고)
+      const secondIndex = htmlContent.indexOf('"></p>', firstIndex);
       thumbnailUrl = htmlContent.slice(firstIndex + 10, secondIndex);
     }
-    setTimeout(() => postSubmit(), 300);
+    postSubmit();
   };
 
   // 썸네일 이미지 url 추출 후 post 수정 사항 업데이트 요청
