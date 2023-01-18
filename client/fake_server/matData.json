@@ -201,5 +201,33 @@
     "followings": "8K",
     "postlist": [],
     "picklist": []
+  },
+  "places": {
+    "placeId": 1,
+    "name": "땀땀",
+    "placeImg": "https://cdn3.iconfinder.com/data/icons/ingredients-of-a-good-life/1000/food___good_dining_dine_out_meal_sushi_culture_woman_outing_senses_taste-1024.png",
+    "number": "전화번호",
+    "address": "서울 xx길 xx-xxx",
+    "memo": "오늘 영업 안합니다",
+    "latitude": "39.234234",
+    "longitude": "23.3453453",
+    "starAvg": 5.0,
+    "isPicked": "true",
+    "pickCount": 6,
+    "postCount": 2,
+    "posts": [
+      {
+        "postId": 1,
+        "thumbnail_url": "https://cdn3.iconfinder.com/data/icons/ingredients-of-a-good-life/1000/food___good_dining_dine_out_meal_sushi_culture_woman_outing_senses_taste-1024.png",
+        "star": 5,
+        "likes": 10
+      },
+      {
+        "postId": 2,
+        "thumbnail_url": "https://cdn3.iconfinder.com/data/icons/ingredients-of-a-good-life/1000/food___good_dining_dine_out_meal_sushi_culture_woman_outing_senses_taste-1024.png",
+        "star": 5,
+        "likes": 3
+      }
+    ]
   }
 }
