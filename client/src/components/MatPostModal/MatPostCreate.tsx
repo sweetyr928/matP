@@ -127,6 +127,9 @@ const PostCreateModal = ({}: // closeModalHandler,
   const [title, setTitle] = useState<string>("");
   const [htmlContent, setHtmlContent] = useState<string>("");
 
+  // 단일 post의 thumbnail_url
+  let thumbnailUrl: string = "";
+
   // 별점 기본값 설정
   const [clicked, setClicked] = useState<boolean[]>([
     false,
@@ -144,26 +147,6 @@ const PostCreateModal = ({}: // closeModalHandler,
     setTitle(e.target.value);
   };
 
-  // '게시' 버튼 누를 시 post 업로드
-  const handleClick = (e: React.MouseEvent<HTMLElement>) => {
-    if (title.length > 0 && htmlContent.length > 0) {
-      postCreate(
-        "rhino",
-        "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg",
-        title,
-        htmlContent,
-        new Date().toLocaleString(),
-        clicked.filter(Boolean).length,
-        0
-      );
-    }
-  };
-
-  // '취소' 버튼 누를시 초기화
-  const handleCancel = () => {
-    setHtmlContent("");
-  };
-
   /**
    * 클릭한 별의 순서까지를 별점의 총점으로 저장해주는 함수
    * @param index 클릭한 별의 순서
@@ -174,6 +157,37 @@ const PostCreateModal = ({}: // closeModalHandler,
       clickStates[i] = i <= index ? true : false;
     }
     setClicked(clickStates);
+  };
+
+  // '게시' 버튼 누를 시 썸네일 이미지 url(가장 첫번째로 등록된 이미지) 추출
+  const handleClick = (e: React.MouseEvent<HTMLElement>) => {
+    if (htmlContent.indexOf(`<img src="`) > 0) {
+      const firstIndex = htmlContent.indexOf(`<img src="`);
+      const secondIndex = htmlContent.indexOf(`">`, firstIndex);
+      thumbnailUrl = htmlContent.slice(firstIndex + 10, secondIndex);
+    }
+    setTimeout(() => postSubmit(), 300);
+  };
+
+  // 썸네일 이미지 url 추출 후 post 등록 요청
+  const postSubmit = () => {
+    if (title.length > 0 && htmlContent.length > 0) {
+      postCreate(
+        "rhino",
+        "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg",
+        title,
+        htmlContent,
+        new Date().toLocaleString(),
+        clicked.filter(Boolean).length,
+        0,
+        thumbnailUrl
+      );
+    }
+  };
+
+  // '취소' 버튼 누를시 초기화
+  const handleCancel = () => {
+    setHtmlContent("");
   };
 
   return (
