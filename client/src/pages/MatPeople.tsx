@@ -40,7 +40,7 @@ const UserInfo = styled.div`
   }
 `;
 
-const StyledFollow = styled(PersonAddAlt1Icon)`
+const StyledFollow = styled(HowToRegIcon)`
   color: #505050;
   margin: 50px 0px 10px 0px;
   cursor: pointer;
@@ -50,7 +50,7 @@ const StyledFollow = styled(PersonAddAlt1Icon)`
   }
 `;
 
-const StyledUnFollow = styled(HowToRegIcon)`
+const StyledUnFollow = styled(PersonAddAlt1Icon)`
   color: #505050;
   margin: 50px 0px 10px 0px;
   cursor: pointer;
@@ -101,8 +101,9 @@ const TabContainer = styled.div`
 const MatPeople: React.FC = () => {
   const navigate = useNavigate();
   const onClickTab = () => {
-    navigate("/pickers");
+    navigate("/matPickers");
   };
+
   const [isFollowing, setIsFollowing] = useState<boolean>(false);
 
   const url = "http://localhost:3001/people";
