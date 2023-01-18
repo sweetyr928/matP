@@ -20,6 +20,7 @@ import {
   SearchPage,
 } from "./pages";
 import { RecoilRoot } from "recoil";
+import MatPeoplePicker from "./pages/MatPeoplePicker";
 
 interface AppContainerProps {
   toggle: boolean;
@@ -59,6 +60,7 @@ function App() {
             {/* <Route path="/" element={<Domain />} /> */}
             <Route path="/mypage" element={<MyPage />} />
             <Route path="/people" element={<MatPeople />} />
+            <Route path="/matPickers" element={<MatPeoplePicker />} />
             <Route path="/mat" element={<MatPostCreate />} />
             <Route path="/edit/:id" element={<MatPostUpdate />} />
           </Routes>
