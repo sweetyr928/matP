@@ -14,7 +14,6 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Table(name = "mat_post")
-@Setter
 public class Post {
 
     @Id
@@ -46,4 +45,12 @@ public class Post {
     @LastModifiedDate
     private LocalDateTime modifiedAt;
 
+    public Post settingPost(Post post, Post updatePost) {
+        this.id = post.getId();
+        this.title = updatePost.getTitle();
+        this.content = updatePost.getContent();
+        this.thumbnailUrl = updatePost.getThumbnailUrl();
+        this.star = updatePost.getStar();
+        return post;
+    }
 }

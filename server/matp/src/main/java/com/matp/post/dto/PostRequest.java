@@ -4,14 +4,13 @@ import com.matp.post.entity.Post;
 import jakarta.validation.constraints.NotBlank;
 
 public record PostRequest(@NotBlank(message = "제목은 공백일 수 없습니다 !") String title, @NotBlank(message = "내용은 공백일 수 없습니다 !")String content,
-                                 int likes, String thumbnailUrl, int star) {
+                                 String thumbnailUrl, int star) {
 
 
     public Post toEntity() {
         return Post.builder()
                 .title(title)
                 .content(content)
-                .likes(likes)
                 .thumbnailUrl(thumbnailUrl)
                 .star(star)
                 .build();

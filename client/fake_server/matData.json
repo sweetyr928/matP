@@ -187,5 +187,19 @@
     "followings": "1.2K",
     "postlist": [],
     "picklist": []
+  },
+  "people": {
+    "nickname": "홍길동",
+    "email": "hgd@gmail.com",
+    "birthday": "1995-05-05",
+    "profileImg": "https://t1.daumcdn.net/cfile/tistory/214DF23358E3BCBC32",
+    "gender": "male",
+    "memo": "동에 번쩍 서에 번쩍",
+    "createdAt": "2022-12-31",
+    "modifiedAt": "2023-01-05",
+    "followers": "1.0M",
+    "followings": "8K",
+    "postlist": [],
+    "picklist": []
   }
 }
