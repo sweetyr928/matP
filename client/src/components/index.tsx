@@ -10,10 +10,10 @@ import MatPickerDelete from "./MatPickerModal/MatPickerDelete";
 import PeoPleEditModal from "./PeopleEditModal";
 import DeleteModal from "./DeleteModal";
 import LoginModal from "./LoginModal";
-import MapSearchComponent from "./KakaoMap/HoldSearchComponent/MapSearchComponent";
-import KakaoMap from "./KakaoMap/KakaoMap";
 import HeaderFeedHide from "./HeaderFeedHide";
 import ModalPortal from "./ModalPortal";
+import PostRead from "../components/PostRead";
+import KakaoMap from "./KakaoMap/KakaoMap";
 
 export {
   Header,
@@ -28,8 +28,8 @@ export {
   PeoPleEditModal,
   DeleteModal,
   LoginModal,
-  MapSearchComponent,
   HeaderFeedHide,
   ModalPortal,
   KakaoMap,
+  PostRead,
 };
