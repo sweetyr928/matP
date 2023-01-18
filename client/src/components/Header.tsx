@@ -33,10 +33,12 @@ const IconContainer = styled.div`
 
 const AccountCircleIconStyled = styled(AccountCircleIcon)`
   color: #505050;
+  transform: scale(1.25);
 `;
 
 const LogInButton = styled(LoginIcon)`
   color: #505050;
+  transform: scale(1.25);
 `;
 
 const Header: React.FC = () => {
@@ -49,7 +51,7 @@ const Header: React.FC = () => {
     <HeaderContainer>
       {/* 나중에 토큰 조건 분기에 따라 로그인 바뀜 */}
       <IconContainer>
-        <LogInButton onClick={onClickToggleLoginModal} fontSize="large" />
+        <LogInButton onClick={onClickToggleLoginModal} />
       </IconContainer>
       {isModalOpen && (
         <ModalPortal>
@@ -59,7 +61,7 @@ const Header: React.FC = () => {
 
       {/* <Link to={"/mypage"}>
         <IconContainer>
-          <AccountCircleIconStyled fontSize="large" />
+          <AccountCircleIconStyled />
         </IconContainer>
       </Link> */}
     </HeaderContainer>

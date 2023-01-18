@@ -140,7 +140,7 @@ const GoogleLogoImg = styled.img`
   margin-right: 10px;
 `;
 const GoogleLabel = styled.span`
-  color: #141414;
+  color: #1b1b1b;
   font-size: 1.1rem;
 `;
 
