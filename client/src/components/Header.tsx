@@ -1,6 +1,9 @@
 import styled from "styled-components";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import LoginIcon from "@mui/icons-material/Login";
 import { Link } from "react-router-dom";
+import { useCallback, useState } from "react";
+import { LoginModal, ModalPortal } from "./index";
 
 const HeaderContainer = styled.div`
   background-color: #ffffff;
@@ -14,7 +17,7 @@ const HeaderContainer = styled.div`
   border-right: 1px solid #d7d9dc;
 `;
 
-const UserIconContainer = styled.div`
+const IconContainer = styled.div`
   position: absolute;
   right: 0;
   width: 55px;
@@ -32,14 +35,33 @@ const AccountCircleIconStyled = styled(AccountCircleIcon)`
   color: #505050;
 `;
 
+const LogInButton = styled(LoginIcon)`
+  color: #505050;
+`;
+
 const Header: React.FC = () => {
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const onClickToggleLoginModal = useCallback(() => {
+    setIsModalOpen(!isModalOpen);
+  }, [isModalOpen]);
+
   return (
     <HeaderContainer>
-      <Link to={"/mypage"}>
-        <UserIconContainer>
+      {/* 나중에 토큰 조건 분기에 따라 로그인 바뀜 */}
+      <IconContainer>
+        <LogInButton onClick={onClickToggleLoginModal} />
+      </IconContainer>
+      {isModalOpen && (
+        <ModalPortal>
+          <LoginModal onClickToggleLoginModal={onClickToggleLoginModal} />
+        </ModalPortal>
+      )}
+
+      {/* <Link to={"/mypage"}>
+        <IconContainer>
           <AccountCircleIconStyled fontSize="large" />
-        </UserIconContainer>
-      </Link>
+        </IconContainer>
+      </Link> */}
     </HeaderContainer>
   );
 };
