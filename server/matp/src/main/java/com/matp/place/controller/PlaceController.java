@@ -18,7 +18,7 @@ public class PlaceController {
 
     @GetMapping
     public Flux<PlaceResponseDto> getPlaces(@RequestParam("lon") double lon, @RequestParam("lat") double lat, @RequestParam("round") double round) {
-        return placeService.getPlaces(lon, lat, round);
+        return placeService.findPlaces(lon, lat, round);
     }
 
 }

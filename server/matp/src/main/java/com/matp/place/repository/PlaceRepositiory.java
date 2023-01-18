@@ -5,15 +5,14 @@ import org.springframework.data.r2dbc.repository.Query;
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 import reactor.core.publisher.Flux;
 
-public interface PlaceRepositiory extends ReactiveCrudRepository<Place, Integer> {
-    // SELECT에 추가되야할 내용 - img, stars
+public interface PlaceRepositiory extends ReactiveCrudRepository<Place, Long> {
+    // SELECT에 추가되야할 내용 - img
     // 쿼리에 추가되야할 내용 - 탑 15개
 
     @Query("""
-        SELECT p1.id, p1.tel, p1.address, p1.name, st_astext(p1.point) as point
-        FROM place p1
-        where st_distance_sphere(point, POINT(:longitude, :latitude)) < :round;
-        """)
-    Flux<Place> getPlaces(double longitude, double latitude, int round);
-
+        SELECT id, tel, address, name, st_astext(point) as point
+        FROM place
+        WHERE st_distance_sphere(point, POINT(:longitude, :latitude)) < :round;
+    """)
+    Flux<Place> findPlaces(double longitude, double latitude, int round);
 }

@@ -4,9 +4,7 @@ package com.matp.place.entity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.annotation.*;
 import org.springframework.data.relational.core.mapping.Table;
 import java.time.LocalDateTime;
 
@@ -16,13 +14,14 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class Place {
     @Id
-    private int id;
+    private Long id;
 
     private String tel;
 
     private String address;
 
     private String roadNameAddress;
+
     private String name;
 
     private String point;
@@ -36,5 +35,4 @@ public class Place {
 
     @LastModifiedDate
     private LocalDateTime modifiedAt;
-
 }

@@ -19,7 +19,9 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
 
+import java.util.List;
 
+@Service
 @RequiredArgsConstructor
 public class PostService {
     private final CommentService commentService;
@@ -122,5 +124,15 @@ public class PostService {
 
         return postRepository.findById(postId)
                 .flatMap(postRepository::delete);
+    }
+
+    /**
+     * @return Mono < List < Post > >
+     * @apiNote Place 조회시 Post의 평점만 가져오는 메서드
+     * @author 이종희
+     */
+    @Transactional(readOnly = true)
+    public Mono<List<Post>> findPlacePosts(Long placeId) {
+        return postRepository.findPlacePosts(placeId).collectList();
     }
 }

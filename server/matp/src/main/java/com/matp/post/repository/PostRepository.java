@@ -43,4 +43,12 @@ public interface PostRepository extends ReactiveCrudRepository<Post, Long> {
             """)
     Mono<PostMemberSpecificInfo> findPostWithMemberInfo(Long postId);
 
+    @Query("""
+            SELECT
+            id,
+            star
+            FROM mat_post
+            WHERE place_id = :placeId
+            """)
+    Flux<Post> findPlacePosts(Long placeId);
 }
