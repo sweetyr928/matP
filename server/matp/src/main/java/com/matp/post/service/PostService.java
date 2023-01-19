@@ -3,10 +3,7 @@ package com.matp.post.service;
 
 import com.matp.comment.dto.MultiResponseDto;
 import com.matp.comment.service.CommentService;
-import com.matp.post.dto.PatchPostRequest;
-import com.matp.post.dto.PostRequest;
-import com.matp.post.dto.PostResponse;
-import com.matp.post.dto.PostResponseWithInfo;
+import com.matp.post.dto.*;
 import com.matp.post.dto.testdto.PostMemberInfo;
 import com.matp.post.entity.Post;
 import com.matp.post.repository.PostRepository;
@@ -134,5 +131,15 @@ public class PostService {
     @Transactional(readOnly = true)
     public Mono<List<Post>> findPlacePosts(Long placeId) {
         return postRepository.findPlacePosts(placeId).collectList();
+    }
+
+    /**
+     * @return Mono < List < PlaceDetailPostDto > >
+     * @apiNote Place 조회시 Post의 id, 평점, 좋아요수, 썸네일 이미지를 매핑하는 메서드
+     * @author 이종희
+     */
+    @Transactional(readOnly = true)
+    public Mono<List<PlaceDetailPostDto>> findPlaceDetailPosts(Long placeId) {
+        return postRepository.findPlaceDetailPosts(placeId).map(PlaceDetailPostDto::of).collectList();
     }
 }

@@ -24,6 +24,8 @@ public class Place {
 
     private String name;
 
+    private String category;
+
     private String point;
 
     private String memo;

@@ -1,6 +1,7 @@
 package com.matp.place.controller;
 
 
+import com.matp.place.dto.PlaceDetailResponseDto;
 import com.matp.place.dto.PlaceResponseDto;
 import com.matp.place.service.PlaceService;
 import org.springframework.web.bind.annotation.*;
@@ -21,4 +22,8 @@ public class PlaceController {
         return placeService.findPlaces(lon, lat, round);
     }
 
+    @GetMapping("{place-id}")
+    public Mono<PlaceDetailResponseDto> getPlaceDetail(@PathVariable("place-id") Long placeId) {
+        return placeService.findPlaceDetail(placeId);
+    }
 }
