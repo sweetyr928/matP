@@ -27,26 +27,25 @@ interface Pick {
   name: string;
   color: string;
 }
+type Status = "Idle" | "Loading" | "Success" | "Error";
 interface UseAxiosReturn {
   memberData: MemberData | null;
-  loading: boolean;
-  error: Error | null;
+  status: Status;
 }
 
 const useAxios = (url: string): UseAxiosReturn => {
   const [memberData, setMemberData] = useState<MemberData | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<Error | null>(null);
+  const [status, setStatus] = useState<Status>("Idle");
 
   const axiosData = useCallback(async () => {
-    setLoading(true);
+    setStatus("Loading");
     try {
       const response = await axios.get<MemberData>(url);
       setMemberData(response.data);
+      setStatus("Success");
     } catch (error) {
-      setError(Object.assign(new Error(), error));
-    } finally {
-      setLoading(false);
+      setStatus("Error");
+      throw error;
     }
   }, [url]);
 
@@ -54,7 +53,7 @@ const useAxios = (url: string): UseAxiosReturn => {
     axiosData();
   }, [axiosData]);
 
-  return { memberData, loading, error };
+  return { memberData, status };
 };
 
 export default useAxios;
