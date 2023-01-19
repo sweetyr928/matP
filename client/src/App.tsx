@@ -19,6 +19,7 @@ import {
   MatPickerDetail,
   SearchPage,
   SearchDetailPage,
+  MatPlace,
 } from "./pages";
 import { RecoilRoot } from "recoil";
 import MatPeoplePicker from "./pages/MatPeoplePicker";
@@ -57,8 +58,7 @@ function App() {
             <Route path="/pickers" element={<MatPicker />} />
             <Route path="/pickers/:id" element={<MatPickerDetail />} />
             <Route path="/search/:name" element={<SearchDetailPage />} />
-            {/* <Route path="/" element={<Domain />} /> */}
-            {/* <Route path="/" element={<Domain />} /> */}
+            <Route path="/places" element={<MatPlace />} />
             <Route path="/mypage" element={<MyPage />} />
             <Route path="/people" element={<MatPeople />} />
             <Route path="/matPickers" element={<MatPeoplePicker />} />
