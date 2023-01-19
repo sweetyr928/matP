@@ -5,6 +5,7 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.matp.post.exception.NoImageException;
+import com.matp.post.exception.UploadFailedException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.buffer.DataBuffer;
@@ -44,8 +45,13 @@ public class AwsS3Service implements ImageUploadService {
     }
 
     private String getFileExtension(String fileName) {
+        String substring = fileName.substring(fileName.lastIndexOf("."));
         try {
-            return fileName.substring(fileName.lastIndexOf("."));
+            if( substring.equals(".jpg") || substring.equals(".png") || substring.equals(".jpeg") || substring.equals(".webp") || substring.equals(".gif")) {
+                return fileName.substring(fileName.lastIndexOf("."));
+            } else {
+                throw new UploadFailedException();
+            }
         } catch (StringIndexOutOfBoundsException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "잘못된 형식의 파일(" + fileName + ") 입니다.");
         }
