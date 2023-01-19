@@ -16,7 +16,7 @@ const MatPickerSingleBox = styled.div`
 
   a {
     text-decoration: none;
-    color: black;
+    color: #373737;
   }
 `;
 
@@ -83,10 +83,7 @@ const MatPickersList = ({ picker }: { picker: PickersProps }) => {
         )}
         {isOpenDeleteModal && (
           <ModalPortal>
-            <MatPickerDelete
-              id={picker.id}
-              onClickToggleModal={onClickToggleDeleteModal}
-            />
+            <MatPickerDelete id={picker.id} onClickToggleModal={onClickToggleDeleteModal} />
           </ModalPortal>
         )}
         <Link to={`/pickers/${picker.id}`}>
@@ -97,16 +94,12 @@ const MatPickersList = ({ picker }: { picker: PickersProps }) => {
         </Link>
         <ButtonBox>
           <EditIcon
-            className={`update_btn${
-              picker.name === "기본 맛픽커즈" ? "_hidden" : ""
-            }`}
+            className={`update_btn${picker.name === "기본 맛픽커즈" ? "_hidden" : ""}`}
             onClick={onClickToggleUpdateModal}
           />
 
           <DeleteIcon
-            className={`delete_btn${
-              picker.name === "기본 맛픽커즈" ? "_hidden" : ""
-            }`}
+            className={`delete_btn${picker.name === "기본 맛픽커즈" ? "_hidden" : ""}`}
             onClick={onClickToggleDeleteModal}
           />
         </ButtonBox>

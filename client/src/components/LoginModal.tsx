@@ -52,12 +52,12 @@ const CloseIconStyled = styled(CloseIcon)`
 `;
 
 const LoginHeader = styled.h2`
-  color: #3a3a3a;
+  color: #373737;
   font-weight: 700;
   font-size: 1.5rem;
 `;
 const LoginViceHeader = styled.h3`
-  color: #3a3a3a;
+  color: #373737;
   font-weight: 500;
   margin-top: 1rem;
 `;
@@ -121,7 +121,7 @@ const GoogleLoginContainer = styled.button`
   width: 306px;
   height: 40px;
   background-color: #fff;
-  color: #000000;
+  color: #373737;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -140,7 +140,7 @@ const GoogleLogoImg = styled.img`
   margin-right: 10px;
 `;
 const GoogleLabel = styled.span`
-  color: #1b1b1b;
+  color: #373737;
   font-size: 1.1rem;
 `;
 

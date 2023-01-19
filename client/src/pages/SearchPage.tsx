@@ -29,7 +29,7 @@ const SearchTab = styled.div`
   width: 100%;
   a {
     text-decoration: none;
-    color: black;
+    color: #373737;
   }
 `;
 

@@ -102,7 +102,7 @@ const StyledStar = styled.div`
   padding: 5px 0px 0px 0px;
 
   & svg {
-    color: gray;
+    color: #989898;
     cursor: pointer;
   }
 
@@ -111,7 +111,7 @@ const StyledStar = styled.div`
   }
 
   & svg:hover ~ svg {
-    color: gray;
+    color: #989898;
   }
 
   .yellow {
@@ -138,24 +138,16 @@ const PostUpdateModal = ({}: // closeModalHandler,
   // 기존 데이터 받아오기
   const [newTitle, setNewTitle] = useState<string>("");
   const [htmlContent, setHtmlContent] = useState<string>("");
-  const [clicked, setClicked] = useState<boolean[]>([
-    false,
-    false,
-    false,
-    false,
-    false,
-  ]);
+  const [clicked, setClicked] = useState<boolean[]>([false, false, false, false, false]);
 
   useEffect(() => {
     try {
-      axios
-        .get<IPost>(`http://localhost:3001/placesposts/${id}`)
-        .then((res) => {
-          console.log(res.data);
-          setNewTitle(res.data.title);
-          setHtmlContent(res.data.content);
-          setClicked(new Array(5).fill(true, 0, res.data.star));
-        });
+      axios.get<IPost>(`http://localhost:3001/placesposts/${id}`).then((res) => {
+        console.log(res.data);
+        setNewTitle(res.data.title);
+        setHtmlContent(res.data.content);
+        setClicked(new Array(5).fill(true, 0, res.data.star));
+      });
     } catch (err) {
       console.log(err);
     }
@@ -208,11 +200,7 @@ const PostUpdateModal = ({}: // closeModalHandler,
         &times;
       </span>
       <StyledDiv>
-        <input
-          placeholder="제목을 입력해주세요"
-          value={newTitle}
-          onChange={handleInput}
-        ></input>
+        <input placeholder="제목을 입력해주세요" value={newTitle} onChange={handleInput}></input>
         <hr className="middle_line" />
         <MatEditor htmlContent={htmlContent} setHtmlContent={setHtmlContent} />
         <StyledStarsWrapper>

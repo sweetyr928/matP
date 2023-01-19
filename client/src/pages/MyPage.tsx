@@ -150,7 +150,7 @@ const Input = styled.input`
   padding: 10px;
   margin-bottom: 10px;
   font-size: 20px;
-  color: #0c0d0e;
+  color: #373737;
   border: 1px solid #e3e6e8;
   background-color: #fff;
   border-radius: 5px;
