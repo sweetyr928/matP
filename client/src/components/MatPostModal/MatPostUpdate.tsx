@@ -107,7 +107,7 @@ const StyledStar = styled.div`
   padding: 5px 0px 0px 0px;
 
   & svg {
-    color: gray;
+    color: #989898;
     cursor: pointer;
   }
 
@@ -116,7 +116,7 @@ const StyledStar = styled.div`
   }
 
   & svg:hover ~ svg {
-    color: gray;
+    color: #989898;
   }
 
   .yellow {
@@ -132,6 +132,7 @@ interface IPost {
   content: string;
   createdat: string;
   star: number;
+  thumbnailUrl: string;
 }
 
 const PostUpdateModal = ({}: // closeModalHandler,
@@ -151,42 +152,30 @@ const PostUpdateModal = ({}: // closeModalHandler,
     false,
   ]);
 
+  // 단일 post의 thumbnail_url
+  let thumbnailUrl: string = "";
+
+  // 항상 별이 총 5개(더미 array)
+  const array: Array<number> = [0, 1, 2, 3, 4];
+
   useEffect(() => {
     try {
       axios
         .get<IPost>(`http://localhost:3001/placesposts/${id}`)
         .then((res) => {
-          console.log(res.data);
           setNewTitle(res.data.title);
           setHtmlContent(res.data.content);
           setClicked(new Array(5).fill(true, 0, res.data.star));
+          thumbnailUrl = res.data.thumbnailUrl;
         });
     } catch (err) {
       console.log(err);
     }
   }, []);
 
-  console.log(newTitle);
-  console.log(htmlContent);
-  console.log(clicked);
-
-  // 항상 별이 총 5개(더미 array)
-  const array: Array<number> = [0, 1, 2, 3, 4];
-
   // 제목 input 창
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewTitle(e.target.value);
-  };
-
-  // '게시' 버튼 누를 시 post 업로드
-  const handleClick = (e: React.MouseEvent<HTMLElement>) => {
-    postUpdate(
-      newTitle,
-      htmlContent,
-      new Date().toLocaleString(),
-      clicked.filter(Boolean).length,
-      Number(id)
-    );
   };
 
   /**
@@ -199,6 +188,31 @@ const PostUpdateModal = ({}: // closeModalHandler,
       clickStates[i] = i <= index ? true : false;
     }
     setClicked(clickStates);
+  };
+
+  // '수정' 버튼 누를 시 썸네일 이미지 url(가장 첫번째로 등록된 이미지) 추출
+  const handleClick = (e: React.MouseEvent<HTMLElement>) => {
+    if (htmlContent.indexOf(`<img src="`) > 0) {
+      const firstIndex = htmlContent.indexOf(`<img src="`);
+      // 서버 연결 후 ` a`로 변경할 것(MatEditor.tsx 참고)
+      const secondIndex = htmlContent.indexOf('"></p>', firstIndex);
+      thumbnailUrl = htmlContent.slice(firstIndex + 10, secondIndex);
+    }
+    postSubmit();
+  };
+
+  // 썸네일 이미지 url 추출 후 post 수정 사항 업데이트 요청
+  const postSubmit = () => {
+    if (newTitle.length > 0 && htmlContent.length > 0) {
+      postUpdate(
+        newTitle,
+        htmlContent,
+        new Date().toLocaleString(),
+        clicked.filter(Boolean).length,
+        thumbnailUrl,
+        Number(id)
+      );
+    }
   };
 
   return (

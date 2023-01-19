@@ -115,7 +115,7 @@ const StyledStar = styled.div`
   padding: 5px 0px 0px 0px;
 
   & svg {
-    color: gray;
+    color: #989898;
   }
 
   .yellow {
@@ -133,7 +133,8 @@ const StyledComment = styled.div`
     height: 30px;
     border: none;
     border-bottom: 1px solid;
-    font-size: 15px;
+    color: #373737;
+    font-size: 1rem;
   }
 
   input:focus {
@@ -199,8 +200,6 @@ const PostReadModal = ({
     likes = 0,
     // comments = [],
   } = placesPostsData || {};
-
-  console.log(likes);
 
   const navigate = useNavigate();
 
@@ -285,11 +284,7 @@ const PostReadModal = ({
 
   return (
     <StyledModal>
-      <span
-        role="presentation"
-        onClick={closeModalHandler}
-        className="close-btn"
-      >
+      <span role="presentation" onClick={closeModalHandler} className="close-btn">
         &times;
       </span>
       <StyledDiv>
@@ -313,13 +308,7 @@ const PostReadModal = ({
           <StyledStarsWrapper>
             <StyledStar>
               {array.map((el, idx) => {
-                return (
-                  <StarRate
-                    key={idx}
-                    size="50"
-                    className={clicked[el] ? "yellow" : ""}
-                  />
-                );
+                return <StarRate key={idx} size="50" className={clicked[el] ? "yellow" : ""} />;
               })}
             </StyledStar>
           </StyledStarsWrapper>

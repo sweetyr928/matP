@@ -4,7 +4,8 @@ import MatPicker from "./MatPicker";
 import MatPickerDetail from "./MatPickerDetail";
 import MyPage from "./MyPage";
 import MatPeople from "./MatPeople";
-import SearchDetailPage from "./SearchDetailPage";
+import SearchDetailPage from "./SearchDetailPage/SearchDetailPage";
+import MatPlace from "./MatPlace";
 
 export {
   Domain,
@@ -14,4 +15,5 @@ export {
   MyPage,
   SearchDetailPage,
   MatPeople,
+  MatPlace,
 };

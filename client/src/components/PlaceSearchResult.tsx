@@ -28,7 +28,7 @@ const UserWrapper = styled.div`
   }
 `;
 
-interface PeopleProps {
+interface PlaceProps {
   userId: number;
   name: string;
   followers: number;
@@ -36,16 +36,16 @@ interface PeopleProps {
   thumbnail_url: string;
 }
 
-const PeopleSearchResult = ({ people }: { people: PeopleProps }) => {
+const PlaceSearchResult = ({ place }: { place: PlaceProps }) => {
   return (
     <>
       <UserWrapper>
         <div className="result-box">
-          <img src={people.thumbnail_url} alt="thumbnail" className="user_thumbnail" />
+          <img src={place.thumbnail_url} alt="thumbnail" className="user_thumbnail" />
           <div className="text-box">
-            <p>{people.name}</p>
-            <p>{people.memo}</p>
-            <p>{people.followers}</p>
+            <p>{place.name}</p>
+            <p>{place.memo}</p>
+            <p>{place.followers}</p>
           </div>
         </div>
       </UserWrapper>
@@ -53,4 +53,4 @@ const PeopleSearchResult = ({ people }: { people: PeopleProps }) => {
   );
 };
 
-export default PeopleSearchResult;
+export default PlaceSearchResult;

@@ -57,6 +57,8 @@ const StyledEdit = styled.div`
     line-height: 25px;
     border: none;
     font-size: 15px;
+    color: #373737;
+    font-size: 1rem;
   }
 
   input:focus {

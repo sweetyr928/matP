@@ -14,7 +14,12 @@ public interface PostRepository extends ReactiveCrudRepository<Post, Long> {
      * @author 임준건
      **/
     @Query("""
-            SELECT * FROM mat_post p WHERE p.title LIKE CONCAT('%', :keyword, '%') OR p.content LIKE CONCAT('%', :keyword, '%')
+            SELECT *
+            FROM post p
+            WHERE p.title
+            LIKE CONCAT('%', :keyword, '%')
+            OR p.content
+            LIKE CONCAT('%', :keyword, '%')
             """)
     Flux<Post> searchPostByKeyword(String keyword);
 
@@ -23,16 +28,17 @@ public interface PostRepository extends ReactiveCrudRepository<Post, Long> {
             p.id,
             p.title,
             p.content,
-            p.likes,
+            lc.likes,
             p.thumbnail_url,
             p.star,
             p.created_at,
             p.modified_at,
             m.nickname,
-            m.profile_img,
-            (select count(*) from post_likes pl where pl.post_id = :postId) as likes FROM mat_post p
+            m.profile_img
+            FROM post p
             INNER JOIN member m
             ON p.member_id = m.id
+            join likes_count lc on lc.likes_post_id = p.id
             where p.id = :postId
             """)
     Mono<PostMemberSpecificInfo> findPostWithMemberInfo(Long postId);

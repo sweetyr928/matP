@@ -18,7 +18,7 @@ const MatPickerWrapper = styled.div`
   h1 {
     font-size: 28px;
     font-weight: 500;
-    margin-top: 200px;
+    margin-top: 150px;
     margin-bottom: 80px;
   }
 `;
@@ -33,8 +33,11 @@ const MatPickerBox = styled.div`
     align-items: center;
     width: 100%;
     height: 50px;
+    background-color: #f8f8f8;
     padding: 15px;
-    border-bottom: 1px solid black;
+    border: none;
+    border-bottom: 1px solid #adadad;
+    cursor: pointer;
   }
 `;
 
@@ -48,6 +51,12 @@ const MatPickerCreateBox = styled.div`
     height: 30px;
     margin-right: 20px;
   }
+  div {
+    font-size: 16px;
+  }
+`;
+const AddCircleOutlineIconStyled = styled(AddCircleOutlineIcon)`
+  color: #505050;
 `;
 
 const MatPicker: React.FC = () => {
@@ -69,15 +78,13 @@ const MatPicker: React.FC = () => {
       <h1>맛픽커즈</h1>
       <MatPickerBox>
         {pickersData &&
-          pickersData.map((picker: any) => (
-            <MatPickersList key={picker.id} picker={picker} />
-          ))}
-        <div className="default_mat_pick">
-          <MatPickerCreateBox onClick={onClickToggleModal}>
-            <AddCircleOutlineIcon className="icon" fontSize="large" />
+          pickersData.map((picker: any) => <MatPickersList key={picker.id} picker={picker} />)}
+        <button className="default_mat_pick" onClick={onClickToggleModal}>
+          <MatPickerCreateBox>
+            <AddCircleOutlineIconStyled className="icon" fontSize="large" />
             <div>그룹 추가하기</div>
           </MatPickerCreateBox>
-        </div>
+        </button>
       </MatPickerBox>
     </MatPickerWrapper>
   );

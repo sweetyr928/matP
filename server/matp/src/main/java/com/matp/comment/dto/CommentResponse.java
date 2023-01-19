@@ -9,10 +9,10 @@ public record CommentResponse(Long id, String content, Long memberId, LocalDateT
     public static CommentResponse from(Comment comment) {
         return new CommentResponse(
                 comment.getId(),
-                comment.getComment_content(),
+                comment.getCommentContent(),
                 comment.getUserId(),
-                comment.getComment_createdAt(),
-                comment.getComment_modifiedAt()
+                comment.getCommentCreatedAt(),
+                comment.getCommentModifiedAt()
         );
     }
 }

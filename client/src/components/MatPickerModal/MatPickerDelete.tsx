@@ -34,17 +34,21 @@ const DialogBox = styled.dialog`
   background-color: white;
   position: fixed;
   z-index: 10020;
+  h3 {
+    color: #c65d7b;
+    font-size: 20px;
+  }
 `;
 
 const ButtonContainer = styled.div`
   display: flex;
   margin-top: 40px;
   button {
-    height: 40px;
-    width: 60px;
+    background-color: #fff;
+    cursor: pointer;
+    font-size: 20px;
     margin: 0 20px;
-    border: 1px solid black;
-    border-radius: 20px;
+    border: none;
   }
 `;
 
@@ -53,10 +57,7 @@ interface ModalDefaultType {
   id: number;
 }
 
-const MatPickerDelete = ({
-  onClickToggleModal,
-  id,
-}: PropsWithChildren<ModalDefaultType>) => {
+const MatPickerDelete = ({ onClickToggleModal, id }: PropsWithChildren<ModalDefaultType>) => {
   const closeModal = (e: React.MouseEvent) => {
     e.preventDefault();
     if (onClickToggleModal) {
@@ -72,7 +73,7 @@ const MatPickerDelete = ({
   return (
     <ModalContainer>
       <DialogBox>
-        정말 삭제하시겠습니까?
+        <h3>정말 삭제하시겠습니까?</h3>
         <ButtonContainer>
           <button onClick={handleMatPickDelete}>예</button>
           <button onClick={closeModal}>아니오</button>
