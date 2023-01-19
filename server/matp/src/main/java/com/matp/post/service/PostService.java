@@ -74,13 +74,24 @@ public class PostService {
 
     /**
      * @return Flux < PostResponse >
-     * @apiNote keyword 로 Post 를 {@link PostRepository} 에서 찾아오는 메서드
+     * @apiNote title keyword 로 Post 를 {@link PostRepository} 에서 찾아오는 메서드
      * @author 임준건
      */
     @Transactional(readOnly = true)
-    public Flux<PostResponse> findPostByKeyword(String keyword) {
+    public Flux<PostResponse> findPostByTitleKeyword(String keyword) {
 
-        return postRepository.searchPostByKeyword(keyword)
+        return postRepository.searchPostByTitleKeyword(keyword)
+                .map(PostResponse::from);
+    }
+    /**
+     * @return Flux < PostResponse >
+     * @apiNote content keyword 로 Post 를 {@link PostRepository} 에서 찾아오는 메서드
+     * @author 임준건
+     */
+    @Transactional(readOnly = true)
+    public Flux<PostResponse> findPostByContentKeyword(String keyword) {
+
+        return postRepository.searchPostByContentKeyword(keyword)
                 .map(PostResponse::from);
     }
 
@@ -93,7 +104,7 @@ public class PostService {
     public Mono<PostResponse> save(PostRequest request) {
 
         Post Post = request.toEntity();
-//        Post.setMemberId(2L);
+        Post.setMemberId(2L);
 
         Mono<Post> save = postRepository.save(Post);
 
@@ -121,6 +132,7 @@ public class PostService {
     public Mono<Void> delete(Long postId) {
 
         return postRepository.findById(postId)
-                .flatMap(postRepository::delete);
+                .flatMap(postRepository::delete)
+                .switchIfEmpty(postRepository.PostDeleteWithCommentsLikes(postId));
     }
 }

@@ -18,10 +18,16 @@ public interface PostRepository extends ReactiveCrudRepository<Post, Long> {
             FROM post p
             WHERE p.title
             LIKE CONCAT('%', :keyword, '%')
-            OR p.content
+            """)
+    Flux<Post> searchPostByTitleKeyword(String keyword);
+
+    @Query("""
+            SELECT *
+            FROM post p
+            WHERE p.content
             LIKE CONCAT('%', :keyword, '%')
             """)
-    Flux<Post> searchPostByKeyword(String keyword);
+    Flux<Post> searchPostByContentKeyword(String keyword);
 
     @Query("""
             SELECT
@@ -41,5 +47,17 @@ public interface PostRepository extends ReactiveCrudRepository<Post, Long> {
             where p.id = :postId
             """)
     Mono<PostMemberSpecificInfo> findPostWithMemberInfo(Long postId);
+
+    @Query("""
+           DELETE
+           FROM pc,lc,pl
+           USING post_comment pc
+           LEFT JOIN likes_count lc
+           ON pc.post_id = lc.likes_post_id
+           LEFT JOIN post_likes pl
+           ON pl.post_id = lc.likes_post_id
+           where pc.post_id = :postId
+           """)
+    Mono<Void> PostDeleteWithCommentsLikes(Long postId);
 
 }

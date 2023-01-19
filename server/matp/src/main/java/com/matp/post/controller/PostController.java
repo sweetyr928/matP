@@ -50,13 +50,23 @@ public class PostController {
     }
 
     /**
-     * 제목,내용에 @RequestParam 으로 들어온 키워드가 포함되어있는 게시물 조회 기능
+     * 제목에 @RequestParam 으로 들어온 키워드가 포함되어있는 게시물 조회 기능
      * @author 임준건
      **/
-    @GetMapping("/search")
-    public Flux<PostResponse> getSearchMatPost(@RequestParam("keyword") String keyword) {
+    @GetMapping("/search/title")
+    public Flux<PostResponse> getSearchMatPostByTitle(@RequestParam("keyword") String keyword) {
 
-        return postService.findPostByKeyword(keyword)
+        return postService.findPostByTitleKeyword(keyword)
+                .switchIfEmpty(Mono.defer(() -> Mono.error(new PostNotFoundException(CustomErrorCode.POST_NOT_FOUND))));
+    }
+    /**
+     * 내용에 @RequestParam 으로 들어온 키워드가 포함되어있는 게시물 조회 기능
+     * @author 임준건
+     **/
+    @GetMapping("/search/content")
+    public Flux<PostResponse> getSearchMatPostByContent(@RequestParam("keyword") String keyword) {
+
+        return postService.findPostByContentKeyword(keyword)
                 .switchIfEmpty(Mono.defer(() -> Mono.error(new PostNotFoundException(CustomErrorCode.POST_NOT_FOUND))));
     }
 
