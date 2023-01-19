@@ -12,7 +12,7 @@ const MatPickerSingleBox = styled.div`
   width: 100%;
   height: 50px;
   padding: 15px;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid #adadad;
 
   a {
     text-decoration: none;
@@ -31,7 +31,7 @@ const NameBox = styled.div`
   .icon {
     width: 30px;
     height: 30px;
-    border: 1px solid black;
+    border: 1px solid #505050;
     border-radius: 50%;
     margin-right: 20px;
     background-color: ${(props) => props.color || "gray"};
@@ -48,6 +48,15 @@ const ButtonBox = styled.div`
   .delete_btn_hidden {
     display: none;
   }
+`;
+
+const EditIconStyled = styled(EditIcon)`
+  color: #505050;
+  cursor: pointer;
+`;
+const DeleteIconStyeld = styled(DeleteIcon)`
+  color: #505050;
+  cursor: pointer;
 `;
 
 interface PickersProps {
@@ -93,12 +102,12 @@ const MatPickersList = ({ picker }: { picker: PickersProps }) => {
           </NameBox>
         </Link>
         <ButtonBox>
-          <EditIcon
+          <EditIconStyled
             className={`update_btn${picker.name === "기본 맛픽커즈" ? "_hidden" : ""}`}
             onClick={onClickToggleUpdateModal}
           />
 
-          <DeleteIcon
+          <DeleteIconStyeld
             className={`delete_btn${picker.name === "기본 맛픽커즈" ? "_hidden" : ""}`}
             onClick={onClickToggleDeleteModal}
           />

@@ -45,6 +45,7 @@ const ModalView = styled.div.attrs(() => ({
 `;
 const CloseIconStyled = styled(CloseIcon)`
   color: #505050;
+  transform: scale(1.25);
   cursor: pointer;
   position: absolute;
   top: 20px;
