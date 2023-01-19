@@ -2,7 +2,7 @@ package com.matp.post.controller;
 
 import com.matp.comment.dto.MultiResponseDto;
 import com.matp.exception.CustomErrorCode;
-import com.matp.exception.PostNotFoundException;
+import com.matp.post.exception.PostNotFoundException;
 import com.matp.post.dto.PatchPostRequest;
 import com.matp.post.dto.PostRequest;
 import com.matp.post.dto.PostResponse;
@@ -14,8 +14,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/places/posts")
