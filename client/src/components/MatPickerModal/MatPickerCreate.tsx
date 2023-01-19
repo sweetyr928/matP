@@ -43,8 +43,9 @@ const DialogBox = styled.dialog`
     height: 40px;
     width: 300px;
     padding: 10px;
-    border: 1px solid black;
-    border-radius: 20px;
+    border: 1px solid #adadad;
+    outline: none;
+    border-radius: 12px;
   }
 `;
 
@@ -55,29 +56,30 @@ const TabContainer = styled.ul`
   height: 40px;
   width: 300px;
   padding: 10px;
-  border: 1px solid black;
-  border-radius: 20px;
+  border: 1px solid #adadad;
+  border-radius: 12px;
 `;
 const TabButton = styled.li`
   height: 30px;
   width: 30px;
   list-style: none;
-  border: solid 1px black;
+  border: solid 1px #373737;
   border-radius: 20px;
-  background-color: ${(props) => props.color || "gray"};
-  border: ${(props) =>
-    props.id === "focused" ? "3px solid red" : "1px solid black"};
+  background-color: ${(props) => props.color || "#adadad"};
+  border: ${(props) => (props.id === "focused" ? "2.5px solid #C65D7B" : "1px solid #505050")};
 `;
 
 const ButtonContainer = styled.div`
   display: flex;
   margin-top: 40px;
   button {
+    background-color: #fff;
+    cursor: pointer;
+    font-size: 20px;
     height: 40px;
     width: 60px;
     margin: 0 20px;
-    border: 1px solid black;
-    border-radius: 20px;
+    border: none;
   }
 `;
 
@@ -91,9 +93,7 @@ const tabs = [
   { index: 3, color: "#023f00" },
 ];
 
-const MatPickerCreate = ({
-  onClickToggleModal,
-}: PropsWithChildren<ModalDefaultType>) => {
+const MatPickerCreate = ({ onClickToggleModal }: PropsWithChildren<ModalDefaultType>) => {
   const [colorValue, setColorValue] = useState("");
   const [nameValue, setNameValue] = useState("");
 
@@ -104,7 +104,7 @@ const MatPickerCreate = ({
     }
   };
 
-  const hadleName = (e: any) => {
+  const hadleName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNameValue(e.target.value);
   };
 

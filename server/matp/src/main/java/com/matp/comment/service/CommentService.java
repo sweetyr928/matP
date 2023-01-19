@@ -8,6 +8,7 @@ import com.matp.comment.repository.CommentRepository;
 import com.matp.post.dto.testdto.PostMemberInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
@@ -16,9 +17,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CommentService {
     private final CommentRepository commentRepository;
-
+    @Transactional(readOnly = true)
     public Mono<List<CommentInfo>> getComments(Long postId) {
-        Mono<List<CommentInfo>> listMono = commentRepository.findPost_CommentWithMember(postId).map(commentSpecificInfo -> {
+        Mono<List<CommentInfo>> listMono = commentRepository.findPostCommentWithMember(postId).map(commentSpecificInfo -> {
 
             var memberInfo = PostMemberInfo.builder()
                     .nickname(commentSpecificInfo.nickname())
@@ -35,29 +36,29 @@ public class CommentService {
 
         return listMono;
     }
-
+    @Transactional
     public Mono<CommentResponse> save(CommentRequest saveCommentRequest, Long postId) {
 
         Comment postComment = saveCommentRequest.toEntity();
-        postComment.setUserId(3L);
-        postComment.setPostId(postId);
+//        postComment.setUserId(3L);
+        postComment.updatePostId(postId);
         Mono<Comment> save = commentRepository.save(postComment);
         Mono<CommentResponse> map = save.map(CommentResponse::from);
         return map;
     }
-
+    @Transactional
     public Mono<CommentResponse> updateComment(CommentRequest saveCommentRequest, Long postId, Long commentId) {
-        Comment patchComment = saveCommentRequest.toEntity();
+        Comment patchRequestComment = saveCommentRequest.toEntity();
 
         return commentRepository.findById(commentId)
                 .flatMap(comment -> {
-                    comment.setComment_content(patchComment.getComment_content());
+                    comment.patchComment(patchRequestComment.getCommentContent());
                     return commentRepository.save(comment);
                 })
                 .map(CommentResponse::from);
 
     }
-
+    @Transactional
     public Mono<Void> deleteComment(Long commentId) {
         return commentRepository.deleteById(commentId);
     }

@@ -112,7 +112,7 @@ const StyledStar = styled.div`
   }
 
   & svg:hover ~ svg {
-    color: gray;
+    color: #989898;
   }
 
   .yellow {
@@ -131,13 +131,7 @@ const PostCreateModal = ({}: // closeModalHandler,
   let thumbnailUrl: string = "";
 
   // 별점 기본값 설정
-  const [clicked, setClicked] = useState<boolean[]>([
-    false,
-    false,
-    false,
-    false,
-    false,
-  ]);
+  const [clicked, setClicked] = useState<boolean[]>([false, false, false, false, false]);
 
   // 항상 별이 총 5개(더미 array)
   const array: Array<number> = [0, 1, 2, 3, 4];
@@ -201,11 +195,7 @@ const PostCreateModal = ({}: // closeModalHandler,
         &times;
       </span>
       <StyledDiv>
-        <input
-          placeholder="제목을 입력해주세요"
-          value={title}
-          onChange={handleInput}
-        ></input>
+        <input placeholder="제목을 입력해주세요" value={title} onChange={handleInput}></input>
         <hr className="middle_line" />
         <MatEditor htmlContent={htmlContent} setHtmlContent={setHtmlContent} />
         <StyledStarsWrapper>

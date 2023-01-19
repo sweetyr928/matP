@@ -102,7 +102,7 @@ const StyledStar = styled.div`
   padding: 5px 0px 0px 0px;
 
   & svg {
-    color: gray;
+    color: #989898;
     cursor: pointer;
   }
 
@@ -111,7 +111,7 @@ const StyledStar = styled.div`
   }
 
   & svg:hover ~ svg {
-    color: gray;
+    color: #989898;
   }
 
   .yellow {

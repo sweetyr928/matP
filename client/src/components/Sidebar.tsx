@@ -40,7 +40,7 @@ const MenuContainer = styled.div`
   align-items: center;
   a {
     margin-top: 37px;
-    color: black;
+    color: #373737;
     .icon {
       font-size: 45px;
     }

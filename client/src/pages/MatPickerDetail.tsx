@@ -29,8 +29,9 @@ const MatPickPlaceBox = styled.div`
     display: flex;
     align-items: center;
     height: 50px;
-    border-bottom: 1px solid black;
-    font-size: 20px;
+    border-bottom: 1px solid #adadad;
+    font-size: 18px;
+    cursor: pointer;
   }
 `;
 
@@ -45,7 +46,7 @@ const MatPickerDetail: React.FC = () => {
         {pickPlaces &&
           pickPlaces.map((pickPlace) => (
             <div key={pickPlace.id}>
-              {pickPlace.name}|{pickPlace.address}|✭{pickPlace.star}
+              {pickPlace.name} | {pickPlace.address} | ✭ {pickPlace.star}
             </div>
           ))}
       </MatPickPlaceBox>
