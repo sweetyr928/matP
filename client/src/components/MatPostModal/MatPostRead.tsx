@@ -201,8 +201,6 @@ const PostReadModal = ({
     // comments = [],
   } = placesPostsData || {};
 
-  console.log(likes);
-
   const navigate = useNavigate();
 
   // 별점 불러오기

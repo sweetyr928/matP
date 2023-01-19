@@ -87,7 +87,8 @@ export const postCreate = async (
   content: string,
   createdat: string,
   star: number,
-  likes: 0
+  likes: 0,
+  thumbnailUrl: string
 ): Promise<void> => {
   try {
     await axios.post(`${url}/placesposts`, {
@@ -98,6 +99,7 @@ export const postCreate = async (
       createdat,
       star,
       likes,
+      thumbnailUrl,
     });
   } catch (error) {
     console.error("Error", error);
@@ -110,6 +112,7 @@ export const postUpdate = async (
   content: string,
   createdat: string,
   star: number,
+  thumbnailUrl: string,
   id: number
 ): Promise<void> => {
   try {
@@ -118,6 +121,7 @@ export const postUpdate = async (
       content,
       createdat,
       star,
+      thumbnailUrl,
     });
   } catch (error) {
     console.error("Error", error);
