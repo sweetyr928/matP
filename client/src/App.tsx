@@ -54,16 +54,16 @@ function App() {
           <Header />
           <Routes>
             <Route path="/" element={<Domain />} />
-            <Route path="/search" element={<SearchPage />} />
+            <Route path="/mat" element={<MatPostCreate />} />
+            <Route path="/edit/:id" element={<MatPostUpdate />} />
             <Route path="/pickers" element={<MatPicker />} />
             <Route path="/pickers/:id" element={<MatPickerDetail />} />
+            <Route path="/search" element={<SearchPage />} />
             <Route path="/search/:name" element={<SearchDetailPage />} />
             <Route path="/places" element={<MatPlace />} />
             <Route path="/mypage" element={<MyPage />} />
             <Route path="/people" element={<MatPeople />} />
             <Route path="/matPickers" element={<MatPeoplePicker />} />
-            <Route path="/mat" element={<MatPostCreate />} />
-            <Route path="/edit/:id" element={<MatPostUpdate />} />
           </Routes>
         </div>
         <HeaderFeedHide visible={visible} setVisibility={setVisibility} />
