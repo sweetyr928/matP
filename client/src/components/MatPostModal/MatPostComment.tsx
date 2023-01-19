@@ -101,18 +101,13 @@ const MatPostComment = ({
   singleComment: IcommentProps;
 }) => {
   const [isEditing, setIsEditing] = useState<boolean>(false);
-
-  const {
-    id = 0,
-    nickname = "",
-    profileimg = "",
-    comment = "",
-    createdat = "",
-  } = singleComment || {};
-
-  const [modifiedComment, setModifiedComment] =
+  // Comment 객체
+  const [newSingleComment, setNewSingleComment] =
     useState<IcommentProps>(singleComment);
-  const [editedComment, setEditedComment] = useState<string>(comment);
+  // 새로 바뀐 댓글의 내용
+  const [editedComment, setEditedComment] = useState<string>(
+    singleComment.comment
+  );
 
   // 댓글 수정
   const handleEdit = () => {
@@ -121,7 +116,7 @@ const MatPostComment = ({
 
   // 댓글 삭제
   const handleDelete = () => {
-    commentDelete(id);
+    commentDelete(newSingleComment.id);
   };
 
   // 댓글 수정 input
@@ -137,12 +132,11 @@ const MatPostComment = ({
         "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg",
         editedComment,
         new Date().toLocaleString(),
-        id
+        newSingleComment.id
       );
-      setEditedComment("");
       setIsEditing(!isEditing);
-      setModifiedComment({
-        ...modifiedComment,
+      setNewSingleComment({
+        ...newSingleComment,
         ...{ comment: editedComment, createdat: new Date().toLocaleString() },
       });
     }
@@ -157,9 +151,9 @@ const MatPostComment = ({
     <StyledComment>
       <StyledDiv>
         <StyledInfo>
-          <img src={profileimg} alt="profileImg"></img>
-          <div className="post_nickname">{modifiedComment.nickname}</div>
-          <div className="post_createdAt">{modifiedComment.createdat}</div>
+          <img src={newSingleComment.profileimg} alt="profileImg"></img>
+          <div className="post_nickname">{newSingleComment.nickname}</div>
+          <div className="post_createdAt">{newSingleComment.createdat}</div>
         </StyledInfo>
         <div>
           <button onClick={handleEdit}>수정</button>
@@ -178,7 +172,7 @@ const MatPostComment = ({
             <button onClick={handleCancel}>취소</button>
           </StyledEdit>
         ) : (
-          <div>{modifiedComment.comment}</div>
+          <div>{newSingleComment.comment}</div>
         )}
       </StyledContent>
     </StyledComment>

@@ -221,9 +221,11 @@ const PostReadModal = ({
     navigate(`/edit/${selectedPost}`);
   };
 
-  // '삭제' 버튼 클릭 시 Post 삭제
-  const handleDelete = () => {
-    postDelete(id);
+  /**
+   * TODO: 서버 연결 시, setAllComment(res.data)를 통해 전체 댓글 실시간 업데이트 구현
+   */
+  const handleDelete = async () => {
+    await postDelete(id);
     window.location.replace("/");
   };
 
@@ -280,6 +282,9 @@ const PostReadModal = ({
       );
       setComment("");
     }
+    /**
+     * TODO: 서버 연결 시, setAllComment(res.data)를 통해 전체 댓글 실시간 업데이트 구현
+     */
     getAllComment();
   };
 
