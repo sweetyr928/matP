@@ -46,6 +46,8 @@ const DialogBox = styled.dialog`
     border: 1px solid #adadad;
     outline: none;
     border-radius: 12px;
+    color: #373737;
+    font-size: 1rem;
   }
 `;
 

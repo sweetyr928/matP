@@ -133,7 +133,8 @@ const StyledComment = styled.div`
     height: 30px;
     border: none;
     border-bottom: 1px solid;
-    font-size: 15px;
+    color: #373737;
+    font-size: 1rem;
   }
 
   input:focus {
