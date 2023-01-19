@@ -97,10 +97,8 @@ interface IcommentProps {
 
 const MatPostComment = ({
   singleComment,
-  handleGetAllComment,
 }: {
   singleComment: IcommentProps;
-  handleGetAllComment: () => void;
 }) => {
   const [isEditing, setIsEditing] = useState<boolean>(false);
 
@@ -112,6 +110,8 @@ const MatPostComment = ({
     createdat = "",
   } = singleComment || {};
 
+  const [modifiedComment, setModifiedComment] =
+    useState<IcommentProps>(singleComment);
   const [editedComment, setEditedComment] = useState<string>(comment);
 
   // 댓글 수정
@@ -122,7 +122,6 @@ const MatPostComment = ({
   // 댓글 삭제
   const handleDelete = () => {
     commentDelete(id);
-    handleGetAllComment();
   };
 
   // 댓글 수정 input
@@ -131,9 +130,9 @@ const MatPostComment = ({
   };
 
   // enter 키 누를 시 댓글 업데이트
-  const handleKeyUp = (e: React.KeyboardEvent) => {
+  const handleKeyUp = async (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && editedComment.length > 0) {
-      commentUpdate(
+      await commentUpdate(
         "rhino",
         "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg",
         editedComment,
@@ -142,8 +141,11 @@ const MatPostComment = ({
       );
       setEditedComment("");
       setIsEditing(!isEditing);
+      setModifiedComment({
+        ...modifiedComment,
+        ...{ comment: editedComment, createdat: new Date().toLocaleString() },
+      });
     }
-    handleGetAllComment();
   };
 
   // 댓글 수정 취소
@@ -156,8 +158,8 @@ const MatPostComment = ({
       <StyledDiv>
         <StyledInfo>
           <img src={profileimg} alt="profileImg"></img>
-          <div className="post_nickname">{nickname}</div>
-          <div className="post_createdAt">{createdat}</div>
+          <div className="post_nickname">{modifiedComment.nickname}</div>
+          <div className="post_createdAt">{modifiedComment.createdat}</div>
         </StyledInfo>
         <div>
           <button onClick={handleEdit}>수정</button>
@@ -176,7 +178,7 @@ const MatPostComment = ({
             <button onClick={handleCancel}>취소</button>
           </StyledEdit>
         ) : (
-          <div>{comment}</div>
+          <div>{modifiedComment.comment}</div>
         )}
       </StyledContent>
     </StyledComment>

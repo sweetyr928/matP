@@ -253,19 +253,15 @@ const PostReadModal = ({
 
   // 댓글 실시간 업데이트
   const getAllComment = async () => {
-    await axios
-      .get<IComment[]>("http://localhost:3001/comments")
-      .then((res) => {
-        setAllComment(res.data);
-      })
-      .catch((error: Error) => {
-        console.log(error);
-      });
-  };
-
-  // getAllComment 함수 실행 시켜주는 함수(MatPostComment 컴포넌트에 props로 내려줌으로써 comment 수정사항 실시간 업데이트)
-  const handleGetAllComment = () => {
-    setTimeout(() => getAllComment(), 100);
+    try {
+      const response = await axios.get<IComment[]>(
+        "http://localhost:3001/comments"
+      );
+      setAllComment(response.data);
+    } catch (error) {
+      console.error("Error", error);
+      throw error;
+    }
   };
 
   // '게시' 버튼 누를 시 댓글 업로드
@@ -284,7 +280,11 @@ const PostReadModal = ({
 
   return (
     <StyledModal>
-      <span role="presentation" onClick={closeModalHandler} className="close-btn">
+      <span
+        role="presentation"
+        onClick={closeModalHandler}
+        className="close-btn"
+      >
         &times;
       </span>
       <StyledDiv>
@@ -308,7 +308,13 @@ const PostReadModal = ({
           <StyledStarsWrapper>
             <StyledStar>
               {array.map((el, idx) => {
-                return <StarRate key={idx} size="50" className={clicked[el] ? "yellow" : ""} />;
+                return (
+                  <StarRate
+                    key={idx}
+                    size="50"
+                    className={clicked[el] ? "yellow" : ""}
+                  />
+                );
               })}
             </StyledStar>
           </StyledStarsWrapper>
@@ -332,11 +338,7 @@ const PostReadModal = ({
               .slice(0)
               .reverse()
               .map((comment) => (
-                <MatPostComment
-                  key={comment.id}
-                  singleComment={comment}
-                  handleGetAllComment={handleGetAllComment}
-                />
+                <MatPostComment key={comment.id} singleComment={comment} />
               ))}
         </StyledCommentContainer>
       </StyledDiv>
