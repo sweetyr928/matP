@@ -87,7 +87,7 @@ const TabContainer = styled.div`
       background-color: rgb(236, 236, 236);
     }
   }
-  .present {
+  .focused {
     color: #373737;
     border-bottom: 1px solid #373737;
   }
@@ -255,7 +255,7 @@ const MyPage: React.FC = () => {
       </div>
       <ContentContainer>
         <TabContainer>
-          <div className="tab_menu present" aria-hidden="true">
+          <div className="tab_menu focused" aria-hidden="true">
             Post
           </div>
           <div className="tab_menu" onClick={onClickTab} aria-hidden="true">

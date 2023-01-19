@@ -1,8 +1,6 @@
 import styled from "styled-components";
 import { useState } from "react";
-import { PostRead } from "../components";
-import { useParams } from "react-router-dom";
-import PeopleSearchResult from "../components/PeopleSearchResult";
+import { PostRead } from "../../components";
 
 const SearchWrapper = styled.div`
   height: 100%;
@@ -18,7 +16,7 @@ const SearchWrapper = styled.div`
   h1 {
     font-size: 28px;
     font-weight: 500;
-    margin-top: 200px;
+    margin-top: 120px;
     margin-bottom: 30px;
   }
   input {
@@ -26,8 +24,11 @@ const SearchWrapper = styled.div`
     width: 80%;
     height: 50px;
     padding: 9px;
-    border: 1px solid black;
-    border-radius: 20px;
+    border: 1px solid #adadad;
+    outline: none;
+    border-radius: 12px;
+    color: #373737;
+    font-size: 1rem;
   }
 `;
 
@@ -38,22 +39,23 @@ const SearchTab = styled.div`
   width: 100%;
   height: 60px;
   border: none;
-  margin-bottom: 20px;
-`;
-
-const Nullbox = styled.div`
-  height: 10px;
+  margin-bottom: -6px;
 `;
 
 const TabButton = styled.li`
+  cursor: pointer;
   font-size: 18px;
   height: 37px;
   width: 100%;
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   line-height: 30px;
   list-style: none;
-  border-bottom: ${(props) =>
-    props.id === "focused" ? "3px solid black" : "1px solid black"};
+  border-bottom: ${(props) => (props.id === "focused" ? "2px solid #373737" : "1px solid #adadad")};
+  &:hover {
+    background-color: rgb(236, 236, 236);
+  }
 `;
 
 const SearchResultBox = styled.div`
@@ -64,51 +66,18 @@ const SearchResultBox = styled.div`
   margin: 0px 0px 0px 0px;
 `;
 
-const SearchResultPeoPleBox = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-`;
-
-const tabs = [
-  { index: 1, name: "제목" },
-  { index: 2, name: "내용" },
-];
-
-const SearchDetailPage: React.FC = () => {
-  const { name } = useParams();
+const SearchDetailPost: React.FC = () => {
   const [currentMenu, setCurrentMenu] = useState(0);
 
   const selectMenuHandler = (idx: number) => {
     setCurrentMenu(idx);
   };
 
-  const peoples = [
-    {
-      userId: 1,
-      name: "윤뿔소",
-      followers: 200,
-      memo: "맛있다!",
-      thumbnail_url:
-        "https://user-images.githubusercontent.com/94962427/211693723-e10b0b7d-95ed-4918-b450-f952168bca3a.jpeg",
-    },
-    {
-      userId: 2,
-      name: "윤뿔소",
-      followers: 200,
-      memo: "맛있다!",
-      thumbnail_url:
-        "https://user-images.githubusercontent.com/94962427/211693723-e10b0b7d-95ed-4918-b450-f952168bca3a.jpeg",
-    },
-    {
-      userId: 3,
-      name: "윤뿔소",
-      followers: 200,
-      memo: "맛있다!",
-      thumbnail_url:
-        "https://user-images.githubusercontent.com/94962427/211693723-e10b0b7d-95ed-4918-b450-f952168bca3a.jpeg",
-    },
+  const tabs = [
+    { index: 1, name: "제목" },
+    { index: 2, name: "내용" },
   ];
+
   const result = [
     {
       postId: 1,
@@ -143,41 +112,29 @@ const SearchDetailPage: React.FC = () => {
   return (
     <SearchWrapper>
       <label htmlFor="input-title">
-        <h1>{name} 검색</h1>
+        <h1>맛포스트 검색</h1>
       </label>
       <input id="input-title" placeholder="검색어를 입력하세요" />
 
-      {name === "맛포스트" ? (
-        <SearchTab>
-          {tabs.map((el, idx) => (
-            <TabButton
-              key={el.index}
-              id={idx === currentMenu ? "focused" : ""}
-              onClick={() => selectMenuHandler(idx)}
-            >
-              {el.name}
-            </TabButton>
-          ))}
-        </SearchTab>
-      ) : (
-        <Nullbox />
-      )}
-      {name === "맛포스트" && result ? (
+      <SearchTab>
+        {tabs.map((el, idx) => (
+          <TabButton
+            key={el.index}
+            id={idx === currentMenu ? "focused" : ""}
+            onClick={() => selectMenuHandler(idx)}
+          >
+            {el.name}
+          </TabButton>
+        ))}
+      </SearchTab>
+      {result ? (
         <SearchResultBox>
           {result.map((post) => (
             <PostRead key={post.postId} post={post} />
           ))}
         </SearchResultBox>
       ) : null}
-      {name !== "맛포스트" && result ? (
-        <SearchResultPeoPleBox>
-          {" "}
-          {peoples.map((people) => (
-            <PeopleSearchResult key={people.userId} people={people} />
-          ))}
-        </SearchResultPeoPleBox>
-      ) : null}
     </SearchWrapper>
   );
 };
-export default SearchDetailPage;
+export default SearchDetailPost;
