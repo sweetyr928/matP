@@ -237,21 +237,9 @@ const PostReadModal = ({
     setComment(e.target.value);
   };
 
-  // enter 키 누를 시 댓글 업로드
-  const handleKeyUp = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter" && comment.length > 0) {
-      commentCreate(
-        "rhino",
-        "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg",
-        comment,
-        new Date().toLocaleString()
-      );
-      setComment("");
-    }
-    getAllComment();
-  };
-
-  // 댓글 실시간 업데이트
+  /**
+   * TODO: 서버 연결 시, 해당 로직 삭제 필요
+   */
   const getAllComment = async () => {
     try {
       const response = await axios.get<IComment[]>(
@@ -262,6 +250,23 @@ const PostReadModal = ({
       console.error("Error", error);
       throw error;
     }
+  };
+
+  // enter 키 누를 시 댓글 업로드
+  const handleKeyUp = async (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" && comment.length > 0) {
+      await commentCreate(
+        "rhino",
+        "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg",
+        comment,
+        new Date().toLocaleString()
+      );
+      setComment("");
+    }
+    /**
+     * TODO: 서버 연결 시, setAllComment(res.data)를 통해 전체 댓글 실시간 업데이트 구현
+     */
+    getAllComment();
   };
 
   // '게시' 버튼 누를 시 댓글 업로드
