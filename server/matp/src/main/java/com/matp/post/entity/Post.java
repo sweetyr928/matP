@@ -53,4 +53,7 @@ public class Post {
         this.star = updatePost.getStar();
         return post;
     }
+    public void setMemberId(Long memberId) {
+        this.memberId = memberId;
+    }
 }

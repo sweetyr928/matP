@@ -28,7 +28,7 @@ public interface PostRepository extends ReactiveCrudRepository<Post, Long> {
             p.id,
             p.title,
             p.content,
-            lc.likes,
+            p.likes,
             p.thumbnail_url,
             p.star,
             p.created_at,
@@ -38,7 +38,6 @@ public interface PostRepository extends ReactiveCrudRepository<Post, Long> {
             FROM post p
             INNER JOIN member m
             ON p.member_id = m.id
-            join likes_count lc on lc.likes_post_id = p.id
             where p.id = :postId
             """)
     Mono<PostMemberSpecificInfo> findPostWithMemberInfo(Long postId);
