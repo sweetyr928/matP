@@ -19,14 +19,28 @@ repositories {
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-data-r2dbc'
+	//spring
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+
+	//r2dbc-mysql
+	implementation 'org.springframework.boot:spring-boot-starter-data-r2dbc'
 	implementation 'com.github.jasync-sql:jasync-r2dbc-mysql:2.1.8'
-	compileOnly 'org.projectlombok:lombok'
+
+	//aws-s3
+	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
+	implementation platform('com.amazonaws:aws-java-sdk-bom:1.12.386')
+	implementation 'com.amazonaws:aws-java-sdk-s3'
+
+	//r2dbc-h2
 	runtimeOnly 'com.h2database:h2'
 	runtimeOnly 'io.r2dbc:r2dbc-h2'
+
+	//lombok
+	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
+
+	//test
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'io.projectreactor:reactor-test'
 }
