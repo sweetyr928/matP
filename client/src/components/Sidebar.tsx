@@ -35,16 +35,25 @@ const ImageContainer = styled.div`
 
 const MenuContainer = styled.div`
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
   a {
-    margin-top: 37px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 90px;
     color: #373737;
-    .icon {
-      font-size: 45px;
-    }
   }
+`;
+
+const SearchIconStyled = styled(SearchIcon)`
+  color: #505050;
+  transform: scale(2);
+`;
+const RoomIconStyled = styled(RoomIcon)`
+  color: #505050;
+  transform: scale(2);
 `;
 
 const Sidebar = () => {
@@ -58,10 +67,10 @@ const Sidebar = () => {
       </ImageContainer>
       <MenuContainer>
         <Link to="/search">
-          <SearchIcon className="icon" />
+          <SearchIconStyled />
         </Link>
         <Link to="/pickers">
-          <RoomIcon className="icon" />
+          <RoomIconStyled />
         </Link>
       </MenuContainer>
     </SidebarContainer>
