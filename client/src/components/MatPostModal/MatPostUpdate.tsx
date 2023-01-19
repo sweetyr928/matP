@@ -81,6 +81,11 @@ const StyledDiv = styled.div`
     button:hover {
       font-weight: 700;
     }
+
+    .disabled {
+      opacity: calc(0.4);
+      cursor: not-allowed;
+    }
   }
 `;
 
@@ -175,15 +180,13 @@ const PostUpdateModal = ({}: // closeModalHandler,
 
   // '게시' 버튼 누를 시 post 업로드
   const handleClick = (e: React.MouseEvent<HTMLElement>) => {
-    if (newTitle.length > 0 && htmlContent.length > 0) {
-      postUpdate(
-        newTitle,
-        htmlContent,
-        new Date().toLocaleString(),
-        clicked.filter(Boolean).length,
-        Number(id)
-      );
-    }
+    postUpdate(
+      newTitle,
+      htmlContent,
+      new Date().toLocaleString(),
+      clicked.filter(Boolean).length,
+      Number(id)
+    );
   };
 
   /**
@@ -231,7 +234,14 @@ const PostUpdateModal = ({}: // closeModalHandler,
           </StyledStar>
         </StyledStarsWrapper>
         <div className="buttons">
-          <button onClick={handleClick}>수정</button>
+          <button
+            onClick={handleClick}
+            className={
+              newTitle.length > 0 && htmlContent.length > 0 ? "" : "disabled"
+            }
+          >
+            수정
+          </button>
         </div>
       </StyledDiv>
     </StyledModal>

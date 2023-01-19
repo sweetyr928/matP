@@ -82,6 +82,11 @@ const StyledDiv = styled.div`
     button:first-child {
       margin: 0px 10px 0px 0px;
     }
+
+    .disabled {
+      opacity: calc(0.4);
+      cursor: not-allowed;
+    }
   }
 `;
 
@@ -146,17 +151,15 @@ const PostCreateModal = ({}: // closeModalHandler,
 
   // '게시' 버튼 누를 시 post 업로드
   const handleClick = (e: React.MouseEvent<HTMLElement>) => {
-    if (title.length > 0 && htmlContent.length > 0) {
-      postCreate(
-        "rhino",
-        "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg",
-        title,
-        htmlContent,
-        new Date().toLocaleString(),
-        clicked.filter(Boolean).length,
-        0
-      );
-    }
+    postCreate(
+      "rhino",
+      "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg",
+      title,
+      htmlContent,
+      new Date().toLocaleString(),
+      clicked.filter(Boolean).length,
+      0
+    );
   };
 
   // '취소' 버튼 누를시 초기화
@@ -209,7 +212,18 @@ const PostCreateModal = ({}: // closeModalHandler,
           </StyledStar>
         </StyledStarsWrapper>
         <div className="buttons">
-          <button onClick={handleClick}>작성</button>
+          <button
+            onClick={handleClick}
+            className={
+              title.length > 0 &&
+              htmlContent.length > 0 &&
+              clicked.filter(Boolean).length > 0
+                ? ""
+                : "disabled"
+            }
+          >
+            작성
+          </button>
           <button onClick={handleCancel}>취소</button>
         </div>
       </StyledDiv>
