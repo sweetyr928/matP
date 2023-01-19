@@ -81,6 +81,11 @@ const StyledDiv = styled.div`
     button:hover {
       font-weight: 700;
     }
+
+    .disabled {
+      opacity: calc(0.4);
+      cursor: not-allowed;
+    }
   }
 `;
 
@@ -243,7 +248,14 @@ const PostUpdateModal = ({}: // closeModalHandler,
           </StyledStar>
         </StyledStarsWrapper>
         <div className="buttons">
-          <button onClick={handleClick}>수정</button>
+          <button
+            onClick={handleClick}
+            className={
+              newTitle.length > 0 && htmlContent.length > 0 ? "" : "disabled"
+            }
+          >
+            수정
+          </button>
         </div>
       </StyledDiv>
     </StyledModal>

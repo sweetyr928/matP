@@ -82,6 +82,11 @@ const StyledDiv = styled.div`
     button:first-child {
       margin: 0px 10px 0px 0px;
     }
+
+    .disabled {
+      opacity: calc(0.4);
+      cursor: not-allowed;
+    }
   }
 `;
 
@@ -214,7 +219,18 @@ const PostCreateModal = ({}: // closeModalHandler,
           </StyledStar>
         </StyledStarsWrapper>
         <div className="buttons">
-          <button onClick={handleClick}>작성</button>
+          <button
+            onClick={handleClick}
+            className={
+              title.length > 0 &&
+              htmlContent.length > 0 &&
+              clicked.filter(Boolean).length > 0
+                ? ""
+                : "disabled"
+            }
+          >
+            작성
+          </button>
           <button onClick={handleCancel}>취소</button>
         </div>
       </StyledDiv>
