@@ -14,9 +14,9 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
+//TODO place ,member기능 추가뒤 post 생성시에 memberId, placeId 정보를 가질 수 있도록 코드 수정필요
 @RestController
-@RequestMapping("/places/posts")
+@RequestMapping({"/places/posts","/place/{place-id}/posts"})
 @RequiredArgsConstructor
 public class PostController {
     private final PostService postService;
@@ -28,7 +28,7 @@ public class PostController {
      **/
     @GetMapping
     public Flux<PostResponse> getAllMatPosts(@RequestParam(defaultValue = "0") int page,
-                                                @RequestParam(defaultValue = "10") int size) {
+                                                @RequestParam(defaultValue = "30") int size) {
 
         return postService.getAll(page, size);
     }

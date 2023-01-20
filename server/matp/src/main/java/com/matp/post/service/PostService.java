@@ -19,7 +19,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
 
-
+@Service
 @RequiredArgsConstructor
 public class PostService {
     private final CommentService commentService;
@@ -119,8 +119,8 @@ public class PostService {
     @Transactional
     public Mono<PostResponse> update(PatchPostRequest updatePostRequest, Long postId) {
         Post updatePost = updatePostRequest.toEntity();
-
-        return postRepository.findById(postId).flatMap(post -> postRepository.save(post.settingPost(post,updatePost))).map(PostResponse::from);
+        return postRepository.findById(postId).flatMap(post ->
+                postRepository.save(post.settingPost(post,updatePost))).map(PostResponse::from);
     }
 
     /**
