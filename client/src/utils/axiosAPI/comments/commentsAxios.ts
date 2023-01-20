@@ -2,7 +2,7 @@ import axios from "axios";
 const url = "http://localhost:3001";
 
 export interface IComments {
-  commentId: number;
+  id: number;
   nickname: string;
   profileimg: string;
   comment: string;

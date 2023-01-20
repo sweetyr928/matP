@@ -98,13 +98,7 @@ interface IcommentProps {
   createdat: string;
 }
 
-const MatComment = ({
-  singleComment,
-  getAllComment,
-}: {
-  singleComment: IcommentProps;
-  getAllComment: () => void;
-}) => {
+const MatComment = ({ singleComment }: { singleComment: IcommentProps }) => {
   const [isEditing, setIsEditing] = useState<boolean>(false);
   // Comment 객체
   const [newSingleComment, setNewSingleComment] =
@@ -122,7 +116,6 @@ const MatComment = ({
   // 댓글 삭제
   const handleDelete = () => {
     deleteComment(newSingleComment.id);
-    getAllComment();
   };
 
   // 댓글 수정 input

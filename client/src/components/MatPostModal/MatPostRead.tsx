@@ -1,17 +1,15 @@
 import styled from "styled-components";
 import useAxios from "../../utils/useAxios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   getPlacesPost,
   deletePost,
 } from "../../utils/axiosAPI/posts/PostsAxios";
-import axios from "axios";
 import StarRate from "./StarRate";
 import { useNavigate } from "react-router";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import MatComment from "./MatComment";
-import MatCommentAdd from "./MatCommentAdd";
+import MatCommentList from "./MatCommentList";
 
 const StyledModal = styled.div`
   border-radius: 10px;
@@ -127,25 +125,6 @@ const StyledStar = styled.div`
   }
 `;
 
-const StyledCommentContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  max-height: 200px;
-  overflow-y: scroll;
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
-`;
-
-interface IComment {
-  id: number;
-  nickname: string;
-  profileimg: string;
-  comment: string;
-  createdat: string;
-}
-
 const PostReadModal = ({
   closeModalHandler,
   id,
@@ -153,7 +132,6 @@ const PostReadModal = ({
   closeModalHandler?: React.MouseEventHandler;
   id: number;
 }): JSX.Element => {
-  const [allComment, setAllComment] = useState<IComment[] | null>([]);
   const [isLiked, setIsLiked] = useState<boolean>(false);
   const [deleteClicked, setDeleteClicked] = useState<boolean>(false);
 
@@ -182,10 +160,6 @@ const PostReadModal = ({
   // 항상 별이 총 5개(더미 array)
   const array: Array<number> = [0, 1, 2, 3, 4];
 
-  useEffect(() => {
-    getAllComment();
-  }, []);
-
   // '수정' 버튼 클릭 시 PostUpdateModal로 이동
   const handleEdit = () => {
     navigate(`/edit/${id}`);
@@ -199,21 +173,6 @@ const PostReadModal = ({
   // '하트' 이모지 클릭 시 like / default 상태로 바뀜
   const handleLike = () => {
     setIsLiked(!isLiked);
-  };
-
-  /**
-   * TODO: 서버 연결 시, 해당 로직 삭제 필요
-   */
-  const getAllComment = async () => {
-    try {
-      const response = await axios.get<IComment[]>(
-        "http://localhost:3001/comments"
-      );
-      setAllComment(response.data);
-    } catch (error) {
-      console.error("Error", error);
-      throw error;
-    }
   };
 
   return (
@@ -261,20 +220,7 @@ const PostReadModal = ({
         <div className="post_like" onClick={handleLike} role="presentation">
           {isLiked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
         </div>
-        <MatCommentAdd />
-        <StyledCommentContainer>
-          {allComment &&
-            allComment
-              .slice(0)
-              .reverse()
-              .map((comment) => (
-                <MatComment
-                  key={comment.id}
-                  singleComment={comment}
-                  getAllComment={getAllComment}
-                />
-              ))}
-        </StyledCommentContainer>
+        <MatCommentList />
       </StyledDiv>
     </StyledModal>
   );

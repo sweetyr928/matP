@@ -35,7 +35,11 @@ const StyledComment = styled.div`
   }
 `;
 
-const MatCommentAdd = (): JSX.Element => {
+const MatCommentAdd = ({
+  getAllComment,
+}: {
+  getAllComment: () => void;
+}): JSX.Element => {
   const [comment, setComment] = useState<string>("");
   const [createdAt, setCreatedAt] = useState<string>("");
 
@@ -47,7 +51,7 @@ const MatCommentAdd = (): JSX.Element => {
         comment,
         createdAt
       ),
-    [createdAt],
+    [comment, createdAt],
     true
   );
 
@@ -57,30 +61,22 @@ const MatCommentAdd = (): JSX.Element => {
   };
 
   // enter 키 누를 시 댓글 업로드
-  const handleKeyUp = async (e: React.KeyboardEvent) => {
+  const handleKeyUp = (e: React.KeyboardEvent) => {
+    setCreatedAt(new Date().toLocaleString());
     if (e.key === "Enter" && comment.length > 0) {
-      try {
-        setCreatedAt(new Date().toLocaleString());
-        await axiosData();
-        setComment("");
-      } catch (error) {
-        console.error("Error", error);
-        throw error;
-      }
+      axiosData();
+      setComment("");
+      getAllComment();
     }
   };
 
   // 댓글 업로드
-  const handleSumbit = async () => {
+  const handleSumbit = () => {
+    setCreatedAt(new Date().toLocaleString());
     if (comment.length > 0) {
-      try {
-        setCreatedAt(new Date().toLocaleString());
-        await axiosData();
-        setComment("");
-      } catch (error) {
-        console.error("Error", error);
-        throw error;
-      }
+      axiosData();
+      setComment("");
+      getAllComment();
     }
   };
 
