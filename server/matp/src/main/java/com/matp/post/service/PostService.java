@@ -45,7 +45,8 @@ public class PostService {
      */
     @Transactional(readOnly = true)
     public Mono<MultiResponseDto> getPost(Long postId) {
-        // TODO Member 토큰 에서 memberID 뽑아서 좋아요 post 조회시에 체킹유무까지 넘겨줘야함
+        // TODO Member 토큰 에서 memberID 뽑아서 넘겨줘야함 .
+        //  좋아요 post 조회시에 체킹유무까지 넘겨줘야함
         return postRepository.findPostWithMemberInfo(postId)
                 .publishOn(Schedulers.boundedElastic())
                 .map(result -> {
