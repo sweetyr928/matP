@@ -152,6 +152,11 @@ const PostUpdateModal = ({}: // closeModalHandler,
   // 항상 별이 총 5개(더미 array)
   const array: Array<number> = [0, 1, 2, 3, 4];
 
+  /**
+   * useEffect 내에서 props로 받아온 id 값을 가지는 Post의 데이터 정보를 get 요청해서 가져오지 않으면 수정 시 이전 데이터를 가져올 수 없게 되어
+   * 해당 컴포넌트가 랜더링 될 때 get 요청을 받아오는 방식으로 처리함
+   * TODO : 이것을 해결할 수 있는 방안이 있는지?
+   */
   useEffect(() => {
     try {
       axios

@@ -3,7 +3,9 @@ import { useState } from "react";
 import {
   updateComment,
   deleteComment,
+  IComments,
 } from "../../utils/axiosAPI/comments/commentsAxios";
+import useAxios from "../../utils/useAxios";
 
 const StyledComment = styled.div`
   display: flex;
@@ -90,22 +92,36 @@ const StyledContent = styled.div`
   }
 `;
 
-interface IcommentProps {
-  id: number;
-  nickname: string;
-  profileimg: string;
-  comment: string;
-  createdat: string;
-}
-
-const MatComment = ({ singleComment }: { singleComment: IcommentProps }) => {
+const MatComment = ({
+  singleComment,
+  getAllComment,
+}: {
+  singleComment: IComments;
+  getAllComment: () => void;
+}) => {
   const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [createdAt, setCreatedAt] = useState<string>("");
+
   // Comment 객체
   const [newSingleComment, setNewSingleComment] =
-    useState<IcommentProps>(singleComment);
+    useState<IComments>(singleComment);
+
   // 새로 바뀐 댓글의 내용
   const [editedComment, setEditedComment] = useState<string>(
     singleComment.comment
+  );
+
+  const { axiosData } = useAxios(
+    () =>
+      updateComment(
+        "rhino",
+        "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg",
+        editedComment,
+        createdAt,
+        newSingleComment.id
+      ),
+    [createdAt],
+    true
   );
 
   // 댓글 수정
@@ -113,9 +129,13 @@ const MatComment = ({ singleComment }: { singleComment: IcommentProps }) => {
     setIsEditing(!isEditing);
   };
 
-  // 댓글 삭제
+  /**
+   * 이미 comment를 업데이트할 때 axiosData를 불러와서, delete할때는 useAxios를 다시 한번 호출 할 수 없음
+   * TODO : 이것을 해결할 수 있는 방안이 있는지?
+   */
   const handleDelete = () => {
     deleteComment(newSingleComment.id);
+    getAllComment();
   };
 
   // 댓글 수정 input
@@ -125,14 +145,9 @@ const MatComment = ({ singleComment }: { singleComment: IcommentProps }) => {
 
   // enter 키 누를 시 댓글 업데이트
   const handleKeyUp = async (e: React.KeyboardEvent) => {
+    setCreatedAt(new Date().toLocaleString());
     if (e.key === "Enter" && editedComment.length > 0) {
-      updateComment(
-        "rhino",
-        "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg",
-        editedComment,
-        new Date().toLocaleString(),
-        newSingleComment.id
-      );
+      axiosData();
       setIsEditing(!isEditing);
       setNewSingleComment({
         ...newSingleComment,

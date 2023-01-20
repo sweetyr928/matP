@@ -34,7 +34,11 @@ const MatCommentList = () => {
             .slice(0)
             .reverse()
             .map((comment) => (
-              <MatComment key={comment.id} singleComment={comment} />
+              <MatComment
+                key={comment.id}
+                singleComment={comment}
+                getAllComment={getAllComment}
+              />
             ))}
       </StyledCommentList>
     </StyledCommentContainer>
