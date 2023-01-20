@@ -31,6 +31,8 @@ public class Post {
 
     private Long memberId;
 
+    private Long placeId;
+
     // member 정보를 담는 record
     @Transient
     private PostMemberInfo member;
