@@ -2,7 +2,7 @@
 
 import styled from "styled-components";
 import { useState } from "react";
-import { postCreate } from "../../utils/API";
+import { createPost } from "../../utils/axiosAPI/posts/PlacesPostsAxios";
 import MatEditor from "./MatEditor";
 import StarRate from "./StarRate";
 
@@ -136,7 +136,13 @@ const PostCreateModal = ({}: // closeModalHandler,
   let thumbnailUrl: string = "";
 
   // 별점 기본값 설정
-  const [clicked, setClicked] = useState<boolean[]>([false, false, false, false, false]);
+  const [clicked, setClicked] = useState<boolean[]>([
+    false,
+    false,
+    false,
+    false,
+    false,
+  ]);
 
   // 항상 별이 총 5개(더미 array)
   const array: Array<number> = [0, 1, 2, 3, 4];
@@ -172,7 +178,7 @@ const PostCreateModal = ({}: // closeModalHandler,
   // 썸네일 이미지 url 추출 후 post 등록 요청
   const postSubmit = () => {
     if (title.length > 0 && htmlContent.length > 0) {
-      postCreate(
+      createPost(
         "rhino",
         "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg",
         title,
@@ -200,7 +206,11 @@ const PostCreateModal = ({}: // closeModalHandler,
         &times;
       </span>
       <StyledDiv>
-        <input placeholder="제목을 입력해주세요" value={title} onChange={handleInput}></input>
+        <input
+          placeholder="제목을 입력해주세요"
+          value={title}
+          onChange={handleInput}
+        ></input>
         <hr className="middle_line" />
         <MatEditor htmlContent={htmlContent} setHtmlContent={setHtmlContent} />
         <StyledStarsWrapper>

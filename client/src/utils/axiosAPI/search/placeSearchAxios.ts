@@ -1,10 +1,10 @@
 // 검색 페이지 생기면 추가 usePlaceSearch(e)로 추가
 import { useRecoilState } from "recoil";
-import { searchResultsState, searchStatusState } from "../store/searchAtoms";
+import { searchResultsState, searchStatusState } from "../../../store/searchAtoms";
 import axios from "axios";
 import { useCallback, useEffect } from "react";
 
-const usePlaceSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+const placeSearchAxios = (e: React.ChangeEvent<HTMLInputElement>) => {
   const [searchResults, setSearchResults] = useRecoilState(searchResultsState);
   const [searchStatus, setSearchStatus] = useRecoilState(searchStatusState);
 
@@ -27,4 +27,4 @@ const usePlaceSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
   return { searchResults, searchStatus };
 };
 
-export default usePlaceSearch;
+export default placeSearchAxios;

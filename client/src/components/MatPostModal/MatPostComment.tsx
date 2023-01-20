@@ -1,6 +1,9 @@
 import styled from "styled-components";
 import { useState } from "react";
-import { commentUpdate, commentDelete } from "../../utils/API";
+import {
+  updateComment,
+  deleteComment,
+} from "../../utils/axiosAPI/comments/commentsAxios";
 
 const StyledComment = styled.div`
   display: flex;
@@ -117,8 +120,8 @@ const MatPostComment = ({
   };
 
   // 댓글 삭제
-  const handleDelete = async () => {
-    await commentDelete(newSingleComment.id);
+  const handleDelete = () => {
+    deleteComment(newSingleComment.id);
     getAllComment();
   };
 
@@ -130,7 +133,7 @@ const MatPostComment = ({
   // enter 키 누를 시 댓글 업데이트
   const handleKeyUp = async (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && editedComment.length > 0) {
-      await commentUpdate(
+      updateComment(
         "rhino",
         "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg",
         editedComment,

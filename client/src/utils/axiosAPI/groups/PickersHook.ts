@@ -1,7 +1,3 @@
-import { useState, useEffect, useCallback } from "react";
-import axios from "axios";
-const url = "http://localhost:3001/groups";
-
 interface pickersData {
   id: number;
   name: string;
@@ -59,9 +55,7 @@ interface UsePickersDetailReturn {
   error: Error | null;
 }
 
-export const getMatPickersDetail = (
-  id: string | undefined
-): UsePickersDetailReturn => {
+export const getMatPickersDetail = (id: string | undefined): UsePickersDetailReturn => {
   const [pickersTitle, setPickersTitle] = useState("");
   const [pickPlaces, setPickPlace] = useState<PickPlaces[] | null>(null);
   const [loading, setLoading] = useState(false);
@@ -85,41 +79,4 @@ export const getMatPickersDetail = (
   }, [axiosData]);
 
   return { pickersTitle, pickPlaces, loading, error };
-};
-
-export const addMatPickers = async (name: string, color: string) => {
-  try {
-    await axios.post(url, {
-      name,
-      color,
-    });
-  } catch (error) {
-    console.error("Error", error);
-    throw error;
-  }
-};
-
-export const deleteMatPickers = async (id: number): Promise<void> => {
-  try {
-    await axios.delete(`${url}/${id}`);
-  } catch (error) {
-    console.error("Error", error);
-    throw error;
-  }
-};
-
-export const updateMatPickers = async (
-  id: number,
-  name: string,
-  color: string
-) => {
-  try {
-    await axios.patch(`${url}/${id}`, {
-      name,
-      color,
-    });
-  } catch (error) {
-    console.error("Error", error);
-    throw error;
-  }
 };

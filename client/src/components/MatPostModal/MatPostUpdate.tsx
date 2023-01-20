@@ -3,10 +3,9 @@
 import { useParams } from "react-router";
 import styled from "styled-components";
 import { useEffect, useState } from "react";
-import { postUpdate } from "../../utils/API";
+import { updatePost } from "../../utils/axiosAPI/posts/PlacesPostsAxios";
 import MatEditor from "./MatEditor";
 import StarRate from "./StarRate";
-import UsePlacesPostsAxios from "../../utils/usePlacesPostsAxios";
 import axios from "axios";
 
 const StyledModal = styled.div`
@@ -144,13 +143,7 @@ const PostUpdateModal = ({}: // closeModalHandler,
   // 기존 데이터 받아오기
   const [newTitle, setNewTitle] = useState<string>("");
   const [htmlContent, setHtmlContent] = useState<string>("");
-  const [clicked, setClicked] = useState<boolean[]>([
-    false,
-    false,
-    false,
-    false,
-    false,
-  ]);
+  const [clicked, setClicked] = useState<boolean[]>([false, false, false, false, false]);
 
   // 단일 post의 thumbnail_url
   let thumbnailUrl: string = "";
@@ -160,14 +153,12 @@ const PostUpdateModal = ({}: // closeModalHandler,
 
   useEffect(() => {
     try {
-      axios
-        .get<IPost>(`http://localhost:3001/placesposts/${id}`)
-        .then((res) => {
-          setNewTitle(res.data.title);
-          setHtmlContent(res.data.content);
-          setClicked(new Array(5).fill(true, 0, res.data.star));
-          thumbnailUrl = res.data.thumbnailUrl;
-        });
+      axios.get<IPost>(`http://localhost:3001/placesposts/${id}`).then((res) => {
+        setNewTitle(res.data.title);
+        setHtmlContent(res.data.content);
+        setClicked(new Array(5).fill(true, 0, res.data.star));
+        thumbnailUrl = res.data.thumbnailUrl;
+      });
     } catch (err) {
       console.log(err);
     }
@@ -204,7 +195,7 @@ const PostUpdateModal = ({}: // closeModalHandler,
   // 썸네일 이미지 url 추출 후 post 수정 사항 업데이트 요청
   const postSubmit = () => {
     if (newTitle.length > 0 && htmlContent.length > 0) {
-      postUpdate(
+      updatePost(
         newTitle,
         htmlContent,
         new Date().toLocaleString(),
@@ -225,11 +216,7 @@ const PostUpdateModal = ({}: // closeModalHandler,
         &times;
       </span>
       <StyledDiv>
-        <input
-          placeholder="제목을 입력해주세요"
-          value={newTitle}
-          onChange={handleInput}
-        ></input>
+        <input placeholder="제목을 입력해주세요" value={newTitle} onChange={handleInput}></input>
         <hr className="middle_line" />
         <MatEditor htmlContent={htmlContent} setHtmlContent={setHtmlContent} />
         <StyledStarsWrapper>
@@ -250,9 +237,7 @@ const PostUpdateModal = ({}: // closeModalHandler,
         <div className="buttons">
           <button
             onClick={handleClick}
-            className={
-              newTitle.length > 0 && htmlContent.length > 0 ? "" : "disabled"
-            }
+            className={newTitle.length > 0 && htmlContent.length > 0 ? "" : "disabled"}
           >
             수정
           </button>
