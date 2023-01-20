@@ -11,8 +11,12 @@ public class MultiResponseDto {
     @JsonProperty
     private List<CommentInfo> comments;
 
-    public MultiResponseDto(PostResponseWithInfo response, List<CommentInfo> comments) {
+    @JsonProperty
+    private boolean isLikesCheck;
+
+    public MultiResponseDto(PostResponseWithInfo response, List<CommentInfo> comments, Integer likesCheck) {
         this.postInfo = response;
         this.comments = comments;
+        this.isLikesCheck = likesCheck != null;
     }
 }
