@@ -1,12 +1,13 @@
 import styled from "styled-components";
 import getPlacesPost from "../../utils/axiosAPI/posts/(임시)PlacesPostsHook";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { deletePost } from "../../utils/axiosAPI/posts/PlacesPostsAxios";
 import { createComment } from "../../utils/axiosAPI/comments/commentsAxios";
 import MatPostComment from "./MatPostComment";
+import { MatPostUpdate } from "..";
 import axios from "axios";
 import StarRate from "./StarRate";
-import { useNavigate } from "react-router";
+import ModalPortal from "../ModalPortal";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 
@@ -175,16 +176,25 @@ interface IComment {
   createdat: string;
 }
 
-const PostReadModal = ({
-  closeModalHandler,
-  selectedPost,
-}: {
-  closeModalHandler?: React.MouseEventHandler;
+// 모달 토글 버튼 연결 (타입 지정)
+interface ModalDefaultType {
+  onClickToggleModal: () => void;
   selectedPost: number;
-}): JSX.Element => {
+}
+
+const PostReadModal = ({
+  onClickToggleModal,
+  selectedPost,
+}: ModalDefaultType): JSX.Element => {
+  const [isOpenUpdateModal, setOpenUpdateModal] = useState<boolean>(false);
   const [comment, setComment] = useState<string>("");
   const [allComment, setAllComment] = useState<IComment[] | null>([]);
   const [isLiked, setIsLiked] = useState<boolean>(false);
+
+  // 업데이트 모달 토글 함수
+  const onClickToggleUpdateModal = useCallback(() => {
+    setOpenUpdateModal(!isOpenUpdateModal);
+  }, [isOpenUpdateModal]);
 
   // post data GET
   const url_posts = `http://localhost:3001/placesposts/${selectedPost}`;
@@ -202,7 +212,7 @@ const PostReadModal = ({
     // comments = [],
   } = placesPostsData || {};
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   // 별점 불러오기
   const clicked = new Array(5).fill(true, 0, star);
@@ -218,14 +228,14 @@ const PostReadModal = ({
   }, []);
 
   // '수정' 버튼 클릭 시 PostUpdateModal로 이동
-  const handleEdit = () => {
-    navigate(`/edit/${selectedPost}`);
-  };
+  // const handleEdit = () => {
+  //   navigate(`/edit/${selectedPost}`);
+  // };
 
   // '삭제' 버튼 클릭 시 Post 삭제
   const handleDelete = () => {
     deletePost(id);
-    window.location.replace("/");
+    onClickToggleModal();
   };
 
   // '하트' 이모지 클릭 시 like / default 상태로 바뀜
@@ -285,7 +295,19 @@ const PostReadModal = ({
 
   return (
     <StyledModal>
-      <span role="presentation" onClick={closeModalHandler} className="close-btn">
+      {isOpenUpdateModal && (
+        <ModalPortal>
+          <MatPostUpdate
+            selectedPost={selectedPost}
+            onClickToggleModal={onClickToggleUpdateModal}
+          />
+        </ModalPortal>
+      )}
+      <span
+        role="presentation"
+        onClick={onClickToggleModal}
+        className="close-btn"
+      >
         &times;
       </span>
       <StyledDiv>
@@ -298,7 +320,7 @@ const PostReadModal = ({
               <div className="post_createdAt">{createdat}</div>
             </StyledInfo>
             <div>
-              <button onClick={handleEdit}>수정</button>
+              <button onClick={onClickToggleUpdateModal}>수정</button>
               <button onClick={handleDelete}>삭제</button>
               <button>url 복사</button>
             </div>
@@ -309,7 +331,13 @@ const PostReadModal = ({
           <StyledStarsWrapper>
             <StyledStar>
               {array.map((el, idx) => {
-                return <StarRate key={idx} size="50" className={clicked[el] ? "yellow" : ""} />;
+                return (
+                  <StarRate
+                    key={idx}
+                    size="50"
+                    className={clicked[el] ? "yellow" : ""}
+                  />
+                );
               })}
             </StyledStar>
           </StyledStarsWrapper>

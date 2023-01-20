@@ -3,7 +3,7 @@ import styled from "styled-components";
 import useAxios from "../utils/useAxios";
 import LogoutIcon from "@mui/icons-material/Logout";
 import EditIcon from "@mui/icons-material/Edit";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { memberUpdate } from "../utils/axiosAPI/members/API";
 import { ModalPortal } from "../components";
 
@@ -195,18 +195,25 @@ const MyPage: React.FC = () => {
     followings = "",
   } = memberData || {};
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  // const [isModalOpen, setIsModalOpen] = useState(false);
   const [revisedName, setRevisedName] = useState(nickname);
   const [revisedMemo, setRevisedMemo] = useState(memo);
+  const [isOpenModal, setOpenModal] = useState<boolean>(false);
 
-  const modalOpenHandler = () => {
+  const onClickToggleModal = useCallback(() => {
+    setOpenModal(!isOpenModal);
     setRevisedName(nickname);
     setRevisedMemo(memo);
-    setIsModalOpen(true);
-  };
-  const modalCloseHandler = () => {
-    setIsModalOpen(false);
-  };
+  }, [isOpenModal]);
+
+  // const modalOpenHandler = () => {
+  //   setRevisedName(nickname);
+  //   setRevisedMemo(memo);
+  //   setIsModalOpen(true);
+  // };
+  // const modalCloseHandler = () => {
+  //   setIsModalOpen(false);
+  // };
 
   const onChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setRevisedName(e.target.value);
@@ -217,23 +224,31 @@ const MyPage: React.FC = () => {
 
   const onRevise = () => {
     memberUpdate(revisedName, profileImg, revisedMemo);
-    modalCloseHandler();
+    onClickToggleModal();
   };
 
   return (
     <FeedContainer>
-      {isModalOpen && (
+      {isOpenModal && (
         <ModalPortal>
           <ModalContainer>
             <ModalBackdrop>
               <ModalView>
                 <Header>정보 수정하기</Header>
                 <EditUserImg src={profileImg} alt="프로필사진" />
-                <Input type="text" value={revisedName} onChange={onChangeName}></Input>
-                <Input type="text" value={revisedMemo} onChange={onChangeMemo}></Input>
+                <Input
+                  type="text"
+                  value={revisedName}
+                  onChange={onChangeName}
+                ></Input>
+                <Input
+                  type="text"
+                  value={revisedMemo}
+                  onChange={onChangeMemo}
+                ></Input>
                 <div className="button_container">
                   <ModalBtn onClick={onRevise}>제출</ModalBtn>
-                  <ModalBtn onClick={modalCloseHandler}>취소</ModalBtn>
+                  <ModalBtn onClick={onClickToggleModal}>취소</ModalBtn>
                 </div>
               </ModalView>
             </ModalBackdrop>
@@ -249,7 +264,7 @@ const MyPage: React.FC = () => {
             팔로워 {followers} 팔로잉 {followings}
           </UserRemainder>
         </UserInfo>
-        <EditIconStyled onClick={modalOpenHandler} />
+        <EditIconStyled onClick={onClickToggleModal} />
 
         <LogoutIconStyled />
       </div>

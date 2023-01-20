@@ -1,5 +1,4 @@
 /* eslint-disable */
-
 import styled from "styled-components";
 import { useState } from "react";
 import { postCreate } from "../../utils/axiosAPI/members/API";
@@ -125,18 +124,48 @@ const StyledStar = styled.div`
   }
 `;
 
-const PostCreateModal = ({}: // closeModalHandler,
-{
-  // closeModalHandler?: React.MouseEventHandler;
-}) => {
+const StyledBackDrop = styled.div`
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: grid;
+  place-items: center;
+`;
+
+// 모달 토글 버튼 연결 (타입 지정)
+interface ModalDefaultType {
+  onClickToggleModal: () => void;
+}
+
+const PostCreateModal = ({ onClickToggleModal }: ModalDefaultType) => {
   const [title, setTitle] = useState<string>("");
   const [htmlContent, setHtmlContent] = useState<string>("");
+
+  // 모달 닫기
+  const closeModal = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (onClickToggleModal) {
+      onClickToggleModal();
+    }
+  };
 
   // 단일 post의 thumbnail_url
   let thumbnailUrl: string = "";
 
   // 별점 기본값 설정
-  const [clicked, setClicked] = useState<boolean[]>([false, false, false, false, false]);
+  const [clicked, setClicked] = useState<boolean[]>([
+    false,
+    false,
+    false,
+    false,
+    false,
+  ]);
 
   // 항상 별이 총 5개(더미 array)
   const array: Array<number> = [0, 1, 2, 3, 4];
@@ -167,6 +196,7 @@ const PostCreateModal = ({}: // closeModalHandler,
       thumbnailUrl = htmlContent.slice(firstIndex + 10, secondIndex);
     }
     postSubmit();
+    closeModal(e);
   };
 
   // 썸네일 이미지 url 추출 후 post 등록 요청
@@ -186,53 +216,62 @@ const PostCreateModal = ({}: // closeModalHandler,
   };
 
   // '취소' 버튼 누를시 초기화
-  const handleCancel = () => {
+  const handleCancel = (e: React.MouseEvent) => {
     setHtmlContent("");
+    closeModal(e);
   };
 
   return (
-    <StyledModal>
-      <span
-        role="presentation"
-        // onClick={closeModalHandler}
-        className="close-btn"
-      >
-        &times;
-      </span>
-      <StyledDiv>
-        <input placeholder="제목을 입력해주세요" value={title} onChange={handleInput}></input>
-        <hr className="middle_line" />
-        <MatEditor htmlContent={htmlContent} setHtmlContent={setHtmlContent} />
-        <StyledStarsWrapper>
-          <StyledRatingtxt>평점</StyledRatingtxt>
-          <StyledStar>
-            {array.map((el, idx) => {
-              return (
-                <StarRate
-                  key={idx}
-                  size="50"
-                  onClick={() => handleStarClick(el)}
-                  className={clicked[el] ? "yellow" : ""}
-                />
-              );
-            })}
-          </StyledStar>
-        </StyledStarsWrapper>
-        <div className="buttons">
-          <button
-            onClick={handleClick}
-            className={
-              title.length > 0 && htmlContent.length > 0 && clicked.filter(Boolean).length > 0
-                ? ""
-                : "disabled"
-            }
-          >
-            작성
-          </button>
-          <button onClick={handleCancel}>취소</button>
-        </div>
-      </StyledDiv>
-    </StyledModal>
+    <>
+      <StyledModal>
+        <span role="presentation" onClick={closeModal} className="close-btn">
+          &times;
+        </span>
+        <StyledDiv>
+          <input
+            placeholder="제목을 입력해주세요"
+            value={title}
+            onChange={handleInput}
+          ></input>
+          <hr className="middle_line" />
+          <MatEditor
+            htmlContent={htmlContent}
+            setHtmlContent={setHtmlContent}
+          />
+          <StyledStarsWrapper>
+            <StyledRatingtxt>평점</StyledRatingtxt>
+            <StyledStar>
+              {array.map((el, idx) => {
+                return (
+                  <StarRate
+                    key={idx}
+                    size="50"
+                    onClick={() => handleStarClick(el)}
+                    className={clicked[el] ? "yellow" : ""}
+                  />
+                );
+              })}
+            </StyledStar>
+          </StyledStarsWrapper>
+          <div className="buttons">
+            <button
+              onClick={handleClick}
+              className={
+                title.length > 0 &&
+                htmlContent.length > 0 &&
+                clicked.filter(Boolean).length > 0
+                  ? ""
+                  : "disabled"
+              }
+            >
+              작성
+            </button>
+            <button onClick={handleCancel}>취소</button>
+          </div>
+        </StyledDiv>
+      </StyledModal>
+      <StyledBackDrop onClick={closeModal} />
+    </>
   );
 };
 
