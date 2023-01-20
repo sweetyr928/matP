@@ -21,15 +21,14 @@ interface Comments {
   createdat: string;
 }
 
-interface UsePlacesPostsAxiosReturn {
+interface getPlacesPostReturn {
   placesPostsData: placesPostsData | null;
   loading: boolean;
   error: Error | null;
 }
 
-const UsePlacesPostsAxios = (url: string): UsePlacesPostsAxiosReturn => {
-  const [placesPostsData, setPlacesPostsData] =
-    useState<placesPostsData | null>(null);
+const getPlacesPost = (url: string): getPlacesPostReturn => {
+  const [placesPostsData, setPlacesPostsData] = useState<placesPostsData | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
 
@@ -52,4 +51,4 @@ const UsePlacesPostsAxios = (url: string): UsePlacesPostsAxiosReturn => {
   return { placesPostsData, loading, error };
 };
 
-export default UsePlacesPostsAxios;
+export default getPlacesPost;

@@ -27,16 +27,14 @@ interface Pick {
   name: string;
   color: string;
 }
-interface UseMatPeopleAxiosReturn {
+interface getMatPeopleReturn {
   matPeopleData: MatPeopleData | null;
   loading: boolean;
   error: Error | null;
 }
 
-const usePeopleAxios = (url: string): UseMatPeopleAxiosReturn => {
-  const [matPeopleData, setMatPeopleData] = useState<MatPeopleData | null>(
-    null
-  );
+export const getMatPeople = (url: string): getMatPeopleReturn => {
+  const [matPeopleData, setMatPeopleData] = useState<MatPeopleData | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
 
@@ -59,4 +57,4 @@ const usePeopleAxios = (url: string): UseMatPeopleAxiosReturn => {
   return { matPeopleData, loading, error };
 };
 
-export default usePeopleAxios;
+export default getMatPeople;

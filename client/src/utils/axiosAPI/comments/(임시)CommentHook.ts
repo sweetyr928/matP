@@ -9,13 +9,13 @@ interface commentsData {
   createdat: string;
 }
 
-interface UseCommentsAxiosReturn {
+interface getCommentReturn {
   commentsData: commentsData[] | null;
   loading: boolean;
   error: Error | null;
 }
 
-const UseCommentsAxios = (url: string): UseCommentsAxiosReturn => {
+export const getComment = (url: string): getCommentReturn => {
   const [commentsData, setCommentsData] = useState<commentsData[] | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
@@ -39,4 +39,4 @@ const UseCommentsAxios = (url: string): UseCommentsAxiosReturn => {
   return { commentsData, loading, error };
 };
 
-export default UseCommentsAxios;
+export default getComment;

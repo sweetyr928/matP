@@ -8,13 +8,13 @@ interface IPostsData {
   thumbnail_url: string;
 }
 
-interface UsePostsAxiosReturn {
+interface getPostReturn {
   postsData: IPostsData[] | null;
   loading: boolean;
   error: Error | null;
 }
 
-const UsePostsAxios = (url: string): UsePostsAxiosReturn => {
+const getPost = (url: string): getPostReturn => {
   const [postsData, setPostsData] = useState<IPostsData[] | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
@@ -38,4 +38,4 @@ const UsePostsAxios = (url: string): UsePostsAxiosReturn => {
   return { postsData, loading, error };
 };
 
-export default UsePostsAxios;
+export default getPost;

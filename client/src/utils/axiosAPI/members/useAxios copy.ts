@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 
-interface ReponseData {
+interface MemberData {
   nickname: string;
   email: string;
   birthday: string;
@@ -27,21 +27,23 @@ interface Pick {
   name: string;
   color: string;
 }
-type Status = "Idle" | "Loading" | "Success" | "Error";
+interface Status {
+  status: "Idle" | "Loading" | "Success" | "Error";
+}
 interface UseAxiosReturn {
-  reponseData: ReponseData | null;
+  memberData: MemberData | null;
   status: Status;
 }
 
 const useAxios = (url: string): UseAxiosReturn => {
-  const [reponseData, setReponseData] = useState<ReponseData | null>(null);
+  const [memberData, setMemberData] = useState<MemberData | null>(null);
   const [status, setStatus] = useState<Status>("Idle");
 
   const axiosData = useCallback(async () => {
     setStatus("Loading");
     try {
-      const response = await axios.get<ReponseData>(url);
-      setReponseData(response.data);
+      const response = await axios.get<MemberData>(url);
+      setMemberData(response.data);
       setStatus("Success");
     } catch (error) {
       setStatus("Error");
@@ -53,7 +55,7 @@ const useAxios = (url: string): UseAxiosReturn => {
     axiosData();
   }, [axiosData]);
 
-  return { reponseData, status };
+  return { memberData, status };
 };
 
 export default useAxios;

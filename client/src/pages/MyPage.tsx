@@ -4,7 +4,7 @@ import useAxios from "../utils/useAxios";
 import LogoutIcon from "@mui/icons-material/Logout";
 import EditIcon from "@mui/icons-material/Edit";
 import { useState } from "react";
-import { memberUpdate } from "../utils/API";
+import { memberUpdate } from "../utils/axiosAPI/members/API";
 import { ModalPortal } from "../components";
 
 const FeedContainer = styled.div`

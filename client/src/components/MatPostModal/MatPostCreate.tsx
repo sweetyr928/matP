@@ -2,7 +2,7 @@
 
 import styled from "styled-components";
 import { useState } from "react";
-import { postCreate } from "../../utils/API";
+import { postCreate } from "../../utils/axiosAPI/members/API";
 import MatEditor from "./MatEditor";
 import StarRate from "./StarRate";
 
@@ -222,9 +222,7 @@ const PostCreateModal = ({}: // closeModalHandler,
           <button
             onClick={handleClick}
             className={
-              title.length > 0 &&
-              htmlContent.length > 0 &&
-              clicked.filter(Boolean).length > 0
+              title.length > 0 && htmlContent.length > 0 && clicked.filter(Boolean).length > 0
                 ? ""
                 : "disabled"
             }

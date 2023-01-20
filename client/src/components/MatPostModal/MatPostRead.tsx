@@ -1,7 +1,8 @@
 import styled from "styled-components";
-import UsePlacesPostsAxios from "../../utils/usePlacesPostsAxios";
+import getPlacesPost from "../../utils/axiosAPI/posts/(임시)PlacesPostsHook";
 import { useEffect, useState } from "react";
-import { commentCreate, postDelete } from "../../utils/API";
+import { deletePost } from "../../utils/axiosAPI/posts/PlacesPostsAxios";
+import { createComment } from "../../utils/axiosAPI/comments/commentsAxios";
 import MatPostComment from "./MatPostComment";
 import axios from "axios";
 import StarRate from "./StarRate";
@@ -187,7 +188,7 @@ const PostReadModal = ({
 
   // post data GET
   const url_posts = `http://localhost:3001/placesposts/${selectedPost}`;
-  const { placesPostsData } = UsePlacesPostsAxios(url_posts);
+  const { placesPostsData } = getPlacesPost(url_posts);
 
   const {
     id = 0,
@@ -223,7 +224,7 @@ const PostReadModal = ({
 
   // '삭제' 버튼 클릭 시 Post 삭제
   const handleDelete = () => {
-    postDelete(id);
+    deletePost(id);
     window.location.replace("/");
   };
 
@@ -240,7 +241,7 @@ const PostReadModal = ({
   // enter 키 누를 시 댓글 업로드
   const handleKeyUp = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && comment.length > 0) {
-      commentCreate(
+      createComment(
         "rhino",
         "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg",
         comment,
@@ -271,7 +272,7 @@ const PostReadModal = ({
   // '게시' 버튼 누를 시 댓글 업로드
   const handleClick = () => {
     if (comment.length > 0) {
-      commentCreate(
+      createComment(
         "rhino",
         "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg",
         comment,
