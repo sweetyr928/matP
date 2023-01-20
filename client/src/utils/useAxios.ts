@@ -1,46 +1,25 @@
 import { useState, useEffect, useCallback } from "react";
 
-interface ReponseData {
-  nickname: string;
-  email: string;
-  birthday: string;
-  profileImg: string;
-  gender: string;
-  memo: string;
-  createdAt: string;
-  modifiedAt: string;
-  followers: string;
-  followings: string;
-  postlist: Array<Post>;
-  picklist: Array<Pick>;
-}
-interface Post {
-  postId: number;
-  likes: number;
-  commentcount: number;
-  thumbnail_url: string;
-}
-
-interface Pick {
-  groupId: number;
-  name: string;
-  color: string;
-}
 type Status = "Idle" | "Loading" | "Success" | "Error";
-interface UseAxiosReturn {
-  reponseData: ReponseData | null;
+interface UseAxiosReturn<T> {
+  axiosData: () => void;
+  responseData: T | null;
   status: Status;
 }
 
-const useAxios = (callback: any, deps = [], skip = false): UseAxiosReturn => {
-  const [reponseData, setReponseData] = useState<ReponseData | null>(null);
+const useAxios = <T = any>(
+  callback: () => Promise<T>,
+  deps: any[] = [],
+  skip = false
+): UseAxiosReturn<T> => {
+  const [responseData, setResponseData] = useState<T | null>(null);
   const [status, setStatus] = useState<Status>("Idle");
 
   const axiosData = useCallback(async () => {
     setStatus("Loading");
     try {
       const data = await callback();
-      setReponseData(data);
+      setResponseData(data);
       setStatus("Success");
     } catch (error) {
       setStatus("Error");
@@ -53,7 +32,7 @@ const useAxios = (callback: any, deps = [], skip = false): UseAxiosReturn => {
     axiosData();
   }, deps);
 
-  return { reponseData, status };
+  return { axiosData, responseData, status };
 };
 
 export default useAxios;

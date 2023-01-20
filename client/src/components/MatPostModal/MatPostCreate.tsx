@@ -2,9 +2,10 @@
 
 import styled from "styled-components";
 import { useState } from "react";
-import { createPost } from "../../utils/axiosAPI/posts/PlacesPostsAxios";
+import { createPost } from "../../utils/axiosAPI/posts/PostsAxios";
 import MatEditor from "./MatEditor";
 import StarRate from "./StarRate";
+import useAxios from "../../utils/useAxios";
 
 const StyledModal = styled.div`
   border-radius: 10px;
@@ -143,13 +144,39 @@ const PostCreateModal = ({}: // closeModalHandler,
     false,
     false,
   ]);
+  const [createdAt, setCreatedAt] = useState<string>("");
 
   // 항상 별이 총 5개(더미 array)
   const array: Array<number> = [0, 1, 2, 3, 4];
 
+  const { axiosData } = useAxios(
+    () =>
+      createPost(
+        "rhino",
+        "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg",
+        title,
+        htmlContent,
+        createdAt,
+        clicked.filter(Boolean).length,
+        0,
+        thumbnailUrl
+      ),
+    [title, htmlContent, createdAt, clicked, thumbnailUrl],
+    true
+  );
+
   // 제목 input 창
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
+  };
+
+  const getThumbnailUrl = () => {
+    if (htmlContent.indexOf(`<img src="`) > 0) {
+      const firstIndex = htmlContent.indexOf(`<img src="`);
+      // 서버 연결 후 ` a`로 변경할 것(MatEditor.tsx 참고)
+      const secondIndex = htmlContent.indexOf('"></p>', firstIndex);
+      thumbnailUrl = htmlContent.slice(firstIndex + 10, secondIndex);
+    }
   };
 
   /**
@@ -157,38 +184,13 @@ const PostCreateModal = ({}: // closeModalHandler,
    * @param index 클릭한 별의 순서
    */
   const handleStarClick = (index: number) => {
-    let clickStates = [...clicked];
+    getThumbnailUrl();
+    const clickStates = [...clicked];
     for (let i = 0; i < 5; i++) {
       clickStates[i] = i <= index ? true : false;
     }
     setClicked(clickStates);
-  };
-
-  // '게시' 버튼 누를 시 썸네일 이미지 url(가장 첫번째로 등록된 이미지) 추출
-  const handleClick = (e: React.MouseEvent<HTMLElement>) => {
-    if (htmlContent.indexOf(`<img src="`) > 0) {
-      const firstIndex = htmlContent.indexOf(`<img src="`);
-      // 서버 연결 후 ` a`로 변경할 것(MatEditor.tsx 참고)
-      const secondIndex = htmlContent.indexOf('"></p>', firstIndex);
-      thumbnailUrl = htmlContent.slice(firstIndex + 10, secondIndex);
-    }
-    postSubmit();
-  };
-
-  // 썸네일 이미지 url 추출 후 post 등록 요청
-  const postSubmit = () => {
-    if (title.length > 0 && htmlContent.length > 0) {
-      createPost(
-        "rhino",
-        "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg",
-        title,
-        htmlContent,
-        new Date().toLocaleString(),
-        clicked.filter(Boolean).length,
-        0,
-        thumbnailUrl
-      );
-    }
+    setCreatedAt(new Date().toLocaleString());
   };
 
   // '취소' 버튼 누를시 초기화
@@ -230,7 +232,7 @@ const PostCreateModal = ({}: // closeModalHandler,
         </StyledStarsWrapper>
         <div className="buttons">
           <button
-            onClick={handleClick}
+            onClick={axiosData}
             className={
               title.length > 0 &&
               htmlContent.length > 0 &&

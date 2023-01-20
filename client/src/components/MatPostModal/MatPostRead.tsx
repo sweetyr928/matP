@@ -1,7 +1,10 @@
 import styled from "styled-components";
-import getPlacesPost from "../../utils/axiosAPI/posts/(임시)PlacesPostsHook";
+import useAxios from "../../utils/useAxios";
 import { useEffect, useState } from "react";
-import { deletePost } from "../../utils/axiosAPI/posts/PlacesPostsAxios";
+import {
+  getPlacesPost,
+  deletePost,
+} from "../../utils/axiosAPI/posts/PostsAxios";
 import { createComment } from "../../utils/axiosAPI/comments/commentsAxios";
 import MatPostComment from "./MatPostComment";
 import axios from "axios";
@@ -177,21 +180,22 @@ interface IComment {
 
 const PostReadModal = ({
   closeModalHandler,
-  selectedPost,
+  id,
 }: {
   closeModalHandler?: React.MouseEventHandler;
-  selectedPost: number;
+  id: number;
 }): JSX.Element => {
   const [comment, setComment] = useState<string>("");
   const [allComment, setAllComment] = useState<IComment[] | null>([]);
   const [isLiked, setIsLiked] = useState<boolean>(false);
 
-  // post data GET
-  const url_posts = `http://localhost:3001/placesposts/${selectedPost}`;
-  const { placesPostsData } = getPlacesPost(url_posts);
+  // 단일 post data GET
+  const { responseData } = useAxios(() => getPlacesPost(id), [id], false);
+
+  // 단일 post 삭제
+  const { axiosData } = useAxios(() => deletePost(id), [], false);
 
   const {
-    id = 0,
     nickname = "",
     profileimg = "",
     createdat = "",
@@ -200,7 +204,7 @@ const PostReadModal = ({
     star = 0,
     likes = 0,
     // comments = [],
-  } = placesPostsData || {};
+  } = responseData || {};
 
   const navigate = useNavigate();
 
@@ -219,13 +223,7 @@ const PostReadModal = ({
 
   // '수정' 버튼 클릭 시 PostUpdateModal로 이동
   const handleEdit = () => {
-    navigate(`/edit/${selectedPost}`);
-  };
-
-  // '삭제' 버튼 클릭 시 Post 삭제
-  const handleDelete = async () => {
-    await deletePost(id);
-    window.location.replace("/");
+    navigate(`/edit/${id}`);
   };
 
   // '하트' 이모지 클릭 시 like / default 상태로 바뀜
@@ -307,7 +305,7 @@ const PostReadModal = ({
             </StyledInfo>
             <div>
               <button onClick={handleEdit}>수정</button>
-              <button onClick={handleDelete}>삭제</button>
+              <button onClick={axiosData}>삭제</button>
               <button>url 복사</button>
             </div>
           </StyledMid>

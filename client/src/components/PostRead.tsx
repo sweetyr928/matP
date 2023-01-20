@@ -5,6 +5,7 @@ import styled from "styled-components";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useState } from "react";
 import { MatPostRead, ModalPortal } from ".";
+import { IPosts } from "../utils/axiosAPI/posts/PostsAxios";
 
 const ImgWrapper = styled.div`
   width: 130px;
@@ -64,14 +65,7 @@ const ModalBackdrop = styled.div`
   place-items: center;
 `;
 
-interface IPostProps {
-  postId: number;
-  likes: number;
-  commentcount: number;
-  thumbnail_url: string;
-}
-
-const PostRead = ({ post }: { post: IPostProps }) => {
+const PostRead = ({ post }: { post: IPosts }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [selectedPost, setSelectedPost] = useState<number>(1);
 
@@ -100,7 +94,7 @@ const PostRead = ({ post }: { post: IPostProps }) => {
         <ModalPortal>
           <MatPostRead
             closeModalHandler={closeModalHandler}
-            selectedPost={selectedPost}
+            id={selectedPost}
           />
           <ModalBackdrop onClick={closeModalHandler} />
         </ModalPortal>

@@ -3,10 +3,15 @@
 import { useParams } from "react-router";
 import styled from "styled-components";
 import { useEffect, useState } from "react";
-import { updatePost } from "../../utils/axiosAPI/posts/PlacesPostsAxios";
+import {
+  IPlacesPosts,
+  IPosts,
+  updatePost,
+} from "../../utils/axiosAPI/posts/PostsAxios";
 import MatEditor from "./MatEditor";
 import StarRate from "./StarRate";
 import axios from "axios";
+import useAxios from "../../utils/useAxios";
 
 const StyledModal = styled.div`
   border-radius: 10px;
@@ -123,17 +128,6 @@ const StyledStar = styled.div`
   }
 `;
 
-interface IPost {
-  id: number;
-  nickname: string;
-  profileimg: string;
-  title: string;
-  content: string;
-  createdat: string;
-  star: number;
-  thumbnailUrl: string;
-}
-
 const PostUpdateModal = ({}: // closeModalHandler,
 {
   // closeModalHandler?: React.MouseEventHandler;
@@ -143,7 +137,14 @@ const PostUpdateModal = ({}: // closeModalHandler,
   // 기존 데이터 받아오기
   const [newTitle, setNewTitle] = useState<string>("");
   const [htmlContent, setHtmlContent] = useState<string>("");
-  const [clicked, setClicked] = useState<boolean[]>([false, false, false, false, false]);
+  const [clicked, setClicked] = useState<boolean[]>([
+    false,
+    false,
+    false,
+    false,
+    false,
+  ]);
+  const [createdAt, setCreatedAt] = useState<string>("");
 
   // 단일 post의 thumbnail_url
   let thumbnailUrl: string = "";
@@ -153,20 +154,45 @@ const PostUpdateModal = ({}: // closeModalHandler,
 
   useEffect(() => {
     try {
-      axios.get<IPost>(`http://localhost:3001/placesposts/${id}`).then((res) => {
-        setNewTitle(res.data.title);
-        setHtmlContent(res.data.content);
-        setClicked(new Array(5).fill(true, 0, res.data.star));
-        thumbnailUrl = res.data.thumbnailUrl;
-      });
+      axios
+        .get<IPlacesPosts>(`http://localhost:3001/placesposts/${id}`)
+        .then((res) => {
+          setNewTitle(res.data.title);
+          setHtmlContent(res.data.content);
+          setClicked(new Array(5).fill(true, 0, res.data.star));
+          thumbnailUrl = res.data.thumbnailUrl;
+        });
     } catch (err) {
       console.log(err);
     }
   }, []);
 
+  const { axiosData } = useAxios(
+    () =>
+      updatePost(
+        newTitle,
+        htmlContent,
+        createdAt,
+        clicked.filter(Boolean).length,
+        thumbnailUrl,
+        Number(id)
+      ),
+    [newTitle, htmlContent, createdAt, clicked, thumbnailUrl],
+    true
+  );
+
   // 제목 input 창
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewTitle(e.target.value);
+  };
+
+  const getThumbnailUrl = () => {
+    if (htmlContent.indexOf(`<img src="`) > 0) {
+      const firstIndex = htmlContent.indexOf(`<img src="`);
+      // 서버 연결 후 ` a`로 변경할 것(MatEditor.tsx 참고)
+      const secondIndex = htmlContent.indexOf('"></p>', firstIndex);
+      thumbnailUrl = htmlContent.slice(firstIndex + 10, secondIndex);
+    }
   };
 
   /**
@@ -174,36 +200,13 @@ const PostUpdateModal = ({}: // closeModalHandler,
    * @param index 클릭한 별의 순서
    */
   const handleStarClick = (index: number) => {
+    getThumbnailUrl();
     const clickStates = [...clicked];
     for (let i = 0; i < 5; i++) {
       clickStates[i] = i <= index ? true : false;
     }
     setClicked(clickStates);
-  };
-
-  // '수정' 버튼 누를 시 썸네일 이미지 url(가장 첫번째로 등록된 이미지) 추출
-  const handleClick = (e: React.MouseEvent<HTMLElement>) => {
-    if (htmlContent.indexOf(`<img src="`) > 0) {
-      const firstIndex = htmlContent.indexOf(`<img src="`);
-      // 서버 연결 후 ` a`로 변경할 것(MatEditor.tsx 참고)
-      const secondIndex = htmlContent.indexOf('"></p>', firstIndex);
-      thumbnailUrl = htmlContent.slice(firstIndex + 10, secondIndex);
-    }
-    postSubmit();
-  };
-
-  // 썸네일 이미지 url 추출 후 post 수정 사항 업데이트 요청
-  const postSubmit = () => {
-    if (newTitle.length > 0 && htmlContent.length > 0) {
-      updatePost(
-        newTitle,
-        htmlContent,
-        new Date().toLocaleString(),
-        clicked.filter(Boolean).length,
-        thumbnailUrl,
-        Number(id)
-      );
-    }
+    setCreatedAt(new Date().toLocaleString());
   };
 
   return (
@@ -216,7 +219,11 @@ const PostUpdateModal = ({}: // closeModalHandler,
         &times;
       </span>
       <StyledDiv>
-        <input placeholder="제목을 입력해주세요" value={newTitle} onChange={handleInput}></input>
+        <input
+          placeholder="제목을 입력해주세요"
+          value={newTitle}
+          onChange={handleInput}
+        ></input>
         <hr className="middle_line" />
         <MatEditor htmlContent={htmlContent} setHtmlContent={setHtmlContent} />
         <StyledStarsWrapper>
@@ -236,8 +243,10 @@ const PostUpdateModal = ({}: // closeModalHandler,
         </StyledStarsWrapper>
         <div className="buttons">
           <button
-            onClick={handleClick}
-            className={newTitle.length > 0 && htmlContent.length > 0 ? "" : "disabled"}
+            onClick={axiosData}
+            className={
+              newTitle.length > 0 && htmlContent.length > 0 ? "" : "disabled"
+            }
           >
             수정
           </button>
