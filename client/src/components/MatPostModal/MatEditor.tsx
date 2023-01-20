@@ -46,7 +46,7 @@ const MatEditor = ({ htmlContent, setHtmlContent }: QuillEditorProps) => {
         });
 
         // 이미지 url
-        url = res.data.url;
+        url = res.data.path;
 
         if (QuillRef.current) {
           // 현재 Editor 커서 위치에 서버로부터 전달받은 이미지 url을 이용하여 이미지 태그 추가
@@ -59,7 +59,7 @@ const MatEditor = ({ htmlContent, setHtmlContent }: QuillEditorProps) => {
 
             quill?.clipboard.dangerouslyPasteHTML(
               index,
-              `<img src=${res.data.url} alt="이미지 태그가 삽입됩니다." />`
+              `<img src=${url} alt="이미지 태그가 삽입됩니다." />`
             );
           }
         }
