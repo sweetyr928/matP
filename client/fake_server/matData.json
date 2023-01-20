@@ -68,6 +68,17 @@
       "likes": 0,
       "id": 4,
       "thumbnailUrl": "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg"
+    },
+    {
+      "nickname": "rhino",
+      "profileimg": "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg",
+      "title": "adsfafsd",
+      "content": "<p>afdsfdasasdffa</p>",
+      "createdat": "2023. 1. 20. 오후 8:13:07",
+      "star": 4,
+      "likes": 0,
+      "thumbnailUrl": "",
+      "id": 5
     }
   ],
   "comments": [
@@ -98,6 +109,27 @@
       "comment": "하이루?..",
       "createdat": "2023. 1. 20. 오전 12:06:11",
       "id": 4
+    },
+    {
+      "nickname": "rhino",
+      "profileimg": "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg",
+      "comment": "랄랄라",
+      "createdat": "2023. 1. 20. 오후 7:48:31",
+      "id": 5
+    },
+    {
+      "nickname": "rhino",
+      "profileimg": "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg",
+      "comment": "배고파",
+      "createdat": "2023. 1. 20. 오후 7:48:58",
+      "id": 6
+    },
+    {
+      "nickname": "rhino",
+      "profileimg": "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg",
+      "comment": "안녕하세용?",
+      "createdat": "2023. 1. 20. 오후 7:55:00",
+      "id": 7
     }
   ],
   "groups": [

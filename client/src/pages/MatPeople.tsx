@@ -1,9 +1,10 @@
 import { useNavigate } from "react-router";
 import styled from "styled-components";
-import getMatPeople from "../utils/axiosAPI/members/(임시)MatPeopleHook";
+import { getMatPeople } from "../utils/axiosAPI/people/PeopleAxios";
 import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
 import HowToRegIcon from "@mui/icons-material/HowToReg";
 import { useState } from "react";
+import useAxios from "../utils/useAxios";
 
 const FeedContainer = styled.div`
   height: 100%;
@@ -106,8 +107,7 @@ const MatPeople: React.FC = () => {
 
   const [isFollowing, setIsFollowing] = useState<boolean>(false);
 
-  const url = "http://localhost:3001/people";
-  const { matPeopleData } = getMatPeople(url);
+  const { responseData } = useAxios(getMatPeople, [], false);
 
   const {
     nickname = "",
@@ -115,7 +115,7 @@ const MatPeople: React.FC = () => {
     memo = "",
     followers = "",
     followings = "",
-  } = matPeopleData || {};
+  } = responseData || {};
 
   const handleFollow = () => {
     setIsFollowing(!isFollowing);
