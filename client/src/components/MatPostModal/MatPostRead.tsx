@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import useAxios from "../../utils/useAxios";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import {
   getPlacesPost,
   deletePost,
@@ -10,6 +10,8 @@ import { useNavigate } from "react-router";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import MatCommentList from "./MatCommentList";
+import ModalPortal from "../ModalPortal";
+import { MatPostUpdate } from "..";
 
 const StyledModal = styled.div`
   border-radius: 10px;
@@ -124,16 +126,24 @@ const StyledStar = styled.div`
     color: #fcc419;
   }
 `;
+// 모달 토글 버튼 연결 (타입 지정)
+interface ModalDefaultType {
+  onClickToggleModal: () => void;
+  id: number;
+}
 
 const PostReadModal = ({
-  closeModalHandler,
+  onClickToggleModal,
   id,
-}: {
-  closeModalHandler?: React.MouseEventHandler;
-  id: number;
-}): JSX.Element => {
+}: ModalDefaultType): JSX.Element => {
+  const [isOpenUpdateModal, setOpenUpdateModal] = useState<boolean>(false);
   const [isLiked, setIsLiked] = useState<boolean>(false);
   const [deleteClicked, setDeleteClicked] = useState<boolean>(false);
+
+  // 업데이트 모달 토글 함수
+  const onClickToggleUpdateModal = useCallback(() => {
+    setOpenUpdateModal(!isOpenUpdateModal);
+  }, [isOpenUpdateModal]);
 
   // 단일 post data GET
   const { responseData } = useAxios(() => getPlacesPost(id), [id], false);
@@ -168,6 +178,7 @@ const PostReadModal = ({
   const handleDelete = () => {
     setDeleteClicked(!deleteClicked);
     axiosData();
+    onClickToggleModal();
   };
 
   // '하트' 이모지 클릭 시 like / default 상태로 바뀜
@@ -177,9 +188,14 @@ const PostReadModal = ({
 
   return (
     <StyledModal>
+      {/* {isOpenUpdateModal && (
+        <ModalPortal>
+          <MatPostUpdate onClickToggleModal={onClickToggleUpdateModal} />
+        </ModalPortal>
+      )} */}
       <span
         role="presentation"
-        onClick={closeModalHandler}
+        onClick={onClickToggleModal}
         className="close-btn"
       >
         &times;
