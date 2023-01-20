@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { getMatPickers } from "../utils/usePickersAxios";
+import { getMatPickers } from "../utils/axiosAPI/groups/PickersHook";
 import { useState, useCallback } from "react";
 import { MatPickersList, MatPickerCreate, ModalPortal } from "../components";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
@@ -78,7 +78,9 @@ const MatPicker: React.FC = () => {
       <h1>맛픽커즈</h1>
       <MatPickerBox>
         {pickersData &&
-          pickersData.map((picker: any) => <MatPickersList key={picker.id} picker={picker} />)}
+          pickersData.map((picker: any) => (
+            <MatPickersList key={picker.id} picker={picker} />
+          ))}
         <button className="default_mat_pick" onClick={onClickToggleModal}>
           <MatPickerCreateBox>
             <AddCircleOutlineIconStyled className="icon" fontSize="large" />

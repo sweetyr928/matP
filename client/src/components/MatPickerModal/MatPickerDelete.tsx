@@ -1,6 +1,6 @@
 import React, { PropsWithChildren } from "react";
 import styled from "styled-components";
-import { deleteMatPickers } from "../../utils/usePickersAxios";
+import { deleteMatPickers } from "../../utils/axiosAPI/groups/(임시)PickersAxios";
 
 const ModalContainer = styled.div`
   height: 100%;
@@ -57,7 +57,10 @@ interface ModalDefaultType {
   id: number;
 }
 
-const MatPickerDelete = ({ onClickToggleModal, id }: PropsWithChildren<ModalDefaultType>) => {
+const MatPickerDelete = ({
+  onClickToggleModal,
+  id,
+}: PropsWithChildren<ModalDefaultType>) => {
   const closeModal = (e: React.MouseEvent) => {
     e.preventDefault();
     if (onClickToggleModal) {

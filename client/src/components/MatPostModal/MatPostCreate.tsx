@@ -161,7 +161,7 @@ const PostCreateModal = ({}: // closeModalHandler,
         0,
         thumbnailUrl
       ),
-    [title, htmlContent, createdAt, clicked, thumbnailUrl],
+    [createdAt],
     true
   );
 

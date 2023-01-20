@@ -1,8 +1,8 @@
 //맛플레이스 디폴트 페이지
 import { useState, useCallback } from "react";
 import styled from "styled-components";
-import { getMatPlacesDetail } from "../utils/usePlacesAxios";
-import { getMatPickers } from "../utils/usePickersAxios";
+import { getMatPlacesDetail } from "../utils/axiosAPI/places/PlacesAxios";
+import { getMatPickers } from "../utils/axiosAPI/groups/PickersHook";
 import { PostRead, MatPostCreate, ModalPortal } from "../components";
 
 const FeedContainer = styled.div`

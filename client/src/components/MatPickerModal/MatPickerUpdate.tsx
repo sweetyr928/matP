@@ -1,6 +1,6 @@
 import React, { PropsWithChildren, useState } from "react";
 import styled from "styled-components";
-import { updateMatPickers } from "../../utils/usePickersAxios";
+import { updateMatPickers } from "../../utils/axiosAPI/groups/(임시)PickersAxios";
 
 const ModalContainer = styled.div`
   height: 100%;
@@ -68,7 +68,8 @@ const TabButton = styled.li`
   border: solid 1px #373737;
   border-radius: 20px;
   background-color: ${(props) => props.color || "#adadad"};
-  border: ${(props) => (props.id === "focused" ? "2.5px solid #C65D7B" : "1px solid #505050")};
+  border: ${(props) =>
+    props.id === "focused" ? "2.5px solid #C65D7B" : "1px solid #505050"};
 `;
 
 const ButtonContainer = styled.div`

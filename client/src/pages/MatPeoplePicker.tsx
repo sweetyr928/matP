@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { getMatPickers } from "../utils/usePickersAxios";
+import { getMatPickers } from "../utils/axiosAPI/groups/PickersHook";
 import MatPeoplePickersList from "../components/MatPeoplePickersList";
 
 const MatPeoplePickerWrapper = styled.div`

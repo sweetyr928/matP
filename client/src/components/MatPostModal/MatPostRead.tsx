@@ -5,13 +5,13 @@ import {
   getPlacesPost,
   deletePost,
 } from "../../utils/axiosAPI/posts/PostsAxios";
-import { createComment } from "../../utils/axiosAPI/comments/commentsAxios";
-import MatPostComment from "./MatPostComment";
 import axios from "axios";
 import StarRate from "./StarRate";
 import { useNavigate } from "react-router";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import MatComment from "./MatComment";
+import MatCommentAdd from "./MatCommentAdd";
 
 const StyledModal = styled.div`
   border-radius: 10px;
@@ -127,38 +127,6 @@ const StyledStar = styled.div`
   }
 `;
 
-const StyledComment = styled.div`
-  margin: 10px 0px 30px 0px;
-  display: flex;
-  justify-content: space-between;
-
-  input {
-    width: 1080px;
-    height: 30px;
-    border: none;
-    border-bottom: 1px solid;
-    color: #373737;
-    font-size: 1rem;
-  }
-
-  input:focus {
-    outline: none;
-  }
-
-  button {
-    width: 100px;
-    background-color: #874356;
-    color: #ffffff;
-    border: none;
-    border-radius: 30px;
-    font-size: 15px;
-  }
-
-  button:hover {
-    font-weight: 700;
-  }
-`;
-
 const StyledCommentContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -185,15 +153,15 @@ const PostReadModal = ({
   closeModalHandler?: React.MouseEventHandler;
   id: number;
 }): JSX.Element => {
-  const [comment, setComment] = useState<string>("");
   const [allComment, setAllComment] = useState<IComment[] | null>([]);
   const [isLiked, setIsLiked] = useState<boolean>(false);
+  const [deleteClicked, setDeleteClicked] = useState<boolean>(false);
 
   // 단일 post data GET
   const { responseData } = useAxios(() => getPlacesPost(id), [id], false);
 
   // 단일 post 삭제
-  const { axiosData } = useAxios(() => deletePost(id), [], false);
+  const { axiosData } = useAxios(() => deletePost(id), [deleteClicked], true);
 
   const {
     nickname = "",
@@ -216,9 +184,6 @@ const PostReadModal = ({
 
   useEffect(() => {
     getAllComment();
-    /**
-     * TODO: 해당 유저가 이 post에 '좋아요' 했는지 식별하기 위해 /places/post/post-id/likes로 get 요청 보낸 후 isLiked 값 변경 필요
-     */
   }, []);
 
   // '수정' 버튼 클릭 시 PostUpdateModal로 이동
@@ -226,14 +191,14 @@ const PostReadModal = ({
     navigate(`/edit/${id}`);
   };
 
+  const handleDelete = () => {
+    setDeleteClicked(!deleteClicked);
+    axiosData();
+  };
+
   // '하트' 이모지 클릭 시 like / default 상태로 바뀜
   const handleLike = () => {
     setIsLiked(!isLiked);
-  };
-
-  // 댓글 input 창
-  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setComment(e.target.value);
   };
 
   /**
@@ -249,40 +214,6 @@ const PostReadModal = ({
       console.error("Error", error);
       throw error;
     }
-  };
-
-  // enter 키 누를 시 댓글 업로드
-  const handleKeyUp = async (e: React.KeyboardEvent) => {
-    if (e.key === "Enter" && comment.length > 0) {
-      createComment(
-        "rhino",
-        "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg",
-        comment,
-        new Date().toLocaleString()
-      );
-      setComment("");
-    }
-    /**
-     * TODO: 서버 연결 시, setAllComment(res.data)를 통해 전체 댓글 실시간 업데이트 구현
-     */
-    getAllComment();
-  };
-
-  // '게시' 버튼 누를 시 댓글 업로드
-  const handleClick = () => {
-    if (comment.length > 0) {
-      createComment(
-        "rhino",
-        "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg",
-        comment,
-        new Date().toLocaleString()
-      );
-      setComment("");
-    }
-    /**
-     * TODO: 서버 연결 시, setAllComment(res.data)를 통해 전체 댓글 실시간 업데이트 구현
-     */
-    getAllComment();
   };
 
   return (
@@ -305,7 +236,7 @@ const PostReadModal = ({
             </StyledInfo>
             <div>
               <button onClick={handleEdit}>수정</button>
-              <button onClick={axiosData}>삭제</button>
+              <button onClick={handleDelete}>삭제</button>
               <button>url 복사</button>
             </div>
           </StyledMid>
@@ -330,22 +261,14 @@ const PostReadModal = ({
         <div className="post_like" onClick={handleLike} role="presentation">
           {isLiked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
         </div>
-        <StyledComment>
-          <input
-            placeholder="댓글을 입력해주세요"
-            onChange={handleInput}
-            value={comment}
-            onKeyUp={handleKeyUp}
-          ></input>
-          <button onClick={handleClick}>게시</button>
-        </StyledComment>
+        <MatCommentAdd />
         <StyledCommentContainer>
           {allComment &&
             allComment
               .slice(0)
               .reverse()
               .map((comment) => (
-                <MatPostComment
+                <MatComment
                   key={comment.id}
                   singleComment={comment}
                   getAllComment={getAllComment}

@@ -98,7 +98,7 @@ interface IcommentProps {
   createdat: string;
 }
 
-const MatPostComment = ({
+const MatComment = ({
   singleComment,
   getAllComment,
 }: {
@@ -185,4 +185,4 @@ const MatPostComment = ({
   );
 };
 
-export default MatPostComment;
+export default MatComment;

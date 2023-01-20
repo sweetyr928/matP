@@ -177,7 +177,7 @@ const PostUpdateModal = ({}: // closeModalHandler,
         thumbnailUrl,
         Number(id)
       ),
-    [newTitle, htmlContent, createdAt, clicked, thumbnailUrl],
+    [createdAt],
     true
   );
 

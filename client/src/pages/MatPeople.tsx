@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router";
 import styled from "styled-components";
-import usePeopleAxios from "../utils/usePeopleAxios";
+import getMatPeople from "../utils/axiosAPI/members/(임시)MatPeopleHook";
 import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
 import HowToRegIcon from "@mui/icons-material/HowToReg";
 import { useState } from "react";
@@ -107,7 +107,7 @@ const MatPeople: React.FC = () => {
   const [isFollowing, setIsFollowing] = useState<boolean>(false);
 
   const url = "http://localhost:3001/people";
-  const { matPeopleData } = usePeopleAxios(url);
+  const { matPeopleData } = getMatPeople(url);
 
   const {
     nickname = "",
