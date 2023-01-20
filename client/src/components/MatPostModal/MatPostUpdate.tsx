@@ -1,5 +1,4 @@
 /* eslint-disable */
-
 import { useParams } from "react-router";
 import styled from "styled-components";
 import { useEffect, useState } from "react";
@@ -123,6 +122,20 @@ const StyledStar = styled.div`
   }
 `;
 
+const StyledBackDrop = styled.div`
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: grid;
+  place-items: center;
+`;
+
 interface IPost {
   id: number;
   nickname: string;
@@ -134,16 +147,34 @@ interface IPost {
   thumbnailUrl: string;
 }
 
-const PostUpdateModal = ({}: // closeModalHandler,
-{
-  // closeModalHandler?: React.MouseEventHandler;
-}) => {
-  const { id } = useParams();
+// 모달 토글 버튼 연결 (타입 지정)
+interface ModalDefaultType {
+  onClickToggleModal: () => void;
+  selectedPost: number;
+}
+
+const PostUpdateModal = ({
+  onClickToggleModal,
+  selectedPost,
+}: ModalDefaultType) => {
+  // 모달 닫기
+  const closeModal = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (onClickToggleModal) {
+      onClickToggleModal();
+    }
+  };
 
   // 기존 데이터 받아오기
   const [newTitle, setNewTitle] = useState<string>("");
   const [htmlContent, setHtmlContent] = useState<string>("");
-  const [clicked, setClicked] = useState<boolean[]>([false, false, false, false, false]);
+  const [clicked, setClicked] = useState<boolean[]>([
+    false,
+    false,
+    false,
+    false,
+    false,
+  ]);
 
   // 단일 post의 thumbnail_url
   let thumbnailUrl: string = "";
@@ -153,12 +184,14 @@ const PostUpdateModal = ({}: // closeModalHandler,
 
   useEffect(() => {
     try {
-      axios.get<IPost>(`http://localhost:3001/placesposts/${id}`).then((res) => {
-        setNewTitle(res.data.title);
-        setHtmlContent(res.data.content);
-        setClicked(new Array(5).fill(true, 0, res.data.star));
-        thumbnailUrl = res.data.thumbnailUrl;
-      });
+      axios
+        .get<IPost>(`http://localhost:3001/placesposts/${selectedPost}`)
+        .then((res) => {
+          setNewTitle(res.data.title);
+          setHtmlContent(res.data.content);
+          setClicked(new Array(5).fill(true, 0, res.data.star));
+          thumbnailUrl = res.data.thumbnailUrl;
+        });
     } catch (err) {
       console.log(err);
     }
@@ -201,49 +234,57 @@ const PostUpdateModal = ({}: // closeModalHandler,
         new Date().toLocaleString(),
         clicked.filter(Boolean).length,
         thumbnailUrl,
-        Number(id)
+        Number(selectedPost)
       );
     }
   };
 
   return (
-    <StyledModal>
-      <span
-        role="presentation"
-        // onClick={closeModalHandler}
-        className="close-btn"
-      >
-        &times;
-      </span>
-      <StyledDiv>
-        <input placeholder="제목을 입력해주세요" value={newTitle} onChange={handleInput}></input>
-        <hr className="middle_line" />
-        <MatEditor htmlContent={htmlContent} setHtmlContent={setHtmlContent} />
-        <StyledStarsWrapper>
-          <StyledRatingtxt>평점</StyledRatingtxt>
-          <StyledStar>
-            {array.map((el, idx) => {
-              return (
-                <StarRate
-                  key={idx}
-                  size="50"
-                  onClick={() => handleStarClick(el)}
-                  className={clicked[el] ? "yellow" : ""}
-                />
-              );
-            })}
-          </StyledStar>
-        </StyledStarsWrapper>
-        <div className="buttons">
-          <button
-            onClick={handleClick}
-            className={newTitle.length > 0 && htmlContent.length > 0 ? "" : "disabled"}
-          >
-            수정
-          </button>
-        </div>
-      </StyledDiv>
-    </StyledModal>
+    <>
+      <StyledModal>
+        <span role="presentation" onClick={closeModal} className="close-btn">
+          &times;
+        </span>
+        <StyledDiv>
+          <input
+            placeholder="제목을 입력해주세요"
+            value={newTitle}
+            onChange={handleInput}
+          ></input>
+          <hr className="middle_line" />
+          <MatEditor
+            htmlContent={htmlContent}
+            setHtmlContent={setHtmlContent}
+          />
+          <StyledStarsWrapper>
+            <StyledRatingtxt>평점</StyledRatingtxt>
+            <StyledStar>
+              {array.map((el, idx) => {
+                return (
+                  <StarRate
+                    key={idx}
+                    size="50"
+                    onClick={() => handleStarClick(el)}
+                    className={clicked[el] ? "yellow" : ""}
+                  />
+                );
+              })}
+            </StyledStar>
+          </StyledStarsWrapper>
+          <div className="buttons">
+            <button
+              onClick={handleClick}
+              className={
+                newTitle.length > 0 && htmlContent.length > 0 ? "" : "disabled"
+              }
+            >
+              수정
+            </button>
+          </div>
+        </StyledDiv>
+      </StyledModal>
+      <StyledBackDrop onClick={closeModal} />
+    </>
   );
 };
 

@@ -165,7 +165,7 @@ const MatPlacePost: React.FC = () => {
     <FeedContainer>
       {isOpenModal && (
         <ModalPortal>
-          <MatPostCreate />
+          <MatPostCreate onClickToggleModal={onClickToggleModal} />
         </ModalPortal>
       )}
       <div className="userInfo_header_container">
