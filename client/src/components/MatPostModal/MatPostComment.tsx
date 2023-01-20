@@ -97,8 +97,10 @@ interface IcommentProps {
 
 const MatPostComment = ({
   singleComment,
+  getAllComment,
 }: {
   singleComment: IcommentProps;
+  getAllComment: () => void;
 }) => {
   const [isEditing, setIsEditing] = useState<boolean>(false);
   // Comment 객체
@@ -115,8 +117,9 @@ const MatPostComment = ({
   };
 
   // 댓글 삭제
-  const handleDelete = () => {
-    commentDelete(newSingleComment.id);
+  const handleDelete = async () => {
+    await commentDelete(newSingleComment.id);
+    getAllComment();
   };
 
   // 댓글 수정 input

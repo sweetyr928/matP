@@ -221,9 +221,6 @@ const PostReadModal = ({
     navigate(`/edit/${selectedPost}`);
   };
 
-  /**
-   * TODO: 서버 연결 시, setAllComment(res.data)를 통해 전체 댓글 실시간 업데이트 구현
-   */
   const handleDelete = async () => {
     await postDelete(id);
     window.location.replace("/");
@@ -348,7 +345,11 @@ const PostReadModal = ({
               .slice(0)
               .reverse()
               .map((comment) => (
-                <MatPostComment key={comment.id} singleComment={comment} />
+                <MatPostComment
+                  key={comment.id}
+                  singleComment={comment}
+                  getAllComment={getAllComment}
+                />
               ))}
         </StyledCommentContainer>
       </StyledDiv>
