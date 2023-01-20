@@ -44,7 +44,7 @@ public class PostService {
      * @author 임준건
      */
     @Transactional(readOnly = true)
-    public Mono<MultiResponseDto> getPost(Long postId) {
+    public Mono<MultiResponseDto> getPost(Long postId,Long memberId) {
         // TODO Member 토큰 에서 memberID 뽑아서 넘겨줘야함 .
         //  좋아요 post 조회시에 체킹유무까지 넘겨줘야함
         return postRepository.findPostWithMemberInfo(postId)
@@ -57,7 +57,7 @@ public class PostService {
                             .build();
 
                     var comments = commentService.getComments(postId).block();
-
+                    Integer block = postRepository.findLikeCheck(postId, memberId).block();
                     PostResponseWithInfo postResponseWithInfo = PostResponseWithInfo.builder()
                             .id(result.id())
                             .title(result.title())
@@ -69,7 +69,8 @@ public class PostService {
                             .modifiedAt(result.modifiedAt())
                             .memberInfo(member)
                             .build();
-                    return new MultiResponseDto(postResponseWithInfo, comments);
+
+                    return new MultiResponseDto(postResponseWithInfo, comments,block);
                 });
     }
 

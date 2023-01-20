@@ -47,7 +47,15 @@ public interface PostRepository extends ReactiveCrudRepository<Post, Long> {
             where p.id = :postId
             """)
     Mono<PostMemberSpecificInfo> findPostWithMemberInfo(Long postId);
-
+    @Query("""
+            select
+            pl.likes_check
+            from post_likes pl
+            INNER Join member m
+            on pl.likes_member_id  = :memberId
+            where pl.post_id = :postId
+           """)
+    Mono<Integer> findLikeCheck(Long postId,Long memberId);
     @Query("""
            DELETE
            FROM pc,lc,pl
