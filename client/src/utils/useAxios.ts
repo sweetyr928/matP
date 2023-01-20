@@ -1,5 +1,4 @@
 import { useState, useEffect, useCallback } from "react";
-import axios from "axios";
 
 interface ReponseData {
   nickname: string;
@@ -33,25 +32,26 @@ interface UseAxiosReturn {
   status: Status;
 }
 
-const useAxios = (url: string): UseAxiosReturn => {
+const useAxios = (callback: any, deps = [], skip = false): UseAxiosReturn => {
   const [reponseData, setReponseData] = useState<ReponseData | null>(null);
   const [status, setStatus] = useState<Status>("Idle");
 
   const axiosData = useCallback(async () => {
     setStatus("Loading");
     try {
-      const response = await axios.get<ReponseData>(url);
-      setReponseData(response.data);
+      const data = await callback();
+      setReponseData(data);
       setStatus("Success");
     } catch (error) {
       setStatus("Error");
       throw error;
     }
-  }, [url]);
+  }, deps);
 
   useEffect(() => {
+    if (skip) return;
     axiosData();
-  }, [axiosData]);
+  }, deps);
 
   return { reponseData, status };
 };
