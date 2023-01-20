@@ -14,14 +14,14 @@ public interface CommentRepository extends ReactiveCrudRepository<Comment, Long>
             SELECT
             pc.id,
             pc.post_id,
-            pc.user_id,
+            pc.member_id,
             pc.comment_content,
             pc.comment_created_at,
             m.nickname,
             m.profile_img
             FROM post_comment pc
             INNER JOIN member m
-            ON pc.user_id = m.id
+            ON pc.member_id = m.id
             where pc.post_id = :postId
            """)
     Flux<CommentSpecificInfo> findPostCommentWithMember(Long PostId);
