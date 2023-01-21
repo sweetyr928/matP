@@ -1,5 +1,6 @@
-package com.matp.exception;
+package com.matp.post.exception;
 
+import com.matp.exception.CustomErrorCode;
 import lombok.Getter;
 
 /**
