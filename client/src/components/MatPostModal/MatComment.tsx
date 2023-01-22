@@ -4,6 +4,7 @@ import {
   updateComment,
   deleteComment,
 } from "../../utils/axiosAPI/comments/commentsAxios";
+import useAxios from "../../utils/useAxios";
 
 const StyledComment = styled.div`
   display: flex;
@@ -113,6 +114,27 @@ const MatComment = ({
   const [editedComment, setEditedComment] = useState<string>(
     singleComment.comment
   );
+  const [createdAt, setCreatedAt] = useState<string>(singleComment.createdat);
+  const [deleteClicked, setDeleteClicked] = useState<boolean>(false);
+
+  const { axiosData: updateC } = useAxios(
+    () =>
+      updateComment(
+        "rhino",
+        "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg",
+        editedComment,
+        createdAt,
+        newSingleComment.id
+      ),
+    [editedComment, createdAt],
+    true
+  );
+
+  const { axiosData: deleteC } = useAxios(
+    () => deleteComment(newSingleComment.id),
+    [deleteClicked],
+    true
+  );
 
   // 댓글 수정
   const handleEdit = () => {
@@ -121,7 +143,8 @@ const MatComment = ({
 
   // 댓글 삭제
   const handleDelete = () => {
-    deleteComment(newSingleComment.id);
+    setDeleteClicked(!deleteClicked);
+    deleteC();
     getAllComment();
   };
 
@@ -132,14 +155,9 @@ const MatComment = ({
 
   // enter 키 누를 시 댓글 업데이트
   const handleKeyUp = async (e: React.KeyboardEvent) => {
+    setCreatedAt(new Date().toLocaleString());
     if (e.key === "Enter" && editedComment.length > 0) {
-      updateComment(
-        "rhino",
-        "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg",
-        editedComment,
-        new Date().toLocaleString(),
-        newSingleComment.id
-      );
+      updateC();
       setIsEditing(!isEditing);
       setNewSingleComment({
         ...newSingleComment,
