@@ -1,7 +1,7 @@
 /* eslint-disable */
 
 import styled from "styled-components";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { createPost } from "../../utils/axiosAPI/posts/PostsAxios";
 import MatEditor from "./MatEditor";
 import StarRate from "./StarRate";
@@ -49,6 +49,11 @@ const StyledDiv = styled.div`
 
   input:focus {
     outline: none;
+  }
+
+  .disabled {
+    cursor: not-allowed;
+    opacity: calc(0.4);
   }
 
   .ql-container.ql-snow {
@@ -145,9 +150,17 @@ const PostCreateModal = ({}: // closeModalHandler,
     false,
   ]);
   const [createdAt, setCreatedAt] = useState<string>("");
+  const [imageContained, setImageContained] = useState<boolean>(false);
 
   // 항상 별이 총 5개(더미 array)
   const array: Array<number> = [0, 1, 2, 3, 4];
+
+  useEffect(() => {
+    getThumbnailUrl();
+    thumbnailUrl.length > 0
+      ? setImageContained(true)
+      : setImageContained(false);
+  }, [htmlContent]);
 
   const { axiosData } = useAxios(
     () =>
@@ -170,6 +183,7 @@ const PostCreateModal = ({}: // closeModalHandler,
     setTitle(e.target.value);
   };
 
+  // 썸네일 이미지 추출
   const getThumbnailUrl = () => {
     if (htmlContent.indexOf(`<img src="`) > 0) {
       const firstIndex = htmlContent.indexOf(`<img src="`);
@@ -184,7 +198,6 @@ const PostCreateModal = ({}: // closeModalHandler,
    * @param index 클릭한 별의 순서
    */
   const handleStarClick = (index: number) => {
-    getThumbnailUrl();
     const clickStates = [...clicked];
     for (let i = 0; i < 5; i++) {
       clickStates[i] = i <= index ? true : false;
@@ -214,17 +227,24 @@ const PostCreateModal = ({}: // closeModalHandler,
           onChange={handleInput}
         ></input>
         <hr className="middle_line" />
-        <MatEditor htmlContent={htmlContent} setHtmlContent={setHtmlContent} />
+        <div className={title.length <= 0 ? "disabled" : ""}>
+          <MatEditor
+            htmlContent={htmlContent}
+            setHtmlContent={setHtmlContent}
+          />
+        </div>
         <StyledStarsWrapper>
           <StyledRatingtxt>평점</StyledRatingtxt>
-          <StyledStar>
+          <StyledStar className={imageContained ? "" : "disabled"}>
             {array.map((el, idx) => {
               return (
                 <StarRate
                   key={idx}
                   size="50"
                   onClick={() => handleStarClick(el)}
-                  className={clicked[el] ? "yellow" : ""}
+                  className={
+                    imageContained ? (clicked[el] ? "yellow" : "") : "disabled"
+                  }
                 />
               );
             })}
@@ -236,6 +256,7 @@ const PostCreateModal = ({}: // closeModalHandler,
             className={
               title.length > 0 &&
               htmlContent.length > 0 &&
+              imageContained &&
               clicked.filter(Boolean).length > 0
                 ? ""
                 : "disabled"
