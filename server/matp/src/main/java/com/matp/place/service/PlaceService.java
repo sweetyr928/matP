@@ -1,6 +1,7 @@
 package com.matp.place.service;
 
 
+import com.matp.picker.service.PickerService;
 import com.matp.place.dto.PlaceDetailResponseDto;
 import com.matp.place.dto.PlaceResponseDto;
 import com.matp.place.repository.PlaceRepositiory;
@@ -17,6 +18,7 @@ import reactor.core.scheduler.Schedulers;
 public class PlaceService {
     private final PlaceRepositiory placeRepository;
     private final PostService postService;
+    private final PickerService pickerService;
 
     /**
      * @return Flux < PlaceResponseDto >
@@ -41,12 +43,13 @@ public class PlaceService {
      * @author 이종희
      */
     @Transactional(readOnly = true)
-    public Mono<PlaceDetailResponseDto> findPlaceDetail(Long placeId) {
+    public Mono<PlaceDetailResponseDto> findPlaceDetail(long placeId, long memberId) {
         return placeRepository.findPlaceDetail(placeId)
                 .publishOn(Schedulers.boundedElastic())
                 .map(place -> {
                     var postList = postService.findPlaceDetailPosts(placeId).block();
-                    return PlaceDetailResponseDto.of(place, postList);
+                    boolean isPick = pickerService.isPick(placeId, memberId).blockOptional().isPresent();
+                    return PlaceDetailResponseDto.of(place, postList, isPick);
                 });
     }
 }

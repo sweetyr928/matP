@@ -24,6 +24,6 @@ public class PlaceController {
 
     @GetMapping("{place-id}")
     public Mono<PlaceDetailResponseDto> getPlaceDetail(@PathVariable("place-id") Long placeId) {
-        return placeService.findPlaceDetail(placeId);
+        return placeService.findPlaceDetail(placeId, 1L);
     }
 }
