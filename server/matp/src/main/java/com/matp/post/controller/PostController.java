@@ -2,7 +2,7 @@ package com.matp.post.controller;
 
 import com.matp.comment.dto.MultiResponseDto;
 import com.matp.exception.CustomErrorCode;
-import com.matp.exception.PostNotFoundException;
+import com.matp.post.exception.PostNotFoundException;
 import com.matp.post.dto.PatchPostRequest;
 import com.matp.post.dto.PostRequest;
 import com.matp.post.dto.PostResponse;
@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.util.List;
-
+// TODO place ,member기능 추가뒤 post 생성시에 memberId, placeId 정보를 가질 수 있도록 코드 수정필요
+// TODO member 기능 추가시 testMember 삭제해야함.
 @RestController
-@RequestMapping("/places/posts")
+@RequestMapping({"/places/posts","/place/{place-id}/posts"})
 @RequiredArgsConstructor
 public class PostController {
     private final PostService postService;
@@ -30,7 +30,7 @@ public class PostController {
      **/
     @GetMapping
     public Flux<PostResponse> getAllMatPosts(@RequestParam(defaultValue = "0") int page,
-                                                @RequestParam(defaultValue = "10") int size) {
+                                                @RequestParam(defaultValue = "30") int size) {
 
         return postService.getAll(page, size);
     }
@@ -40,9 +40,10 @@ public class PostController {
      * @author 임준건
      **/
     @GetMapping("/{post-id}")
-    public Mono<ResponseEntity<MultiResponseDto>> getSpecific(@PathVariable("post-id") Long postId) {
-
-        Mono<ResponseEntity<MultiResponseDto>> map = postService.getPost(postId)
+    public Mono<ResponseEntity<MultiResponseDto>> getSpecific(@PathVariable("post-id") Long postId, @PathVariable("place-id") String placeId) {
+        // TODO token 에서 member 빼오기
+        Long memberId = 1L;
+        Mono<ResponseEntity<MultiResponseDto>> map = postService.getPost(postId,memberId)
                 .map(ResponseEntity::ok)
                 .switchIfEmpty(Mono.defer(() -> Mono.error(new PostNotFoundException(CustomErrorCode.POST_NOT_FOUND))));
 
@@ -50,13 +51,23 @@ public class PostController {
     }
 
     /**
-     * 제목,내용에 @RequestParam 으로 들어온 키워드가 포함되어있는 게시물 조회 기능
+     * 제목에 @RequestParam 으로 들어온 키워드가 포함되어있는 게시물 조회 기능
      * @author 임준건
      **/
-    @GetMapping("/search")
-    public Flux<PostResponse> getSearchMatPost(@RequestParam("keyword") String keyword) {
+    @GetMapping("/search/title")
+    public Flux<PostResponse> getSearchMatPostByTitle(@RequestParam("keyword") String keyword) {
 
-        return postService.findPostByKeyword(keyword)
+        return postService.findPostByTitleKeyword(keyword)
+                .switchIfEmpty(Mono.defer(() -> Mono.error(new PostNotFoundException(CustomErrorCode.POST_NOT_FOUND))));
+    }
+    /**
+     * 내용에 @RequestParam 으로 들어온 키워드가 포함되어있는 게시물 조회 기능
+     * @author 임준건
+     **/
+    @GetMapping("/search/content")
+    public Flux<PostResponse> getSearchMatPostByContent(@RequestParam("keyword") String keyword) {
+
+        return postService.findPostByContentKeyword(keyword)
                 .switchIfEmpty(Mono.defer(() -> Mono.error(new PostNotFoundException(CustomErrorCode.POST_NOT_FOUND))));
     }
 
@@ -65,7 +76,7 @@ public class PostController {
      * @author 임준건
      **/
     @PostMapping
-    public Mono<ResponseEntity<PostResponse>> saveMatPost(@RequestBody @Validated Mono<PostRequest> request) {
+    public Mono<ResponseEntity<PostResponse>> saveMatPost(@RequestBody @Validated Mono<PostRequest> request, @PathVariable("place-id") String placeId) {
 
         return request
                 .flatMap(postService::save)
@@ -77,7 +88,7 @@ public class PostController {
      * @author 임준건
      **/
     @PatchMapping("/{post-id}")
-    public Mono<ResponseEntity<PostResponse>> updateMatPost(@RequestBody Mono<PatchPostRequest> request, @PathVariable("post-id") Long postId) {
+    public Mono<ResponseEntity<PostResponse>> updateMatPost(@RequestBody Mono<PatchPostRequest> request, @PathVariable("post-id") Long postId, @PathVariable("place-id") String placeId) {
 
         return request
                 .flatMap((PatchPostRequest patchPostRequest) -> postService.update(patchPostRequest, postId))

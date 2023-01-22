@@ -21,9 +21,10 @@ public class Comment {
 
     private String commentContent;
 
-    private Long userId;
-
+    private Long commentMemberId;
     private Long postId;
+
+    private Long placeId;
 
     @Transient
     private TestMember member;
@@ -40,5 +41,9 @@ public class Comment {
 
     public void patchComment(String commentContent) {
         this.commentContent = commentContent;
+    }
+
+    public void settingMemberId(Long memberId) {
+        this.commentMemberId = memberId;
     }
 }

@@ -1,5 +1,4 @@
 /* eslint-disable */
-
 import styled from "styled-components";
 import { useEffect, useState } from "react";
 import { createPost } from "../../utils/axiosAPI/posts/PostsAxios";
@@ -131,12 +130,36 @@ const StyledStar = styled.div`
   }
 `;
 
-const PostCreateModal = ({}: // closeModalHandler,
-{
-  // closeModalHandler?: React.MouseEventHandler;
-}) => {
+const StyledBackDrop = styled.div`
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: grid;
+  place-items: center;
+`;
+
+// 모달 토글 버튼 연결 (타입 지정)
+interface ModalDefaultType {
+  onClickToggleModal: () => void;
+}
+
+const PostCreateModal = ({ onClickToggleModal }: ModalDefaultType) => {
   const [title, setTitle] = useState<string>("");
   const [htmlContent, setHtmlContent] = useState<string>("");
+
+  // 모달 닫기
+  const closeModal = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (onClickToggleModal) {
+      onClickToggleModal();
+    }
+  };
 
   // 단일 post의 thumbnail_url
   let thumbnailUrl: string = "";
@@ -151,6 +174,7 @@ const PostCreateModal = ({}: // closeModalHandler,
   ]);
   const [createdAt, setCreatedAt] = useState<string>("");
   const [imageContained, setImageContained] = useState<boolean>(false);
+
 
   // 항상 별이 총 5개(더미 array)
   const array: Array<number> = [0, 1, 2, 3, 4];
@@ -207,8 +231,9 @@ const PostCreateModal = ({}: // closeModalHandler,
   };
 
   // '취소' 버튼 누를시 초기화
-  const handleCancel = () => {
+  const handleCancel = (e: React.MouseEvent) => {
     setHtmlContent("");
+    closeModal(e);
   };
 
   return (

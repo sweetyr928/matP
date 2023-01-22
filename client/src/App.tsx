@@ -3,14 +3,7 @@ import { useState } from "react";
 import { Route, Routes } from "react-router";
 import styled from "styled-components";
 import "./App.css";
-import {
-  KakaoMap,
-  Sidebar,
-  Header,
-  HeaderFeedHide,
-  MatPostCreate,
-  MatPostUpdate,
-} from "./components";
+import { KakaoMap, Sidebar, Header, HeaderFeedHide } from "./components";
 import {
   Domain,
   MyPage,
@@ -54,8 +47,6 @@ function App() {
           <Header />
           <Routes>
             <Route path="/" element={<Domain />} />
-            <Route path="/mat" element={<MatPostCreate />} />
-            <Route path="/edit/:id" element={<MatPostUpdate />} />
             <Route path="/pickers" element={<MatPicker />} />
             <Route path="/pickers/:id" element={<MatPickerDetail />} />
             <Route path="/search" element={<SearchPage />} />

@@ -1,5 +1,4 @@
 /* eslint-disable */
-
 import { useParams } from "react-router";
 import styled from "styled-components";
 import { useEffect, useState } from "react";
@@ -129,6 +128,7 @@ const StyledStar = styled.div`
     color: #fcc419;
   }
 `;
+
 
 const PostUpdateModal = ({}: // closeModalHandler,
 {

@@ -6,7 +6,7 @@ import {
   deletePost,
 } from "../../utils/axiosAPI/posts/PostsAxios";
 import StarRate from "./StarRate";
-import { useNavigate } from "react-router";
+import ModalPortal from "../ModalPortal";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import MatCommentList from "./MatCommentList";
@@ -132,6 +132,12 @@ interface ModalDefaultType {
   id: number;
 }
 
+// 모달 토글 버튼 연결 (타입 지정)
+interface ModalDefaultType {
+  onClickToggleModal: () => void;
+  selectedPost: number;
+}
+
 const PostReadModal = ({
   onClickToggleModal,
   id,
@@ -162,7 +168,7 @@ const PostReadModal = ({
     // comments = [],
   } = responseData || {};
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   // 별점 불러오기
   const clicked = new Array(5).fill(true, 0, star);
@@ -210,7 +216,7 @@ const PostReadModal = ({
               <div className="post_createdAt">{createdat}</div>
             </StyledInfo>
             <div>
-              <button onClick={handleEdit}>수정</button>
+              <button onClick={onClickToggleUpdateModal}>수정</button>
               <button onClick={handleDelete}>삭제</button>
               <button>url 복사</button>
             </div>

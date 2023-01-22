@@ -10,7 +10,7 @@ public record CommentResponse(Long id, String content, Long memberId, LocalDateT
         return new CommentResponse(
                 comment.getId(),
                 comment.getCommentContent(),
-                comment.getUserId(),
+                comment.getCommentMemberId(),
                 comment.getCommentCreatedAt(),
                 comment.getCommentModifiedAt()
         );
