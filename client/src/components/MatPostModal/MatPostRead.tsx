@@ -172,7 +172,7 @@ const PostReadModal = ({
 
   // '수정' 버튼 클릭 시 PostUpdateModal로 이동
   const handleEdit = () => {
-    navigate(`/edit/${id}`);
+    navigate(`/edit/${id}`, { state: responseData });
   };
 
   const handleDelete = () => {
