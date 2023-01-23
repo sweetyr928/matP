@@ -58,4 +58,7 @@ public class Post {
     public void setMemberId(Long memberId) {
         this.memberId = memberId;
     }
+    public void setPlaceId(Long placeId) {
+        this.placeId = placeId;
+    }
 }

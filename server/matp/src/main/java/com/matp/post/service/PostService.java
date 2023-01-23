@@ -107,7 +107,7 @@ public class PostService {
 
         Post Post = request.toEntity();
         Post.setMemberId(2L);
-
+        Post.setPlaceId(2L);
         Mono<Post> save = postRepository.save(Post);
 
         return save.map(PostResponse::from);
