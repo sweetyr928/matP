@@ -40,10 +40,10 @@ public interface PostRepository extends ReactiveCrudRepository<Post, Long> {
             p.created_at,
             p.modified_at,
             m.nickname,
-            m.profile_img
+            m.profile_url
             FROM post p
             INNER JOIN member m
-            ON p.member_id = m.id
+            ON p.member_id = m.member_id
             where p.id = :postId
             """)
     Mono<PostMemberSpecificInfo> findPostWithMemberInfo(Long postId);
@@ -59,7 +59,7 @@ public interface PostRepository extends ReactiveCrudRepository<Post, Long> {
     @Query("""
            DELETE
            FROM pc,lc,pl
-           USING post_comment pc
+           USING comment pc
            LEFT JOIN likes_count lc
            ON pc.post_id = lc.likes_post_id
            LEFT JOIN post_likes pl

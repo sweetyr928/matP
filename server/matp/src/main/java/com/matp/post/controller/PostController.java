@@ -18,7 +18,7 @@ import reactor.core.publisher.Mono;
 // TODO place ,member기능 추가뒤 post 생성시에 memberId, placeId 정보를 가질 수 있도록 코드 수정필요
 // TODO member 기능 추가시 testMember 삭제해야함.
 @RestController
-@RequestMapping({"/places/posts","/place/{place-id}/posts"})
+@RequestMapping({"/places/posts","/places/{place-id}/posts"})
 @RequiredArgsConstructor
 public class PostController {
     private final PostService postService;
