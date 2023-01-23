@@ -1,15 +1,17 @@
 import styled from "styled-components";
-import getPlacesPost from "../../utils/axiosAPI/posts/(임시)PlacesPostsHook";
-import { useEffect, useState, useCallback } from "react";
-import { deletePost } from "../../utils/axiosAPI/posts/PlacesPostsAxios";
-import { createComment } from "../../utils/axiosAPI/comments/commentsAxios";
-import MatPostComment from "./MatPostComment";
-import { MatPostUpdate } from "..";
-import axios from "axios";
+import useAxios from "../../utils/useAxios";
+import { useState, useCallback } from "react";
+import {
+  getPlacesPost,
+  deletePost,
+} from "../../utils/axiosAPI/posts/PostsAxios";
 import StarRate from "./StarRate";
 import ModalPortal from "../ModalPortal";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import MatCommentList from "./MatCommentList";
+import ModalPortal from "../ModalPortal";
+import { MatPostUpdate } from "..";
 
 const StyledModal = styled.div`
   border-radius: 10px;
@@ -124,56 +126,10 @@ const StyledStar = styled.div`
     color: #fcc419;
   }
 `;
-
-const StyledComment = styled.div`
-  margin: 10px 0px 30px 0px;
-  display: flex;
-  justify-content: space-between;
-
-  input {
-    width: 1080px;
-    height: 30px;
-    border: none;
-    border-bottom: 1px solid;
-    color: #373737;
-    font-size: 1rem;
-  }
-
-  input:focus {
-    outline: none;
-  }
-
-  button {
-    width: 100px;
-    background-color: #874356;
-    color: #ffffff;
-    border: none;
-    border-radius: 30px;
-    font-size: 15px;
-  }
-
-  button:hover {
-    font-weight: 700;
-  }
-`;
-
-const StyledCommentContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  max-height: 200px;
-  overflow-y: scroll;
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
-`;
-
-interface IComment {
+// 모달 토글 버튼 연결 (타입 지정)
+interface ModalDefaultType {
+  onClickToggleModal: () => void;
   id: number;
-  nickname: string;
-  profileimg: string;
-  comment: string;
-  createdat: string;
 }
 
 // 모달 토글 버튼 연결 (타입 지정)
@@ -184,24 +140,24 @@ interface ModalDefaultType {
 
 const PostReadModal = ({
   onClickToggleModal,
-  selectedPost,
+  id,
 }: ModalDefaultType): JSX.Element => {
   const [isOpenUpdateModal, setOpenUpdateModal] = useState<boolean>(false);
-  const [comment, setComment] = useState<string>("");
-  const [allComment, setAllComment] = useState<IComment[] | null>([]);
   const [isLiked, setIsLiked] = useState<boolean>(false);
+  const [deleteClicked, setDeleteClicked] = useState<boolean>(false);
 
   // 업데이트 모달 토글 함수
   const onClickToggleUpdateModal = useCallback(() => {
     setOpenUpdateModal(!isOpenUpdateModal);
   }, [isOpenUpdateModal]);
 
-  // post data GET
-  const url_posts = `http://localhost:3001/placesposts/${selectedPost}`;
-  const { placesPostsData } = getPlacesPost(url_posts);
+  // 단일 post data GET
+  const { responseData } = useAxios(() => getPlacesPost(id), [id], false);
+
+  // 단일 post 삭제
+  const { axiosData } = useAxios(() => deletePost(id), [deleteClicked], true);
 
   const {
-    id = 0,
     nickname = "",
     profileimg = "",
     createdat = "",
@@ -210,7 +166,7 @@ const PostReadModal = ({
     star = 0,
     likes = 0,
     // comments = [],
-  } = placesPostsData || {};
+  } = responseData || {};
 
   // const navigate = useNavigate();
 
@@ -220,21 +176,14 @@ const PostReadModal = ({
   // 항상 별이 총 5개(더미 array)
   const array: Array<number> = [0, 1, 2, 3, 4];
 
-  useEffect(() => {
-    getAllComment();
-    /**
-     * TODO: 해당 유저가 이 post에 '좋아요' 했는지 식별하기 위해 /places/post/post-id/likes로 get 요청 보낸 후 isLiked 값 변경 필요
-     */
-  }, []);
-
   // '수정' 버튼 클릭 시 PostUpdateModal로 이동
-  // const handleEdit = () => {
-  //   navigate(`/edit/${selectedPost}`);
-  // };
+  const handleEdit = () => {
+    navigate(`/edit/${id}`, { state: responseData });
+  };
 
-  // '삭제' 버튼 클릭 시 Post 삭제
   const handleDelete = () => {
-    deletePost(id);
+    setDeleteClicked(!deleteClicked);
+    axiosData();
     onClickToggleModal();
   };
 
@@ -243,66 +192,13 @@ const PostReadModal = ({
     setIsLiked(!isLiked);
   };
 
-  // 댓글 input 창
-  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setComment(e.target.value);
-  };
-
-  // enter 키 누를 시 댓글 업로드
-  const handleKeyUp = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter" && comment.length > 0) {
-      createComment(
-        "rhino",
-        "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg",
-        comment,
-        new Date().toLocaleString()
-      );
-      setComment("");
-    }
-    getAllComment();
-  };
-
-  // 댓글 실시간 업데이트
-  const getAllComment = async () => {
-    await axios
-      .get<IComment[]>("http://localhost:3001/comments")
-      .then((res) => {
-        setAllComment(res.data);
-      })
-      .catch((error: Error) => {
-        console.log(error);
-      });
-  };
-
-  // getAllComment 함수 실행 시켜주는 함수(MatPostComment 컴포넌트에 props로 내려줌으로써 comment 수정사항 실시간 업데이트)
-  const handleGetAllComment = () => {
-    setTimeout(() => getAllComment(), 100);
-  };
-
-  // '게시' 버튼 누를 시 댓글 업로드
-  const handleClick = () => {
-    if (comment.length > 0) {
-      createComment(
-        "rhino",
-        "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg",
-        comment,
-        new Date().toLocaleString()
-      );
-      setComment("");
-    }
-    getAllComment();
-  };
-
   return (
     <StyledModal>
-      {isOpenUpdateModal && (
+      {/* {isOpenUpdateModal && (
         <ModalPortal>
-          <MatPostUpdate
-            selectedPost={selectedPost}
-            onClickToggleModal={onClickToggleUpdateModal}
-          />
+          <MatPostUpdate onClickToggleModal={onClickToggleUpdateModal} />
         </ModalPortal>
-      )}
+      )} */}
       <span
         role="presentation"
         onClick={onClickToggleModal}
@@ -346,28 +242,7 @@ const PostReadModal = ({
         <div className="post_like" onClick={handleLike} role="presentation">
           {isLiked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
         </div>
-        <StyledComment>
-          <input
-            placeholder="댓글을 입력해주세요"
-            onChange={handleInput}
-            value={comment}
-            onKeyUp={handleKeyUp}
-          ></input>
-          <button onClick={handleClick}>게시</button>
-        </StyledComment>
-        <StyledCommentContainer>
-          {allComment &&
-            allComment
-              .slice(0)
-              .reverse()
-              .map((comment) => (
-                <MatPostComment
-                  key={comment.id}
-                  singleComment={comment}
-                  handleGetAllComment={handleGetAllComment}
-                />
-              ))}
-        </StyledCommentContainer>
+        <MatCommentList />
       </StyledDiv>
     </StyledModal>
   );

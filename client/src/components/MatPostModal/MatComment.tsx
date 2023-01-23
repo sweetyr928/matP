@@ -1,6 +1,10 @@
 import styled from "styled-components";
 import { useState } from "react";
-import { updateComment, deleteComment } from "../../utils/axiosAPI/comments/commentsAxios";
+import {
+  updateComment,
+  deleteComment,
+} from "../../utils/axiosAPI/comments/commentsAxios";
+import useAxios from "../../utils/useAxios";
 
 const StyledComment = styled.div`
   display: flex;
@@ -95,24 +99,42 @@ interface IcommentProps {
   createdat: string;
 }
 
-const MatPostComment = ({
+const MatComment = ({
   singleComment,
-  handleGetAllComment,
+  getAllComment,
 }: {
   singleComment: IcommentProps;
-  handleGetAllComment: () => void;
+  getAllComment: () => void;
 }) => {
   const [isEditing, setIsEditing] = useState<boolean>(false);
+  // Comment 객체
+  const [newSingleComment, setNewSingleComment] =
+    useState<IcommentProps>(singleComment);
+  // 새로 바뀐 댓글의 내용
+  const [editedComment, setEditedComment] = useState<string>(
+    singleComment.comment
+  );
+  const [createdAt, setCreatedAt] = useState<string>(singleComment.createdat);
+  const [deleteClicked, setDeleteClicked] = useState<boolean>(false);
 
-  const {
-    id = 0,
-    nickname = "",
-    profileimg = "",
-    comment = "",
-    createdat = "",
-  } = singleComment || {};
+  const { axiosData: updateC } = useAxios(
+    () =>
+      updateComment(
+        "rhino",
+        "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg",
+        editedComment,
+        createdAt,
+        newSingleComment.id
+      ),
+    [editedComment, createdAt],
+    true
+  );
 
-  const [editedComment, setEditedComment] = useState<string>(comment);
+  const { axiosData: deleteC } = useAxios(
+    () => deleteComment(newSingleComment.id),
+    [deleteClicked],
+    true
+  );
 
   // 댓글 수정
   const handleEdit = () => {
@@ -121,8 +143,9 @@ const MatPostComment = ({
 
   // 댓글 삭제
   const handleDelete = () => {
-    deleteComment(id);
-    handleGetAllComment();
+    setDeleteClicked(!deleteClicked);
+    deleteC();
+    getAllComment();
   };
 
   // 댓글 수정 input
@@ -131,19 +154,16 @@ const MatPostComment = ({
   };
 
   // enter 키 누를 시 댓글 업데이트
-  const handleKeyUp = (e: React.KeyboardEvent) => {
+  const handleKeyUp = async (e: React.KeyboardEvent) => {
+    setCreatedAt(new Date().toLocaleString());
     if (e.key === "Enter" && editedComment.length > 0) {
-      updateComment(
-        "rhino",
-        "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg",
-        editedComment,
-        new Date().toLocaleString(),
-        id
-      );
-      setEditedComment("");
+      updateC();
       setIsEditing(!isEditing);
+      setNewSingleComment({
+        ...newSingleComment,
+        ...{ comment: editedComment, createdat: new Date().toLocaleString() },
+      });
     }
-    handleGetAllComment();
   };
 
   // 댓글 수정 취소
@@ -155,9 +175,9 @@ const MatPostComment = ({
     <StyledComment>
       <StyledDiv>
         <StyledInfo>
-          <img src={profileimg} alt="profileImg"></img>
-          <div className="post_nickname">{nickname}</div>
-          <div className="post_createdAt">{createdat}</div>
+          <img src={newSingleComment.profileimg} alt="profileImg"></img>
+          <div className="post_nickname">{newSingleComment.nickname}</div>
+          <div className="post_createdAt">{newSingleComment.createdat}</div>
         </StyledInfo>
         <div>
           <button onClick={handleEdit}>수정</button>
@@ -176,11 +196,11 @@ const MatPostComment = ({
             <button onClick={handleCancel}>취소</button>
           </StyledEdit>
         ) : (
-          <div>{comment}</div>
+          <div>{newSingleComment.comment}</div>
         )}
       </StyledContent>
     </StyledComment>
   );
 };
 
-export default MatPostComment;
+export default MatComment;

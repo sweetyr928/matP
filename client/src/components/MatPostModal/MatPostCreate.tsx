@@ -1,9 +1,10 @@
 /* eslint-disable */
 import styled from "styled-components";
-import { useState } from "react";
-import { postCreate } from "../../utils/axiosAPI/members/API";
+import { useEffect, useState } from "react";
+import { createPost } from "../../utils/axiosAPI/posts/PostsAxios";
 import MatEditor from "./MatEditor";
 import StarRate from "./StarRate";
+import useAxios from "../../utils/useAxios";
 
 const StyledModal = styled.div`
   border-radius: 10px;
@@ -47,6 +48,11 @@ const StyledDiv = styled.div`
 
   input:focus {
     outline: none;
+  }
+
+  .disabled {
+    cursor: not-allowed;
+    opacity: calc(0.4);
   }
 
   .ql-container.ql-snow {
@@ -166,13 +172,49 @@ const PostCreateModal = ({ onClickToggleModal }: ModalDefaultType) => {
     false,
     false,
   ]);
+  const [createdAt, setCreatedAt] = useState<string>("");
+  const [imageContained, setImageContained] = useState<boolean>(false);
+
 
   // 항상 별이 총 5개(더미 array)
   const array: Array<number> = [0, 1, 2, 3, 4];
 
+  useEffect(() => {
+    getThumbnailUrl();
+    thumbnailUrl.length > 0
+      ? setImageContained(true)
+      : setImageContained(false);
+  }, [htmlContent]);
+
+  const { axiosData } = useAxios(
+    () =>
+      createPost(
+        "rhino",
+        "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg",
+        title,
+        htmlContent,
+        createdAt,
+        clicked.filter(Boolean).length,
+        0,
+        thumbnailUrl
+      ),
+    [createdAt],
+    true
+  );
+
   // 제목 input 창
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
+  };
+
+  // 썸네일 이미지 추출
+  const getThumbnailUrl = () => {
+    if (htmlContent.indexOf(`<img src="`) > 0) {
+      const firstIndex = htmlContent.indexOf(`<img src="`);
+      // 서버 연결 후 ` a`로 변경할 것(MatEditor.tsx 참고)
+      const secondIndex = htmlContent.indexOf('"></p>', firstIndex);
+      thumbnailUrl = htmlContent.slice(firstIndex + 10, secondIndex);
+    }
   };
 
   /**
@@ -180,39 +222,12 @@ const PostCreateModal = ({ onClickToggleModal }: ModalDefaultType) => {
    * @param index 클릭한 별의 순서
    */
   const handleStarClick = (index: number) => {
-    let clickStates = [...clicked];
+    const clickStates = [...clicked];
     for (let i = 0; i < 5; i++) {
       clickStates[i] = i <= index ? true : false;
     }
     setClicked(clickStates);
-  };
-
-  // '게시' 버튼 누를 시 썸네일 이미지 url(가장 첫번째로 등록된 이미지) 추출
-  const handleClick = (e: React.MouseEvent<HTMLElement>) => {
-    if (htmlContent.indexOf(`<img src="`) > 0) {
-      const firstIndex = htmlContent.indexOf(`<img src="`);
-      // 서버 연결 후 ` a`로 변경할 것(MatEditor.tsx 참고)
-      const secondIndex = htmlContent.indexOf('"></p>', firstIndex);
-      thumbnailUrl = htmlContent.slice(firstIndex + 10, secondIndex);
-    }
-    postSubmit();
-    closeModal(e);
-  };
-
-  // 썸네일 이미지 url 추출 후 post 등록 요청
-  const postSubmit = () => {
-    if (title.length > 0 && htmlContent.length > 0) {
-      postCreate(
-        "rhino",
-        "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg",
-        title,
-        htmlContent,
-        new Date().toLocaleString(),
-        clicked.filter(Boolean).length,
-        0,
-        thumbnailUrl
-      );
-    }
+    setCreatedAt(new Date().toLocaleString());
   };
 
   // '취소' 버튼 누를시 초기화
@@ -222,56 +237,62 @@ const PostCreateModal = ({ onClickToggleModal }: ModalDefaultType) => {
   };
 
   return (
-    <>
-      <StyledModal>
-        <span role="presentation" onClick={closeModal} className="close-btn">
-          &times;
-        </span>
-        <StyledDiv>
-          <input
-            placeholder="제목을 입력해주세요"
-            value={title}
-            onChange={handleInput}
-          ></input>
-          <hr className="middle_line" />
+    <StyledModal>
+      <span
+        role="presentation"
+        // onClick={closeModalHandler}
+        className="close-btn"
+      >
+        &times;
+      </span>
+      <StyledDiv>
+        <input
+          placeholder="제목을 입력해주세요"
+          value={title}
+          onChange={handleInput}
+        ></input>
+        <hr className="middle_line" />
+        <div className={title.length <= 0 ? "disabled" : ""}>
           <MatEditor
             htmlContent={htmlContent}
             setHtmlContent={setHtmlContent}
           />
-          <StyledStarsWrapper>
-            <StyledRatingtxt>평점</StyledRatingtxt>
-            <StyledStar>
-              {array.map((el, idx) => {
-                return (
-                  <StarRate
-                    key={idx}
-                    size="50"
-                    onClick={() => handleStarClick(el)}
-                    className={clicked[el] ? "yellow" : ""}
-                  />
-                );
-              })}
-            </StyledStar>
-          </StyledStarsWrapper>
-          <div className="buttons">
-            <button
-              onClick={handleClick}
-              className={
-                title.length > 0 &&
-                htmlContent.length > 0 &&
-                clicked.filter(Boolean).length > 0
-                  ? ""
-                  : "disabled"
-              }
-            >
-              작성
-            </button>
-            <button onClick={handleCancel}>취소</button>
-          </div>
-        </StyledDiv>
-      </StyledModal>
-      <StyledBackDrop onClick={closeModal} />
-    </>
+        </div>
+        <StyledStarsWrapper>
+          <StyledRatingtxt>평점</StyledRatingtxt>
+          <StyledStar className={imageContained ? "" : "disabled"}>
+            {array.map((el, idx) => {
+              return (
+                <StarRate
+                  key={idx}
+                  size="50"
+                  onClick={() => handleStarClick(el)}
+                  className={
+                    imageContained ? (clicked[el] ? "yellow" : "") : "disabled"
+                  }
+                />
+              );
+            })}
+          </StyledStar>
+        </StyledStarsWrapper>
+        <div className="buttons">
+          <button
+            onClick={axiosData}
+            className={
+              title.length > 0 &&
+              htmlContent.length > 0 &&
+              imageContained &&
+              clicked.filter(Boolean).length > 0
+                ? ""
+                : "disabled"
+            }
+          >
+            작성
+          </button>
+          <button onClick={handleCancel}>취소</button>
+        </div>
+      </StyledDiv>
+    </StyledModal>
   );
 };
 

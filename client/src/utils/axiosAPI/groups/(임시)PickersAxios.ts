@@ -8,12 +8,10 @@ interface pickersData {
   color: string;
 }
 
-
 export const readMatPickers = async () => {
   try {
     await axios.get<pickersData[]>(url);
-    };
- catch (error) {
+  } catch (error) {
     console.error("Error", error);
     throw error;
   }
@@ -40,7 +38,11 @@ export const deleteMatPickers = async (id: number) => {
   }
 };
 
-export const updateMatPickers = async (id: number, name: string, color: string) => {
+export const updateMatPickers = async (
+  id: number,
+  name: string,
+  color: string
+) => {
   try {
     await axios.patch(`${url}/${id}`, {
       name,
