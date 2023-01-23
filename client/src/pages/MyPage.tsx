@@ -4,7 +4,7 @@ import useAxios from "../utils/useAxios";
 import LogoutIcon from "@mui/icons-material/Logout";
 import EditIcon from "@mui/icons-material/Edit";
 import { useState, useCallback } from "react";
-import { memberUpdate } from "../utils/axiosAPI/members/API";
+import { updateMyData, getMyData } from "../utils/axiosAPI/members/myPageAPI";
 import { ModalPortal } from "../components";
 
 const FeedContainer = styled.div`
@@ -96,7 +96,7 @@ const TabContainer = styled.div`
 const ModalContainer = styled.div`
   margin: auto;
   position: absolute;
-  z-index: 1000;
+  z-index: 1001;
 `;
 const ModalBackdrop = styled.div`
   top: 0;
@@ -104,7 +104,7 @@ const ModalBackdrop = styled.div`
   width: calc(1340px * 2 / 5 - 63px);
   height: 100vh;
   position: fixed;
-  z-index: 10000;
+  z-index: 1000;
   background-color: rgba(0, 0, 0, 0.2);
 `;
 const ModalView = styled.div.attrs(() => ({
@@ -113,7 +113,7 @@ const ModalView = styled.div.attrs(() => ({
   opacity: 1;
   transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
   position: absolute;
-  top: calc(50vh - 230px);
+  bottom: 22vh;
   left: 70px;
   background-color: #fff;
   border-radius: 7px;
@@ -125,6 +125,7 @@ const ModalView = styled.div.attrs(() => ({
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  z-index: 1002;
   .button-container {
     margin-top: 24px;
     display: flex;
@@ -184,8 +185,7 @@ const MyPage: React.FC = () => {
     navigate("/pickers");
   };
 
-  const url = "http://localhost:3001/members";
-  const { memberData } = useAxios(url);
+  const { responseData: memberData } = useAxios(getMyData);
 
   const {
     nickname = "",
@@ -195,25 +195,21 @@ const MyPage: React.FC = () => {
     followings = "",
   } = memberData || {};
 
-  // const [isModalOpen, setIsModalOpen] = useState(false);
   const [revisedName, setRevisedName] = useState(nickname);
   const [revisedMemo, setRevisedMemo] = useState(memo);
   const [isOpenModal, setOpenModal] = useState<boolean>(false);
+
+  const { axiosData } = useAxios(
+    () => updateMyData(revisedName, profileImg, revisedMemo),
+    [revisedName, profileImg, revisedMemo],
+    true
+  );
 
   const onClickToggleModal = useCallback(() => {
     setOpenModal(!isOpenModal);
     setRevisedName(nickname);
     setRevisedMemo(memo);
   }, [isOpenModal]);
-
-  // const modalOpenHandler = () => {
-  //   setRevisedName(nickname);
-  //   setRevisedMemo(memo);
-  //   setIsModalOpen(true);
-  // };
-  // const modalCloseHandler = () => {
-  //   setIsModalOpen(false);
-  // };
 
   const onChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setRevisedName(e.target.value);
@@ -223,7 +219,7 @@ const MyPage: React.FC = () => {
   };
 
   const onRevise = () => {
-    memberUpdate(revisedName, profileImg, revisedMemo);
+    axiosData();
     onClickToggleModal();
   };
 
@@ -232,27 +228,18 @@ const MyPage: React.FC = () => {
       {isOpenModal && (
         <ModalPortal>
           <ModalContainer>
-            <ModalBackdrop>
-              <ModalView>
-                <Header>정보 수정하기</Header>
-                <EditUserImg src={profileImg} alt="프로필사진" />
-                <Input
-                  type="text"
-                  value={revisedName}
-                  onChange={onChangeName}
-                ></Input>
-                <Input
-                  type="text"
-                  value={revisedMemo}
-                  onChange={onChangeMemo}
-                ></Input>
-                <div className="button_container">
-                  <ModalBtn onClick={onRevise}>제출</ModalBtn>
-                  <ModalBtn onClick={onClickToggleModal}>취소</ModalBtn>
-                </div>
-              </ModalView>
-            </ModalBackdrop>
+            <ModalView>
+              <Header>정보 수정하기</Header>
+              <EditUserImg src={profileImg} alt="프로필사진" />
+              <Input type="text" value={revisedName} onChange={onChangeName}></Input>
+              <Input type="text" value={revisedMemo} onChange={onChangeMemo}></Input>
+              <div className="button_container">
+                <ModalBtn onClick={onRevise}>제출</ModalBtn>
+                <ModalBtn onClick={onClickToggleModal}>취소</ModalBtn>
+              </div>
+            </ModalView>
           </ModalContainer>
+          <ModalBackdrop onClick={onClickToggleModal} />
         </ModalPortal>
       )}
       <div className="userInfo_header_container">

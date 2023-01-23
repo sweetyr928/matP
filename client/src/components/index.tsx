@@ -7,8 +7,6 @@ import Sidebar from "./Sidebar";
 import MatPickerCreate from "./MatPickerModal/MatPickerCreate";
 import MatPickerUpdate from "./MatPickerModal/MatPickerUpdate";
 import MatPickerDelete from "./MatPickerModal/MatPickerDelete";
-import PeoPleEditModal from "./PeopleEditModal";
-import DeleteModal from "./DeleteModal";
 import LoginModal from "./LoginModal";
 import HeaderFeedHide from "./HeaderFeedHide";
 import ModalPortal from "./ModalPortal";
@@ -25,8 +23,6 @@ export {
   MatPickerCreate,
   MatPickerUpdate,
   MatPickerDelete,
-  PeoPleEditModal,
-  DeleteModal,
   LoginModal,
   HeaderFeedHide,
   ModalPortal,
