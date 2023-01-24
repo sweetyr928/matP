@@ -37,6 +37,7 @@ public interface PostRepository extends ReactiveCrudRepository<Post, Long> {
             p.likes,
             p.thumbnail_url,
             p.star,
+            p.place_id,
             p.created_at,
             p.modified_at,
             m.nickname,
