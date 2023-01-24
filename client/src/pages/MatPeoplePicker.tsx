@@ -1,5 +1,6 @@
 import styled from "styled-components";
-import { getMatPickers } from "../utils/axiosAPI/groups/PickersHook";
+import useAxios from "../utils/useAxios";
+import { getPickers } from "../utils/axiosAPI/groups/PickersAxios";
 import MatPeoplePickersList from "../components/MatPeoplePickersList";
 
 const MatPeoplePickerWrapper = styled.div`
@@ -37,14 +38,14 @@ const StyledMatPickers = styled.div`
 `;
 
 const MatPeoplePicker: React.FC = () => {
-  const { pickersData } = getMatPickers();
+  const { responseData } = useAxios(getPickers, [], false);
 
   return (
     <MatPeoplePickerWrapper>
       <h1>맛픽커즈</h1>
       <StyledMatPickers>
-        {pickersData &&
-          pickersData.map((picker) => (
+        {responseData &&
+          responseData.map((picker: any) => (
             <MatPeoplePickersList key={picker.id} picker={picker} />
           ))}
       </StyledMatPickers>

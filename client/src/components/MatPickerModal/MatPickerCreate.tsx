@@ -1,6 +1,7 @@
-import React, { useState, PropsWithChildren } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import { addMatPickers } from "../../utils/axiosAPI/groups/(임시)PickersAxios";
+import useAxios from "../../utils/useAxios";
+import { createPickers } from "../../utils/axiosAPI/groups/PickersAxios";
 
 const ModalContainer = styled.div`
   height: 100%;
@@ -88,18 +89,20 @@ const ButtonContainer = styled.div`
 
 interface ModalDefaultType {
   onClickToggleModal: () => void;
+  getAllPickers: () => void;
 }
 
 const tabs = [
-  { index: 1, color: "#098f00" },
-  { index: 2, color: "#09d800" },
-  { index: 3, color: "#023f00" },
+  { groupImgIndex: 0, groupImg: "#098f00" },
+  { groupImgIndex: 1, groupImg: "#09d800" },
+  { groupImgIndex: 2, groupImg: "#023f00" },
 ];
 
 const MatPickerCreate = ({
+  getAllPickers,
   onClickToggleModal,
-}: PropsWithChildren<ModalDefaultType>) => {
-  const [colorValue, setColorValue] = useState("");
+}: ModalDefaultType) => {
+  const [colorValue, setColorValue] = useState(9);
   const [nameValue, setNameValue] = useState("");
 
   const closeModal = (e: React.MouseEvent) => {
@@ -109,14 +112,21 @@ const MatPickerCreate = ({
     }
   };
 
+  const { axiosData } = useAxios(
+    () => createPickers(nameValue, colorValue),
+    [nameValue, colorValue],
+    true
+  );
+
   const hadleName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNameValue(e.target.value);
   };
 
   const handleMatPickPost = () => {
-    if (nameValue && colorValue) {
-      addMatPickers(nameValue, colorValue);
-      window.location.replace("/pickers");
+    if (nameValue && colorValue !== 9) {
+      axiosData();
+      getAllPickers();
+      onClickToggleModal();
     }
   };
 
@@ -136,11 +146,11 @@ const MatPickerCreate = ({
         <TabContainer>
           {tabs.map((el) => (
             <TabButton
-              key={el.index}
-              id={el.color === colorValue ? "focused" : ""}
-              color={el.color}
+              key={el.groupImgIndex}
+              id={el.groupImgIndex === colorValue ? "focused" : ""}
+              color={el.groupImg}
               onClick={() => {
-                setColorValue(el.color);
+                setColorValue(el.groupImgIndex);
               }}
             />
           ))}

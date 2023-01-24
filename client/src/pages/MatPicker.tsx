@@ -1,7 +1,8 @@
 import styled from "styled-components";
-import { getMatPickers } from "../utils/axiosAPI/groups/PickersHook";
 import { useState, useCallback } from "react";
-import { MatPickersList, MatPickerCreate, ModalPortal } from "../components";
+import { MatPickersItem, MatPickerCreate, ModalPortal } from "../components";
+import useAxios from "../utils/useAxios";
+import { getPickers } from "../utils/axiosAPI/groups/PickersAxios";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
 const MatPickerWrapper = styled.div`
@@ -62,7 +63,11 @@ const AddCircleOutlineIconStyled = styled(AddCircleOutlineIcon)`
 const MatPicker: React.FC = () => {
   const [isOpenModal, setOpenModal] = useState<boolean>(false);
 
-  const { pickersData } = getMatPickers();
+  const { axiosData, responseData } = useAxios(getPickers, [], false);
+
+  const getAllPickers = () => {
+    axiosData();
+  };
 
   const onClickToggleModal = useCallback(() => {
     setOpenModal(!isOpenModal);
@@ -72,14 +77,23 @@ const MatPicker: React.FC = () => {
     <MatPickerWrapper>
       {isOpenModal && (
         <ModalPortal>
-          <MatPickerCreate onClickToggleModal={onClickToggleModal} />
+          <MatPickerCreate
+            onClickToggleModal={onClickToggleModal}
+            getAllPickers={getAllPickers}
+          />
         </ModalPortal>
       )}
       <h1>맛픽커즈</h1>
       <MatPickerBox>
-        {pickersData &&
-          pickersData.map((picker: any) => (
-            <MatPickersList key={picker.id} picker={picker} />
+        {responseData &&
+          responseData.map((picker: any) => (
+            <MatPickersItem
+              key={picker.id}
+              id={picker.id}
+              name={picker.name}
+              groupImgIndex={picker.groupImgIndex}
+              getAllPickers={getAllPickers}
+            />
           ))}
         <button className="default_mat_pick" onClick={onClickToggleModal}>
           <MatPickerCreateBox>

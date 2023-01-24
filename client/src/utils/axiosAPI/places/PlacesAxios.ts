@@ -1,59 +1,32 @@
-import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
+
 const url = "http://localhost:3001/places";
 
-interface PlacePosts {
-  postId: number;
-  likes: number;
-  commentcount: number;
-  thumbnail_url: string;
-}
-
-interface Place {
-  placeId: number;
-  name: string;
+export interface PlaceData {
+  id: number;
   placeImg: string;
-  number: string;
+  tel: string;
   address: string;
-  memo: string;
-  latitude: string;
-  longitude: string;
+  roadNameAddress: string;
+  name: string;
+  category: string;
   starAvg: number;
-  isPicked: boolean;
-  pickCount: number;
+  starCount: Array<number>;
   postCount: number;
-  posts: Array<PlacePosts>;
+  isPick: true;
+  longitude: number;
+  latitude: number;
+  postList: Array<Post>;
 }
 
-interface UsePlaceDetailReturn {
-  place: Place | null;
-  placePosts: PlacePosts[];
-  loading: boolean;
-  error: Error | null;
+export interface Post {
+  id: number;
+  likes: number;
+  thumbnailUrl: string;
+  star: number;
 }
 
-export const getMatPlacesDetail = (): UsePlaceDetailReturn => {
-  const [place, setPlace] = useState<Place | null>(null);
-  const [placePosts, setPlacePosts] = useState<PlacePosts[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<Error | null>(null);
-
-  const axiosData = useCallback(async () => {
-    setLoading(true);
-    try {
-      const response = await axios.get<Place>(`${url}`);
-      setPlace(response.data);
-      setPlacePosts(response.data.posts);
-    } catch (error) {
-      setError(Object.assign(new Error(), error));
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    axiosData();
-  }, [axiosData]);
-
-  return { place, placePosts, loading, error };
+export const getPlaceDetail = async () => {
+  const response = await axios.get(url);
+  return response.data;
 };
