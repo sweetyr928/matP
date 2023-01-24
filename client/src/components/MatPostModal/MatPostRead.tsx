@@ -1,12 +1,12 @@
 import styled from "styled-components";
 import useAxios from "../../utils/useAxios";
+import { useNavigate } from "react-router-dom";
 import { useState, useCallback } from "react";
 import {
   getPlacesPost,
   deletePost,
 } from "../../utils/axiosAPI/posts/PostsAxios";
 import StarRate from "./StarRate";
-import ModalPortal from "../ModalPortal";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import MatCommentList from "./MatCommentList";
@@ -135,7 +135,7 @@ interface ModalDefaultType {
 // 모달 토글 버튼 연결 (타입 지정)
 interface ModalDefaultType {
   onClickToggleModal: () => void;
-  selectedPost: number;
+  id: number;
 }
 
 const PostReadModal = ({
@@ -145,6 +145,8 @@ const PostReadModal = ({
   const [isOpenUpdateModal, setOpenUpdateModal] = useState<boolean>(false);
   const [isLiked, setIsLiked] = useState<boolean>(false);
   const [deleteClicked, setDeleteClicked] = useState<boolean>(false);
+
+  const navigate = useNavigate();
 
   // 업데이트 모달 토글 함수
   const onClickToggleUpdateModal = useCallback(() => {

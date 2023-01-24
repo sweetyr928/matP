@@ -1,6 +1,7 @@
-import React, { PropsWithChildren } from "react";
+import { useState } from "react";
 import styled from "styled-components";
-import { deleteMatPickers } from "../../utils/axiosAPI/groups/(임시)PickersAxios";
+import useAxios from "../../utils/useAxios";
+import { deletePickers } from "../../utils/axiosAPI/groups/PickersAxios";
 
 const ModalContainer = styled.div`
   height: 100%;
@@ -53,14 +54,18 @@ const ButtonContainer = styled.div`
 `;
 
 interface ModalDefaultType {
+  getAllPickers: () => void;
   onClickToggleModal: () => void;
   id: number;
 }
 
 const MatPickerDelete = ({
+  getAllPickers,
   onClickToggleModal,
   id,
-}: PropsWithChildren<ModalDefaultType>) => {
+}: ModalDefaultType) => {
+  const [deleteClicked, setDeleteClicked] = useState<boolean>(false);
+
   const closeModal = (e: React.MouseEvent) => {
     e.preventDefault();
     if (onClickToggleModal) {
@@ -68,15 +73,23 @@ const MatPickerDelete = ({
     }
   };
 
+  const { axiosData } = useAxios(
+    () => deletePickers(id),
+    [deleteClicked],
+    true
+  );
+
   const handleMatPickDelete = () => {
-    deleteMatPickers(id);
-    window.location.replace("/pickers");
+    setDeleteClicked(!deleteClicked);
+    axiosData();
+    getAllPickers();
+    onClickToggleModal();
   };
 
   return (
     <ModalContainer>
       <DialogBox>
-        <h3>정말 삭제하시겠습니까?</h3>
+        정말 삭제하시겠습니까?
         <ButtonContainer>
           <button onClick={handleMatPickDelete}>예</button>
           <button onClick={closeModal}>아니오</button>

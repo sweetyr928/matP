@@ -1,5 +1,5 @@
 import Header from "./Header";
-import MatPickersList from "./MatPickersList";
+import MatPickersItem from "./MatPickersItem";
 import MatPostRead from "./MatPostModal/MatPostRead";
 import MatPostCreate from "./MatPostModal/MatPostCreate";
 import MatPostUpdate from "./MatPostModal/MatPostUpdate";
@@ -15,7 +15,7 @@ import KakaoMap from "./KakaoMap/KakaoMap";
 
 export {
   Header,
-  MatPickersList,
+  MatPickersItem,
   MatPostRead,
   MatPostCreate,
   MatPostUpdate,

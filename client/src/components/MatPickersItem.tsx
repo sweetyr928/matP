@@ -12,11 +12,11 @@ const MatPickerSingleBox = styled.div`
   width: 100%;
   height: 50px;
   padding: 15px;
-  border-bottom: 1px solid #adadad;
+  border-bottom: 1px solid black;
 
   a {
     text-decoration: none;
-    color: #373737;
+    color: black;
   }
 `;
 
@@ -31,7 +31,7 @@ const NameBox = styled.div`
   .icon {
     width: 30px;
     height: 30px;
-    border: 1px solid #505050;
+    border: 1px solid black;
     border-radius: 50%;
     margin-right: 20px;
     background-color: ${(props) => props.color || "gray"};
@@ -59,13 +59,21 @@ const DeleteIconStyeld = styled(DeleteIcon)`
   cursor: pointer;
 `;
 
-interface PickersProps {
+interface ModalDefaultType {
+  getAllPickers: () => void;
   id: number;
   name: string;
-  color: string;
+  groupImgIndex: number;
 }
 
-const MatPickersList = ({ picker }: { picker: PickersProps }) => {
+const groupImg = ["#098f00", "#09d800", "#023f00"];
+
+const MatPickersItem = ({
+  getAllPickers,
+  id,
+  name,
+  groupImgIndex,
+}: ModalDefaultType) => {
   const [isOpenUpdateModal, setOpenUpdateModal] = useState<boolean>(false);
   const [isOpenDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
 
@@ -83,32 +91,36 @@ const MatPickersList = ({ picker }: { picker: PickersProps }) => {
         {isOpenUpdateModal && (
           <ModalPortal>
             <MatPickerUpdate
-              id={picker.id}
-              color={picker.color}
-              name={picker.name}
+              id={id}
+              groupImgIndex={groupImgIndex}
+              name={name}
               onClickToggleModal={onClickToggleUpdateModal}
+              getAllPickers={getAllPickers}
             />
           </ModalPortal>
         )}
         {isOpenDeleteModal && (
           <ModalPortal>
-            <MatPickerDelete id={picker.id} onClickToggleModal={onClickToggleDeleteModal} />
+            <MatPickerDelete
+              id={id}
+              onClickToggleModal={onClickToggleDeleteModal}
+              getAllPickers={getAllPickers}
+            />
           </ModalPortal>
         )}
-        <Link to={`/pickers/${picker.id}`}>
-          <NameBox color={picker.color}>
+        <Link to={`/pickers/${id}`}>
+          <NameBox color={groupImg[groupImgIndex]}>
             <div className="icon"></div>
-            <div>{picker.name}</div>
+            <div>{name}</div>
           </NameBox>
         </Link>
         <ButtonBox>
           <EditIconStyled
-            className={`update_btn${picker.name === "기본 맛픽커즈" ? "_hidden" : ""}`}
+            className={`update_btn${name === "기본 맛픽커즈" ? "_hidden" : ""}`}
             onClick={onClickToggleUpdateModal}
           />
-
           <DeleteIconStyeld
-            className={`delete_btn${picker.name === "기본 맛픽커즈" ? "_hidden" : ""}`}
+            className={`delete_btn${name === "기본 맛픽커즈" ? "_hidden" : ""}`}
             onClick={onClickToggleDeleteModal}
           />
         </ButtonBox>
@@ -117,4 +129,4 @@ const MatPickersList = ({ picker }: { picker: PickersProps }) => {
   );
 };
 
-export default MatPickersList;
+export default MatPickersItem;

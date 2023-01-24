@@ -1,8 +1,8 @@
-//맛플레이스 디폴트 페이지
 import { useState, useCallback } from "react";
 import styled from "styled-components";
-import { getMatPlacesDetail } from "../utils/axiosAPI/places/PlacesAxios";
-import { getMatPickers } from "../utils/axiosAPI/groups/PickersHook";
+import useAxios from "../utils/useAxios";
+import { getPickers } from "../utils/axiosAPI/groups/PickersAxios";
+import { getPlaceDetail } from "../utils/axiosAPI/places/PlacesAxios";
 import { PostRead, MatPostCreate, ModalPortal } from "../components";
 
 const FeedContainer = styled.div`
@@ -139,19 +139,39 @@ const PlaceDetailInfo = styled.div`
   }
 `;
 
+const groupImg = ["#098f00", "#09d800", "#023f00"];
+
 const MatPlacePost: React.FC = () => {
-  const { place, placePosts } = getMatPlacesDetail();
-  const { pickersData } = getMatPickers();
   const [isPost, setIsPost] = useState<boolean>(true);
-  const [isPick, setIsPick] = useState<boolean>(false);
+  const [isPickers, setIsPickers] = useState<boolean>(false);
   const [isOpenModal, setOpenModal] = useState<boolean>(false);
+
+  const { responseData: pickersData } = useAxios(getPickers, [], false);
+  const { responseData: placeData } = useAxios(getPlaceDetail, [], false);
+
+  const {
+    id = 0,
+    placeImg = "",
+    tel = "",
+    address = "",
+    roadNameAddress = "",
+    name = "",
+    category = "",
+    starAvg = 0,
+    starCount = [],
+    isPick = true,
+    postCount = 0,
+    longitude = 0,
+    latitude = 0,
+    postList = [],
+  } = placeData || {};
 
   const onClickToggleModal = useCallback(() => {
     setOpenModal(!isOpenModal);
   }, [isOpenModal]);
 
   const pickMenuHandler = () => {
-    setIsPick(!isPick);
+    setIsPickers(!isPickers);
   };
 
   const postMenuHandler = () => {
@@ -169,25 +189,23 @@ const MatPlacePost: React.FC = () => {
         </ModalPortal>
       )}
       <div className="userInfo_header_container">
-        <PlaceImg src={place?.placeImg} alt="프로필사진" />
+        <PlaceImg src={placeImg} alt="프로필사진" />
         <PlaceInfo>
-          <PlaceName>{place?.name}</PlaceName>
-          <InfoBox>{place?.starAvg}</InfoBox>
+          <PlaceName>{name}</PlaceName>
+          <InfoBox>{starAvg}</InfoBox>
           <ButtonBox>
             <button onClick={pickMenuHandler}>Pick</button>
             <button onClick={onClickToggleModal}>Post</button>
           </ButtonBox>
-          <InfoBox>
-            맛 Pick {place?.pickCount} 맛 Post {place?.postCount}
-          </InfoBox>
+          <InfoBox>맛 Pick 사람들이 픽한 횟수 맛 Post {postCount}</InfoBox>
         </PlaceInfo>
       </div>
-      {isPick ? (
+      {isPickers ? (
         <PickContainer>
           <h3>맛픽커즈를 선택해 주세요</h3>
           {pickersData &&
             pickersData.map((picker: any) => (
-              <NameBox key={picker.id} color={picker.color}>
+              <NameBox key={picker.id} color={groupImg[picker.groupImgIndex]}>
                 <div className="icon"></div>
                 <div>{picker.name}</div>
               </NameBox>
@@ -213,19 +231,21 @@ const MatPlacePost: React.FC = () => {
           </TabContainer>
           {isPost ? (
             <PageContainer>
-              {placePosts &&
-                placePosts.map((placePost) => (
-                  <PostRead key={placePost.postId} post={placePost} />
+              {postList &&
+                postList.map((post: any) => (
+                  <PostRead key={post.postId} post={post} />
                 ))}
             </PageContainer>
           ) : (
             <PlaceDetailInfo>
-              <img src={place?.placeImg} alt="프로필사진" />
-              <p className="name">{place?.name}</p>
-              <p>[동남아 음식점]</p>
-              <p>{place?.starAvg}</p>
-              <p>{place?.number}</p>
-              <p>{place?.address}</p>
+              <img src={placeImg} alt="프로필사진" />
+              <p className="name">{name}</p>
+              <p>{category}</p>
+              <p>{starAvg}</p>
+              <p>{tel}</p>
+              <p>
+                {address} {roadNameAddress}
+              </p>
             </PlaceDetailInfo>
           )}
         </>

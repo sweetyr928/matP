@@ -123,20 +123,13 @@
       "comment": "배고파",
       "createdat": "2023. 1. 20. 오후 7:48:58",
       "id": 6
-    },
-    {
-      "nickname": "rhino",
-      "profileimg": "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg",
-      "comment": "안녕하세용?",
-      "createdat": "2023. 1. 20. 오후 7:55:00",
-      "id": 7
     }
   ],
   "groups": [
     {
       "id": 1,
       "name": "기본 맛픽커즈",
-      "color": "#023f00",
+      "groupImgIndex": 2,
       "pickPlaces": [
         {
           "id": 1,
@@ -159,54 +152,14 @@
       ]
     },
     {
-      "name": "한식",
-      "color": "#09d800",
-      "id": 2,
-      "pickPlaces": [
-        {
-          "id": 1,
-          "name": "땀땀",
-          "address": "서울 강남",
-          "star": 5
-        },
-        {
-          "id": 2,
-          "name": "햄버거",
-          "address": "서울 강남",
-          "star": 5
-        },
-        {
-          "id": 3,
-          "name": "초밥집",
-          "address": "서울 강남",
-          "star": 5
-        }
-      ]
+      "name": "ㅇㅇ",
+      "groupImgIndex": 0,
+      "id": 4
     },
     {
-      "name": "중식",
-      "color": "#023f00",
-      "id": 3,
-      "pickPlaces": [
-        {
-          "id": 1,
-          "name": "베이커리",
-          "address": "서울 강남",
-          "star": 5
-        },
-        {
-          "id": 2,
-          "name": "유부초밥집",
-          "address": "서울 강남",
-          "star": 5
-        },
-        {
-          "id": 3,
-          "name": "초밥집",
-          "address": "서울 강남",
-          "star": 5
-        }
-      ]
+      "name": "테스트 22",
+      "groupImgIndex": 1,
+      "id": 5
     }
   ],
   "members": {
@@ -238,30 +191,42 @@
     "picklist": []
   },
   "places": {
-    "placeId": 1,
-    "name": "땀땀",
-    "placeImg": "https://cdn3.iconfinder.com/data/icons/ingredients-of-a-good-life/1000/food___good_dining_dine_out_meal_sushi_culture_woman_outing_senses_taste-1024.png",
-    "number": "전화번호",
-    "address": "서울 xx길 xx-xxx",
-    "memo": "오늘 영업 안합니다",
-    "latitude": "39.234234",
-    "longitude": "23.3453453",
-    "starAvg": 5,
-    "isPicked": "true",
-    "pickCount": 6,
-    "postCount": 2,
-    "posts": [
+    "id": 1,
+    "tel": "",
+    "address": "경기도 성남시 수정구 산성대로295번길 9, 1(일부)층 (신흥동)",
+    "roadNameAddress": "13354",
+    "name": "해피딜리버리(Happy delivery)",
+    "category": "맛집",
+    "starAvg": 4.75,
+    "starCount": [0, 0, 0, 1, 3],
+    "postCount": 4,
+    "isPick": true,
+    "longitude": 127.149020861577,
+    "latitude": 37.4424878693597,
+    "postList": [
       {
-        "postId": 1,
-        "thumbnail_url": "https://cdn3.iconfinder.com/data/icons/ingredients-of-a-good-life/1000/food___good_dining_dine_out_meal_sushi_culture_woman_outing_senses_taste-1024.png",
-        "star": 5,
-        "likes": 10
+        "id": 1,
+        "likes": 0,
+        "thumbnailUrl": "https://seb-main-post-file.s3.ap-northeast-2.amazonaws.com/2.jpg",
+        "star": 5
       },
       {
-        "postId": 2,
-        "thumbnail_url": "https://cdn3.iconfinder.com/data/icons/ingredients-of-a-good-life/1000/food___good_dining_dine_out_meal_sushi_culture_woman_outing_senses_taste-1024.png",
-        "star": 5,
-        "likes": 3
+        "id": 2,
+        "likes": 0,
+        "thumbnailUrl": "https://seb-main-post-file.s3.ap-northeast-2.amazonaws.com/2.jpg",
+        "star": 4
+      },
+      {
+        "id": 4,
+        "likes": 0,
+        "thumbnailUrl": "https://seb-main-post-file.s3.ap-northeast-2.amazonaws.com/2.jpg",
+        "star": 5
+      },
+      {
+        "id": 6,
+        "likes": 0,
+        "thumbnailUrl": "https://seb-main-post-file.s3.ap-northeast-2.amazonaws.com/2.jpg",
+        "star": 5
       }
     ]
   }
