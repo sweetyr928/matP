@@ -96,7 +96,6 @@ interface ModalDefaultType {
 }
 
 const tabs = [
-  { index: 3, color: "#023f00" },
   { groupImgIndex: 0, groupImg: "#098f00" },
   { groupImgIndex: 1, groupImg: "#09d800" },
   { groupImgIndex: 2, groupImg: "#023f00" },
