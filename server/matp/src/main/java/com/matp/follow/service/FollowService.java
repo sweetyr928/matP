@@ -22,22 +22,22 @@ public class FollowService {
     /**
      * 팔로우 등록이 중복되어 저장되면 안되므로 데이터베이스에 확인후 저장
      */
-    public Mono<Void> post(String followerEmail, String followingEmail) {
-        return followRepository.findByFollowerEmailAndFollowingEmail(followerEmail, followingEmail)
-                .switchIfEmpty(followRepository.save(Follow.of(followerEmail, followingEmail)))
+    public Mono<Void> post(Long followerId, Long followingId) {
+        return followRepository.findByFollowerIdAndFollowingId(followerId, followingId)
+                .switchIfEmpty(followRepository.save(Follow.of(followerId, followingId)))
                 .then();
     }
 
-    public Mono<Void> cancel(String followerEmail, String followingEmail) {
-        return followRepository.deleteByFollowerEmailAndFollowingEmail(followerEmail, followingEmail);
+    public Mono<Void> cancel(Long followerId, Long followingId) {
+        return followRepository.deleteByFollowerIdAndFollowingId(followerId, followingId);
     }
 
     /**
      * 팔로워 이메일로 팔로잉 목록 불러오기
      */
-    public Flux<FollowResponseWithInfo> findFollowingByFollowerEmail(String followerEmail) {
-        return followRepository.findAllByFollowerEmail(followerEmail)
-                .flatMap(follow -> memberRepository.findByEmail(follow.getFollowingEmail()))
+    public Flux<FollowResponseWithInfo> findFollowingByFollowerId(Long followerId) {
+        return followRepository.findAllByFollowerId(followerId)
+                .flatMap(follow -> memberRepository.findById(follow.getFollowingId()))
                 .map(MemberDto::from)
                 .map(FollowResponseWithInfo::from);
     }
@@ -45,9 +45,9 @@ public class FollowService {
     /**
      * 팔로잉 이메일로 팔로워 목록 불러오기
      */
-    public Flux<FollowResponseWithInfo> findFollowerByFollowingEmail(String followingEmail) {
-        return followRepository.findAllByFollowingEmail(followingEmail)
-                .flatMap(follow -> memberRepository.findByEmail(follow.getFollowerEmail()))
+    public Flux<FollowResponseWithInfo> findFollowerByFollowingId(Long followingId) {
+        return followRepository.findAllByFollowingId(followingId)
+                .flatMap(follow -> memberRepository.findById(follow.getFollowerId()))
                 .map(MemberDto::from)
                 .map(FollowResponseWithInfo::from);
     }

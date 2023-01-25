@@ -7,20 +7,11 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 public interface FollowRepository extends ReactiveCrudRepository<Follow, Long> {
-    Mono<Follow> findByFollowerEmailAndFollowingEmail(String followerEmail, String followingEmail);
-    Mono<Void> deleteByFollowerEmailAndFollowingEmail(String followerEmail, String followingEmail);
+    Mono<Follow> findByFollowerIdAndFollowingId(Long followerId, Long followingId);
+    Mono<Void> deleteByFollowerIdAndFollowingId(Long followerId, Long followingId);
 
-    Flux<Follow> findAllByFollowerEmail(String followerEmail);
+    Flux<Follow> findAllByFollowerId(Long followerId);
 
-    Flux<Follow> findAllByFollowingEmail(String followingEmail);
-
-    @Query("select count(following_email) from follow where follower_email = :followerEmail")
-    Mono<Long> countAllByFollowingEmail(String followerEmail);
-
-    @Query("select count(follower_email) from follow where following_email = :followingEmail")
-    Mono<Long> countAllByFollowerEmail(String followingEmail);
-
-    @Query("select count(following_email), count(follower_email) from follow where following_email =: memberEmail or follower_email =: memberEmail")
-    Flux<Long> countAllByMemberEmail(String memberEmail);
+    Flux<Follow> findAllByFollowingId(Long followingId);
 
 }
