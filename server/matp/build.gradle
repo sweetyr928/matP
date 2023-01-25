@@ -19,16 +19,42 @@ repositories {
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-data-r2dbc'
+	//OAuth2
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+
+	//security
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+
+	//spring
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+
+	//r2dbc-mysql
+	implementation 'org.springframework.boot:spring-boot-starter-data-r2dbc'
 	implementation 'com.github.jasync-sql:jasync-r2dbc-mysql:2.1.8'
-	compileOnly 'org.projectlombok:lombok'
+
+	//aws-s3
+	implementation 'software.amazon.awssdk:s3:2.18.41'
+	implementation 'software.amazon.awssdk:netty-nio-client:2.18.41'
+	implementation 'org.apache.commons:commons-lang3:3.12.0'
+
+	//r2dbc-h2
 	runtimeOnly 'com.h2database:h2'
 	runtimeOnly 'io.r2dbc:r2dbc-h2'
+
+	//lombok
+	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
+
+	//test
+	testImplementation 'org.springframework.security:spring-security-test'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'io.projectreactor:reactor-test'
+
+	//jwt
+	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
+	runtimeOnly	'io.jsonwebtoken:jjwt-jackson:0.11.5'
 }
 
 tasks.named('test') {

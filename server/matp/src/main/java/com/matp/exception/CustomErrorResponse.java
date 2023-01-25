@@ -1,5 +1,6 @@
 package com.matp.exception;
 
+import com.matp.post.exception.PostNotFoundException;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

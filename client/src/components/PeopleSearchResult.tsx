@@ -1,26 +1,30 @@
 import styled from "styled-components";
 
 const UserWrapper = styled.div`
-  height: 60px;
+  height: 100%;
   width: 100%;
-  margin-bottom: 15px;
 
   .result-box {
     display: flex;
-    margin: 10px;
+    justify-content: center;
+    align-items: center;
     padding: 10px;
-    border-bottom: 1px solid black;
+    padding-left: 20px;
+    border-bottom: 1px solid #adadad;
   }
 
   .user_thumbnail {
-    width: 50px;
-    height: 50px;
+    width: 70px;
+    height: 70px;
     border-radius: 50%;
-    margin-right: 20px;
+    margin-right: 10px;
   }
 
   .text-box {
     width: 80%;
+  }
+  p {
+    margin: 10px;
   }
 `;
 
@@ -37,11 +41,7 @@ const PeopleSearchResult = ({ people }: { people: PeopleProps }) => {
     <>
       <UserWrapper>
         <div className="result-box">
-          <img
-            src={people.thumbnail_url}
-            alt="thumbnail"
-            className="user_thumbnail"
-          />
+          <img src={people.thumbnail_url} alt="thumbnail" className="user_thumbnail" />
           <div className="text-box">
             <p>{people.name}</p>
             <p>{people.memo}</p>

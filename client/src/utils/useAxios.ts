@@ -1,60 +1,38 @@
 import { useState, useEffect, useCallback } from "react";
-import axios from "axios";
 
-interface MemberData {
-  nickname: string;
-  email: string;
-  birthday: string;
-  profileImg: string;
-  gender: string;
-  memo: string;
-  createdAt: string;
-  modifiedAt: string;
-  followers: string;
-  followings: string;
-  postlist: Array<Post>;
-  picklist: Array<Pick>;
-}
-interface Post {
-  postId: number;
-  likes: number;
-  commentcount: number;
-  thumbnail_url: string;
+type Status = "Idle" | "Loading" | "Success" | "Error";
+interface UseAxiosReturn<T> {
+  axiosData: () => void;
+  responseData: T | null;
+  status: Status;
 }
 
-interface Pick {
-  groupId: number;
-  name: string;
-  color: string;
-}
-interface UseAxiosReturn {
-  memberData: MemberData | null;
-  loading: boolean;
-  error: Error | null;
-}
-
-const useAxios = (url: string): UseAxiosReturn => {
-  const [memberData, setMemberData] = useState<MemberData | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<Error | null>(null);
+const useAxios = <T = any>(
+  callback: () => Promise<T>,
+  deps: any[] = [],
+  skip = false
+): UseAxiosReturn<T> => {
+  const [responseData, setResponseData] = useState<T | null>(null);
+  const [status, setStatus] = useState<Status>("Idle");
 
   const axiosData = useCallback(async () => {
-    setLoading(true);
+    setStatus("Loading");
     try {
-      const response = await axios.get<MemberData>(url);
-      setMemberData(response.data);
+      const data = await callback();
+      setResponseData(data);
+      setStatus("Success");
     } catch (error) {
-      setError(Object.assign(new Error(), error));
-    } finally {
-      setLoading(false);
+      setStatus("Error");
+      throw error;
     }
-  }, [url]);
+  }, deps);
 
   useEffect(() => {
+    if (skip) return;
     axiosData();
-  }, [axiosData]);
+  }, deps);
 
-  return { memberData, loading, error };
+  return { axiosData, responseData, status };
 };
 
 export default useAxios;

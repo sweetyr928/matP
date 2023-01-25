@@ -1,6 +1,7 @@
-import React, { PropsWithChildren } from "react";
+import { useState } from "react";
 import styled from "styled-components";
-import { deleteMatPickers } from "../../utils/usePickersAxios";
+import useAxios from "../../utils/useAxios";
+import { deletePickers } from "../../utils/axiosAPI/groups/PickersAxios";
 
 const ModalContainer = styled.div`
   height: 100%;
@@ -34,29 +35,37 @@ const DialogBox = styled.dialog`
   background-color: white;
   position: fixed;
   z-index: 10020;
+  h3 {
+    color: #c65d7b;
+    font-size: 20px;
+  }
 `;
 
 const ButtonContainer = styled.div`
   display: flex;
   margin-top: 40px;
   button {
-    height: 40px;
-    width: 60px;
+    background-color: #fff;
+    cursor: pointer;
+    font-size: 20px;
     margin: 0 20px;
-    border: 1px solid black;
-    border-radius: 20px;
+    border: none;
   }
 `;
 
 interface ModalDefaultType {
+  getAllPickers: () => void;
   onClickToggleModal: () => void;
   id: number;
 }
 
 const MatPickerDelete = ({
+  getAllPickers,
   onClickToggleModal,
   id,
-}: PropsWithChildren<ModalDefaultType>) => {
+}: ModalDefaultType) => {
+  const [deleteClicked, setDeleteClicked] = useState<boolean>(false);
+
   const closeModal = (e: React.MouseEvent) => {
     e.preventDefault();
     if (onClickToggleModal) {
@@ -64,9 +73,17 @@ const MatPickerDelete = ({
     }
   };
 
+  const { axiosData } = useAxios(
+    () => deletePickers(id),
+    [deleteClicked],
+    true
+  );
+
   const handleMatPickDelete = () => {
-    deleteMatPickers(id);
-    window.location.replace("/pickers");
+    setDeleteClicked(!deleteClicked);
+    axiosData();
+    getAllPickers();
+    onClickToggleModal();
   };
 
   return (

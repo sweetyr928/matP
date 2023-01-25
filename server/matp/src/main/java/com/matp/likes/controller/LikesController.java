@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
 @RestController
-@RequestMapping("/places/posts/{post-id}/likes")
+@RequestMapping("/places/{place-id}/posts/{post-id}/likes")
 @RequiredArgsConstructor
 public class LikesController {
 

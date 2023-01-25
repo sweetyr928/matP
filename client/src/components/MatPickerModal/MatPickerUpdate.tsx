@@ -1,15 +1,12 @@
-import React, { PropsWithChildren, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import { updateMatPickers } from "../../utils/usePickersAxios";
+import useAxios from "../../utils/useAxios";
+import { updatePickers } from "../../utils/axiosAPI/groups/PickersAxios";
 
 const ModalContainer = styled.div`
   height: 100%;
-  min-width: calc(1340px * 2 / 5 - 63px);
-  z-index: 997;
-  padding: 0px 8px 0px 70px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  width: calc(1340px * 2 / 5 - 63px);
+  z-index: 1000;
 `;
 
 const Backdrop = styled.div`
@@ -47,8 +44,11 @@ const DialogBox = styled.dialog`
     height: 40px;
     width: 300px;
     padding: 10px;
-    border: 1px solid black;
-    border-radius: 20px;
+    border: 1px solid #adadad;
+    outline: none;
+    border-radius: 12px;
+    color: #373737;
+    font-size: 1rem;
   }
 `;
 
@@ -59,51 +59,56 @@ const TabContainer = styled.ul`
   height: 40px;
   width: 300px;
   padding: 10px;
-  border: 1px solid black;
-  border-radius: 20px;
+  border: 1px solid #adadad;
+  border-radius: 12px;
 `;
 const TabButton = styled.li`
   height: 30px;
   width: 30px;
   list-style: none;
+  border: solid 1px #373737;
   border-radius: 20px;
-  background-color: ${(props) => props.color || "gray"};
+  background-color: ${(props) => props.color || "#adadad"};
   border: ${(props) =>
-    props.id === "focused" ? "3px solid red" : "1px solid black"};
+    props.id === "focused" ? "2.5px solid #C65D7B" : "1px solid #505050"};
 `;
 
 const ButtonContainer = styled.div`
   display: flex;
   margin-top: 40px;
   button {
+    background-color: #fff;
+    cursor: pointer;
+    font-size: 20px;
     height: 40px;
     width: 60px;
     margin: 0 20px;
-    border: 1px solid black;
-    border-radius: 20px;
+    border: none;
   }
 `;
 
 interface ModalDefaultType {
+  getAllPickers: () => void;
   onClickToggleModal: () => void;
   id: number;
   name: string;
-  color: string;
+  groupImgIndex: number;
 }
 
 const tabs = [
-  { index: 1, color: "#098f00" },
-  { index: 2, color: "#09d800" },
-  { index: 3, color: "#023f00" },
+  { groupImgIndex: 0, groupImg: "#098f00" },
+  { groupImgIndex: 1, groupImg: "#09d800" },
+  { groupImgIndex: 2, groupImg: "#023f00" },
 ];
 
 const MatPickerUpdate = ({
+  getAllPickers,
   onClickToggleModal,
   id,
-  color,
   name,
-}: PropsWithChildren<ModalDefaultType>) => {
-  const [newColorValue, setNewColorValue] = useState(color);
+  groupImgIndex,
+}: ModalDefaultType) => {
+  const [newColorValue, setNewColorValue] = useState(groupImgIndex);
   const [newNameValue, setNewNameValue] = useState(name);
 
   const closeModal = (e: React.MouseEvent) => {
@@ -113,14 +118,21 @@ const MatPickerUpdate = ({
     }
   };
 
+  const { axiosData } = useAxios(
+    () => updatePickers(id, newNameValue, newColorValue),
+    [newNameValue, newColorValue],
+    true
+  );
+
   const handleName = (e: any) => {
     setNewNameValue(e.target.value);
   };
 
   const handleMatPickPatch = () => {
     if (newNameValue && newColorValue) {
-      updateMatPickers(id, newNameValue, newColorValue);
-      window.location.replace("/pickers");
+      axiosData();
+      getAllPickers();
+      onClickToggleModal();
     }
   };
 
@@ -140,11 +152,11 @@ const MatPickerUpdate = ({
         <TabContainer>
           {tabs.map((el) => (
             <TabButton
-              key={el.index}
-              id={el.color === newColorValue ? "focused" : ""}
-              color={el.color}
+              key={el.groupImgIndex}
+              id={el.groupImgIndex === newColorValue ? "focused" : ""}
+              color={el.groupImg}
               onClick={() => {
-                setNewColorValue(el.color);
+                setNewColorValue(el.groupImgIndex);
               }}
             />
           ))}

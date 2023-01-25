@@ -1,6 +1,7 @@
-import React, { useState, PropsWithChildren } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import { addMatPickers } from "../../utils/usePickersAxios";
+import useAxios from "../../utils/useAxios";
+import { createPickers } from "../../utils/axiosAPI/groups/PickersAxios";
 
 const ModalContainer = styled.div`
   height: 100%;
@@ -43,8 +44,11 @@ const DialogBox = styled.dialog`
     height: 40px;
     width: 300px;
     padding: 10px;
-    border: 1px solid black;
-    border-radius: 20px;
+    border: 1px solid #adadad;
+    outline: none;
+    border-radius: 12px;
+    color: #373737;
+    font-size: 1rem;
   }
 `;
 
@@ -55,46 +59,50 @@ const TabContainer = styled.ul`
   height: 40px;
   width: 300px;
   padding: 10px;
-  border: 1px solid black;
-  border-radius: 20px;
+  border: 1px solid #adadad;
+  border-radius: 12px;
 `;
 const TabButton = styled.li`
   height: 30px;
   width: 30px;
   list-style: none;
-  border: solid 1px black;
+  border: solid 1px #373737;
   border-radius: 20px;
-  background-color: ${(props) => props.color || "gray"};
+  background-color: ${(props) => props.color || "#adadad"};
   border: ${(props) =>
-    props.id === "focused" ? "3px solid red" : "1px solid black"};
+    props.id === "focused" ? "2.5px solid #C65D7B" : "1px solid #505050"};
 `;
 
 const ButtonContainer = styled.div`
   display: flex;
   margin-top: 40px;
   button {
+    background-color: #fff;
+    cursor: pointer;
+    font-size: 20px;
     height: 40px;
     width: 60px;
     margin: 0 20px;
-    border: 1px solid black;
-    border-radius: 20px;
+    border: none;
   }
 `;
 
 interface ModalDefaultType {
   onClickToggleModal: () => void;
+  getAllPickers: () => void;
 }
 
 const tabs = [
-  { index: 1, color: "#098f00" },
-  { index: 2, color: "#09d800" },
-  { index: 3, color: "#023f00" },
+  { groupImgIndex: 0, groupImg: "#098f00" },
+  { groupImgIndex: 1, groupImg: "#09d800" },
+  { groupImgIndex: 2, groupImg: "#023f00" },
 ];
 
 const MatPickerCreate = ({
+  getAllPickers,
   onClickToggleModal,
-}: PropsWithChildren<ModalDefaultType>) => {
-  const [colorValue, setColorValue] = useState("");
+}: ModalDefaultType) => {
+  const [colorValue, setColorValue] = useState(9);
   const [nameValue, setNameValue] = useState("");
 
   const closeModal = (e: React.MouseEvent) => {
@@ -104,14 +112,21 @@ const MatPickerCreate = ({
     }
   };
 
-  const hadleName = (e: any) => {
+  const { axiosData } = useAxios(
+    () => createPickers(nameValue, colorValue),
+    [nameValue, colorValue],
+    true
+  );
+
+  const hadleName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNameValue(e.target.value);
   };
 
   const handleMatPickPost = () => {
-    if (nameValue && colorValue) {
-      addMatPickers(nameValue, colorValue);
-      window.location.replace("/pickers");
+    if (nameValue && colorValue !== 9) {
+      axiosData();
+      getAllPickers();
+      onClickToggleModal();
     }
   };
 
@@ -131,11 +146,11 @@ const MatPickerCreate = ({
         <TabContainer>
           {tabs.map((el) => (
             <TabButton
-              key={el.index}
-              id={el.color === colorValue ? "focused" : ""}
-              color={el.color}
+              key={el.groupImgIndex}
+              id={el.groupImgIndex === colorValue ? "focused" : ""}
+              color={el.groupImg}
               onClick={() => {
-                setColorValue(el.color);
+                setColorValue(el.groupImgIndex);
               }}
             />
           ))}

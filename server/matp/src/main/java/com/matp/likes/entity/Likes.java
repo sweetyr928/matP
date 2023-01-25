@@ -19,14 +19,12 @@ public class Likes {
 
     private Long postId;
 
-    private Long placeId;
-
-    private Long userId;
+    private Long likesMemberId;
 
     private int likesCheck;
 
     public void settingLikes(Long memberId, Long postId, int likesCheck) {
-        this.userId = memberId;
+        this.likesMemberId = memberId;
         this.postId = postId;
         this.likesCheck = likesCheck;
     }

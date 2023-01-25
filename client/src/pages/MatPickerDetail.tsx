@@ -1,5 +1,6 @@
 import styled from "styled-components";
-import { getMatPickersDetail } from "../utils/usePickersAxios";
+import useAxios from "../utils/useAxios";
+import { getPickersDetail } from "../utils/axiosAPI/groups/PickersAxios";
 import { useParams } from "react-router-dom";
 
 const MatPickPlaceWrapper = styled.div`
@@ -29,21 +30,22 @@ const MatPickPlaceBox = styled.div`
     display: flex;
     align-items: center;
     height: 50px;
-    border-bottom: 1px solid black;
-    font-size: 20px;
+    border-bottom: 1px solid #adadad;
+    font-size: 18px;
+    cursor: pointer;
   }
 `;
 
 const MatPickerDetail: React.FC = () => {
   const { id } = useParams();
-  const { pickersTitle, pickPlaces } = getMatPickersDetail(id);
+  const { responseData } = useAxios(() => getPickersDetail(id), [], false);
 
   return (
     <MatPickPlaceWrapper>
-      <h1>{pickersTitle}</h1>
+      <h1>{responseData.name}</h1>
       <MatPickPlaceBox>
-        {pickPlaces &&
-          pickPlaces.map((pickPlace) => (
+        {responseData &&
+          responseData.map((pickPlace: any) => (
             <div key={pickPlace.id}>
               {pickPlace.name}|{pickPlace.address}|✭{pickPlace.star}
             </div>
