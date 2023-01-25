@@ -4,7 +4,7 @@ package com.matp.post.service;
 import com.matp.comment.dto.MultiResponseDto;
 import com.matp.comment.service.CommentService;
 import com.matp.post.dto.*;
-import com.matp.post.dto.testdto.PostMemberInfo;
+import com.matp.post.dto.PostMemberInfo;
 import com.matp.post.entity.Post;
 import com.matp.post.repository.PostRepository;
 import lombok.RequiredArgsConstructor;

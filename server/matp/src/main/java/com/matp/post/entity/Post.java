@@ -1,7 +1,7 @@
 package com.matp.post.entity;
 
 import com.matp.comment.entity.Comment;
-import com.matp.post.dto.testdto.PostMemberInfo;
+import com.matp.post.dto.PostMemberInfo;
 import lombok.*;
 import org.springframework.data.annotation.*;
 import org.springframework.data.relational.core.mapping.Table;

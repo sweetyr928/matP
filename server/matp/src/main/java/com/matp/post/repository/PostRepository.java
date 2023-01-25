@@ -73,7 +73,7 @@ public interface PostRepository extends ReactiveCrudRepository<Post, Long> {
             SELECT
             id,
             star
-            FROM mat_post
+            FROM post
             WHERE place_id = :placeId
             """)
     Flux<Post> findPlacePosts(Long placeId);
@@ -84,7 +84,7 @@ public interface PostRepository extends ReactiveCrudRepository<Post, Long> {
     likes,
     thumbnail_url,
     star
-    FROM mat_post
+    FROM post
     WHERE place_id = :placeId
     """)
     Flux<Post> findPlaceDetailPosts(Long placeId);
