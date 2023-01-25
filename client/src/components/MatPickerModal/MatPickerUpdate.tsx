@@ -66,11 +66,10 @@ const TabButton = styled.li`
   height: 30px;
   width: 30px;
   list-style: none;
-  border: solid 1px #373737;
   border-radius: 20px;
-  background-color: ${(props) => props.color || "#adadad"};
-  border: ${(props) =>
-    props.id === "focused" ? "2.5px solid #C65D7B" : "1px solid #505050"};
+  background: url(${(props) => props.color || "gray"});
+  background-size: 100%;
+  filter: ${(props) => (props.id === "focused" ? "brightness(0.8)" : "none")};
 `;
 
 const ButtonContainer = styled.div`
@@ -96,9 +95,21 @@ interface ModalDefaultType {
 }
 
 const tabs = [
-  { groupImgIndex: 0, groupImg: "#098f00" },
-  { groupImgIndex: 1, groupImg: "#09d800" },
-  { groupImgIndex: 2, groupImg: "#023f00" },
+  {
+    groupImgIndex: 0,
+    groupImg:
+      "https://user-images.githubusercontent.com/94962427/213089353-0c35dd6b-a40f-46d9-88d0-03b515888bc8.png",
+  },
+  {
+    groupImgIndex: 1,
+    groupImg:
+      "https://user-images.githubusercontent.com/94962427/213089385-ef2f1dc2-3192-4aaa-b9fd-aa108ec46675.png",
+  },
+  {
+    groupImgIndex: 2,
+    groupImg:
+      "https://user-images.githubusercontent.com/94962427/213089403-2602dbbb-cbc5-4090-825d-636708940b9b.png",
+  },
 ];
 
 const MatPickerUpdate = ({
