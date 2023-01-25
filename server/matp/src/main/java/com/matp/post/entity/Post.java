@@ -13,7 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "mat_post")
+@Table(name = "post")
 public class Post {
 
     @Id
@@ -57,5 +57,8 @@ public class Post {
     }
     public void setMemberId(Long memberId) {
         this.memberId = memberId;
+    }
+    public void setPlaceId(Long placeId) {
+        this.placeId = placeId;
     }
 }
