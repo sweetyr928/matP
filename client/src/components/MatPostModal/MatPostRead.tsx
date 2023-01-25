@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import useAxios from "../../utils/useAxios";
-import { useNavigate } from "react-router-dom";
 import { useState, useCallback } from "react";
 import {
   getPlacesPost,
@@ -10,7 +9,6 @@ import StarRate from "./StarRate";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import MatCommentList from "./MatCommentList";
-import ModalPortal from "../ModalPortal";
 import { MatPostUpdate } from "..";
 
 const StyledModal = styled.div`
@@ -145,8 +143,9 @@ const PostReadModal = ({
   const [isOpenUpdateModal, setOpenUpdateModal] = useState<boolean>(false);
   const [isLiked, setIsLiked] = useState<boolean>(false);
   const [deleteClicked, setDeleteClicked] = useState<boolean>(false);
+  const [isEdit, setIsEdit] = useState<boolean>(false);
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   // 업데이트 모달 토글 함수
   const onClickToggleUpdateModal = useCallback(() => {
@@ -180,7 +179,7 @@ const PostReadModal = ({
 
   // '수정' 버튼 클릭 시 PostUpdateModal로 이동
   const handleEdit = () => {
-    navigate(`/edit/${id}`, { state: responseData });
+    setIsEdit(true);
   };
 
   const handleDelete = () => {
@@ -196,11 +195,6 @@ const PostReadModal = ({
 
   return (
     <StyledModal>
-      {/* {isOpenUpdateModal && (
-        <ModalPortal>
-          <MatPostUpdate onClickToggleModal={onClickToggleUpdateModal} />
-        </ModalPortal>
-      )} */}
       <span
         role="presentation"
         onClick={onClickToggleModal}
@@ -208,44 +202,52 @@ const PostReadModal = ({
       >
         &times;
       </span>
-      <StyledDiv>
-        <StyledContentWrapper>
-          <div className="post_title">{title}</div>
-          <StyledMid>
-            <StyledInfo>
-              <img src={profileimg} alt="profileImg"></img>
-              <div className="post_nickname">{nickname}</div>
-              <div className="post_createdAt">{createdat}</div>
-            </StyledInfo>
-            <div>
-              <button onClick={onClickToggleUpdateModal}>수정</button>
-              <button onClick={handleDelete}>삭제</button>
-              <button>url 복사</button>
-            </div>
-          </StyledMid>
-          <StyledContent>
-            <div dangerouslySetInnerHTML={{ __html: content }}></div>
-          </StyledContent>
-          <StyledStarsWrapper>
-            <StyledStar>
-              {array.map((el, idx) => {
-                return (
-                  <StarRate
-                    key={idx}
-                    size="50"
-                    className={clicked[el] ? "yellow" : ""}
-                  />
-                );
-              })}
-            </StyledStar>
-          </StyledStarsWrapper>
-        </StyledContentWrapper>
-        <hr className="post_middle_line" />
-        <div className="post_like" onClick={handleLike} role="presentation">
-          {isLiked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
-        </div>
-        <MatCommentList />
-      </StyledDiv>
+      {isEdit ? (
+        <MatPostUpdate
+          id={id}
+          onClickToggleModal={onClickToggleUpdateModal}
+          state={responseData}
+        />
+      ) : (
+        <StyledDiv>
+          <StyledContentWrapper>
+            <div className="post_title">{title}</div>
+            <StyledMid>
+              <StyledInfo>
+                <img src={profileimg} alt="profileImg"></img>
+                <div className="post_nickname">{nickname}</div>
+                <div className="post_createdAt">{createdat}</div>
+              </StyledInfo>
+              <div>
+                <button onClick={handleEdit}>수정</button>
+                <button onClick={handleDelete}>삭제</button>
+                <button>url 복사</button>
+              </div>
+            </StyledMid>
+            <StyledContent>
+              <div dangerouslySetInnerHTML={{ __html: content }}></div>
+            </StyledContent>
+            <StyledStarsWrapper>
+              <StyledStar>
+                {array.map((el, idx) => {
+                  return (
+                    <StarRate
+                      key={idx}
+                      size="50"
+                      className={clicked[el] ? "yellow" : ""}
+                    />
+                  );
+                })}
+              </StyledStar>
+            </StyledStarsWrapper>
+          </StyledContentWrapper>
+          <hr className="post_middle_line" />
+          <div className="post_like" onClick={handleLike} role="presentation">
+            {isLiked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+          </div>
+          <MatCommentList />
+        </StyledDiv>
+      )}
     </StyledModal>
   );
 };
