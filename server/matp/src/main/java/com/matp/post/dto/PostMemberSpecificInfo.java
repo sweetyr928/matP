@@ -7,6 +7,6 @@ import java.time.LocalDateTime;
 @Builder
 public record PostMemberSpecificInfo(Long id , String title,
                                      String content, int likes,
-                                     String thumbnailUrl, int star,
+                                     String thumbnailUrl, int star, Long placeId,
                                      LocalDateTime createdAt, LocalDateTime modifiedAt, String nickname, String profileImg,Integer likesCheck) {
 }

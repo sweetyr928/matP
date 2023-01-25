@@ -10,6 +10,6 @@ import java.util.List;
 @Builder
 public record PostResponseWithInfo(Long id, String title,
                                    String content, int likes,
-                                   String thumbnailUrl, LocalDateTime createdAt, LocalDateTime modifiedAt, int star,
+                                   String thumbnailUrl, Long placeId, LocalDateTime createdAt, LocalDateTime modifiedAt, int star,
                                    PostMemberInfo memberInfo) {
 }
