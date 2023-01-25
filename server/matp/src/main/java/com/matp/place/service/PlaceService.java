@@ -4,9 +4,11 @@ package com.matp.place.service;
 import com.matp.picker.service.PickerService;
 import com.matp.place.dto.PlaceDetailResponseDto;
 import com.matp.place.dto.PlaceResponseDto;
+import com.matp.place.entity.Place;
 import com.matp.place.repository.PlaceRepositiory;
 import com.matp.post.service.PostService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Flux;
@@ -14,6 +16,7 @@ import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class PlaceService {
     private final PlaceRepositiory placeRepository;
@@ -27,8 +30,17 @@ public class PlaceService {
      */
     @Transactional(readOnly = true)
     public Flux<PlaceResponseDto> findPlaces(double longitude, double latitude, double round) {
-        return placeRepository.findPlaces(longitude, latitude, (int) (round * 1000))
-                .publishOn(Schedulers.boundedElastic())
+        return mapping(placeRepository.findPlaces(longitude, latitude, (int) (round * 1000)));
+    }
+
+    @Transactional(readOnly = true)
+    public Flux<PlaceResponseDto> findPlaces(String search) {
+        if (search.contains("_")) return mapping(placeRepository.searchPlaces(search.split("_")[0], search.split("_")[1]));
+        return mapping(placeRepository.searchPlaces(search));
+    }
+
+    private Flux<PlaceResponseDto> mapping(Flux<Place> places) {
+        return places.publishOn(Schedulers.boundedElastic())
                 .map(place -> {
                     var postList = postService.findPlacePosts(place.getId()).block();
                     return PlaceResponseDto.of(place, postList);

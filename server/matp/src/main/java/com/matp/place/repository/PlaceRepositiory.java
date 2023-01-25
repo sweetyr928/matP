@@ -23,4 +23,22 @@ public interface PlaceRepositiory extends ReactiveCrudRepository<Place, Long> {
         WHERE id = :placeId
     """)
     Mono<Place> findPlaceDetail(Long placeId);
+
+    @Query("""
+        SELECT id, tel, address, name, st_astext(point) as point
+        FROM result
+        WHERE address LIKE CONCAT('%', :search, '%')
+        OR category LIKE CONCAT('%', :search, '%') 
+        OR name LIKE CONCAT('%', :search, '%')
+    """)
+    Flux<Place> searchPlaces(String search);
+
+    @Query("""
+        SELECT id, tel, address, name, st_astext(point) as point
+        FROM place
+        WHERE (address LIKE CONCAT('%', :query1, '%'))
+        AND (category LIKE CONCAT('%', :query2, '%') OR name LIKE CONCAT('%', :query2, '%'))
+    """)
+    Flux<Place> searchPlaces(String query1, String query2);
+
 }
