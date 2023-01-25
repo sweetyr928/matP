@@ -46,18 +46,18 @@ const InfoBox = styled.span`
   margin: 10px 0;
   display: flex;
 
-  .star-ratings {
+  .star_rating {
     color: #989898;
     position: relative;
     unicode-bidi: bidi-override;
     width: max-content;
-    -webkit-text-fill-color: transparent; /* Will override color (regardless of order) */
+    -webkit-text-fill-color: transparent;
     -webkit-text-stroke-width: 1.3px;
     -webkit-text-stroke-color: #fcc419;
     margin: 0px 10px 0px 0px;
   }
 
-  .star-ratings-fill {
+  .star_rating_fill {
     color: #fcc419;
     padding: 0;
     position: absolute;
@@ -69,7 +69,7 @@ const InfoBox = styled.span`
     -webkit-text-fill-color: #fcc419;
   }
 
-  .star-ratings-base {
+  .star_rating_base {
     z-index: 0;
     padding: 0;
   }
@@ -227,15 +227,15 @@ const MatPlacePost: React.FC = () => {
         <PlaceInfo>
           <PlaceName>{name}</PlaceName>
           <InfoBox>
-            <div className="star-ratings">
-              <div className="star-ratings-fill" style={ratingToPercent}>
+            <div className="star_rating">
+              <div className="star_rating_fill" style={ratingToPercent}>
                 <span>★</span>
                 <span>★</span>
                 <span>★</span>
                 <span>★</span>
                 <span>★</span>
               </div>
-              <div className="star-ratings-base">
+              <div className="star_rating_base">
                 <span>★</span>
                 <span>★</span>
                 <span>★</span>
@@ -294,15 +294,15 @@ const MatPlacePost: React.FC = () => {
               <p className="name">{name}</p>
               <p>{category}</p>
               <InfoBox>
-                <div className="star-ratings">
-                  <div className="star-ratings-fill" style={ratingToPercent}>
+                <div className="star_rating">
+                  <div className="star_rating_fill" style={ratingToPercent}>
                     <span>★</span>
                     <span>★</span>
                     <span>★</span>
                     <span>★</span>
                     <span>★</span>
                   </div>
-                  <div className="star-ratings-base">
+                  <div className="star_rating_base">
                     <span>★</span>
                     <span>★</span>
                     <span>★</span>
