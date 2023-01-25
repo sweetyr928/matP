@@ -4,7 +4,6 @@ import useAxios from "../utils/useAxios";
 import { getPickers } from "../utils/axiosAPI/groups/PickersAxios";
 import { getPlaceDetail } from "../utils/axiosAPI/places/PlacesAxios";
 import { PostRead, MatPostCreate, ModalPortal } from "../components";
-import { width } from "@mui/system";
 
 const FeedContainer = styled.div`
   height: 100%;
