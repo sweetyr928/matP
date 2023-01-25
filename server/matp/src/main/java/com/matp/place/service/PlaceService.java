@@ -8,7 +8,6 @@ import com.matp.place.entity.Place;
 import com.matp.place.repository.PlaceRepositiory;
 import com.matp.post.service.PostService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Flux;
@@ -16,7 +15,6 @@ import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
 
 @Service
-@Slf4j
 @RequiredArgsConstructor
 public class PlaceService {
     private final PlaceRepositiory placeRepository;
