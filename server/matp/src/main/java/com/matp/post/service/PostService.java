@@ -43,8 +43,9 @@ public class PostService {
      * @author 임준건
      */
     @Transactional(readOnly = true)
-    public Mono<MultiResponseDto> getPost(Long postId) {
-        // TODO Member 토큰 에서 memberID 뽑아서 좋아요 post 조회시에 체킹유무까지 넘겨줘야함
+    public Mono<MultiResponseDto> getPost(Long postId,Long memberId) {
+        // TODO Member 토큰 에서 memberID 뽑아서 넘겨줘야함 .
+        //  좋아요 post 조회시에 체킹유무까지 넘겨줘야함
         return postRepository.findPostWithMemberInfo(postId)
                 .publishOn(Schedulers.boundedElastic())
                 .map(result -> {
@@ -55,7 +56,7 @@ public class PostService {
                             .build();
 
                     var comments = commentService.getComments(postId).block();
-
+                    Integer block = postRepository.findLikeCheck(postId, memberId).block();
                     PostResponseWithInfo postResponseWithInfo = PostResponseWithInfo.builder()
                             .id(result.id())
                             .title(result.title())
@@ -67,19 +68,31 @@ public class PostService {
                             .modifiedAt(result.modifiedAt())
                             .memberInfo(member)
                             .build();
-                    return new MultiResponseDto(postResponseWithInfo, comments);
+
+                    return new MultiResponseDto(postResponseWithInfo, comments,block);
                 });
     }
 
     /**
      * @return Flux < PostResponse >
-     * @apiNote keyword 로 Post 를 {@link PostRepository} 에서 찾아오는 메서드
+     * @apiNote title keyword 로 Post 를 {@link PostRepository} 에서 찾아오는 메서드
      * @author 임준건
      */
     @Transactional(readOnly = true)
-    public Flux<PostResponse> findPostByKeyword(String keyword) {
+    public Flux<PostResponse> findPostByTitleKeyword(String keyword) {
 
-        return postRepository.searchPostByKeyword(keyword)
+        return postRepository.searchPostByTitleKeyword(keyword)
+                .map(PostResponse::from);
+    }
+    /**
+     * @return Flux < PostResponse >
+     * @apiNote content keyword 로 Post 를 {@link PostRepository} 에서 찾아오는 메서드
+     * @author 임준건
+     */
+    @Transactional(readOnly = true)
+    public Flux<PostResponse> findPostByContentKeyword(String keyword) {
+
+        return postRepository.searchPostByContentKeyword(keyword)
                 .map(PostResponse::from);
     }
 
@@ -92,7 +105,7 @@ public class PostService {
     public Mono<PostResponse> save(PostRequest request) {
 
         Post Post = request.toEntity();
-//        Post.setMemberId(2L);
+        Post.setMemberId(2L);
 
         Mono<Post> save = postRepository.save(Post);
 
@@ -107,8 +120,8 @@ public class PostService {
     @Transactional
     public Mono<PostResponse> update(PatchPostRequest updatePostRequest, Long postId) {
         Post updatePost = updatePostRequest.toEntity();
-
-        return postRepository.findById(postId).flatMap(post -> postRepository.save(post.settingPost(post,updatePost))).map(PostResponse::from);
+        return postRepository.findById(postId).flatMap(post ->
+                postRepository.save(post.settingPost(post,updatePost))).map(PostResponse::from);
     }
 
     /**
@@ -120,7 +133,8 @@ public class PostService {
     public Mono<Void> delete(Long postId) {
 
         return postRepository.findById(postId)
-                .flatMap(postRepository::delete);
+                .flatMap(postRepository::delete)
+                .switchIfEmpty(postRepository.PostDeleteWithCommentsLikes(postId));
     }
 
     /**

@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import PostRead from "../components/PostRead";
-import UsePostsAxios from "../utils/usePostsAxios";
+import { getPosts } from "../utils/axiosAPI/posts/PostsAxios";
+import useAxios from "../utils/useAxios";
+import type { IPosts } from "../utils/axiosAPI/posts/PostsAxios";
 
 const StyledFeed = styled.div`
   height: 100%;
@@ -31,15 +33,16 @@ const StyledPosts = styled.div`
 `;
 
 const Domain: React.FC = () => {
-  const url = "http://localhost:3001/posts";
-  const { postsData } = UsePostsAxios(url);
+  const { responseData } = useAxios(getPosts, [], false);
 
   return (
     <StyledFeed>
       <h1>오늘의 맛 Post</h1>
       <StyledPosts>
-        {postsData &&
-          postsData.map((post) => <PostRead key={post.postId} post={post} />)}
+        {responseData &&
+          responseData.map((post: IPosts) => (
+            <PostRead key={post.postId} post={post} />
+          ))}
       </StyledPosts>
     </StyledFeed>
   );

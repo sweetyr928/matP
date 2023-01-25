@@ -3,8 +3,9 @@
 // 검색페이지(제목 및 내용 검색 결과), 맛피플(마이) 페이지 포스트 목록
 import styled from "styled-components";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { MatPostRead, ModalPortal } from ".";
+import { IPosts } from "../utils/axiosAPI/posts/PostsAxios";
 
 const ImgWrapper = styled.div`
   width: 130px;
@@ -64,30 +65,16 @@ const ModalBackdrop = styled.div`
   place-items: center;
 `;
 
-interface IPostProps {
-  postId: number;
-  likes: number;
-  commentcount: number;
-  thumbnail_url: string;
-}
+const PostRead = ({ post }: { post: IPosts }) => {
+  const [isOpenModal, setOpenModal] = useState<boolean>(false);
 
-const PostRead = ({ post }: { post: IPostProps }) => {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [selectedPost, setSelectedPost] = useState<number>(1);
-
-  const openModalHandler = () => {
-    setIsOpen(true);
-    setSelectedPost(post.postId);
-  };
-
-  const closeModalHandler = (e: React.MouseEvent<HTMLElement>) => {
-    setIsOpen(false);
-    e.stopPropagation();
-  };
+  const onClickToggleModal = useCallback(() => {
+    setOpenModal(!isOpenModal);
+  }, [isOpenModal]);
 
   return (
     <>
-      <ImgWrapper onClick={openModalHandler}>
+      <ImgWrapper onClick={onClickToggleModal}>
         <p className="likes_on">
           <FavoriteIcon className="heartIcon" />
           {post.likes}
@@ -96,13 +83,13 @@ const PostRead = ({ post }: { post: IPostProps }) => {
           <PostImg src={post.thumbnail_url} alt="thumbnail" />
         </div>
       </ImgWrapper>
-      {isOpen === true ? (
+      {isOpenModal === true ? (
         <ModalPortal>
           <MatPostRead
-            closeModalHandler={closeModalHandler}
-            selectedPost={selectedPost}
+            onClickToggleModal={onClickToggleModal}
+            id={post.postId}
           />
-          <ModalBackdrop onClick={closeModalHandler} />
+          <ModalBackdrop onClick={onClickToggleModal} />
         </ModalPortal>
       ) : null}
     </>

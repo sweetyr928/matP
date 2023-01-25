@@ -79,6 +79,11 @@ const MapMarkerComponent = () => {
   // ))}
   // </>
   // );
+  const markerImg = [
+    "https://user-images.githubusercontent.com/94962427/213089353-0c35dd6b-a40f-46d9-88d0-03b515888bc8.png",
+    "https://user-images.githubusercontent.com/94962427/213089353-0c35dd6b-a40f-46d9-88d0-03b515888bc8.png",
+  ];
+  const imgScore = 0;
   return (
     <>
       {searchResults.map((result) => (
@@ -87,8 +92,8 @@ const MapMarkerComponent = () => {
           position={{ lat: result.latitude, lng: result.longitude }}
           clickable={true}
           image={{
-            src: "https://cdn-icons-png.flaticon.com/512/7988/7988273.png",
-            size: { width: 30, height: 30 },
+            src: markerImg[imgScore],
+            size: { width: 25, height: 25 },
           }}
           onClick={() => setIsOpen({ id: result.id, open: true })}
         >

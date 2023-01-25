@@ -3,14 +3,7 @@ import { useState } from "react";
 import { Route, Routes } from "react-router";
 import styled from "styled-components";
 import "./App.css";
-import {
-  KakaoMap,
-  Sidebar,
-  Header,
-  HeaderFeedHide,
-  MatPostCreate,
-  MatPostUpdate,
-} from "./components";
+import { KakaoMap, Sidebar, Header, HeaderFeedHide } from "./components";
 import {
   Domain,
   MyPage,
@@ -19,6 +12,7 @@ import {
   MatPickerDetail,
   SearchPage,
   SearchDetailPage,
+  MatPlace,
 } from "./pages";
 import { RecoilRoot } from "recoil";
 import MatPeoplePicker from "./pages/MatPeoplePicker";
@@ -53,17 +47,14 @@ function App() {
           <Header />
           <Routes>
             <Route path="/" element={<Domain />} />
-            <Route path="/search" element={<SearchPage />} />
             <Route path="/pickers" element={<MatPicker />} />
             <Route path="/pickers/:id" element={<MatPickerDetail />} />
+            <Route path="/search" element={<SearchPage />} />
             <Route path="/search/:name" element={<SearchDetailPage />} />
-            {/* <Route path="/" element={<Domain />} /> */}
-            {/* <Route path="/" element={<Domain />} /> */}
+            <Route path="/places" element={<MatPlace />} />
             <Route path="/mypage" element={<MyPage />} />
             <Route path="/people" element={<MatPeople />} />
             <Route path="/matPickers" element={<MatPeoplePicker />} />
-            <Route path="/mat" element={<MatPostCreate />} />
-            <Route path="/edit/:id" element={<MatPostUpdate />} />
           </Routes>
         </div>
         <HeaderFeedHide visible={visible} setVisibility={setVisibility} />

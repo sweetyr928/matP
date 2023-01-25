@@ -1,7 +1,8 @@
 import styled from "styled-components";
-import { getMatPickers } from "../utils/usePickersAxios";
 import { useState, useCallback } from "react";
-import { MatPickersList, MatPickerCreate, ModalPortal } from "../components";
+import { MatPickersItem, MatPickerCreate, ModalPortal } from "../components";
+import useAxios from "../utils/useAxios";
+import { getPickers } from "../utils/axiosAPI/groups/PickersAxios";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
 const MatPickerWrapper = styled.div`
@@ -18,7 +19,7 @@ const MatPickerWrapper = styled.div`
   h1 {
     font-size: 28px;
     font-weight: 500;
-    margin-top: 200px;
+    margin-top: 150px;
     margin-bottom: 80px;
   }
 `;
@@ -33,8 +34,11 @@ const MatPickerBox = styled.div`
     align-items: center;
     width: 100%;
     height: 50px;
+    background-color: #f8f8f8;
     padding: 15px;
-    border-bottom: 1px solid black;
+    border: none;
+    border-bottom: 1px solid #adadad;
+    cursor: pointer;
   }
 `;
 
@@ -48,12 +52,22 @@ const MatPickerCreateBox = styled.div`
     height: 30px;
     margin-right: 20px;
   }
+  div {
+    font-size: 16px;
+  }
+`;
+const AddCircleOutlineIconStyled = styled(AddCircleOutlineIcon)`
+  color: #505050;
 `;
 
 const MatPicker: React.FC = () => {
   const [isOpenModal, setOpenModal] = useState<boolean>(false);
 
-  const { pickersData } = getMatPickers();
+  const { axiosData, responseData } = useAxios(getPickers, [], false);
+
+  const getAllPickers = () => {
+    axiosData();
+  };
 
   const onClickToggleModal = useCallback(() => {
     setOpenModal(!isOpenModal);
@@ -63,21 +77,30 @@ const MatPicker: React.FC = () => {
     <MatPickerWrapper>
       {isOpenModal && (
         <ModalPortal>
-          <MatPickerCreate onClickToggleModal={onClickToggleModal} />
+          <MatPickerCreate
+            onClickToggleModal={onClickToggleModal}
+            getAllPickers={getAllPickers}
+          />
         </ModalPortal>
       )}
       <h1>맛픽커즈</h1>
       <MatPickerBox>
-        {pickersData &&
-          pickersData.map((picker: any) => (
-            <MatPickersList key={picker.id} picker={picker} />
+        {responseData &&
+          responseData.map((picker: any) => (
+            <MatPickersItem
+              key={picker.id}
+              id={picker.id}
+              name={picker.name}
+              groupImgIndex={picker.groupImgIndex}
+              getAllPickers={getAllPickers}
+            />
           ))}
-        <div className="default_mat_pick">
-          <MatPickerCreateBox onClick={onClickToggleModal}>
-            <AddCircleOutlineIcon className="icon" fontSize="large" />
+        <button className="default_mat_pick" onClick={onClickToggleModal}>
+          <MatPickerCreateBox>
+            <AddCircleOutlineIconStyled className="icon" fontSize="large" />
             <div>그룹 추가하기</div>
           </MatPickerCreateBox>
-        </div>
+        </button>
       </MatPickerBox>
     </MatPickerWrapper>
   );

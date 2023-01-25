@@ -1,5 +1,5 @@
 import Header from "./Header";
-import MatPickersList from "./MatPickersList";
+import MatPickersItem from "./MatPickersItem";
 import MatPostRead from "./MatPostModal/MatPostRead";
 import MatPostCreate from "./MatPostModal/MatPostCreate";
 import MatPostUpdate from "./MatPostModal/MatPostUpdate";
@@ -7,8 +7,6 @@ import Sidebar from "./Sidebar";
 import MatPickerCreate from "./MatPickerModal/MatPickerCreate";
 import MatPickerUpdate from "./MatPickerModal/MatPickerUpdate";
 import MatPickerDelete from "./MatPickerModal/MatPickerDelete";
-import PeoPleEditModal from "./PeopleEditModal";
-import DeleteModal from "./DeleteModal";
 import LoginModal from "./LoginModal";
 import HeaderFeedHide from "./HeaderFeedHide";
 import ModalPortal from "./ModalPortal";
@@ -17,7 +15,7 @@ import KakaoMap from "./KakaoMap/KakaoMap";
 
 export {
   Header,
-  MatPickersList,
+  MatPickersItem,
   MatPostRead,
   MatPostCreate,
   MatPostUpdate,
@@ -25,8 +23,6 @@ export {
   MatPickerCreate,
   MatPickerUpdate,
   MatPickerDelete,
-  PeoPleEditModal,
-  DeleteModal,
   LoginModal,
   HeaderFeedHide,
   ModalPortal,

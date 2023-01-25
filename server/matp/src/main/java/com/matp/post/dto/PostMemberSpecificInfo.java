@@ -8,5 +8,5 @@ import java.time.LocalDateTime;
 public record PostMemberSpecificInfo(Long id , String title,
                                      String content, int likes,
                                      String thumbnailUrl, int star,
-                                     LocalDateTime createdAt, LocalDateTime modifiedAt, String nickname, String profileImg) {
+                                     LocalDateTime createdAt, LocalDateTime modifiedAt, String nickname, String profileImg,Integer likesCheck) {
 }
