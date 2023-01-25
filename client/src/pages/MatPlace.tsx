@@ -4,6 +4,7 @@ import useAxios from "../utils/useAxios";
 import { getPickers } from "../utils/axiosAPI/groups/PickersAxios";
 import { getPlaceDetail } from "../utils/axiosAPI/places/PlacesAxios";
 import { PostRead, MatPostCreate, ModalPortal } from "../components";
+import { width } from "@mui/system";
 
 const FeedContainer = styled.div`
   height: 100%;
@@ -44,6 +45,34 @@ const InfoBox = styled.span`
   font-size: 18px;
   margin: 10px 0;
   display: flex;
+
+  .star-ratings {
+    color: #989898;
+    position: relative;
+    unicode-bidi: bidi-override;
+    width: max-content;
+    -webkit-text-fill-color: transparent; /* Will override color (regardless of order) */
+    -webkit-text-stroke-width: 1.3px;
+    -webkit-text-stroke-color: #fcc419;
+    margin: 0px 10px 0px 0px;
+  }
+
+  .star-ratings-fill {
+    color: #fcc419;
+    padding: 0;
+    position: absolute;
+    z-index: 1;
+    display: flex;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    -webkit-text-fill-color: #fcc419;
+  }
+
+  .star-ratings-base {
+    z-index: 0;
+    padding: 0;
+  }
 `;
 
 const ButtonBox = styled.div`
@@ -170,6 +199,11 @@ const MatPlacePost: React.FC = () => {
     setOpenModal(!isOpenModal);
   }, [isOpenModal]);
 
+  // star rating percentage 계산 후 style로 반영
+  const ratingToPercent = {
+    width: `${(starAvg / 5) * 100}%`,
+  };
+
   const pickMenuHandler = () => {
     setIsPickers(!isPickers);
   };
@@ -192,7 +226,25 @@ const MatPlacePost: React.FC = () => {
         <PlaceImg src={placeImg} alt="프로필사진" />
         <PlaceInfo>
           <PlaceName>{name}</PlaceName>
-          <InfoBox>{starAvg}</InfoBox>
+          <InfoBox>
+            <div className="star-ratings">
+              <div className="star-ratings-fill" style={ratingToPercent}>
+                <span>★</span>
+                <span>★</span>
+                <span>★</span>
+                <span>★</span>
+                <span>★</span>
+              </div>
+              <div className="star-ratings-base">
+                <span>★</span>
+                <span>★</span>
+                <span>★</span>
+                <span>★</span>
+                <span>★</span>
+              </div>
+            </div>
+            <div>{`(${starAvg})`}</div>
+          </InfoBox>
           <ButtonBox>
             <button onClick={pickMenuHandler}>Pick</button>
             <button onClick={onClickToggleModal}>Post</button>
@@ -241,7 +293,25 @@ const MatPlacePost: React.FC = () => {
               <img src={placeImg} alt="프로필사진" />
               <p className="name">{name}</p>
               <p>{category}</p>
-              <p>{starAvg}</p>
+              <InfoBox>
+                <div className="star-ratings">
+                  <div className="star-ratings-fill" style={ratingToPercent}>
+                    <span>★</span>
+                    <span>★</span>
+                    <span>★</span>
+                    <span>★</span>
+                    <span>★</span>
+                  </div>
+                  <div className="star-ratings-base">
+                    <span>★</span>
+                    <span>★</span>
+                    <span>★</span>
+                    <span>★</span>
+                    <span>★</span>
+                  </div>
+                </div>
+                <div>{`(${starAvg})`}</div>
+              </InfoBox>
               <p>{tel}</p>
               <p>
                 {address} {roadNameAddress}
