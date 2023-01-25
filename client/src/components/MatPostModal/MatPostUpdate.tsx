@@ -1,4 +1,5 @@
 /* eslint-disable */
+
 import { useParams } from "react-router";
 import styled from "styled-components";
 import { useEffect, useState } from "react";
@@ -129,7 +130,6 @@ const StyledStar = styled.div`
   }
 `;
 
-
 const PostUpdateModal = ({}: // closeModalHandler,
 {
   // closeModalHandler?: React.MouseEventHandler;
@@ -169,7 +169,7 @@ const PostUpdateModal = ({}: // closeModalHandler,
         thumbnailUrl,
         Number(id)
       ),
-    [newTitle, htmlContent, createdAt, clicked, thumbnailUrl],
+    [newTitle, htmlContent, clicked, thumbnailUrl],
     true
   );
 
