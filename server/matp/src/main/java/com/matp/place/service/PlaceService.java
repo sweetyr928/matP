@@ -2,6 +2,8 @@ package com.matp.place.service;
 
 
 import com.matp.place.dto.PlaceDetailResponseDto;
+import com.matp.place.dto.PlaceEnrollmentRequest;
+import com.matp.place.dto.PlaceEnrollmentResponse;
 import com.matp.place.dto.PlaceResponseDto;
 import com.matp.place.repository.PlaceRepositiory;
 import com.matp.post.service.PostService;
@@ -48,5 +50,10 @@ public class PlaceService {
                     var postList = postService.findPlaceDetailPosts(placeId).block();
                     return PlaceDetailResponseDto.of(place, postList);
                 });
+    }
+
+    public Mono<PlaceEnrollmentResponse> registerPlaceInfo(Mono<PlaceEnrollmentRequest> placeEnrollmentRequest) {
+        return placeEnrollmentRequest.map(PlaceEnrollmentRequest::toEntity)
+                .flatMap(place -> placeRepository.registerPlaceInfo(place.getTel(),place.getAddress(),place.getRoadNameAddress(),place.getName(),place.getCategory()));
     }
 }
