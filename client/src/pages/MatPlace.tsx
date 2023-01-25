@@ -168,6 +168,61 @@ const PlaceDetailInfo = styled.div`
   }
 `;
 
+const RatingsChart = styled.div`
+  .card {
+    padding: 30px 30px 20px 30px;
+  }
+
+  .rating-label {
+    font-weight: bold;
+    font-size: 15px;
+  }
+
+  .rating-box {
+    width: 130px;
+    height: 130px;
+    margin-right: auto;
+    margin-left: auto;
+    background-color: #fcc419;
+    color: #fff;
+  }
+
+  .rating-label {
+    font-weight: bold;
+  }
+
+  /* Rating bar width */
+  .rating-bar {
+    width: 300px;
+    padding: 4px;
+    border-radius: 5px;
+  }
+
+  /* The bar container */
+  .bar-container {
+    width: 100%;
+    background-color: #f1f1f1;
+    text-align: center;
+    color: white;
+    border-radius: 20px;
+  }
+
+  /* Individual bars */
+  .bar {
+    height: 13px;
+    background-color: #fcc419;
+    border-radius: 20px;
+  }
+
+  td {
+    padding: 0px 0px 8px 0px;
+  }
+
+  .rating-count {
+    font-size: 15px;
+  }
+`;
+
 const groupImg = ["#098f00", "#09d800", "#023f00"];
 
 const MatPlacePost: React.FC = () => {
@@ -199,6 +254,12 @@ const MatPlacePost: React.FC = () => {
     setOpenModal(!isOpenModal);
   }, [isOpenModal]);
 
+  // 평점 매긴 유저 수 총합
+  const ratingsTotal = starCount.reduce(
+    (acc: number, cur: number) => (acc += cur),
+    0
+  );
+
   // star rating percentage 계산 후 style로 반영
   const ratingToPercent = {
     width: `${(starAvg / 5) * 100}%`,
@@ -211,9 +272,12 @@ const MatPlacePost: React.FC = () => {
   const postMenuHandler = () => {
     setIsPost(true);
   };
+
   const aboutMenuHandler = () => {
     setIsPost(false);
   };
+
+  const ratingsAvg = (el: number) => (el / ratingsTotal) * 100;
 
   return (
     <FeedContainer>
@@ -285,12 +349,80 @@ const MatPlacePost: React.FC = () => {
             <PageContainer>
               {postList &&
                 postList.map((post: any) => (
-                  <PostRead key={post.postId} post={post} />
+                  <PostRead key={post.id} post={post} />
                 ))}
             </PageContainer>
           ) : (
             <PlaceDetailInfo>
-              <img src={placeImg} alt="프로필사진" />
+              {/* <img src={placeImg} alt="프로필사진" /> */}
+              <RatingsChart>
+                <div className="card">
+                  <table>
+                    <tbody>
+                      <tr>
+                        <td className="rating-label">Excellent</td>
+                        <td className="rating-bar">
+                          <div className="bar-container">
+                            <div
+                              className="bar"
+                              style={{ width: `${ratingsAvg(starCount[4])}%` }}
+                            ></div>
+                          </div>
+                        </td>
+                        <td className="rating-count">{starCount[4]}</td>
+                      </tr>
+                      <tr>
+                        <td className="rating-label">Good</td>
+                        <td className="rating-bar">
+                          <div className="bar-container">
+                            <div
+                              className="bar"
+                              style={{ width: `${ratingsAvg(starCount[3])}%` }}
+                            ></div>
+                          </div>
+                        </td>
+                        <td className="rating-count">{starCount[3]}</td>
+                      </tr>
+                      <tr>
+                        <td className="rating-label">Average</td>
+                        <td className="rating-bar">
+                          <div className="bar-container">
+                            <div
+                              className="bar"
+                              style={{ width: `${ratingsAvg(starCount[2])}%` }}
+                            ></div>
+                          </div>
+                        </td>
+                        <td className="rating-count">{starCount[2]}</td>
+                      </tr>
+                      <tr>
+                        <td className="rating-label">Poor</td>
+                        <td className="rating-bar">
+                          <div className="bar-container">
+                            <div
+                              className="bar"
+                              style={{ width: `${ratingsAvg(starCount[1])}%` }}
+                            ></div>
+                          </div>
+                        </td>
+                        <td className="rating-count">{starCount[1]}</td>
+                      </tr>
+                      <tr>
+                        <td className="rating-label">Terrible</td>
+                        <td className="rating-bar">
+                          <div className="bar-container">
+                            <div
+                              className="bar"
+                              style={{ width: `${ratingsAvg(starCount[0])}%` }}
+                            ></div>
+                          </div>
+                        </td>
+                        <td className="rating-count">{starCount[0]}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </RatingsChart>
               <p className="name">{name}</p>
               <p>{category}</p>
               <InfoBox>
