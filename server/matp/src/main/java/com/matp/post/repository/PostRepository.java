@@ -68,4 +68,23 @@ public interface PostRepository extends ReactiveCrudRepository<Post, Long> {
            """)
     Mono<Void> PostDeleteWithCommentsLikes(Long postId);
 
+    @Query("""
+            SELECT
+            id,
+            star
+            FROM mat_post
+            WHERE place_id = :placeId
+            """)
+    Flux<Post> findPlacePosts(Long placeId);
+
+    @Query("""
+    SELECT
+    id,
+    likes,
+    thumbnail_url,
+    star
+    FROM mat_post
+    WHERE place_id = :placeId
+    """)
+    Flux<Post> findPlaceDetailPosts(Long placeId);
 }

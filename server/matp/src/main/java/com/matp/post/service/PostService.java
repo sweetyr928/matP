@@ -3,10 +3,7 @@ package com.matp.post.service;
 
 import com.matp.comment.dto.MultiResponseDto;
 import com.matp.comment.service.CommentService;
-import com.matp.post.dto.PatchPostRequest;
-import com.matp.post.dto.PostRequest;
-import com.matp.post.dto.PostResponse;
-import com.matp.post.dto.PostResponseWithInfo;
+import com.matp.post.dto.*;
 import com.matp.post.dto.testdto.PostMemberInfo;
 import com.matp.post.entity.Post;
 import com.matp.post.repository.PostRepository;
@@ -18,6 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -136,5 +135,25 @@ public class PostService {
         return postRepository.findById(postId)
                 .flatMap(postRepository::delete)
                 .switchIfEmpty(postRepository.PostDeleteWithCommentsLikes(postId));
+    }
+
+    /**
+     * @return Mono < List < Post > >
+     * @apiNote Place 조회시 Post의 평점만 가져오는 메서드
+     * @author 이종희
+     */
+    @Transactional(readOnly = true)
+    public Mono<List<Post>> findPlacePosts(Long placeId) {
+        return postRepository.findPlacePosts(placeId).collectList();
+    }
+
+    /**
+     * @return Mono < List < PlaceDetailPostDto > >
+     * @apiNote Place 조회시 Post의 id, 평점, 좋아요수, 썸네일 이미지를 매핑하는 메서드
+     * @author 이종희
+     */
+    @Transactional(readOnly = true)
+    public Mono<List<PlaceDetailPostDto>> findPlaceDetailPosts(Long placeId) {
+        return postRepository.findPlaceDetailPosts(placeId).map(PlaceDetailPostDto::of).collectList();
     }
 }
