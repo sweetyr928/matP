@@ -3,8 +3,13 @@ import styled from "styled-components";
 import useAxios from "../utils/useAxios";
 import LogoutIcon from "@mui/icons-material/Logout";
 import EditIcon from "@mui/icons-material/Edit";
-import { useState, useCallback, useRef, useEffect } from "react";
-import { updateMyData, getMyData } from "../utils/axiosAPI/members/myPageAPI";
+import { useState, useRef, useEffect } from "react";
+import {
+  updateMyData,
+  getMyData,
+  getMyFollowings,
+  getMyFollowers,
+} from "../utils/axiosAPI/members/myPageAPI";
 import { ModalPortal } from "../components";
 import axios from "axios";
 
@@ -43,9 +48,20 @@ const UserNickname = styled.h2`
   margin-bottom: 10px;
 `;
 const UserRemainder = styled.span`
-  color: #373737;
   font-size: 15px;
+  color: #373737;
   margin: 10px 0;
+`;
+const FollowButton = styled.button`
+  font-size: 15px;
+  color: #373737;
+  background-color: #f8f8f8;
+  border: none;
+  padding: 0 10px 0 0;
+  cursor: pointer;
+  &:hover {
+    color: #6b6b6b;
+  }
 `;
 
 const LogoutIconStyled = styled(LogoutIcon)`
@@ -120,13 +136,14 @@ const ModalView = styled.div.attrs(() => ({
   border-radius: 7px;
   padding: 24px;
   width: 394px;
-  height: 394px;
+  height: 55vh;
   box-shadow: 1px 0px 86px -17px rgba(0, 0, 0, 0.75);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   z-index: 1002;
+  overflow: scroll;
   .button-container {
     margin-top: 24px;
     display: flex;
@@ -136,7 +153,6 @@ const ModalView = styled.div.attrs(() => ({
   }
 `;
 const Header = styled.h1`
-  /* color: #2961b9; */
   font-size: 2.07692308rem;
   font-weight: normal;
   line-height: calc((13+2) / 13);
@@ -186,6 +202,46 @@ const ModalBtn = styled.button`
   }
 `;
 
+const FollowModalView = styled.div.attrs(() => ({
+  role: "dialog",
+}))`
+  position: absolute;
+  bottom: 22vh;
+  left: 70px;
+  background-color: #fff;
+  border-radius: 7px;
+  padding: 6px 12px;
+  width: 394px;
+  height: 50vh;
+  box-shadow: 1px 0px 86px -17px rgba(0, 0, 0, 0.75);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 1002;
+  overflow: scroll;
+`;
+const FollowContainer = styled.div`
+  width: 100%;
+  height: 4rem;
+  padding: 10px 0;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #cfcfcf;
+  cursor: pointer;
+  &:hover {
+    background-color: rgb(247, 247, 247);
+  }
+`;
+const ImageContainer = styled.img`
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 100%;
+  margin: 0 30px;
+`;
+const NickName = styled.span`
+  font-size: 1.1rem;
+`;
+
 const MyPage: React.FC = () => {
   const navigate = useNavigate();
   const onClickTab = () => {
@@ -193,13 +249,18 @@ const MyPage: React.FC = () => {
   };
 
   const { axiosData: getAxios, responseData: memberData } = useAxios(getMyData);
+  const { responseData: followingData } = useAxios(getMyFollowings);
+  const { responseData: followerData } = useAxios(getMyFollowers);
 
-  const { nickname, profileImg, memo, followers, followings } = memberData || {};
+  const { nickname, memo, followers, followings, profileUrl } = memberData || {};
+
+  const [isOpenEditModal, setOpenEditModal] = useState<boolean>(false);
+  const [isOpenFollowingModal, setOpenFollowingModal] = useState<boolean>(false);
+  const [isOpenFollowerModal, setOpenFollowerModal] = useState<boolean>(false);
 
   const [revisedName, setRevisedName] = useState(nickname);
   const [revisedMemo, setRevisedMemo] = useState(memo);
-  const [isOpenModal, setOpenModal] = useState<boolean>(false);
-  const [image, setImage] = useState(profileImg);
+  const [image, setImage] = useState(profileUrl);
   // 프로필 이미지 수정을 위한 ref
   const fileInput = useRef<HTMLInputElement>(null);
 
@@ -213,11 +274,18 @@ const MyPage: React.FC = () => {
     getAxios();
   }, [revisedName, image, revisedMemo]);
 
-  const onClickToggleModal = () => {
-    setOpenModal(!isOpenModal);
+  const onClickToggleEditModal = () => {
+    setOpenEditModal(!isOpenEditModal);
     setRevisedName(nickname);
     setRevisedMemo(memo);
     setImage(image);
+  };
+
+  const onClickToggleFollowingModal = () => {
+    setOpenFollowingModal(!isOpenFollowingModal);
+  };
+  const onClickToggleFollowerModal = () => {
+    setOpenFollowerModal(!isOpenFollowerModal);
   };
 
   // 프로필 이미지 클릭시 파일 업로더 뜸
@@ -250,18 +318,72 @@ const MyPage: React.FC = () => {
 
   const onRevise = () => {
     updateAxios();
-    onClickToggleModal();
+    onClickToggleEditModal();
   };
 
   return (
     <FeedContainer>
-      {isOpenModal && (
+      <div className="userInfo_header_container">
+        <UserImg src={profileUrl} alt="프로필사진" />
+        <UserInfo>
+          <UserNickname>{nickname}</UserNickname>
+          <UserRemainder>{memo}</UserRemainder>
+          <UserRemainder>
+            <FollowButton onClick={onClickToggleFollowingModal}>팔로잉 {followings}</FollowButton>
+            <FollowButton onClick={onClickToggleFollowerModal}>팔로워 {followers}</FollowButton>
+          </UserRemainder>
+        </UserInfo>
+        <EditIconStyled onClick={onClickToggleEditModal} />
+        <LogoutIconStyled />
+      </div>
+      <ContentContainer>
+        <TabContainer>
+          <div className="tab_menu focused" aria-hidden="true">
+            Post
+          </div>
+          <div className="tab_menu" onClick={onClickTab} aria-hidden="true">
+            Pick
+          </div>
+        </TabContainer>
+      </ContentContainer>
+
+      {isOpenFollowingModal && (
+        <ModalPortal>
+          <ModalContainer>
+            <FollowModalView>
+              {followingData.map((item) => (
+                <FollowContainer key={item.memberId}>
+                  <ImageContainer src={item.profileUrl} alt="프로필 사진" />
+                  <NickName>{item.nickname}</NickName>
+                </FollowContainer>
+              ))}
+            </FollowModalView>
+          </ModalContainer>
+          <ModalBackdrop onClick={onClickToggleFollowingModal} />
+        </ModalPortal>
+      )}
+      {isOpenFollowerModal && (
+        <ModalPortal>
+          <ModalContainer>
+            <FollowModalView>
+              {followerData.map((item) => (
+                <FollowContainer key={item.memberId}>
+                  <ImageContainer src={item.profileUrl} alt="프로필 사진" />
+                  <span>{item.nickname}</span>
+                </FollowContainer>
+              ))}
+            </FollowModalView>
+          </ModalContainer>
+          <ModalBackdrop onClick={onClickToggleFollowerModal} />
+        </ModalPortal>
+      )}
+      {isOpenEditModal && (
         <ModalPortal>
           <ModalContainer>
             <ModalView>
               <Header>정보 수정하기</Header>
               <div>
-                <EditUserImg src={profileImg} alt="프로필 사진" onClick={onClickImg} />
+                <EditUserImg src={profileUrl} alt="프로필 사진" onClick={onClickImg} />
                 <input
                   type="file"
                   accept="image/jpg,impge/png,image/jpeg"
@@ -275,36 +397,13 @@ const MyPage: React.FC = () => {
               <Input type="text" value={revisedMemo} onChange={onChangeMemo}></Input>
               <div className="button_container">
                 <ModalBtn onClick={onRevise}>제출</ModalBtn>
-                <ModalBtn onClick={onClickToggleModal}>취소</ModalBtn>
+                <ModalBtn onClick={onClickToggleEditModal}>취소</ModalBtn>
               </div>
             </ModalView>
           </ModalContainer>
-          <ModalBackdrop onClick={onClickToggleModal} />
+          <ModalBackdrop onClick={onClickToggleEditModal} />
         </ModalPortal>
       )}
-      <div className="userInfo_header_container">
-        <UserImg src={profileImg} alt="프로필사진" />
-        <UserInfo>
-          <UserNickname>{nickname}</UserNickname>
-          <UserRemainder>{memo}</UserRemainder>
-          <UserRemainder>
-            팔로워 {followers} 팔로잉 {followings}
-          </UserRemainder>
-        </UserInfo>
-        <EditIconStyled onClick={onClickToggleModal} />
-
-        <LogoutIconStyled />
-      </div>
-      <ContentContainer>
-        <TabContainer>
-          <div className="tab_menu focused" aria-hidden="true">
-            Post
-          </div>
-          <div className="tab_menu" onClick={onClickTab} aria-hidden="true">
-            Pick
-          </div>
-        </TabContainer>
-      </ContentContainer>
     </FeedContainer>
   );
 };
