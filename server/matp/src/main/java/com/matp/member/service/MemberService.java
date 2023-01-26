@@ -2,6 +2,8 @@ package com.matp.member.service;
 
 import com.matp.follow.dto.FollowResponseWithInfo;
 import com.matp.follow.service.FollowService;
+import com.matp.group.entity.Group;
+import com.matp.group.repository.GroupRepository;
 import com.matp.member.dto.MemberDto;
 import com.matp.member.dto.MemberPatchDto;
 import com.matp.member.dto.MemberResponse;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Schedulers;
 
 
 @Slf4j
@@ -22,7 +25,7 @@ import reactor.core.publisher.Mono;
 public class MemberService {
     private final MemberRepository memberRepository;
     private final MemberCustomRepository memberCustomRepository;
-
+    private final GroupRepository groupRepository;
     @Transactional(readOnly = true)
     public Flux<MemberResponse> findAllWithInfo() {
         return memberCustomRepository.findWithInfo();
@@ -64,8 +67,15 @@ public class MemberService {
     @Transactional
     public Mono<MemberDto> saveMember(MemberDto dto) {
         Member member = dto.toEntity();
+
         return memberRepository.save(member)
-                .map(MemberDto::from);
+                .publishOn(Schedulers.boundedElastic())
+                .map( member1 ->{
+                    Group group = Group.builder().groupImgIndex(1).name("기본 그룹").memberId(member1.getMemberId()).build();
+                    groupRepository.save(group).subscribe();
+                    return MemberDto.from(member1);
+                });
+
     }
 
     @Transactional
