@@ -31,10 +31,10 @@ const NameBox = styled.div`
   .icon {
     width: 30px;
     height: 30px;
-    border: 1px solid black;
     border-radius: 50%;
     margin-right: 20px;
-    background-color: ${(props) => props.color || "gray"};
+    background: url(${(props) => props.color || "gray"});
+    background-size: 100%;
   }
 `;
 
@@ -66,7 +66,12 @@ interface ModalDefaultType {
   groupImgIndex: number;
 }
 
-const groupImg = ["#098f00", "#09d800", "#023f00"];
+const groupImg = [
+  "https://user-images.githubusercontent.com/94962427/213089353-0c35dd6b-a40f-46d9-88d0-03b515888bc8.png",
+  "https://user-images.githubusercontent.com/94962427/213089385-ef2f1dc2-3192-4aaa-b9fd-aa108ec46675.png",
+  "https://user-images.githubusercontent.com/94962427/213089403-2602dbbb-cbc5-4090-825d-636708940b9b.png",
+  "https://user-images.githubusercontent.com/94962427/213092314-422f10bb-6285-420c-be93-913e252f75e6.svg",
+];
 
 const MatPickersItem = ({
   getAllPickers,
