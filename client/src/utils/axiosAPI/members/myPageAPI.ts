@@ -6,7 +6,7 @@ interface MemberData {
   nickname: string;
   email: string;
   birthday: string;
-  profileImg: string;
+  profileUrl: string;
   gender: string;
   memo: string;
   createdAt: string;
@@ -29,6 +29,12 @@ interface Pick {
   color: string;
 }
 
+interface FollowData {
+  memberId: number;
+  nickname: string;
+  profileUrl: string;
+}
+
 export const getMyData = async (): Promise<MemberData> => {
   const response = await axios.get<MemberData>(url);
   return response.data;
@@ -36,13 +42,22 @@ export const getMyData = async (): Promise<MemberData> => {
 
 export const updateMyData = async (
   nickname: string,
-  profileImg: string,
+  profileUrl: string,
   memo: string
 ): Promise<MemberData> => {
   const response = await axios.patch(`${url}`, {
     nickname,
-    profileImg,
+    profileUrl,
     memo,
   });
+  return response.data;
+};
+
+export const getMyFollowings = async (): Promise<FollowData[]> => {
+  const response = await axios.get<FollowData[]>("http://localhost:3001/membersfollowings");
+  return response.data;
+};
+export const getMyFollowers = async (): Promise<FollowData[]> => {
+  const response = await axios.get<FollowData[]>("http://localhost:3001/membersfollowers");
   return response.data;
 };
