@@ -163,19 +163,54 @@
     }
   ],
   "members": {
-    "nickname": "윤뿔소ㅎㅎ",
-    "email": "hgd@gmail.com",
-    "birthday": "1998-08-24",
-    "profileImg": "https://user-images.githubusercontent.com/94962427/211693723-e10b0b7d-95ed-4918-b450-f952168bca3a.jpeg",
-    "gender": "male",
-    "memo": "서울 맛집을 찾아???",
-    "createdAt": "2022-12-31",
-    "modifiedAt": "2023-01-05",
-    "followers": "1.2M",
-    "followings": "1.2K",
-    "postlist": [],
-    "picklist": []
+    "id": 2,
+    "email": "ke2007@naver.com",
+    "nickname": "임준건",
+    "birthday": "0824",
+    "profileUrl": "https://lh3.googleusercontent.com/a/AEdFTp5BXgLFNROgAyvcfeBfat09LyE4d7eW-VEDZ_C-sg=s96-c",
+    "gender": 1,
+    "memo": "서울 맛집을 찾아서!",
+    "followers": 0,
+    "followings": 1,
+    "postInfos": [
+      {
+        "postId": null,
+        "title": null,
+        "thumbnailUrl": null
+      }
+    ],
+    "pickerGroupInfos": [
+      {
+        "id": null,
+        "name": null,
+        "groupImgIndex": 1
+      }
+    ]
   },
+  "membersfollowings": [
+    {
+      "memberId": 2,
+      "nickname": "윤태연",
+      "profileUrl": "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg"
+    },
+    {
+      "memberId": 4,
+      "nickname": "임준건",
+      "profileUrl": "https://lh3.googleusercontent.com/a/AEdFTp5BXgLFNROgAyvcfeBfat09LyE4d7eW-VEDZ_C-sg=s96-c"
+    }
+  ],
+  "membersfollowers": [
+    {
+      "memberId": 2,
+      "nickname": "윤태연",
+      "profileUrl": "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg"
+    },
+    {
+      "memberId": 4,
+      "nickname": "임준건",
+      "profileUrl": "https://lh3.googleusercontent.com/a/AEdFTp5BXgLFNROgAyvcfeBfat09LyE4d7eW-VEDZ_C-sg=s96-c"
+    }
+  ],
   "people": {
     "nickname": "홍길동",
     "email": "hgd@gmail.com",
