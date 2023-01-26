@@ -160,7 +160,7 @@ const PostReadModal = ({
   const {
     nickname = "",
     profileimg = "",
-    createdat = "",
+    createdAt = "",
     title = "",
     content = "",
     star = 0,
@@ -168,6 +168,7 @@ const PostReadModal = ({
     // comments = [],
   } = responseData || {};
 
+  console.log(createdAt);
   // 별점 불러오기
   const clicked = new Array(5).fill(true, 0, star);
 
@@ -264,7 +265,7 @@ const PostReadModal = ({
               <StyledInfo>
                 <img src={profileimg} alt="profileImg"></img>
                 <div className="post_nickname">{nickname}</div>
-                <div className="post_createdAt">{setDateFormat(createdat)}</div>
+                <div className="post_createdAt">{setDateFormat(createdAt)}</div>
               </StyledInfo>
               <div>
                 <button onClick={handleEdit}>수정</button>
