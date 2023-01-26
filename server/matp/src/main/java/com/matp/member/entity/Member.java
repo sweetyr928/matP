@@ -11,6 +11,7 @@ import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 
 @Builder
@@ -46,7 +47,7 @@ public class Member {
     @Transient private Long followings;
     @Transient private Long followers;
     @Transient private List<SimplePostResponse> postInfos;
-    @Transient private List<GroupResponseDto> pickerGroupInfos;
+    @Transient private Set<GroupResponseDto> pickerGroupInfos;
 
     private Member(String email, String nickname, String birthday, String profileUrl, Integer gender, String memo, String registrationId) {
         this.email = email;
