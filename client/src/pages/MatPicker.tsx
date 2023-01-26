@@ -17,6 +17,7 @@ const MatPickerWrapper = styled.div`
   align-items: center;
   position: absolute;
   h1 {
+    color: #373737;
     font-size: 28px;
     font-weight: 500;
     margin-top: 150px;

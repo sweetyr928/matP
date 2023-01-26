@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 import PlaceSearchResult from "../../components/PlaceSearchResult";
 
 const SearchWrapper = styled.div`
@@ -37,7 +38,25 @@ const SearchResultPlaceBox = styled.div`
   flex-direction: column;
 `;
 
+const PostPlaceBox = styled.div`
+  width: 100%;
+  height: 20px;
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  button {
+    color: #373737;
+    border: none;
+    font-size: 16px;
+    background-color: transparent;
+    cursor: pointer;
+  }
+`;
+
 const SearchDetailPlace: React.FC = () => {
+  const navigate = useNavigate();
+
   const places = [
     {
       userId: 1,
@@ -71,7 +90,6 @@ const SearchDetailPlace: React.FC = () => {
         <h1>맛플레이스 검색</h1>
       </label>
       <input id="input-title" placeholder="검색어를 입력하세요" />
-
       {places ? (
         <SearchResultPlaceBox>
           {places.map((place) => (
@@ -79,6 +97,15 @@ const SearchDetailPlace: React.FC = () => {
           ))}
         </SearchResultPlaceBox>
       ) : null}
+      <PostPlaceBox>
+        <button
+          onClick={() => {
+            navigate("/newplaces");
+          }}
+        >
+          혹시 새로운 맛플레이스를 발견하셨다면 클릭!
+        </button>
+      </PostPlaceBox>
     </SearchWrapper>
   );
 };

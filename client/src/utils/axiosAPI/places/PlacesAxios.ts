@@ -13,6 +13,7 @@ export interface PlaceData {
   starAvg: number;
   starCount: Array<number>;
   postCount: number;
+  pickCount: number;
   isPick: true;
   longitude: number;
   latitude: number;
@@ -28,5 +29,22 @@ export interface Post {
 
 export const getPlaceDetail = async () => {
   const response = await axios.get(url);
+  return response.data;
+};
+
+export const createPlaces = async (
+  name: string,
+  address: string,
+  roadNameAddress: string,
+  tel: string,
+  category: string
+): Promise<void> => {
+  const response = await axios.post(url, {
+    name,
+    address,
+    roadNameAddress,
+    tel,
+    category,
+  });
   return response.data;
 };
