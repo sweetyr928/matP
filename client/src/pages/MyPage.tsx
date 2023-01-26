@@ -3,7 +3,7 @@ import styled from "styled-components";
 import useAxios from "../utils/useAxios";
 import LogoutIcon from "@mui/icons-material/Logout";
 import EditIcon from "@mui/icons-material/Edit";
-import { useState, useCallback, useRef } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import { updateMyData, getMyData } from "../utils/axiosAPI/members/myPageAPI";
 import { ModalPortal } from "../components";
 import axios from "axios";
@@ -192,7 +192,7 @@ const MyPage: React.FC = () => {
     navigate("/pickers");
   };
 
-  const { responseData: memberData } = useAxios(getMyData);
+  const { axiosData: getAxios, responseData: memberData } = useAxios(getMyData);
 
   const { nickname, profileImg, memo, followers, followings } = memberData || {};
 
@@ -209,11 +209,16 @@ const MyPage: React.FC = () => {
     true
   );
 
-  const onClickToggleModal = useCallback(() => {
+  useEffect(() => {
+    getAxios();
+  }, [revisedName, image, revisedMemo]);
+
+  const onClickToggleModal = () => {
     setOpenModal(!isOpenModal);
     setRevisedName(nickname);
     setRevisedMemo(memo);
-  }, [isOpenModal]);
+    setImage(image);
+  };
 
   // 프로필 이미지 클릭시 파일 업로더 뜸
   const onClickImg = () => {
@@ -266,8 +271,8 @@ const MyPage: React.FC = () => {
                   ref={fileInput}
                 />
               </div>
-              <Input type="text" value={revisedName || nickname} onChange={onChangeName}></Input>
-              <Input type="text" value={revisedMemo || memo} onChange={onChangeMemo}></Input>
+              <Input type="text" value={revisedName} onChange={onChangeName}></Input>
+              <Input type="text" value={revisedMemo} onChange={onChangeMemo}></Input>
               <div className="button_container">
                 <ModalBtn onClick={onRevise}>제출</ModalBtn>
                 <ModalBtn onClick={onClickToggleModal}>취소</ModalBtn>
