@@ -124,11 +124,6 @@ const StyledStar = styled.div`
     color: #fcc419;
   }
 `;
-// 모달 토글 버튼 연결 (타입 지정)
-interface ModalDefaultType {
-  onClickToggleModal: () => void;
-  id: number;
-}
 
 // 모달 토글 버튼 연결 (타입 지정)
 interface ModalDefaultType {
@@ -144,8 +139,6 @@ const PostReadModal = ({
   const [isLiked, setIsLiked] = useState<boolean>(false);
   const [deleteClicked, setDeleteClicked] = useState<boolean>(false);
   const [isEdit, setIsEdit] = useState<boolean>(false);
-
-  // const navigate = useNavigate();
 
   // 업데이트 모달 토글 함수
   const onClickToggleUpdateModal = useCallback(() => {
@@ -168,8 +161,6 @@ const PostReadModal = ({
     likes = 0,
     // comments = [],
   } = responseData || {};
-
-  // const navigate = useNavigate();
 
   // 별점 불러오기
   const clicked = new Array(5).fill(true, 0, star);
