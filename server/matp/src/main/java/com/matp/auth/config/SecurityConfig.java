@@ -37,8 +37,8 @@ public class SecurityConfig {
 
     /**
      * 리액티브(webflux)에서는 ServerHttpSecurity사용
-     * OAuth2 로그인에 성공시 핸들러에서 토크을 발급한다
-     * 매 요텅마다 검증하기위해 addfilterAt에서 HTTP_BASIC에 걸어둠
+     * OAuth2 로그인에 성공시 핸들러에서 토큰을 발급한다
+     * 매 요청마다 검증하기위해 addfilterAt에서 HTTP_BASIC에 걸어둠
      */
     @Bean
     public SecurityWebFilterChain configure(ServerHttpSecurity http) throws Exception {
@@ -47,23 +47,10 @@ public class SecurityConfig {
                 .formLogin().disable()
                 .httpBasic().disable()
                 .authorizeExchange(auth -> auth
-                        .pathMatchers(HttpMethod.DELETE, "/members/**").permitAll() // 임시
-                        .pathMatchers("/login").permitAll()
                         .anyExchange().authenticated()
                 )
                 .securityContextRepository(NoOpServerSecurityContextRepository.getInstance()) // stateless
                 .oauth2Login(oauth -> oauth.authenticationSuccessHandler(new OAuthSuccessHandler(jwtTokenProvider)))
-                /*.exceptionHandling(exceptionHandlingSpec -> exceptionHandlingSpec
-                        .authenticationEntryPoint((exchange, ex) -> {
-                            return Mono.fromRunnable(() -> {
-                                exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
-                            });
-                        })
-                        .accessDeniedHandler((exchange, denied) -> {
-                            return Mono.fromRunnable(() -> {
-                                exchange.getResponse().setStatusCode(HttpStatus.FORBIDDEN);
-                            });
-                        }))*/
                 .exceptionHandling(exceptionHandlingSpec -> exceptionHandlingSpec.accessDeniedHandler((exchange, exception) -> Mono.error(new RuntimeException("접근 권한 없음"))))
                 .addFilterAt(new JwtAuthenticationFilter(jwtTokenProvider), SecurityWebFiltersOrder.HTTP_BASIC)
                 .build();

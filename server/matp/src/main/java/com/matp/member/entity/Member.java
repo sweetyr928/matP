@@ -1,5 +1,6 @@
 package com.matp.member.entity;
 
+import com.matp.group.dto.GroupResponseDto;
 import com.matp.post.dto.SimplePostResponse;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -41,11 +42,11 @@ public class Member {
 
     /**
      * @Transient 어노테이션을 사용하여 테이블에 반영되지 않고 회원 조회 시 팔로잉, 팔로워 수를 같이 가져온다
-     * TODO: 피커 리스트도 함꼐 가져와야 함
      */
     @Transient private Long followings;
     @Transient private Long followers;
     @Transient private List<SimplePostResponse> postInfos;
+    @Transient private List<GroupResponseDto> pickerGroupInfos;
 
     private Member(String email, String nickname, String birthday, String profileUrl, Integer gender, String memo, String registrationId) {
         this.email = email;

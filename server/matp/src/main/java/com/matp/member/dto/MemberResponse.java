@@ -1,13 +1,13 @@
 package com.matp.member.dto;
 
+import com.matp.group.dto.GroupResponseDto;
 import com.matp.member.entity.Member;
 import com.matp.post.dto.SimplePostResponse;
 
 import java.util.List;
 
 /**
- * 팔로우 정보를 포함하는 반환 DTO
- * TODO: 피커정보도 포함되어야 함
+ * 팔로우 정보, 포스트 정보, 피커 그룹 정보를 포함하는 반환 DTO
  */
 public record MemberResponse(
         Long id,
@@ -19,7 +19,8 @@ public record MemberResponse(
         String memo,
         Long followers,
         Long followings,
-        List<SimplePostResponse> postInfos
+        List<SimplePostResponse> postInfos,
+        List<GroupResponseDto> pickerGroupInfos
 ) {
     public static MemberResponse from(MemberDto dto) {
         return new MemberResponse(
@@ -30,6 +31,7 @@ public record MemberResponse(
                 dto.profileUrl(),
                 dto.gender(),
                 dto.memo(),
+                null,
                 null,
                 null,
                 null
@@ -47,7 +49,8 @@ public record MemberResponse(
                 entity.getMemo(),
                 entity.getFollowers(),
                 entity.getFollowings(),
-                entity.getPostInfos()
+                entity.getPostInfos(),
+                entity.getPickerGroupInfos()
         );
     }
 

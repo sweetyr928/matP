@@ -42,7 +42,7 @@ public class JwtTokenProvider {
     }
 
     public String createAccessToken(MemberPrincipal principal, Date expiration) {
-        Claims claims = Jwts.claims().setSubject(principal.email());
+        Claims claims = Jwts.claims().setSubject(principal.id());
         claims.put(
                 AUTHORITIES_KEY,
                 principal.getAuthorities()
@@ -58,20 +58,22 @@ public class JwtTokenProvider {
 
     public String createRefreshToken(MemberPrincipal principal, Date expiration) {
         return Jwts.builder()
-                .setSubject(principal.email())
+                .setSubject(principal.id())
                 .setIssuedAt(Calendar.getInstance().getTime())
                 .setExpiration(expiration)
                 .signWith(secretKey, SignatureAlgorithm.HS256)
                 .compact();
     }
 
-    public String getUserEmail(String token) {
-        return Jwts.parserBuilder()
-                .setSigningKey(secretKey)
-                .build()
-                .parseClaimsJws(token)
-                .getBody()
-                .getSubject();
+    public Long getUserId(String token) {
+        return Long.parseLong(
+                Jwts.parserBuilder()
+                        .setSigningKey(secretKey)
+                        .build()
+                        .parseClaimsJws(token)
+                        .getBody()
+                        .getSubject()
+        );
     }
 
     public boolean validateToken(String token) {
@@ -100,7 +102,7 @@ public class JwtTokenProvider {
         Collection<? extends GrantedAuthority> authorities = AuthorityUtils.commaSeparatedStringToAuthorityList(
                 claims.get(AUTHORITIES_KEY).toString());
 
-        MemberPrincipal principal = MemberPrincipal.of(claims.getSubject(), authorities); // TODO: 리팩토링 여지 있음
+        MemberPrincipal principal = MemberPrincipal.of(claims.getSubject(), authorities);
 
         return new UsernamePasswordAuthenticationToken(principal, token, authorities);
     }
