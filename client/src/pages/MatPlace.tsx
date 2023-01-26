@@ -19,6 +19,8 @@ const FeedContainer = styled.div`
   .userInfo_header_container {
     display: flex;
     margin-bottom: 32px;
+    justify-content: center;
+    align-items: center;
   }
 `;
 
@@ -28,18 +30,22 @@ const PlaceImg = styled.img`
   border-radius: 100%;
   margin: 32px 25px 0 0;
   border: 1px solid #a6a6a6;
+  flex: 0 0 132px;
 `;
 const PlaceInfo = styled.div`
   display: flex;
   flex-direction: column;
+  width: 220px;
+
+  h1 {
+    color: #373737;
+    font-size: 21px;
+    margin-top: 52px;
+    margin-bottom: 10px;
+  }
 `;
-const PlaceName = styled.h2`
-  color: #373737;
-  font-size: 23px;
-  margin-top: 52px;
-  margin-bottom: 10px;
-`;
-const InfoBox = styled.span`
+
+const StarBox = styled.span`
   color: #373737;
   font-size: 18px;
   margin: 10px 0;
@@ -76,22 +82,53 @@ const InfoBox = styled.span`
 
 const ButtonBox = styled.div`
   display: flex;
-  justify-content: space-evenly;
-  button {
+  width: 210px;
+  margin-top: 13px;
+  justify-content: space-between;
+  div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  p {
+    color: #373737;
     font-size: 18px;
+    margin-top: 10px;
+    text-align: center;
+  }
+  button {
+    color: #373737;
+    font-size: 17px;
+    width: 70px;
+    height: 33px;
     border: none;
     background-color: transparent;
+    border-radius: 20px;
+    cursor: pointer;
+    span {
+      color: white;
+    }
+    .unchecking {
+      display: none;
+    }
+  }
+  .checking {
+    color: white;
+    background-color: #874356;
   }
 `;
+
 const PageContainer = styled.div`
   width: 100%;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
   grid-gap: 4px;
   margin: 0px 0px 0px 0px;
+  padding-top: 10px;
 `;
 
 const PickContainer = styled.div`
+  color: #373737;
   width: 100%;
   height: 400px;
   h3 {
@@ -102,14 +139,19 @@ const PickContainer = styled.div`
   }
 `;
 
-const NameBox = styled.div`
+const NameBox = styled.button`
   display: flex;
+  color: #373737;
   flex-direction: row;
   align-items: center;
   width: 100%;
   height: 50px;
   padding: 15px;
-  border-bottom: 1px solid black;
+  font-size: 16px;
+  border: none;
+  background-color: transparent;
+  border-bottom: 1px solid #a6a6a6;
+  cursor: pointer;
   .icon {
     width: 30px;
     height: 30px;
@@ -150,23 +192,14 @@ const PlaceDetailInfo = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-  font-size: 20px;
-  img {
-    width: 200px;
-    height: 200px;
-    margin: 30px 0;
-  }
-  .name {
-    font-size: 30px;
-    font-weight: 500px;
+  font-size: 19px;
+
+  h2 {
+    font-size: 23px;
+    margin-top: 50px;
     margin-bottom: 30px;
   }
-
-  p {
-    margin-bottom: 20px;
-  }
 `;
-
 
 const RatingsChart = styled.div`
   .card {
@@ -223,6 +256,21 @@ const RatingsChart = styled.div`
   }
 `;
 
+const InfoBox = styled.div`
+  width: 100%;
+  margin-top: 25px;
+  p {
+    display: flex;
+    margin: 18px;
+    .info-title {
+      width: 130px;
+      font-weight: 600;
+    }
+    .info {
+      width: 330px;
+    }
+  }
+`;
 
 const ModalBackdrop = styled.div`
   width: 100%;
@@ -239,17 +287,17 @@ const ModalBackdrop = styled.div`
 `;
 
 const groupImg = [
-  "https://user-images.githubusercontent.com/94962427/213089353-0c35dd6b-a40f-46d9-88d0-03b515888bc8.png",
-  "https://user-images.githubusercontent.com/94962427/213089385-ef2f1dc2-3192-4aaa-b9fd-aa108ec46675.png",
-  "https://user-images.githubusercontent.com/94962427/213089403-2602dbbb-cbc5-4090-825d-636708940b9b.png",
+  "https://user-images.githubusercontent.com/94962427/214733213-a2c51280-6525-49ed-b60c-5e7e248890f8.svg",
+  "https://user-images.githubusercontent.com/94962427/214733289-7588880b-0492-429f-9e7e-8dbc883a88a3.svg",
+  "https://user-images.githubusercontent.com/94962427/214733318-efc109a4-439d-4b3a-b17e-ab478ff16102.svg",
   "https://user-images.githubusercontent.com/94962427/213092314-422f10bb-6285-420c-be93-913e252f75e6.svg",
 ];
-
 
 const MatPlacePost: React.FC = () => {
   const [isPost, setIsPost] = useState<boolean>(true);
   const [isPickers, setIsPickers] = useState<boolean>(false);
   const [isOpenModal, setOpenModal] = useState<boolean>(false);
+  // const [deleteClicked, setDeleteClicked] = useState<boolean>(false);
 
   const { responseData: pickersData } = useAxios(getPickers, [], false);
   const { responseData: placeData } = useAxios(getPlaceDetail, [], false);
@@ -266,10 +314,27 @@ const MatPlacePost: React.FC = () => {
     starCount = [],
     isPick = true,
     postCount = 0,
+    pickCount = 0,
     longitude = 0,
     latitude = 0,
     postList = [],
   } = placeData || {};
+
+  const pickHandler = () => {
+    console.log("test!");
+  };
+
+  //   const { axiosData: createAxiosData } = useAxios(
+  //     () => createPick(id, picker.id),
+  //     [nameValue, colorValue],
+  //     true
+  //   );
+
+  //   const { axiosData: deleteAxiosData } = useAxios(
+  //     () => deletePick(id),
+  //     [deleteClicked],
+  //     true
+  //   );
 
   const onClickToggleModal = useCallback(() => {
     setOpenModal(!isOpenModal);
@@ -311,8 +376,8 @@ const MatPlacePost: React.FC = () => {
       <div className="userInfo_header_container">
         <PlaceImg src={placeImg} alt="프로필사진" />
         <PlaceInfo>
-          <PlaceName>{name}</PlaceName>
-          <InfoBox>
+          <h1>{name}</h1>
+          <StarBox>
             <div className="star_rating">
               <div className="star_rating_fill" style={ratingToPercent}>
                 <span>★</span>
@@ -330,12 +395,22 @@ const MatPlacePost: React.FC = () => {
               </div>
             </div>
             <div>{`(${starAvg})`}</div>
-          </InfoBox>
+          </StarBox>
           <ButtonBox>
-            <button onClick={pickMenuHandler}>Pick</button>
-            <button onClick={onClickToggleModal}>Post</button>
+            <div className="pick-box">
+              <button
+                className={isPick ? "checking" : ""}
+                onClick={pickMenuHandler}
+              >
+                Pick <span className={!isPick ? "unchecking" : ""}>✓</span>
+              </button>{" "}
+              <p>{pickCount}</p>
+            </div>
+            <div className="post-box">
+              <button onClick={onClickToggleModal}>Post</button>
+              <p>{postCount}</p>
+            </div>
           </ButtonBox>
-          <InfoBox>맛 Pick 사람들이 픽한 횟수 맛 Post {postCount}</InfoBox>
         </PlaceInfo>
       </div>
       {isPickers ? (
@@ -343,7 +418,12 @@ const MatPlacePost: React.FC = () => {
           <h3>맛픽커즈를 선택해 주세요</h3>
           {pickersData &&
             pickersData.map((picker: any) => (
-              <NameBox key={picker.id} color={groupImg[picker.groupImgIndex]}>
+              <NameBox
+                key={picker.id}
+                disabled={isPick}
+                color={groupImg[picker.groupImgIndex]}
+                onClick={pickHandler}
+              >
                 <div className="icon"></div>
                 <div>{picker.name}</div>
               </NameBox>
@@ -376,7 +456,7 @@ const MatPlacePost: React.FC = () => {
             </PageContainer>
           ) : (
             <PlaceDetailInfo>
-              {/* <img src={placeImg} alt="프로필사진" /> */}
+              <h2>{name}</h2>
               <RatingsChart>
                 <div className="card">
                   <table>
@@ -445,9 +525,7 @@ const MatPlacePost: React.FC = () => {
                   </table>
                 </div>
               </RatingsChart>
-              <p className="name">{name}</p>
-              <p>{category}</p>
-              <InfoBox>
+              <StarBox>
                 <div className="star_rating">
                   <div className="star_rating_fill" style={ratingToPercent}>
                     <span>★</span>
@@ -465,11 +543,23 @@ const MatPlacePost: React.FC = () => {
                   </div>
                 </div>
                 <div>{`(${starAvg})`}</div>
+              </StarBox>
+              <InfoBox>
+                <p>
+                  <div className="info-title">카테고리 </div>
+                  <div className="info">{category}</div>
+                </p>
+                <p>
+                  <div className="info-title">전화번호 </div>
+                  <div className="info">{tel === "" ? "미기재" : tel}</div>
+                </p>
+                <p>
+                  <div className="info-title">주소 </div>
+                  <div className="info">
+                    {address}, {roadNameAddress}
+                  </div>
+                </p>
               </InfoBox>
-              <p>{tel}</p>
-              <p>
-                {address} {roadNameAddress}
-              </p>
             </PlaceDetailInfo>
           )}
         </>
