@@ -18,22 +18,27 @@ public record KakaoOAuth2Response(
     ) {
         public record Profile(String nickname, String profileUrl) {
             public static Profile from(Map<String, Object> attributes) {
+                String profileUrl = attributes.get("profile_image_url") == null ? null : String.valueOf(attributes.get("profile_image_url"));
                 return new Profile(
                         String.valueOf(attributes.get("nickname")),
-                        String.valueOf(attributes.get("profile_image_url"))
+                        profileUrl
                 );
             }
         }
 
         public static KakaoAccount from(Map<String, Object> attributes) {
             Integer gender;
-            if (attributes.get("gender").equals("male")) gender = 1;
+            if (attributes.get("gender") == null) gender = null;
+            else if (attributes.get("gender").equals("male")) gender = 1;
             else gender = 0;
+
+            String email = attributes.get("email") == null ? "" : String.valueOf(attributes.get("email"));
+            String birthday = attributes.get("birthday") == null ? null : String.valueOf(attributes.get("birthday"));
 
             return new KakaoAccount(
                     Profile.from((Map<String, Object>) attributes.get("profile")),
-                    String.valueOf(attributes.get("email")),
-                    String.valueOf(attributes.get("birthday")),
+                    email,
+                    birthday,
                     gender
             );
         }
