@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { useState, useCallback } from "react";
 import { MatPickersItem, MatPickerCreate, ModalPortal } from "../components";
 import useAxios from "../hooks/useAxios";
-import { getPickers } from "../utils/axiosAPI/groups/PickersAxios";
+import { getPickers } from "../api/axiosAPI/groups/PickersAxios";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
 const MatPickerWrapper = styled.div`

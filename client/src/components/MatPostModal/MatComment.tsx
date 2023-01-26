@@ -1,10 +1,6 @@
 import styled from "styled-components";
 import { useState } from "react";
-import {
-  updateComment,
-  deleteComment,
-  IComments,
-} from "../../utils/axiosAPI/comments/commentsAxios";
+import { updateComment, deleteComment, IComments } from "../../api/axiosAPI/comments/commentsAxios";
 import useAxios from "../../hooks/useAxios";
 import { Popover, Typography } from "@mui/material";
 

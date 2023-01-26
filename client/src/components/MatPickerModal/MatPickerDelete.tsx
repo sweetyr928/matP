@@ -1,7 +1,7 @@
 import { useState } from "react";
 import styled from "styled-components";
 import useAxios from "../../hooks/useAxios";
-import { deletePickers } from "../../utils/axiosAPI/groups/PickersAxios";
+import { deletePickers } from "../../api/axiosAPI/groups/PickersAxios";
 
 const ModalContainer = styled.div`
   height: 100%;

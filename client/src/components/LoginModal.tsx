@@ -1,9 +1,8 @@
 import { PropsWithChildren } from "react";
 import styled from "styled-components";
 import CloseIcon from "@mui/icons-material/Close";
-import kakaoLogo from "../images/kakaoLogo.svg";
-
-import googleLogo from "../images/googleLogo.svg";
+import kakaoLogo from "../assets/images/kakaoLogo.svg";
+import googleLogo from "../assets/images/googleLogo.svg";
 
 const ModalContainer = styled.div`
   margin: auto;

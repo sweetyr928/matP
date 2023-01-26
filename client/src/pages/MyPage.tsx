@@ -9,7 +9,7 @@ import {
   getMyData,
   getMyFollowings,
   getMyFollowers,
-} from "../utils/axiosAPI/members/myPageAPI";
+} from "../api/axiosAPI/members/myPageAPI";
 import { ModalPortal } from "../components";
 import axios from "axios";
 

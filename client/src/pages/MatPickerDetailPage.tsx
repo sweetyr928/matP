@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import useAxios from "../hooks/useAxios";
-import { getPickersDetail } from "../utils/axiosAPI/groups/PickersAxios";
+import { getPickersDetail } from "../api/axiosAPI/groups/PickersAxios";
 import { useParams } from "react-router-dom";
 
 const MatPickPlaceWrapper = styled.div`

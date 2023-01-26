@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import useAxios from "../../hooks/useAxios";
 import { useState, useCallback } from "react";
-import { getPlacesPost, deletePost } from "../../utils/axiosAPI/posts/PostsAxios";
+import { getPlacesPost, deletePost } from "../../api/axiosAPI/posts/PostsAxios";
 import StarRate from "./StarRate";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";

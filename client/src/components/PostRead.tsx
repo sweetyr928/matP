@@ -5,7 +5,7 @@ import styled from "styled-components";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useState, useCallback } from "react";
 import { MatPostRead, ModalPortal } from ".";
-import { IPosts } from "../utils/axiosAPI/posts/PostsAxios";
+import { IPosts } from "../api/axiosAPI/posts/PostsAxios";
 
 const ImgWrapper = styled.div`
   width: 130px;

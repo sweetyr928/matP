@@ -1,7 +1,7 @@
 /* eslint-disable */
 import styled from "styled-components";
 import { useEffect, useState } from "react";
-import { createPost } from "../../utils/axiosAPI/posts/PostsAxios";
+import { createPost } from "../../api/axiosAPI/posts/PostsAxios";
 import MatEditor from "./MatEditor";
 import StarRate from "./StarRate";
 import useAxios from "../../hooks/useAxios";

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import MatComment from "./MatComment";
 import useAxios from "../../hooks/useAxios";
-import { getComments } from "../../utils/axiosAPI/comments/commentsAxios";
+import { getComments } from "../../api/axiosAPI/comments/commentsAxios";
 import MatCommentAdd from "./MatCommentAdd";
 
 const StyledCommentContainer = styled.div`

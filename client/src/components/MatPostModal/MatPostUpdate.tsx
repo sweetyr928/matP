@@ -2,7 +2,7 @@
 
 import styled from "styled-components";
 import { useEffect, useState } from "react";
-import { updatePost } from "../../utils/axiosAPI/posts/PostsAxios";
+import { updatePost } from "../../api/axiosAPI/posts/PostsAxios";
 import MatEditor from "./MatEditor";
 import StarRate from "./StarRate";
 import useAxios from "../../hooks/useAxios";

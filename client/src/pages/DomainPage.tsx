@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import PostRead from "../components/PostRead";
-import { getPosts } from "../utils/axiosAPI/posts/PostsAxios";
+import { getPosts } from "../api/axiosAPI/posts/PostsAxios";
 import useAxios from "../hooks/useAxios";
-import type { IPosts } from "../utils/axiosAPI/posts/PostsAxios";
+import type { IPosts } from "../api/axiosAPI/posts/PostsAxios";
 
 const StyledFeed = styled.div`
   height: 100%;

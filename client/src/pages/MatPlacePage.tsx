@@ -1,8 +1,8 @@
 import { useState, useCallback } from "react";
 import styled from "styled-components";
 import useAxios from "../hooks/useAxios";
-import { getPickers } from "../utils/axiosAPI/groups/PickersAxios";
-import { getPlaceDetail } from "../utils/axiosAPI/places/PlacesAxios";
+import { getPickers } from "../api/axiosAPI/groups/PickersAxios";
+import { getPlaceDetail } from "../api/axiosAPI/places/PlacesAxios";
 import { PostRead, MatPostCreate, ModalPortal } from "../components";
 
 const FeedContainer = styled.div`

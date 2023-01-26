@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { useState } from "react";
-import { createComment } from "../../utils/axiosAPI/comments/commentsAxios";
+import { createComment } from "../../api/axiosAPI/comments/commentsAxios";
 import useAxios from "../../hooks/useAxios";
 
 const StyledComment = styled.div`
