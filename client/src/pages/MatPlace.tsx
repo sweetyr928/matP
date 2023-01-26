@@ -44,6 +44,34 @@ const InfoBox = styled.span`
   font-size: 18px;
   margin: 10px 0;
   display: flex;
+
+  .star_rating {
+    color: #989898;
+    position: relative;
+    unicode-bidi: bidi-override;
+    width: max-content;
+    -webkit-text-fill-color: transparent;
+    -webkit-text-stroke-width: 1.3px;
+    -webkit-text-stroke-color: #fcc419;
+    margin: 0px 10px 0px 0px;
+  }
+
+  .star_rating_fill {
+    color: #fcc419;
+    padding: 0;
+    position: absolute;
+    z-index: 1;
+    display: flex;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    -webkit-text-fill-color: #fcc419;
+  }
+
+  .star_rating_base {
+    z-index: 0;
+    padding: 0;
+  }
 `;
 
 const ButtonBox = styled.div`
@@ -139,6 +167,63 @@ const PlaceDetailInfo = styled.div`
   }
 `;
 
+
+const RatingsChart = styled.div`
+  .card {
+    padding: 30px 30px 20px 30px;
+  }
+
+  .rating-label {
+    font-weight: bold;
+    font-size: 15px;
+  }
+
+  .rating-box {
+    width: 130px;
+    height: 130px;
+    margin-right: auto;
+    margin-left: auto;
+    background-color: #fcc419;
+    color: #fff;
+  }
+
+  .rating-label {
+    font-weight: bold;
+  }
+
+  /* Rating bar width */
+  .rating-bar {
+    width: 300px;
+    padding: 4px;
+    border-radius: 5px;
+  }
+
+  /* The bar container */
+  .bar-container {
+    width: 100%;
+    background-color: #f1f1f1;
+    text-align: center;
+    color: white;
+    border-radius: 20px;
+  }
+
+  /* Individual bars */
+  .bar {
+    height: 13px;
+    background-color: #fcc419;
+    border-radius: 20px;
+  }
+
+  td {
+    padding: 0px 0px 8px 0px;
+  }
+
+  .rating-count {
+    font-size: 15px;
+  }
+`;
+
+
 const ModalBackdrop = styled.div`
   width: 100%;
   height: 100%;
@@ -159,6 +244,7 @@ const groupImg = [
   "https://user-images.githubusercontent.com/94962427/213089403-2602dbbb-cbc5-4090-825d-636708940b9b.png",
   "https://user-images.githubusercontent.com/94962427/213092314-422f10bb-6285-420c-be93-913e252f75e6.svg",
 ];
+
 
 const MatPlacePost: React.FC = () => {
   const [isPost, setIsPost] = useState<boolean>(true);
@@ -189,6 +275,17 @@ const MatPlacePost: React.FC = () => {
     setOpenModal(!isOpenModal);
   }, [isOpenModal]);
 
+  // 평점 매긴 유저 수 총합
+  const ratingsTotal = starCount.reduce(
+    (acc: number, cur: number) => (acc += cur),
+    0
+  );
+
+  // star rating percentage 계산 후 style로 반영
+  const ratingToPercent = {
+    width: `${(starAvg / 5) * 100}%`,
+  };
+
   const pickMenuHandler = () => {
     setIsPickers(!isPickers);
   };
@@ -196,9 +293,12 @@ const MatPlacePost: React.FC = () => {
   const postMenuHandler = () => {
     setIsPost(true);
   };
+
   const aboutMenuHandler = () => {
     setIsPost(false);
   };
+
+  const ratingsAvg = (el: number) => (el / ratingsTotal) * 100;
 
   return (
     <FeedContainer>
@@ -212,7 +312,25 @@ const MatPlacePost: React.FC = () => {
         <PlaceImg src={placeImg} alt="프로필사진" />
         <PlaceInfo>
           <PlaceName>{name}</PlaceName>
-          <InfoBox>{starAvg}</InfoBox>
+          <InfoBox>
+            <div className="star_rating">
+              <div className="star_rating_fill" style={ratingToPercent}>
+                <span>★</span>
+                <span>★</span>
+                <span>★</span>
+                <span>★</span>
+                <span>★</span>
+              </div>
+              <div className="star_rating_base">
+                <span>★</span>
+                <span>★</span>
+                <span>★</span>
+                <span>★</span>
+                <span>★</span>
+              </div>
+            </div>
+            <div>{`(${starAvg})`}</div>
+          </InfoBox>
           <ButtonBox>
             <button onClick={pickMenuHandler}>Pick</button>
             <button onClick={onClickToggleModal}>Post</button>
@@ -253,15 +371,101 @@ const MatPlacePost: React.FC = () => {
             <PageContainer>
               {postList &&
                 postList.map((post: any) => (
-                  <PostRead key={post.postId} post={post} />
+                  <PostRead key={post.id} post={post} />
                 ))}
             </PageContainer>
           ) : (
             <PlaceDetailInfo>
-              <img src={placeImg} alt="프로필사진" />
+              {/* <img src={placeImg} alt="프로필사진" /> */}
+              <RatingsChart>
+                <div className="card">
+                  <table>
+                    <tbody>
+                      <tr>
+                        <td className="rating-label">Excellent</td>
+                        <td className="rating-bar">
+                          <div className="bar-container">
+                            <div
+                              className="bar"
+                              style={{ width: `${ratingsAvg(starCount[4])}%` }}
+                            ></div>
+                          </div>
+                        </td>
+                        <td className="rating-count">{starCount[4]}</td>
+                      </tr>
+                      <tr>
+                        <td className="rating-label">Good</td>
+                        <td className="rating-bar">
+                          <div className="bar-container">
+                            <div
+                              className="bar"
+                              style={{ width: `${ratingsAvg(starCount[3])}%` }}
+                            ></div>
+                          </div>
+                        </td>
+                        <td className="rating-count">{starCount[3]}</td>
+                      </tr>
+                      <tr>
+                        <td className="rating-label">Average</td>
+                        <td className="rating-bar">
+                          <div className="bar-container">
+                            <div
+                              className="bar"
+                              style={{ width: `${ratingsAvg(starCount[2])}%` }}
+                            ></div>
+                          </div>
+                        </td>
+                        <td className="rating-count">{starCount[2]}</td>
+                      </tr>
+                      <tr>
+                        <td className="rating-label">Poor</td>
+                        <td className="rating-bar">
+                          <div className="bar-container">
+                            <div
+                              className="bar"
+                              style={{ width: `${ratingsAvg(starCount[1])}%` }}
+                            ></div>
+                          </div>
+                        </td>
+                        <td className="rating-count">{starCount[1]}</td>
+                      </tr>
+                      <tr>
+                        <td className="rating-label">Terrible</td>
+                        <td className="rating-bar">
+                          <div className="bar-container">
+                            <div
+                              className="bar"
+                              style={{ width: `${ratingsAvg(starCount[0])}%` }}
+                            ></div>
+                          </div>
+                        </td>
+                        <td className="rating-count">{starCount[0]}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </RatingsChart>
               <p className="name">{name}</p>
               <p>{category}</p>
-              <p>{starAvg}</p>
+              <InfoBox>
+                <div className="star_rating">
+                  <div className="star_rating_fill" style={ratingToPercent}>
+                    <span>★</span>
+                    <span>★</span>
+                    <span>★</span>
+                    <span>★</span>
+                    <span>★</span>
+                  </div>
+                  <div className="star_rating_base">
+                    <span>★</span>
+                    <span>★</span>
+                    <span>★</span>
+                    <span>★</span>
+                    <span>★</span>
+                  </div>
+                </div>
+                <div>{`(${starAvg})`}</div>
+              </InfoBox>
               <p>{tel}</p>
               <p>
                 {address} {roadNameAddress}
