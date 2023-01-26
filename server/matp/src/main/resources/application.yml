@@ -1,1 +1,52 @@
+debug: true
 
+spring:
+  data:
+    r2dbc:
+      repositories:
+        enabled: true
+  r2dbc:
+    url: "${r2dbc.url}"
+    username: "${r2dbc.username}"
+    password: "${r2dbc.password}"
+    name: "${r2dbc.name}"
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            clientId: "${OAUTH2.CLIENT.ID}"
+            clientSecret: "${OAUTH2.CLIENT.PW}"
+          kakao:
+            client-name: Kakao
+            client-id: "${OAUTH2.CLIENT.ID_KAKAO}"
+            client-secret: "${OAUTH2.CLIENT.PW_KAKAO}"
+            client-authentication-method: POST
+            authorization-grant-type: authorization_code
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+        provider:
+          kakao:
+            authorizationUri: https://kauth.kakao.com/oauth/authorize
+            tokenUri: https://kauth.kakao.com/oauth/token
+            user-info-uri: https://kapi.kakao.com/v2/user/me
+            userNameAttribute: id
+  profiles:
+    active: local
+
+  config:
+    import: cloud.yml
+
+logging:
+  level:
+    com.example.mainproject012: debug
+    org.springframework.r2dbc.core: debug
+
+server.error.include-message: always
+
+
+
+jwt:
+  key:
+    secret: ${JWT.SECRET_KEY}
+  access-token-expiration-minutes: 600
+  refresh-token-expiration-minutes: 420
