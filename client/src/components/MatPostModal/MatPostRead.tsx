@@ -10,6 +10,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import MatCommentList from "./MatCommentList";
 import { MatPostUpdate } from "..";
+import { useNavigate } from "react-router";
 
 const StyledModal = styled.div`
   border-radius: 10px;
@@ -158,8 +159,8 @@ const PostReadModal = ({
     title = "",
     content = "",
     star = 0,
-    likes = 0,
-    // comments = [],
+    // TODO : 서버 연결 후 props로 데이터 넘겨주기
+    comments = [],
   } = responseData || {};
 
   // 별점 불러오기
@@ -168,7 +169,8 @@ const PostReadModal = ({
   // 항상 별이 총 5개(더미 array)
   const array: Array<number> = [0, 1, 2, 3, 4];
 
-  // '수정' 버튼 클릭 시 PostUpdateModal로 이동
+  const navigate = useNavigate();
+
   const handleEdit = () => {
     setIsEdit(true);
   };
@@ -177,6 +179,18 @@ const PostReadModal = ({
     setDeleteClicked(!deleteClicked);
     axiosData();
     onClickToggleModal();
+  };
+
+  const handleUrl = () => {
+    console.log("It's url");
+  };
+
+  /**
+   * post에 해당 하는 맛 플레이스 페이지로 이동
+   * TODO : 서버 연결 후 url 변경 및 지도 이동 기능 추가
+   */
+  const handleMatPlace = () => {
+    navigate("/places");
   };
 
   // '하트' 이모지 클릭 시 like / default 상태로 바뀜
@@ -212,7 +226,8 @@ const PostReadModal = ({
               <div>
                 <button onClick={handleEdit}>수정</button>
                 <button onClick={handleDelete}>삭제</button>
-                <button>url 복사</button>
+                <button onClick={handleUrl}>url 복사</button>
+                <button onClick={handleMatPlace}>맛 플레이스로 이동</button>
               </div>
             </StyledMid>
             <StyledContent>
@@ -236,6 +251,7 @@ const PostReadModal = ({
           <div className="post_like" onClick={handleLike} role="presentation">
             {isLiked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
           </div>
+          {/* 서버 연결 이후 Props로 해당 Post의 comment list 넘겨주기 */}
           <MatCommentList />
         </StyledDiv>
       )}
