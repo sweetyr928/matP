@@ -6,6 +6,7 @@ import MyPage from "./MyPage";
 import MatPeople from "./MatPeople";
 import SearchDetailPage from "./SearchDetailPage/SearchDetailPage";
 import MatPlace from "./MatPlace";
+import MatPlacePostPage from "./MatPlacePostPage";
 
 export {
   Domain,
@@ -16,4 +17,5 @@ export {
   SearchDetailPage,
   MatPeople,
   MatPlace,
+  MatPlacePostPage,
 };
