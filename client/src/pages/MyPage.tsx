@@ -3,9 +3,10 @@ import styled from "styled-components";
 import useAxios from "../utils/useAxios";
 import LogoutIcon from "@mui/icons-material/Logout";
 import EditIcon from "@mui/icons-material/Edit";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef } from "react";
 import { updateMyData, getMyData } from "../utils/axiosAPI/members/myPageAPI";
 import { ModalPortal } from "../components";
+import axios from "axios";
 
 const FeedContainer = styled.div`
   height: 100%;
@@ -130,6 +131,9 @@ const ModalView = styled.div.attrs(() => ({
     margin-top: 24px;
     display: flex;
   }
+  .image_upload {
+    display: none;
+  }
 `;
 const Header = styled.h1`
   color: #2961b9;
@@ -198,10 +202,13 @@ const MyPage: React.FC = () => {
   const [revisedName, setRevisedName] = useState(nickname);
   const [revisedMemo, setRevisedMemo] = useState(memo);
   const [isOpenModal, setOpenModal] = useState<boolean>(false);
+  const [image, setImage] = useState(profileImg);
+  // 프로필 이미지 수정을 위한 ref
+  const fileInput = useRef<HTMLInputElement>(null);
 
   const { axiosData } = useAxios(
-    () => updateMyData(revisedName, profileImg, revisedMemo),
-    [revisedName, profileImg, revisedMemo],
+    () => updateMyData(revisedName, image, revisedMemo),
+    [revisedName, image, revisedMemo],
     true
   );
 
@@ -210,6 +217,27 @@ const MyPage: React.FC = () => {
     setRevisedName(nickname);
     setRevisedMemo(memo);
   }, [isOpenModal]);
+
+  // 프로필 이미지 클릭시 파일 업로더 뜸
+  const onClickImg = () => {
+    if (fileInput.current) {
+      fileInput.current.click();
+    }
+  };
+
+  // image uploader
+  const onChangeImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const formData = new FormData();
+    formData.append("multipartFiles", e.target.files[0]);
+    const response = await axios.post("서버 배포 url/endpoint", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    // response 형태에 맞추어 변경
+    setImage(response.data.path);
+    // setImage(response.data.url);
+  };
 
   const onChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setRevisedName(e.target.value);
@@ -230,9 +258,31 @@ const MyPage: React.FC = () => {
           <ModalContainer>
             <ModalView>
               <Header>정보 수정하기</Header>
-              <EditUserImg src={profileImg} alt="프로필사진" />
-              <Input type="text" value={revisedName} onChange={onChangeName}></Input>
-              <Input type="text" value={revisedMemo} onChange={onChangeMemo}></Input>
+              <div>
+                <EditUserImg
+                  src={profileImg}
+                  alt="프로필 사진"
+                  onClick={onClickImg}
+                />
+                <input
+                  type="file"
+                  accept="image/jpg,impge/png,image/jpeg"
+                  name="profile_img"
+                  className="image_upload"
+                  onChange={onChangeImage}
+                  ref={fileInput}
+                />
+              </div>
+              <Input
+                type="text"
+                value={revisedName}
+                onChange={onChangeName}
+              ></Input>
+              <Input
+                type="text"
+                value={revisedMemo}
+                onChange={onChangeMemo}
+              ></Input>
               <div className="button_container">
                 <ModalBtn onClick={onRevise}>제출</ModalBtn>
                 <ModalBtn onClick={onClickToggleModal}>취소</ModalBtn>
