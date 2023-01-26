@@ -41,7 +41,7 @@ const Domain: React.FC = () => {
       <StyledPosts>
         {responseData &&
           responseData.map((post: IPosts) => (
-            <PostRead key={post.postId} post={post} />
+            <PostRead key={post.id} post={post} />
           ))}
       </StyledPosts>
     </StyledFeed>

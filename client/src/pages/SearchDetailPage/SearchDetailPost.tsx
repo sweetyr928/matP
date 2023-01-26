@@ -52,7 +52,8 @@ const TabButton = styled.li`
   align-items: center;
   line-height: 30px;
   list-style: none;
-  border-bottom: ${(props) => (props.id === "focused" ? "2px solid #373737" : "1px solid #adadad")};
+  border-bottom: ${(props) =>
+    props.id === "focused" ? "2px solid #373737" : "1px solid #adadad"};
   &:hover {
     background-color: rgb(236, 236, 236);
   }
@@ -80,32 +81,56 @@ const SearchDetailPost: React.FC = () => {
 
   const result = [
     {
-      postId: 1,
+      id: 1,
       likes: 24,
       commentcount: 2,
       thumbnail_url:
-        "https://user-images.githubusercontent.com/94962427/211693723-e10b0b7d-95ed-4918-b450-f952168bca3a.jpeg",
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShvWN6FLgG2lpiFwoT3zNUq9FMCyZiyaXXbA&usqp=CAU",
+      title: "수정수정수정수정",
+      content: "콘텐츠수정콘텐츠수정콘텐츠수정콘텐츠수정",
+      createdAt: "2023-01-19T10:55:37",
+      modifiedAt: "2023-01-19T10:55:49",
+      star: 3,
+      memberId: 2,
     },
     {
-      postId: 2,
+      id: 2,
       likes: 3,
       commentcount: 4,
       thumbnail_url:
-        "https://user-images.githubusercontent.com/94962427/211693723-e10b0b7d-95ed-4918-b450-f952168bca3a.jpeg",
+        "https://i.pinimg.com/550x/41/90/b4/4190b4283d11cf6934251698fa1b2e64.jpg",
+      title: "수정수정수정수정",
+      content: "콘텐츠수정콘텐츠수정콘텐츠수정콘텐츠수정",
+      createdAt: "2023-01-19T10:55:37",
+      modifiedAt: "2023-01-19T10:55:49",
+      star: 3,
+      memberId: 2,
     },
     {
-      postId: 3,
+      id: 3,
       likes: 34,
       commentcount: 4,
       thumbnail_url:
-        "https://user-images.githubusercontent.com/94962427/211693723-e10b0b7d-95ed-4918-b450-f952168bca3a.jpeg",
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQDuqH-2EX6uJe9UIR8lRz5ql8dSwDl1BJAzrxUNdEut8GVP6RtZVdWk4IwCIst4Jk-Rpg&usqp=CAU",
+      title: "수정수정수정수정",
+      content: "콘텐츠수정콘텐츠수정콘텐츠수정콘텐츠수정",
+      createdAt: "2023-01-19T10:55:37",
+      modifiedAt: "2023-01-19T10:55:49",
+      star: 3,
+      memberId: 2,
     },
     {
-      postId: 4,
+      id: 4,
       likes: 5,
       commentcount: 43,
       thumbnail_url:
-        "https://user-images.githubusercontent.com/94962427/211693723-e10b0b7d-95ed-4918-b450-f952168bca3a.jpeg",
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRh-tTdRm7D2U_IVczw3DxrexUbDL3CLOXEKjf1fNCa2dEYnGDSfG3WhrvWQVFRhcMg05c&usqp=CAU",
+      title: "수정수정수정수정",
+      content: "콘텐츠수정콘텐츠수정콘텐츠수정콘텐츠수정",
+      createdAt: "2023-01-19T10:55:37",
+      modifiedAt: "2023-01-19T10:55:49",
+      star: 3,
+      memberId: 2,
     },
   ];
 
@@ -130,7 +155,7 @@ const SearchDetailPost: React.FC = () => {
       {result ? (
         <SearchResultBox>
           {result.map((post) => (
-            <PostRead key={post.postId} post={post} />
+            <PostRead key={post.id} post={post} />
           ))}
         </SearchResultBox>
       ) : null}

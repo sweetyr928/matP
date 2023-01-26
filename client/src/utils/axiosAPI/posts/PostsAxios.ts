@@ -4,23 +4,39 @@ import type { IComments } from "../comments/commentsAxios";
 const url = "http://localhost:3001";
 
 export interface IPosts {
-  postId: number;
+  id: number;
   likes: number;
   commentcount: number;
   thumbnail_url: string;
+  title: string;
+  content: string;
+  createdAt: string;
+  modifiedAt: string;
+  star: number;
+  memberId: number;
+}
+
+export interface IMemberInfo {
+  nickname: string;
+  profileImg: string;
+}
+
+export interface IPlaceInfo {
+  id: number;
+  title: string;
+  content: string;
+  likes: number;
+  thumbnailUrl: string;
+  createdAt: string;
+  modifiedAt: string;
+  star: number;
+  memberInfo: IMemberInfo;
 }
 
 export interface IPlacesPosts {
-  id: number;
-  nickname: string;
-  profileimg: string;
-  createdat: string;
-  title: string;
-  content: string;
-  star: number;
-  likes: number;
-  thumbnailUrl: string;
+  postInfo: IPlaceInfo;
   comments: Array<IComments>;
+  isLikesCheck: boolean;
 }
 
 export const getPosts = async () => {

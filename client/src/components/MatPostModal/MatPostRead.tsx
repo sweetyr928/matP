@@ -159,8 +159,8 @@ const PostReadModal = ({
     title = "",
     content = "",
     star = 0,
-    // TODO : 서버 연결 후 props로 데이터 넘겨주기
-    comments = [],
+    likes = 0,
+    // comments = [],
   } = responseData || {};
 
   // 별점 불러오기

@@ -85,10 +85,7 @@ const PostRead = ({ post }: { post: IPosts }) => {
       </ImgWrapper>
       {isOpenModal === true ? (
         <ModalPortal>
-          <MatPostRead
-            onClickToggleModal={onClickToggleModal}
-            id={post.postId}
-          />
+          <MatPostRead onClickToggleModal={onClickToggleModal} id={post.id} />
           <ModalBackdrop onClick={onClickToggleModal} />
         </ModalPortal>
       ) : null}
