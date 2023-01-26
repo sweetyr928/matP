@@ -136,7 +136,7 @@ const ModalView = styled.div.attrs(() => ({
   }
 `;
 const Header = styled.h1`
-  color: #2961b9;
+  /* color: #2961b9; */
   font-size: 2.07692308rem;
   font-weight: normal;
   line-height: calc((13+2) / 13);
@@ -148,6 +148,10 @@ const EditUserImg = styled.img`
   border-radius: 100%;
   border: 1px solid #a6a6a6;
   margin: 10px 0;
+  cursor: pointer;
+  &:hover {
+    filter: brightness(0.6);
+  }
 `;
 const Input = styled.input`
   width: 100%;
@@ -259,11 +263,7 @@ const MyPage: React.FC = () => {
             <ModalView>
               <Header>정보 수정하기</Header>
               <div>
-                <EditUserImg
-                  src={profileImg}
-                  alt="프로필 사진"
-                  onClick={onClickImg}
-                />
+                <EditUserImg src={profileImg} alt="프로필 사진" onClick={onClickImg} />
                 <input
                   type="file"
                   accept="image/jpg,impge/png,image/jpeg"
@@ -273,16 +273,8 @@ const MyPage: React.FC = () => {
                   ref={fileInput}
                 />
               </div>
-              <Input
-                type="text"
-                value={revisedName}
-                onChange={onChangeName}
-              ></Input>
-              <Input
-                type="text"
-                value={revisedMemo}
-                onChange={onChangeMemo}
-              ></Input>
+              <Input type="text" value={revisedName} onChange={onChangeName}></Input>
+              <Input type="text" value={revisedMemo} onChange={onChangeMemo}></Input>
               <div className="button_container">
                 <ModalBtn onClick={onRevise}>제출</ModalBtn>
                 <ModalBtn onClick={onClickToggleModal}>취소</ModalBtn>
