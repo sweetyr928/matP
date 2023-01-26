@@ -1,6 +1,5 @@
 package com.matp.exception;
 
-import com.matp.post.exception.PostNotFoundException;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +15,7 @@ public class CustomErrorResponse {
     private final String code;
     private final String message;
 
-    public static ResponseEntity<CustomErrorResponse> error(PostNotFoundException e) {
+    public static ResponseEntity<CustomErrorResponse> error(CustomException e) {
         return ResponseEntity
                 .status(e.getCustomErrorCode().getHttpStatus())
                 .body(CustomErrorResponse.builder()

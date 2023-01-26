@@ -12,6 +12,7 @@ import reactor.core.publisher.Flux;
 
 import java.time.LocalDateTime;
 import java.util.Comparator;
+import java.util.stream.Collectors;
 
 /**
  * DatabaseClient 사용하여 레포지토리 구현
@@ -30,19 +31,19 @@ public class MemberCustomRepository {
      */
     public Flux<MemberResponse> findWithInfo() {
         var sqlWithFollow = """
-                SELECT 
+                SELECT
                     m.member_id as memberId, m.email as email, m.nickname as nickname,
-                    m.birthday as birthday, m.profile_url as profileUrl, 
+                    m.birthday as birthday, m.profile_url as profileUrl,
                     m.gender as gender, m.memo as memo, m.registration_id as registrationId,
                     m.created_at as createdAt, m.modified_at as modifiedAt,
                     p.id as postId, p.title as title, p.thumbnail_url as thumbnailUrl,
                     g.id as groupId, g.name as name, g.group_img_index as groupImgIndex,
                     (SELECT COUNT(f.follower_id) as followers FROM follow f WHERE m.member_id = f.following_id),
-                    (SELECT COUNT(f.following_id) as followings FROM follow f WHERE m.member_id = f.follower_id)   
+                    (SELECT COUNT(f.following_id) as followings FROM follow f WHERE m.member_id = f.follower_id)
                 FROM member m
                 LEFT JOIN post p
                 ON m.member_id = p.member_id
-                LEFT JOIN group g
+                LEFT JOIN picker_group g
                 ON m.member_id = g.member_id
                 """;
 
@@ -71,7 +72,7 @@ public class MemberCustomRepository {
                                     .name((String) row.get("name"))
                                     .groupImgIndex((int) row.get("groupImgIndex"))
                                     .build())
-                            .toList();
+                            .collect(Collectors.toSet());
 
                     var row = result.get(0);
                     return MemberResponse.from(Member.builder()

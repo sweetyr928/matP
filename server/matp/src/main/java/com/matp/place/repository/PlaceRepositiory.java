@@ -29,7 +29,7 @@ public interface PlaceRepositiory extends ReactiveCrudRepository<Place, Long> {
         SELECT id, tel, address, name, st_astext(point) as point
         FROM place
         WHERE address LIKE CONCAT('%', :search, '%')
-        OR category LIKE CONCAT('%', :search, '%') 
+        OR category LIKE CONCAT('%', :search, '%')
         OR name LIKE CONCAT('%', :search, '%')
     """)
     Flux<Place> searchPlaces(String search);

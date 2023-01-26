@@ -1,8 +1,11 @@
 package com.matp.likes.controller;
 
+import com.matp.auth.jwt.JwtTokenProvider;
 import com.matp.likes.dto.LikesRequest;
 import com.matp.likes.service.LikesService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
@@ -12,20 +15,26 @@ import reactor.core.publisher.Mono;
 public class LikesController {
 
     private final LikesService likesService;
-
+    private final JwtTokenProvider jwtTokenProvider;
     @PostMapping
     public Mono<Void> createLikes(@RequestBody LikesRequest likeRequest,
-                                  @PathVariable("post-id") Long postId) {
-        //TODO member 구현시 member 정보 들어가야함
-        //TODO likes post 에서 불리언처리
-        Long memberId = 4L;
+                                  @PathVariable("post-id") Long postId,
+                                  ServerHttpRequest jwt) {
+        Long memberId = extractId(jwt);
         return likesService.increaseLikes(likeRequest, postId, memberId);
     }
 
     @DeleteMapping
-    public Mono<Void> deleteLikes(@PathVariable("post-id") Long postId) {
-        //TODO member 구현시 member 정보 들어가야함
-        Long memberId = 4L;
+    public Mono<Void> deleteLikes(@PathVariable("post-id") Long postId,
+                                  ServerHttpRequest jwt) {
+        Long memberId = extractId(jwt);
         return likesService.decreaseLikes(postId,memberId);
+    }
+
+    private Long extractId(ServerHttpRequest request) {
+        String bearerToken = request.getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
+        assert bearerToken != null;
+        bearerToken = bearerToken.substring(7);
+        return jwtTokenProvider.getUserId(bearerToken);
     }
 }

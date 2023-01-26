@@ -70,6 +70,7 @@ public class OAuthSuccessHandler implements ServerAuthenticationSuccessHandler {
                 .scheme("http")
                 .host("localhost")
                 .path("/")
+                .port(3000)
                 .queryParams(queryParams)
                 .build()
                 .toUri();
