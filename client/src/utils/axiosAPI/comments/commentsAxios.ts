@@ -4,9 +4,9 @@ const url = "http://localhost:3001";
 export interface IComments {
   id: number;
   nickname: string;
-  profileimg: string;
-  comment: string;
-  createdat: string;
+  profileImg: string;
+  commentContent: string;
+  commentCreatedAt: string;
 }
 
 export const getComments = async () => {
@@ -16,31 +16,31 @@ export const getComments = async () => {
 
 export const createComment = async (
   nickname: string,
-  profileimg: string,
-  comment: string,
-  createdat: string
+  profileImg: string,
+  commentContent: string,
+  commentCreatedAt: string
 ): Promise<void> => {
   const response = await axios.post(`${url}/comments`, {
     nickname,
-    profileimg,
-    comment,
-    createdat,
+    profileImg,
+    commentContent,
+    commentCreatedAt,
   });
   return response.data;
 };
 
 export const updateComment = async (
   nickname: string,
-  profileimg: string,
-  comment: string,
-  createdat: string,
+  profileImg: string,
+  commentContent: string,
+  commentCreatedAt: string,
   id: number
 ): Promise<void> => {
   const response = await axios.patch(`${url}/comments/${id}`, {
     nickname,
-    profileimg,
-    comment,
-    createdat,
+    profileImg,
+    commentContent,
+    commentCreatedAt,
   });
   return response.data;
 };

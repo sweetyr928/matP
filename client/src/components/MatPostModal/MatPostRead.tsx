@@ -174,6 +174,13 @@ const PostReadModal = ({
   // 항상 별이 총 5개(더미 array)
   const array: Array<number> = [0, 1, 2, 3, 4];
 
+  // 날짜 변환
+  const setDateFormat = (date: string) => {
+    let newStr = date.split(".");
+    newStr = newStr[0].split("T");
+    return newStr.join(" ");
+  };
+
   const handleEdit = () => {
     setIsEdit(true);
   };
@@ -257,7 +264,7 @@ const PostReadModal = ({
               <StyledInfo>
                 <img src={profileimg} alt="profileImg"></img>
                 <div className="post_nickname">{nickname}</div>
-                <div className="post_createdAt">{createdat}</div>
+                <div className="post_createdAt">{setDateFormat(createdat)}</div>
               </StyledInfo>
               <div>
                 <button onClick={handleEdit}>수정</button>
