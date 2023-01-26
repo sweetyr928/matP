@@ -1,6 +1,5 @@
 package com.matp.exception;
 
-import com.matp.post.exception.PostNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,11 +14,11 @@ import java.util.Objects;
 class RestExceptionHandler {
 
     /**
-     * PostNoFoundException exception 이 컨트롤러단에서 발생했을때 exception 전역처리
+     * exception 이 컨트롤러단에서 발생했을때 exception 전역처리
      * @author 임준건
      **/
-    @ExceptionHandler(PostNotFoundException.class)
-    Mono<ResponseEntity<CustomErrorResponse>> postNotFound(PostNotFoundException exception) {
+    @ExceptionHandler(CustomException.class)
+    Mono<ResponseEntity<CustomErrorResponse>> errorHandling(CustomException exception) {
 
         log.debug("handling exception:" + exception);
 

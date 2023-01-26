@@ -3,11 +3,15 @@ package com.matp.post.service;
 
 import com.matp.comment.dto.MultiResponseDto;
 import com.matp.comment.service.CommentService;
+import com.matp.exception.CustomErrorCode;
+import com.matp.exception.CustomErrorResponse;
+import com.matp.exception.CustomException;
 import com.matp.post.dto.*;
 import com.matp.post.dto.PostMemberInfo;
 import com.matp.post.entity.Post;
 import com.matp.post.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Flux;
@@ -63,8 +67,8 @@ public class PostService {
                             .thumbnailUrl(result.thumbnailUrl())
                             .star(result.star())
                             .placeId(result.placeId())
-                            .createdAt(result.createdAt())
-                            .modifiedAt(result.modifiedAt())
+                            .createdAt(result.created_at())
+                            .modifiedAt(result.modified_at())
                             .memberInfo(member)
                             .build();
 
@@ -101,11 +105,11 @@ public class PostService {
      * @author 임준건
      */
     @Transactional
-    public Mono<PostResponse> save(PostRequest request,Long placeId) {
+    public Mono<PostResponse> save(PostRequest request,Long placeId,Long memberId) {
 
         Post Post = request.toEntity();
         //TODO memberID 넣어야함
-        Post.setMemberId(2L);
+        Post.setMemberId(memberId);
         Post.setPlaceId(placeId);
         Mono<Post> save = postRepository.save(Post);
 
@@ -118,10 +122,13 @@ public class PostService {
      * @author 임준건
      */
     @Transactional
-    public Mono<PostResponse> update(PatchPostRequest updatePostRequest, Long postId) {
+    public Mono<PostResponse> update(PatchPostRequest updatePostRequest, Long postId, Long memberId) {
         Post updatePost = updatePostRequest.toEntity();
-        return postRepository.findById(postId).flatMap(post ->
-                postRepository.save(post.settingPost(post,updatePost))).map(PostResponse::from);
+        if (updatePost.getMemberId() != memberId) {
+            throw new CustomException(CustomErrorCode.NOT_ALLOWED_MEMBER_ID);
+        }
+            return postRepository.findById(postId).flatMap(post ->
+                    postRepository.save(post.settingPost(post, updatePost))).map(PostResponse::from);
     }
 
     /**
@@ -130,9 +137,16 @@ public class PostService {
      * @author 임준건
      */
     @Transactional
-    public Mono<Void> delete(Long postId) {
+    public Mono<Void> delete(Long postId, Long memberId) {
+
 
         return postRepository.findById(postId)
+                .map(post -> {
+                    if (post.getMemberId() != memberId) {
+                        throw new CustomException(CustomErrorCode.NOT_ALLOWED_MEMBER_ID);
+                    }
+                    return post;
+                })
                 .flatMap(postRepository::delete)
                 .switchIfEmpty(postRepository.PostDeleteWithCommentsLikes(postId));
     }
