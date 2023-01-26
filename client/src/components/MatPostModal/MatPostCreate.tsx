@@ -16,7 +16,7 @@ const StyledModal = styled.div`
   position: fixed;
   top: 10%;
   left: 15%;
-  z-index: 999;
+  z-index: 1010;
 
   > span.close-btn {
     margin: 5px 0px 0px 1375px;
@@ -175,7 +175,6 @@ const PostCreateModal = ({ onClickToggleModal }: ModalDefaultType) => {
   const [createdAt, setCreatedAt] = useState<string>("");
   const [imageContained, setImageContained] = useState<boolean>(false);
 
-
   // 항상 별이 총 5개(더미 array)
   const array: Array<number> = [0, 1, 2, 3, 4];
 
@@ -238,11 +237,7 @@ const PostCreateModal = ({ onClickToggleModal }: ModalDefaultType) => {
 
   return (
     <StyledModal>
-      <span
-        role="presentation"
-        // onClick={closeModalHandler}
-        className="close-btn"
-      >
+      <span role="presentation" onClick={closeModal} className="close-btn">
         &times;
       </span>
       <StyledDiv>
