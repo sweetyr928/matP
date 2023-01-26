@@ -166,7 +166,6 @@ const Input = styled.input`
 
   &:focus {
     outline: none;
-    border-color: #babec1;
   }
 `;
 const ModalBtn = styled.button`
@@ -195,13 +194,7 @@ const MyPage: React.FC = () => {
 
   const { responseData: memberData } = useAxios(getMyData);
 
-  const {
-    nickname = "",
-    profileImg = "",
-    memo = "",
-    followers = "",
-    followings = "",
-  } = memberData || {};
+  const { nickname, profileImg, memo, followers, followings } = memberData || {};
 
   const [revisedName, setRevisedName] = useState(nickname);
   const [revisedMemo, setRevisedMemo] = useState(memo);
@@ -210,7 +203,7 @@ const MyPage: React.FC = () => {
   // 프로필 이미지 수정을 위한 ref
   const fileInput = useRef<HTMLInputElement>(null);
 
-  const { axiosData } = useAxios(
+  const { axiosData: updateAxios } = useAxios(
     () => updateMyData(revisedName, image, revisedMemo),
     [revisedName, image, revisedMemo],
     true
@@ -251,7 +244,7 @@ const MyPage: React.FC = () => {
   };
 
   const onRevise = () => {
-    axiosData();
+    updateAxios();
     onClickToggleModal();
   };
 
@@ -273,8 +266,8 @@ const MyPage: React.FC = () => {
                   ref={fileInput}
                 />
               </div>
-              <Input type="text" value={revisedName} onChange={onChangeName}></Input>
-              <Input type="text" value={revisedMemo} onChange={onChangeMemo}></Input>
+              <Input type="text" value={revisedName || nickname} onChange={onChangeName}></Input>
+              <Input type="text" value={revisedMemo || memo} onChange={onChangeMemo}></Input>
               <div className="button_container">
                 <ModalBtn onClick={onRevise}>제출</ModalBtn>
                 <ModalBtn onClick={onClickToggleModal}>취소</ModalBtn>
