@@ -1,8 +1,12 @@
 package com.matp.place.service;
 
 
+import com.matp.picker.service.PickerService;
 import com.matp.place.dto.PlaceDetailResponseDto;
+import com.matp.place.dto.PlaceEnrollmentRequest;
+import com.matp.place.dto.PlaceEnrollmentResponse;
 import com.matp.place.dto.PlaceResponseDto;
+import com.matp.place.entity.Place;
 import com.matp.place.repository.PlaceRepositiory;
 import com.matp.post.service.PostService;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +21,7 @@ import reactor.core.scheduler.Schedulers;
 public class PlaceService {
     private final PlaceRepositiory placeRepository;
     private final PostService postService;
+    private final PickerService pickerService;
 
     /**
      * @return Flux < PlaceResponseDto >
@@ -25,8 +30,17 @@ public class PlaceService {
      */
     @Transactional(readOnly = true)
     public Flux<PlaceResponseDto> findPlaces(double longitude, double latitude, double round) {
-        return placeRepository.findPlaces(longitude, latitude, (int) (round * 1000))
-                .publishOn(Schedulers.boundedElastic())
+        return mapping(placeRepository.findPlaces(longitude, latitude, (int) (round * 1000)));
+    }
+
+    @Transactional(readOnly = true)
+    public Flux<PlaceResponseDto> findPlaces(String search) {
+        if (search.contains("_")) return mapping(placeRepository.searchPlaces(search.split("_")[0], search.split("_")[1]));
+        return mapping(placeRepository.searchPlaces(search));
+    }
+
+    private Flux<PlaceResponseDto> mapping(Flux<Place> places) {
+        return places.publishOn(Schedulers.boundedElastic())
                 .map(place -> {
                     var postList = postService.findPlacePosts(place.getId()).block();
                     return PlaceResponseDto.of(place, postList);
@@ -41,12 +55,18 @@ public class PlaceService {
      * @author 이종희
      */
     @Transactional(readOnly = true)
-    public Mono<PlaceDetailResponseDto> findPlaceDetail(Long placeId) {
+    public Mono<PlaceDetailResponseDto> findPlaceDetail(long placeId, long memberId) {
         return placeRepository.findPlaceDetail(placeId)
                 .publishOn(Schedulers.boundedElastic())
                 .map(place -> {
                     var postList = postService.findPlaceDetailPosts(placeId).block();
-                    return PlaceDetailResponseDto.of(place, postList);
+                    boolean isPick = pickerService.isPick(placeId, memberId).blockOptional().isPresent();
+                    return PlaceDetailResponseDto.of(place, postList, isPick);
                 });
+    }
+
+    public Mono<PlaceEnrollmentResponse> registerPlaceInfo(Mono<PlaceEnrollmentRequest> placeEnrollmentRequest) {
+        return placeEnrollmentRequest.map(PlaceEnrollmentRequest::toEntity)
+                .flatMap(place -> placeRepository.registerPlaceInfo(place.getTel(),place.getAddress(),place.getRoadNameAddress(),place.getName(),place.getCategory()));
     }
 }

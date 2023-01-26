@@ -18,7 +18,7 @@ import reactor.core.publisher.Mono;
 // TODO place ,member기능 추가뒤 post 생성시에 memberId, placeId 정보를 가질 수 있도록 코드 수정필요
 // TODO member 기능 추가시 testMember 삭제해야함.
 @RestController
-@RequestMapping({"/places/posts","/place/{place-id}/posts"})
+@RequestMapping({"/places/posts","/places/{place-id}/posts"})
 @RequiredArgsConstructor
 public class PostController {
     private final PostService postService;
@@ -40,8 +40,9 @@ public class PostController {
      * @author 임준건
      **/
     @GetMapping("/{post-id}")
-    public Mono<ResponseEntity<MultiResponseDto>> getSpecific(@PathVariable("post-id") Long postId, @PathVariable("place-id") String placeId) {
+    public Mono<ResponseEntity<MultiResponseDto>> getSpecific(@PathVariable("post-id") Long postId) {
         // TODO token 에서 member 빼오기
+        // 조회기능이라 pathVariable placeId 필요없음
         Long memberId = 1L;
         Mono<ResponseEntity<MultiResponseDto>> map = postService.getPost(postId,memberId)
                 .map(ResponseEntity::ok)
@@ -76,10 +77,10 @@ public class PostController {
      * @author 임준건
      **/
     @PostMapping
-    public Mono<ResponseEntity<PostResponse>> saveMatPost(@RequestBody @Validated Mono<PostRequest> request, @PathVariable("place-id") String placeId) {
+    public Mono<ResponseEntity<PostResponse>> saveMatPost(@RequestBody @Validated Mono<PostRequest> request, @PathVariable("place-id") Long placeId) {
 
         return request
-                .flatMap(postService::save)
+                .flatMap(postRequest -> postService.save(postRequest,placeId))
                 .map(mp -> new ResponseEntity<>(mp, HttpStatus.CREATED));
     }
 
@@ -88,7 +89,7 @@ public class PostController {
      * @author 임준건
      **/
     @PatchMapping("/{post-id}")
-    public Mono<ResponseEntity<PostResponse>> updateMatPost(@RequestBody Mono<PatchPostRequest> request, @PathVariable("post-id") Long postId, @PathVariable("place-id") String placeId) {
+    public Mono<ResponseEntity<PostResponse>> updateMatPost(@RequestBody Mono<PatchPostRequest> request, @PathVariable("post-id") Long postId, @PathVariable("place-id") Long placeId) {
 
         return request
                 .flatMap((PatchPostRequest patchPostRequest) -> postService.update(patchPostRequest, postId))

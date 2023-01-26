@@ -51,7 +51,7 @@ const MatCommentAdd = ({
         comment,
         createdAt
       ),
-    [comment, createdAt],
+    [comment],
     true
   );
 

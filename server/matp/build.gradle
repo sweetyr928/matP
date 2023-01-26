@@ -38,10 +38,6 @@ dependencies {
 	implementation 'software.amazon.awssdk:netty-nio-client:2.18.41'
 	implementation 'org.apache.commons:commons-lang3:3.12.0'
 
-	//r2dbc-h2
-	runtimeOnly 'com.h2database:h2'
-	runtimeOnly 'io.r2dbc:r2dbc-h2'
-
 	//lombok
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'

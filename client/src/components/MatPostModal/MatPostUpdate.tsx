@@ -1,4 +1,5 @@
 /* eslint-disable */
+
 import styled from "styled-components";
 import { useEffect, useState } from "react";
 import { updatePost } from "../../utils/axiosAPI/posts/PostsAxios";
@@ -102,6 +103,7 @@ const StyledStar = styled.div`
   }
 `;
 
+
 // 모달 토글 버튼 연결 (타입 지정)
 interface ModalDefaultType {
   onClickToggleModal: () => void;
@@ -147,7 +149,7 @@ const PostUpdateModal = ({
         thumbnailUrl,
         Number(id)
       ),
-    [newTitle, htmlContent, createdAt, clicked, thumbnailUrl],
+    [newTitle, htmlContent, clicked, thumbnailUrl],
     true
   );
 

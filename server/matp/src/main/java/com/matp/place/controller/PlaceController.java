@@ -1,7 +1,10 @@
 package com.matp.place.controller;
 
 
+
 import com.matp.place.dto.PlaceDetailResponseDto;
+import com.matp.place.dto.PlaceEnrollmentRequest;
+import com.matp.place.dto.PlaceEnrollmentResponse;
 import com.matp.place.dto.PlaceResponseDto;
 import com.matp.place.service.PlaceService;
 import org.springframework.web.bind.annotation.*;
@@ -9,7 +12,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
-@RequestMapping("/places")
+@RequestMapping
 public class PlaceController {
     private final PlaceService placeService;
 
@@ -17,13 +20,23 @@ public class PlaceController {
         this.placeService = placeService;
     }
 
-    @GetMapping
+    @GetMapping("/places")
     public Flux<PlaceResponseDto> getPlaces(@RequestParam("lon") double lon, @RequestParam("lat") double lat, @RequestParam("round") double round) {
         return placeService.findPlaces(lon, lat, round);
     }
 
-    @GetMapping("{place-id}")
+    @GetMapping("/places/{place-id}")
     public Mono<PlaceDetailResponseDto> getPlaceDetail(@PathVariable("place-id") Long placeId) {
-        return placeService.findPlaceDetail(placeId);
+        return placeService.findPlaceDetail(placeId, 1L);
+    }
+
+    @GetMapping("/search")
+    public Flux<PlaceResponseDto> searchPlaces(@RequestParam("query") String search) {
+        return placeService.findPlaces(search);
+    }
+
+    @PostMapping
+    public Mono<PlaceEnrollmentResponse> registerPlace(@RequestBody Mono<PlaceEnrollmentRequest> placeEnrollmentRequest) {
+        return placeService.registerPlaceInfo(placeEnrollmentRequest);
     }
 }

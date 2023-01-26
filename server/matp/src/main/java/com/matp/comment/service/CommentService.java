@@ -5,7 +5,7 @@ import com.matp.comment.dto.CommentRequest;
 import com.matp.comment.dto.CommentResponse;
 import com.matp.comment.entity.Comment;
 import com.matp.comment.repository.CommentRepository;
-import com.matp.post.dto.testdto.PostMemberInfo;
+import com.matp.post.dto.PostMemberInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -50,6 +50,7 @@ public record KakaoOAuth2Response(
 
     public MemberPrincipal toPrincipal() {
         return MemberPrincipal.of(
+                "",
                 kakaoAccount.email,
                 kakaoAccount.profile.nickname,
                 kakaoAccount.birthday,
