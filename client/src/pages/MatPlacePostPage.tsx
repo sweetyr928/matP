@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import useAxios from "../utils/useAxios";
+import useAxios from "../hooks/useAxios";
 import { createPlaces } from "../utils/axiosAPI/places/PlacesAxios";
 
 const MatPlacePostWrapper = styled.div`

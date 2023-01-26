@@ -5,7 +5,7 @@ import {
   deleteComment,
   IComments,
 } from "../../utils/axiosAPI/comments/commentsAxios";
-import useAxios from "../../utils/useAxios";
+import useAxios from "../../hooks/useAxios";
 import { Popover, Typography } from "@mui/material";
 
 const StyledComment = styled.div`
@@ -103,15 +103,10 @@ const MatComment = ({
 }) => {
   const [isEditing, setIsEditing] = useState<boolean>(false);
   // Comment 객체
-  const [newSingleComment, setNewSingleComment] =
-    useState<IComments>(singleComment);
+  const [newSingleComment, setNewSingleComment] = useState<IComments>(singleComment);
   // 새로 바뀐 댓글의 내용
-  const [editedComment, setEditedComment] = useState<string>(
-    singleComment.commentContent
-  );
-  const [createdAt, setCreatedAt] = useState<string>(
-    singleComment.commentCreatedAt
-  );
+  const [editedComment, setEditedComment] = useState<string>(singleComment.commentContent);
+  const [createdAt, setCreatedAt] = useState<string>(singleComment.commentCreatedAt);
   const [deleteClicked, setDeleteClicked] = useState<boolean>(false);
   // popover ref
   const [anchorEL, setAnchorEL] = useState(null);

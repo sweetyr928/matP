@@ -1,10 +1,7 @@
 import styled from "styled-components";
-import useAxios from "../../utils/useAxios";
+import useAxios from "../../hooks/useAxios";
 import { useState, useCallback } from "react";
-import {
-  getPlacesPost,
-  deletePost,
-} from "../../utils/axiosAPI/posts/PostsAxios";
+import { getPlacesPost, deletePost } from "../../utils/axiosAPI/posts/PostsAxios";
 import StarRate from "./StarRate";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -133,10 +130,7 @@ interface ModalDefaultType {
   id: number;
 }
 
-const PostReadModal = ({
-  onClickToggleModal,
-  id,
-}: ModalDefaultType): JSX.Element => {
+const PostReadModal = ({ onClickToggleModal, id }: ModalDefaultType): JSX.Element => {
   const [isOpenUpdateModal, setOpenUpdateModal] = useState<boolean>(false);
   const [isLiked, setIsLiked] = useState<boolean>(false);
   const [deleteClicked, setDeleteClicked] = useState<boolean>(false);
@@ -243,19 +237,11 @@ const PostReadModal = ({
 
   return (
     <StyledModal>
-      <span
-        role="presentation"
-        onClick={onClickToggleModal}
-        className="close-btn"
-      >
+      <span role="presentation" onClick={onClickToggleModal} className="close-btn">
         &times;
       </span>
       {isEdit ? (
-        <MatPostUpdate
-          id={id}
-          onClickToggleModal={onClickToggleUpdateModal}
-          state={responseData}
-        />
+        <MatPostUpdate id={id} onClickToggleModal={onClickToggleUpdateModal} state={responseData} />
       ) : (
         <StyledDiv>
           <StyledContentWrapper>
@@ -297,13 +283,7 @@ const PostReadModal = ({
             <StyledStarsWrapper>
               <StyledStar>
                 {array.map((el, idx) => {
-                  return (
-                    <StarRate
-                      key={idx}
-                      size="50"
-                      className={clicked[el] ? "yellow" : ""}
-                    />
-                  );
+                  return <StarRate key={idx} size="50" className={clicked[el] ? "yellow" : ""} />;
                 })}
               </StyledStar>
             </StyledStarsWrapper>

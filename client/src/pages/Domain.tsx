@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import PostRead from "../components/PostRead";
 import { getPosts } from "../utils/axiosAPI/posts/PostsAxios";
-import useAxios from "../utils/useAxios";
+import useAxios from "../hooks/useAxios";
 import type { IPosts } from "../utils/axiosAPI/posts/PostsAxios";
 
 const StyledFeed = styled.div`
@@ -39,10 +39,7 @@ const Domain: React.FC = () => {
     <StyledFeed>
       <h1>오늘의 맛 Post</h1>
       <StyledPosts>
-        {responseData &&
-          responseData.map((post: IPosts) => (
-            <PostRead key={post.id} post={post} />
-          ))}
+        {responseData && responseData.map((post: IPosts) => <PostRead key={post.id} post={post} />)}
       </StyledPosts>
     </StyledFeed>
   );

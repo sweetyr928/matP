@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useState } from "react";
 import { createComment } from "../../utils/axiosAPI/comments/commentsAxios";
-import useAxios from "../../utils/useAxios";
+import useAxios from "../../hooks/useAxios";
 
 const StyledComment = styled.div`
   margin: 10px 0px 30px 0px;
@@ -35,11 +35,7 @@ const StyledComment = styled.div`
   }
 `;
 
-const MatCommentAdd = ({
-  getAllComment,
-}: {
-  getAllComment: () => void;
-}): JSX.Element => {
+const MatCommentAdd = ({ getAllComment }: { getAllComment: () => void }): JSX.Element => {
   const [comment, setComment] = useState<string>("");
   const [createdAt, setCreatedAt] = useState<string>("");
 

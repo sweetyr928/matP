@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { updatePost } from "../../utils/axiosAPI/posts/PostsAxios";
 import MatEditor from "./MatEditor";
 import StarRate from "./StarRate";
-import useAxios from "../../utils/useAxios";
+import useAxios from "../../hooks/useAxios";
 
 const StyledDiv = styled.div`
   margin: 25px 100px 10px 100px;
@@ -103,7 +103,6 @@ const StyledStar = styled.div`
   }
 `;
 
-
 // 모달 토글 버튼 연결 (타입 지정)
 interface ModalDefaultType {
   onClickToggleModal: () => void;
@@ -111,19 +110,13 @@ interface ModalDefaultType {
   state: any;
 }
 
-const PostUpdateModal = ({
-  onClickToggleModal,
-  id,
-  state,
-}: ModalDefaultType) => {
+const PostUpdateModal = ({ onClickToggleModal, id, state }: ModalDefaultType) => {
   // const { id } = useParams();
 
   // 기존 데이터 받아오기
   const [newTitle, setNewTitle] = useState<string>(state.title);
   const [htmlContent, setHtmlContent] = useState<string>(state.content);
-  const [clicked, setClicked] = useState<boolean[]>(
-    new Array(5).fill(true, 0, state.star)
-  );
+  const [clicked, setClicked] = useState<boolean[]>(new Array(5).fill(true, 0, state.star));
   const [createdAt, setCreatedAt] = useState<string>(state.createdAt);
   // content에 이미지 포함 여부
   const [imageContained, setImageContained] = useState<boolean>(false);
@@ -134,9 +127,7 @@ const PostUpdateModal = ({
 
   useEffect(() => {
     getThumbnailUrl();
-    thumbnailUrl.length > 0
-      ? setImageContained(true)
-      : setImageContained(false);
+    thumbnailUrl.length > 0 ? setImageContained(true) : setImageContained(false);
   }, [htmlContent]);
 
   const { axiosData } = useAxios(
@@ -184,11 +175,7 @@ const PostUpdateModal = ({
 
   return (
     <StyledDiv>
-      <input
-        placeholder="제목을 입력해주세요"
-        value={newTitle}
-        onChange={handleInput}
-      ></input>
+      <input placeholder="제목을 입력해주세요" value={newTitle} onChange={handleInput}></input>
       <hr className="middle_line" />
       <div className={newTitle.length <= 0 ? "disabled" : ""}>
         <MatEditor htmlContent={htmlContent} setHtmlContent={setHtmlContent} />
@@ -202,9 +189,7 @@ const PostUpdateModal = ({
                 key={idx}
                 size="50"
                 onClick={() => handleStarClick(el)}
-                className={
-                  imageContained ? (clicked[el] ? "yellow" : "") : "disabled"
-                }
+                className={imageContained ? (clicked[el] ? "yellow" : "") : "disabled"}
               />
             );
           })}
@@ -214,9 +199,7 @@ const PostUpdateModal = ({
         <button
           onClick={axiosData}
           className={
-            newTitle.length > 0 && htmlContent.length > 0 && imageContained
-              ? ""
-              : "disabled"
+            newTitle.length > 0 && htmlContent.length > 0 && imageContained ? "" : "disabled"
           }
         >
           수정

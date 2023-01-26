@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import useAxios from "../utils/useAxios";
+import useAxios from "../hooks/useAxios";
 import { getPickers } from "../utils/axiosAPI/groups/PickersAxios";
 import MatPeoplePickersItem from "../components/MatPeoplePickersItem";
 

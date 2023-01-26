@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import useAxios from "../../utils/useAxios";
+import useAxios from "../../hooks/useAxios";
 import { updatePickers } from "../../utils/axiosAPI/groups/PickersAxios";
 
 const ModalContainer = styled.div`
