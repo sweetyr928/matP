@@ -5,6 +5,7 @@ import {
   deleteComment,
 } from "../../utils/axiosAPI/comments/commentsAxios";
 import useAxios from "../../utils/useAxios";
+import { Popover, Typography } from "@mui/material";
 
 const StyledComment = styled.div`
   display: flex;
@@ -117,6 +118,8 @@ const MatComment = ({
   );
   const [createdAt, setCreatedAt] = useState<string>(singleComment.createdat);
   const [deleteClicked, setDeleteClicked] = useState<boolean>(false);
+  // popover ref
+  const [anchorEL, setAnchorEL] = useState(null);
 
   const { axiosData: updateC } = useAxios(
     () =>
@@ -140,6 +143,16 @@ const MatComment = ({
   // 댓글 수정
   const handleEdit = () => {
     setIsEditing(!isEditing);
+  };
+
+  // popover comment 삭제
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    setAnchorEL(e.currentTarget);
+  };
+
+  // popover comment 삭제 취소
+  const handleClose = () => {
+    setAnchorEL(null);
   };
 
   // 댓글 삭제
@@ -172,6 +185,28 @@ const MatComment = ({
     setIsEditing(!isEditing);
   };
 
+  // popover styling
+  const PopoverStyle = {
+    zIndex: 10000,
+    top: "5px",
+  };
+
+  const PopoverTStyle = {
+    backgroundColor: "#e1e1e1",
+    fontSize: "12px",
+  };
+
+  const PopoverBtnStyle = {
+    backgroundColor: "#874356",
+    color: "#ffffff",
+    border: "none",
+    marginLeft: "5px",
+    borderRadius: "30px",
+    cursor: "pointer",
+    width: "35px",
+    height: "18px",
+  };
+
   return (
     <StyledComment>
       <StyledDiv>
@@ -182,7 +217,25 @@ const MatComment = ({
         </StyledInfo>
         <div>
           <button onClick={handleEdit}>수정</button>
-          <button onClick={handleDelete}>삭제</button>
+          <button onClick={handleClick}>삭제</button>
+          <Popover
+            open={Boolean(anchorEL)}
+            onClose={handleClose}
+            anchorEl={anchorEL}
+            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+            transformOrigin={{ vertical: "top", horizontal: "right" }}
+            style={PopoverStyle}
+          >
+            <Typography variant="body2" p={2} style={PopoverTStyle}>
+              정말 삭제하시겠습니까?
+              <button style={PopoverBtnStyle} onClick={handleDelete}>
+                Yes
+              </button>
+              <button style={PopoverBtnStyle} onClick={handleClose}>
+                No
+              </button>
+            </Typography>
+          </Popover>
         </div>
       </StyledDiv>
       <StyledContent>

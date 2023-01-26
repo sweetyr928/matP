@@ -141,6 +141,8 @@ const PostReadModal = ({
   const [isLiked, setIsLiked] = useState<boolean>(false);
   const [deleteClicked, setDeleteClicked] = useState<boolean>(false);
   const [isEdit, setIsEdit] = useState<boolean>(false);
+  // popover ref
+  const [anchorEL, setAnchorEL] = useState(null);
 
   // 업데이트 모달 토글 함수
   const onClickToggleUpdateModal = useCallback(() => {
@@ -153,6 +155,8 @@ const PostReadModal = ({
   // 단일 post 삭제
   const { axiosData } = useAxios(() => deletePost(id), [deleteClicked], true);
 
+  const navigate = useNavigate();
+
   const {
     nickname = "",
     profileimg = "",
@@ -164,26 +168,24 @@ const PostReadModal = ({
     // comments = [],
   } = responseData || {};
 
-  const [anchorEL, setAnchorEL] = useState(null);
-
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    setAnchorEL(e.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEL(null);
-  };
-
   // 별점 불러오기
   const clicked = new Array(5).fill(true, 0, star);
 
   // 항상 별이 총 5개(더미 array)
   const array: Array<number> = [0, 1, 2, 3, 4];
 
-  const navigate = useNavigate();
-
   const handleEdit = () => {
     setIsEdit(true);
+  };
+
+  // popover post 삭제
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    setAnchorEL(e.currentTarget);
+  };
+
+  // popover post 삭제 취소
+  const handleClose = () => {
+    setAnchorEL(null);
   };
 
   const handleDelete = () => {
@@ -192,6 +194,7 @@ const PostReadModal = ({
     onClickToggleModal();
   };
 
+  // post url
   const handleUrl = () => {
     console.log("It's url");
   };
@@ -263,8 +266,8 @@ const PostReadModal = ({
                   open={Boolean(anchorEL)}
                   onClose={handleClose}
                   anchorEl={anchorEL}
-                  anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
-                  transformOrigin={{ vertical: "top", horizontal: "center" }}
+                  anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+                  transformOrigin={{ vertical: "top", horizontal: "right" }}
                   style={PopoverStyle}
                 >
                   <Typography variant="body2" p={3} style={PopoverTStyle}>
