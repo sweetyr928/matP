@@ -84,7 +84,7 @@ const SearchDetailPost: React.FC = () => {
       id: 1,
       likes: 24,
       commentcount: 2,
-      thumbnail_url:
+      thumbnailUrl:
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShvWN6FLgG2lpiFwoT3zNUq9FMCyZiyaXXbA&usqp=CAU",
       title: "수정수정수정수정",
       content: "콘텐츠수정콘텐츠수정콘텐츠수정콘텐츠수정",
@@ -97,7 +97,7 @@ const SearchDetailPost: React.FC = () => {
       id: 2,
       likes: 3,
       commentcount: 4,
-      thumbnail_url:
+      thumbnailUrl:
         "https://i.pinimg.com/550x/41/90/b4/4190b4283d11cf6934251698fa1b2e64.jpg",
       title: "수정수정수정수정",
       content: "콘텐츠수정콘텐츠수정콘텐츠수정콘텐츠수정",
@@ -110,7 +110,7 @@ const SearchDetailPost: React.FC = () => {
       id: 3,
       likes: 34,
       commentcount: 4,
-      thumbnail_url:
+      thumbnailUrl:
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQDuqH-2EX6uJe9UIR8lRz5ql8dSwDl1BJAzrxUNdEut8GVP6RtZVdWk4IwCIst4Jk-Rpg&usqp=CAU",
       title: "수정수정수정수정",
       content: "콘텐츠수정콘텐츠수정콘텐츠수정콘텐츠수정",
@@ -123,7 +123,7 @@ const SearchDetailPost: React.FC = () => {
       id: 4,
       likes: 5,
       commentcount: 43,
-      thumbnail_url:
+      thumbnailUrl:
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRh-tTdRm7D2U_IVczw3DxrexUbDL3CLOXEKjf1fNCa2dEYnGDSfG3WhrvWQVFRhcMg05c&usqp=CAU",
       title: "수정수정수정수정",
       content: "콘텐츠수정콘텐츠수정콘텐츠수정콘텐츠수정",

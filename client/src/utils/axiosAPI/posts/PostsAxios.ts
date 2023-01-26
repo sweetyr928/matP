@@ -7,7 +7,7 @@ export interface IPosts {
   id: number;
   likes: number;
   commentcount: number;
-  thumbnail_url: string;
+  thumbnailUrl: string;
   title: string;
   content: string;
   createdAt: string;

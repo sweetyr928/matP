@@ -35,6 +35,7 @@ const StyledPosts = styled.div`
 const Domain: React.FC = () => {
   const { responseData } = useAxios(getPosts, [], false);
 
+  console.log(responseData);
   return (
     <StyledFeed>
       <h1>오늘의 맛 Post</h1>

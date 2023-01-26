@@ -11,6 +11,7 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import MatCommentList from "./MatCommentList";
 import { MatPostUpdate } from "..";
 import { useNavigate } from "react-router";
+import { Popover, Typography } from "@mui/material";
 
 const StyledModal = styled.div`
   border-radius: 10px;
@@ -163,6 +164,16 @@ const PostReadModal = ({
     // comments = [],
   } = responseData || {};
 
+  const [anchorEL, setAnchorEL] = useState(null);
+
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    setAnchorEL(e.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEL(null);
+  };
+
   // 별점 불러오기
   const clicked = new Array(5).fill(true, 0, star);
 
@@ -198,6 +209,28 @@ const PostReadModal = ({
     setIsLiked(!isLiked);
   };
 
+  // popover styling
+  const PopoverStyle = {
+    zIndex: 10000,
+    top: "10px",
+  };
+
+  const PopoverTStyle = {
+    backgroundColor: "#e1e1e1",
+    fontSize: "15px",
+  };
+
+  const PopoverBtnStyle = {
+    backgroundColor: "#874356",
+    color: "#ffffff",
+    border: "none",
+    marginLeft: "5px",
+    borderRadius: "30px",
+    cursor: "pointer",
+    width: "40px",
+    height: "20px",
+  };
+
   return (
     <StyledModal>
       <span
@@ -225,7 +258,25 @@ const PostReadModal = ({
               </StyledInfo>
               <div>
                 <button onClick={handleEdit}>수정</button>
-                <button onClick={handleDelete}>삭제</button>
+                <button onClick={handleClick}>삭제</button>
+                <Popover
+                  open={Boolean(anchorEL)}
+                  onClose={handleClose}
+                  anchorEl={anchorEL}
+                  anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+                  transformOrigin={{ vertical: "top", horizontal: "center" }}
+                  style={PopoverStyle}
+                >
+                  <Typography variant="body2" p={3} style={PopoverTStyle}>
+                    정말 삭제하시겠습니까?
+                    <button style={PopoverBtnStyle} onClick={handleDelete}>
+                      Yes
+                    </button>
+                    <button style={PopoverBtnStyle} onClick={handleClose}>
+                      No
+                    </button>
+                  </Typography>
+                </Popover>
                 <button onClick={handleUrl}>url 복사</button>
                 <button onClick={handleMatPlace}>맛 플레이스로 이동</button>
               </div>
