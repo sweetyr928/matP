@@ -53,11 +53,11 @@ export const updateMyData = async (
   return response.data;
 };
 
-export const getMyFollowings = async (): Promise<FollowData> => {
-  const response = await axios.get<FollowData>("http://localhost:3001/membersfollowings");
+export const getMyFollowings = async (): Promise<FollowData[]> => {
+  const response = await axios.get<FollowData[]>("http://localhost:3001/membersfollowings");
   return response.data;
 };
-export const getMyFollowers = async (): Promise<FollowData> => {
-  const response = await axios.get<FollowData>("http://localhost:3001/membersfollowers");
+export const getMyFollowers = async (): Promise<FollowData[]> => {
+  const response = await axios.get<FollowData[]>("http://localhost:3001/membersfollowers");
   return response.data;
 };
