@@ -9,7 +9,7 @@ import useAxios from "../../utils/useAxios";
 const StyledComment = styled.div`
   display: flex;
   flex-direction: column;
-  border-bottom: 1.4px solid #a19e9e;
+  border-bottom: 1.4px solid #dcdcdc;
   margin: 0px 0px 5px 0px;
 `;
 
@@ -60,6 +60,7 @@ const StyledEdit = styled.div`
     width: 1080px;
     line-height: 25px;
     border: none;
+    border-bottom: 1px solid;
     font-size: 15px;
     color: #373737;
     font-size: 1rem;
