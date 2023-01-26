@@ -31,7 +31,6 @@ public class JwtAuthenticationFilter implements WebFilter {
         log.info("This is filter in JwtAuthenticationFilter!!!!");
 
         String token = resolveToken(exchange.getRequest());
-        log.info("Token: {}", token);
 
         if (StringUtils.hasText(token) && provider.validateToken(token)) {
             log.info("Authentication Success!!");

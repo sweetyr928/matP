@@ -18,9 +18,9 @@ import java.time.LocalDateTime;
 public class Follow {
     @Id private Long id;
 
-    @Setter private String followerEmail;
+    @Setter private Long followerId;
 
-    @Setter private String followingEmail;
+    @Setter private Long followingId;
 
     @CreatedDate
     private LocalDateTime createdAt;
@@ -28,13 +28,13 @@ public class Follow {
     @LastModifiedDate
     private LocalDateTime modifiedAt;
 
-    private Follow(String followerEmail, String followingEmail) {
-        this.followerEmail = followerEmail;
-        this.followingEmail = followingEmail;
+    private Follow(Long followerId, Long followingId) {
+        this.followerId = followerId;
+        this.followingId = followingId;
     }
 
-    public static Follow of(String followerEmail, String followingEmail) {
-        return new Follow(followerEmail, followingEmail);
+    public static Follow of(Long followerId, Long followingId) {
+        return new Follow(followerId, followingId);
     }
 
 }

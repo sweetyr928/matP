@@ -21,12 +21,11 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class MemberService {
     private final MemberRepository memberRepository;
-    private final FollowService followService;
     private final MemberCustomRepository memberCustomRepository;
 
     @Transactional(readOnly = true)
     public Flux<MemberResponse> findAllWithInfo() {
-        return memberCustomRepository.findWithFollow();
+        return memberCustomRepository.findWithInfo();
     }
 
     @Transactional(readOnly = true)
@@ -56,8 +55,6 @@ public class MemberService {
 
     @Transactional
     public Mono<MemberDto> saveMember(String email, String nickname, String birthday, String profileUrl, Integer gender, String registrationId) {
-        log.info("This is saveMember in MemberService!!!!");
-
         Member member = Member.of(email, nickname, birthday, profileUrl, gender, registrationId);
         Mono<Member> savedMember = memberRepository.save(member);
 
@@ -72,8 +69,8 @@ public class MemberService {
     }
 
     @Transactional
-    public Mono<MemberResponse> updateMember(String email, MemberPatchDto request) {
-        return memberRepository.findByEmail(email)
+    public Mono<MemberResponse> updateMember(Long id, MemberPatchDto request) {
+        return memberRepository.findById(id)
                 .flatMap(member -> {
                     if (request.nickname() != null) member.setNickname(request.nickname());
                     if (request.profileUrl() != null) member.setProfileUrl(request.profileUrl());
@@ -83,30 +80,6 @@ public class MemberService {
                 })
                 .map(MemberDto::from)
                 .map(MemberResponse::from);
-    }
-
-    @Transactional
-    public Mono<Void> postFollow(String email, Long followingId) {
-        return getMemberEmail(followingId)
-                .flatMap(followingEmail -> {
-                    return followService.post(email, followingEmail);
-                });
-    }
-
-    @Transactional
-    public Mono<Void> cancelFollow(String email, Long followingId) {
-        return getMemberEmail(followingId)
-                .flatMap(followingEmail -> {
-                    return followService.cancel(email, followingEmail);
-                });
-    }
-
-    public Flux<FollowResponseWithInfo> checkFollowing(String email) {
-        return followService.findFollowingByFollowerEmail(email);
-    }
-
-    public Flux<FollowResponseWithInfo> checkFollower(String email) {
-        return followService.findFollowerByFollowingEmail(email);
     }
 
     @Transactional(readOnly = true)

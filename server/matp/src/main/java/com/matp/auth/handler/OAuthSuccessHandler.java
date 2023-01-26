@@ -23,7 +23,6 @@ import java.util.Date;
 /**
  * 로그인 성공시 호출되며 jwt 생성 후 지정된 경로로 리다이렉트
  */
-@Slf4j
 public class OAuthSuccessHandler implements ServerAuthenticationSuccessHandler {
     private URI location = URI.create("/");
     private final ServerRequestCache requestCache = new WebSessionServerRequestCache();
@@ -43,9 +42,6 @@ public class OAuthSuccessHandler implements ServerAuthenticationSuccessHandler {
 
         String accessToken = delegateAccessToken(principal);
         String refreshToken = delegateRefreshToken(principal);
-
-        log.info("accessToken: {}", accessToken);
-        log.info("refreshToken: {}", refreshToken);
 
         location = createUri(accessToken, refreshToken);
 
@@ -73,7 +69,7 @@ public class OAuthSuccessHandler implements ServerAuthenticationSuccessHandler {
                 .newInstance()
                 .scheme("http")
                 .host("localhost")
-                .path("/token")
+                .path("/")
                 .queryParams(queryParams)
                 .build()
                 .toUri();

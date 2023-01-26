@@ -4,12 +4,10 @@ package com.matp.post.service;
 import com.matp.comment.dto.MultiResponseDto;
 import com.matp.comment.service.CommentService;
 import com.matp.post.dto.*;
-import com.matp.post.dto.testdto.PostMemberInfo;
+import com.matp.post.dto.PostMemberInfo;
 import com.matp.post.entity.Post;
 import com.matp.post.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.relational.core.sql.LockMode;
-import org.springframework.data.relational.repository.Lock;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Flux;
@@ -43,7 +41,7 @@ public class PostService {
      * @author 임준건
      */
     @Transactional(readOnly = true)
-    public Mono<MultiResponseDto> getPost(Long postId,Long memberId) {
+    public Mono<MultiResponseDto> getPost(Long postId, Long memberId) {
         // TODO Member 토큰 에서 memberID 뽑아서 넘겨줘야함 .
         //  좋아요 post 조회시에 체킹유무까지 넘겨줘야함
         return postRepository.findPostWithMemberInfo(postId)
@@ -64,6 +62,7 @@ public class PostService {
                             .likes(result.likes())
                             .thumbnailUrl(result.thumbnailUrl())
                             .star(result.star())
+                            .placeId(result.placeId())
                             .createdAt(result.createdAt())
                             .modifiedAt(result.modifiedAt())
                             .memberInfo(member)
@@ -102,11 +101,12 @@ public class PostService {
      * @author 임준건
      */
     @Transactional
-    public Mono<PostResponse> save(PostRequest request) {
+    public Mono<PostResponse> save(PostRequest request,Long placeId) {
 
         Post Post = request.toEntity();
+        //TODO memberID 넣어야함
         Post.setMemberId(2L);
-
+        Post.setPlaceId(placeId);
         Mono<Post> save = postRepository.save(Post);
 
         return save.map(PostResponse::from);

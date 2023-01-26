@@ -17,9 +17,10 @@ public record PlaceDetailResponseDto(Long id,
                                double starAvg,
                                int[] starCount,
                                int postCount,
+                               boolean isPick,
                                double longitude,
                                double latitude, List<PlaceDetailPostDto> postList) {
-    public static PlaceDetailResponseDto of(Place place, List<PlaceDetailPostDto> postList) {
+    public static PlaceDetailResponseDto of(Place place, List<PlaceDetailPostDto> postList, boolean isPick) {
         Object[] point = Arrays.stream(place.getPoint().substring(6,place.getPoint().length()-1).split(" ")).map(Double::parseDouble).toArray();
         int[] starCount = new int[5];
         postList.stream().forEach(post -> starCount[post.star()-1]++);
@@ -34,6 +35,7 @@ public record PlaceDetailResponseDto(Long id,
                 .roadNameAddress(place.getRoadNameAddress())
                 .name(place.getName())
                 .category(place.getCategory())
+                .isPick(isPick)
                 .longitude((Double) point[0])
                 .latitude((Double) point[1])
                 .postList(postList)
