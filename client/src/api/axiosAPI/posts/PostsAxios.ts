@@ -54,7 +54,7 @@ export const createPost = async (
   profileimg: string,
   title: string,
   content: string,
-  createdat: string,
+  createdAt: string,
   star: number,
   likes: 0,
   thumbnailUrl: string
@@ -64,7 +64,7 @@ export const createPost = async (
     profileimg,
     title,
     content,
-    createdat,
+    createdAt,
     star,
     likes,
     thumbnailUrl,
@@ -75,7 +75,7 @@ export const createPost = async (
 export const updatePost = async (
   title: string,
   content: string,
-  createdat: string,
+  createdAt: string,
   star: number,
   thumbnailUrl: string,
   id: number
@@ -83,7 +83,7 @@ export const updatePost = async (
   const response = await axios.patch(`${url}/placesposts/${id}`, {
     title,
     content,
-    createdat,
+    createdAt,
     star,
     thumbnailUrl,
   });

@@ -16,6 +16,7 @@ import {
   MatPlacePostPage,
   MatPeoplePickerPage,
   NotFoundPage,
+  LoginPage,
 } from "./pages";
 import { RecoilRoot } from "recoil";
 
@@ -59,6 +60,7 @@ function App() {
             <Route path="/people" element={<MatPeople />} />
             <Route path="/matPickers" element={<MatPeoplePickerPage />} />
             <Route path="*" element={<NotFoundPage />} />
+            <Route path="/login" element={<LoginPage />} />
           </Routes>
         </div>
         <HeaderFeedHide visible={visible} setVisibility={setVisibility} />

@@ -1,9 +1,9 @@
 import styled from "styled-components";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import LoginIcon from "@mui/icons-material/Login";
-import { Link } from "react-router-dom";
-import { useCallback, useState } from "react";
-import { LoginModal, ModalPortal } from "./index";
+import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import useAxios from "../hooks/useAxios";
+import { getMyData } from "../api/axiosAPI/members/myPageAPI";
 
 const HeaderContainer = styled.div`
   background-color: #ffffff;
@@ -31,39 +31,47 @@ const IconContainer = styled.div`
   }
 `;
 
-const AccountCircleIconStyled = styled(AccountCircleIcon)`
+const ImgContainer = styled.img`
   color: #505050;
-  transform: scale(1.25);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
 `;
 
 const LogInButton = styled(LoginIcon)`
   color: #505050;
-  transform: scale(1.25);
+  transform: scale(1.5);
 `;
 
 const Header: React.FC = () => {
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const onClickToggleLoginModal = useCallback(() => {
-    setIsModalOpen(!isModalOpen);
-  }, [isModalOpen]);
+  const navigate = useNavigate();
+  const token = localStorage.getItem("Authorization");
+  const [jwtToken, setJwtToken] = useState(token);
+
+  const { responseData: memberData } = useAxios(getMyData);
+  const { profileUrl } = memberData || {};
+
+  useEffect(() => {
+    if (!jwtToken) {
+      setJwtToken(null);
+    }
+    setJwtToken(localStorage.getItem("Authorization"));
+    console.log(jwtToken);
+  }, [token]);
 
   return (
     <HeaderContainer>
-      {/* 나중에 토큰 조건 분기에 따라 로그인 바뀜 */}
-      <IconContainer>
-        <LogInButton onClick={onClickToggleLoginModal} />
-      </IconContainer>
-      {isModalOpen && (
-        <ModalPortal>
-          <LoginModal onClickToggleLoginModal={onClickToggleLoginModal} />
-        </ModalPortal>
-      )}
-
-      {/* <Link to={"/mypage"}>
+      {jwtToken ? (
+        <Link to={"/mypage"}>
+          <IconContainer>
+            <ImgContainer src={profileUrl} alt="프로필 사진" />
+          </IconContainer>
+        </Link>
+      ) : (
         <IconContainer>
-          <AccountCircleIconStyled />
+          <LogInButton onClick={() => navigate("/login")} />
         </IconContainer>
-      </Link> */}
+      )}
     </HeaderContainer>
   );
 };

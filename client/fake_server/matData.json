@@ -56,7 +56,7 @@
       "profileimg": "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg",
       "title": "hello",
       "content": "<p>ggggggg</p>",
-      "createdat": "2023-01-20T13:26:47",
+      "createdAt": "2023-01-20T13:26:47",
       "star": 4,
       "likes": 0
     },
@@ -65,7 +65,7 @@
       "profileimg": "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg",
       "title": "hihi",
       "content": "hhhhhhh",
-      "createdat": "2023-01-20T13:26:47",
+      "createdAt": "2023-01-20T13:26:47",
       "star": 0,
       "likes": 0,
       "id": 2,
@@ -76,7 +76,7 @@
       "profileimg": "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg",
       "title": "hihi",
       "content": "hhhhhhh",
-      "createdat": "2023-01-20T13:26:47",
+      "createdAt": "2023-01-20T13:26:47",
       "star": 0,
       "likes": 0,
       "id": 3,
@@ -87,7 +87,7 @@
       "profileimg": "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg",
       "title": "adsfafsd",
       "content": "<p>afdsfdasasdffa</p>",
-      "createdat": "2023-01-20T13:26:47",
+      "createdAt": "2023-01-20T13:26:47",
       "star": 4,
       "likes": 0,
       "thumbnailUrl": "",
@@ -98,35 +98,35 @@
     {
       "id": 1,
       "commentContent": "와 정말 맛있겠다.",
-      "commentCreatedAt": "2023-01-20T13:26:47",
+      "commentCreatedAt": "2023-01-26T13:26:47",
       "nickname": "nicknick",
       "profileImg": "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg"
     },
     {
       "id": 2,
       "commentContent": "와 정말 맛있겠다.",
-      "commentCreatedAt": "2023-01-20T13:26:47",
+      "commentCreatedAt": "2023-01-26T13:26:47",
       "nickname": "nicknick",
       "profileImg": "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg"
     },
     {
       "id": 3,
       "commentContent": "와 정말 맛있겠다.",
-      "commentCreatedAt": "2023-01-20T13:26:47",
+      "commentCreatedAt": "2023-01-26T13:26:47",
       "nickname": "nicknick",
       "profileImg": "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg"
     },
     {
       "id": 4,
       "commentContent": "와 정말 맛있겠다.",
-      "commentCreatedAt": "2023-01-20T13:26:47",
+      "commentCreatedAt": "2023-01-25T13:26:47",
       "nickname": "nicknick",
       "profileImg": "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg"
     },
     {
       "id": 5,
       "commentContent": "와 정말 맛있겠다.",
-      "commentCreatedAt": "2023-01-20T13:26:47",
+      "commentCreatedAt": "2023-01-26T13:26:47",
       "nickname": "nicknick",
       "profileImg": "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg"
     }

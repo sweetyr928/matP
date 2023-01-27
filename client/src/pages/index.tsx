@@ -9,6 +9,7 @@ import MatPlace from "./MatPlacePage";
 import MatPlacePostPage from "./MatPlacePostPage";
 import MatPeoplePickerPage from "./MatPeoplePickerPage";
 import NotFoundPage from "./NotFoundPage";
+import LoginPage from "./LoginPage";
 
 export {
   Domain,
@@ -22,4 +23,5 @@ export {
   MatPlacePostPage,
   MatPeoplePickerPage,
   NotFoundPage,
+  LoginPage,
 };
