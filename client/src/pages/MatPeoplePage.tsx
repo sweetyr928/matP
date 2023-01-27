@@ -5,7 +5,7 @@ import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
 import HowToRegIcon from "@mui/icons-material/HowToReg";
 import { useState } from "react";
 import useAxios from "../hooks/useAxios";
-import { IPeoplePosts } from "../api/axiosAPI/posts/PostsAxios";
+import { IPosts } from "../api/axiosAPI/posts/PostsAxios";
 import PostRead from "../components/PostRead";
 
 const FeedContainer = styled.div`
@@ -162,12 +162,12 @@ const MatPeople: React.FC = () => {
           </div>
         </TabContainer>
       </ContentContainer>
-      {/* <StyledPosts>
+      <StyledPosts>
         {postInfos &&
-          postInfos.map((post: IPeoplePosts) => (
-            <PostRead key={post.postId} post={post} />
+          postInfos.map((post: IPosts) => (
+            <PostRead key={post.id} post={post} />
           ))}
-      </StyledPosts> */}
+      </StyledPosts>
     </FeedContainer>
   );
 };
