@@ -98,13 +98,7 @@ const StyledContent = styled.div`
   }
 `;
 
-const MatComment = ({
-  singleComment,
-  getAllComment,
-}: {
-  singleComment: IComments;
-  getAllComment: () => void;
-}) => {
+const MatComment = ({ singleComment }: { singleComment: IComments }) => {
   const [isEditing, setIsEditing] = useState<boolean>(false);
   // Comment 객체
   const [newSingleComment, setNewSingleComment] =
@@ -158,7 +152,6 @@ const MatComment = ({
   const handleDelete = () => {
     setDeleteClicked(!deleteClicked);
     deleteC();
-    getAllComment();
   };
 
   // 댓글 수정 input

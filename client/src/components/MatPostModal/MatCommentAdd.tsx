@@ -35,7 +35,7 @@ const StyledComment = styled.div`
   }
 `;
 
-const MatCommentAdd = ({ getAllComment }: { getAllComment: () => void }): JSX.Element => {
+const MatCommentAdd = (): JSX.Element => {
   const [comment, setComment] = useState<string>("");
   const [createdAt, setCreatedAt] = useState<string>("");
 
@@ -62,7 +62,6 @@ const MatCommentAdd = ({ getAllComment }: { getAllComment: () => void }): JSX.El
     if (e.key === "Enter" && comment.length > 0) {
       axiosData();
       setComment("");
-      getAllComment();
     }
   };
 
@@ -72,7 +71,6 @@ const MatCommentAdd = ({ getAllComment }: { getAllComment: () => void }): JSX.El
     if (comment.length > 0) {
       axiosData();
       setComment("");
-      getAllComment();
     }
   };
 

@@ -22,26 +22,16 @@ const StyledCommentList = styled.div`
 `;
 
 const MatCommentList = ({ comments }: { comments: IComments[] }) => {
-  const { axiosData, responseData } = useAxios(getComments, [], false);
-
-  const getAllComment = () => {
-    axiosData();
-  };
-
   return (
     <StyledCommentContainer>
-      <MatCommentAdd getAllComment={getAllComment} />
+      <MatCommentAdd />
       <StyledCommentList>
         {comments &&
           comments
             .slice(0)
             .reverse()
             .map((comment: IComments) => (
-              <MatComment
-                key={comment.CommentId}
-                singleComment={comment}
-                getAllComment={getAllComment}
-              />
+              <MatComment key={comment.CommentId} singleComment={comment} />
             ))}
       </StyledCommentList>
     </StyledCommentContainer>

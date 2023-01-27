@@ -108,34 +108,40 @@ interface ModalDefaultType {
   onClickToggleModal: () => void;
   id: number;
   state: any;
+  placeId: number;
 }
 
 const PostUpdateModal = ({
   onClickToggleModal,
   id,
   state,
+  placeId,
 }: ModalDefaultType) => {
-  // const { id } = useParams();
-
   // 기존 데이터 받아오기
-  const [newTitle, setNewTitle] = useState<string>(state.title);
-  const [htmlContent, setHtmlContent] = useState<string>(state.content);
-  const [clicked, setClicked] = useState<boolean[]>(
-    new Array(5).fill(true, 0, state.star)
+  const [newTitle, setNewTitle] = useState<string>(state.postInfo.title);
+  const [htmlContent, setHtmlContent] = useState<string>(
+    state.postInfo.content
   );
-  const [createdAt, setCreatedAt] = useState<string>(state.createdAt);
+  const [thumbnailUrl, setThumbnailUrl] = useState<string>(
+    state.postInfo.thumbnailUrl
+  );
+  const [clicked, setClicked] = useState<boolean[]>(
+    new Array(5).fill(true, 0, state.postInfo.star)
+  );
   // content에 이미지 포함 여부
-  const [imageContained, setImageContained] = useState<boolean>(false);
+  const [imageContained, setImageContained] = useState<boolean>(true);
+  const [submit, setSubmit] = useState<boolean>(false);
+
   // 단일 post의 thumbnail_url
-  let thumbnailUrl: string = "";
+  let thumbnail: string = state.postInfo.thumbnailUrl;
   // 항상 별이 총 5개(더미 array)
   const array: Array<number> = [0, 1, 2, 3, 4];
 
+  console.log(state);
+
   useEffect(() => {
     getThumbnailUrl();
-    thumbnailUrl.length > 0
-      ? setImageContained(true)
-      : setImageContained(false);
+    thumbnail.length > 0 ? setImageContained(true) : setImageContained(false);
   }, [htmlContent]);
 
   const { axiosData } = useAxios(
@@ -145,6 +151,7 @@ const PostUpdateModal = ({
         htmlContent,
         thumbnailUrl,
         clicked.filter(Boolean).length,
+        placeId,
         id
       ),
     [newTitle, htmlContent, clicked, thumbnailUrl],
@@ -160,9 +167,9 @@ const PostUpdateModal = ({
   const getThumbnailUrl = () => {
     if (htmlContent.indexOf(`<img src="`) > 0) {
       const firstIndex = htmlContent.indexOf(`<img src="`);
-      // 서버 연결 후 ` a`로 변경할 것(MatEditor.tsx 참고)
-      const secondIndex = htmlContent.indexOf('"></p>', firstIndex);
-      thumbnailUrl = htmlContent.slice(firstIndex + 10, secondIndex);
+      const secondIndex = htmlContent.indexOf('" a', firstIndex);
+      thumbnail = htmlContent.slice(firstIndex + 10, secondIndex);
+      setThumbnailUrl(thumbnail);
     }
   };
 
@@ -177,7 +184,15 @@ const PostUpdateModal = ({
       clickStates[i] = i <= index ? true : false;
     }
     setClicked(clickStates);
-    setCreatedAt(new Date().toLocaleString());
+  };
+
+  const handleSubmit = () => {
+    setSubmit(!submit);
+    postSubmit();
+  };
+
+  const postSubmit = () => {
+    axiosData();
   };
 
   return (
@@ -210,7 +225,7 @@ const PostUpdateModal = ({
       </StyledStarsWrapper>
       <div className="buttons">
         <button
-          onClick={axiosData}
+          onClick={handleSubmit}
           className={
             newTitle.length > 0 && htmlContent.length > 0 && imageContained
               ? ""

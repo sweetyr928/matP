@@ -52,8 +52,6 @@ const MatEditor = ({ htmlContent, setHtmlContent }: QuillEditorProps) => {
         // 이미지 url
         url = res.data.data.path;
 
-        console.log(url);
-
         if (QuillRef.current) {
           // 현재 Editor 커서 위치에 서버로부터 전달받은 이미지 url을 이용하여 이미지 태그 추가
           const index = QuillRef.current?.getEditor().getSelection()?.index;

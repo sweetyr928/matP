@@ -1,8 +1,11 @@
 import styled from "styled-components";
 import useAxios from "../../hooks/useAxios";
 import { useState, useCallback, useEffect } from "react";
-import { deletePost } from "../../api/axiosAPI/posts/PostsAxios";
-import { getPlacesPost } from "../../api/axiosAPI/posts/PostsAxios";
+import {
+  deletePost,
+  getPlacesPost,
+  IPlacesPost,
+} from "../../api/axiosAPI/posts/PostsAxios";
 import StarRate from "./StarRate";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -12,7 +15,6 @@ import { useNavigate } from "react-router";
 import { Popover, Typography } from "@mui/material";
 import moment from "moment";
 import "moment/locale/ko";
-import { IPlacesPost } from "../../api/axiosAPI/posts/PostsAxios";
 
 const StyledModal = styled.div`
   border-radius: 10px;
@@ -153,7 +155,11 @@ const PostReadModal = ({
   }, [isOpenUpdateModal]);
 
   // 단일 post 삭제
-  const { axiosData } = useAxios(() => deletePost(id), [deleteClicked], true);
+  const { axiosData } = useAxios(
+    () => deletePost(id, placeId),
+    [deleteClicked],
+    true
+  );
 
   const navigate = useNavigate();
 
@@ -250,6 +256,7 @@ const PostReadModal = ({
           id={id}
           onClickToggleModal={onClickToggleUpdateModal}
           state={responseData}
+          placeId={placeId}
         />
       ) : (
         <StyledDiv>

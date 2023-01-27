@@ -63,10 +63,6 @@ export const createPost = async (
   star: number,
   placeId: number
 ): Promise<void> => {
-  console.log(title);
-  console.log(content);
-  console.log(thumbnailUrl);
-  console.log(star);
   const response = await axios.post(`${url}/places/${placeId}/posts`, {
     title,
     content,
@@ -82,9 +78,10 @@ export const updatePost = async (
   content: string,
   thumbnailUrl: string,
   star: number,
+  placeId: number,
   id: number
 ): Promise<void> => {
-  const response = await axios.patch(`${url}/places/1/posts/${id}`, {
+  const response = await axios.patch(`${url}/places/${placeId}/posts/${id}`, {
     title,
     content,
     thumbnailUrl,
@@ -93,8 +90,11 @@ export const updatePost = async (
   return response.data;
 };
 
-export const deletePost = async (id: number): Promise<void> => {
+export const deletePost = async (
+  id: number,
+  placeId: number
+): Promise<void> => {
   console.log(id);
-  const response = await axios.delete(`${url}/places/1/posts/${id}`);
+  const response = await axios.delete(`${url}/places/${placeId}/posts/${id}`);
   return response.data;
 };
