@@ -6,7 +6,7 @@ const url =
 
 axios.defaults.headers.common[
   "Authorization"
-] = `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMiIsInJvbGVzIjpbeyJhdXRob3JpdHkiOiJST0xFX1VTRVIifV0sImlhdCI6MTY3NDc4MjA0MywiZXhwIjoxNjc0ODE4MDQzfQ.6aL5tqmWzmEdYhQgpMNJ891cqaqE_7TtcURKXzr0n30`;
+] = `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMiIsInJvbGVzIjpbeyJhdXRob3JpdHkiOiJST0xFX1VTRVIifV0sImlhdCI6MTY3NDgwOTI1MywiZXhwIjoxNjc0ODQ1MjUzfQ.s0W3wPzOWP-Ce0rLcZP_YEPSvdsh3DHCkNJxjc5-Sqo`;
 
 export interface IPosts {
   id: number;
@@ -26,7 +26,7 @@ export interface IMemberInfo {
   profileImg: string;
 }
 
-export interface IPlaceInfo {
+export interface IPostInfo {
   id: number;
   title: string;
   content: string;
@@ -36,25 +36,23 @@ export interface IPlaceInfo {
   modifiedAt: string;
   star: number;
   memberInfo: IMemberInfo;
+  placeId: number;
 }
 
-export interface IPlacesPosts {
-  postInfo: IPlaceInfo;
-  comments: Array<IComments>;
+export interface IPlacesPost {
+  postInfo: IPostInfo;
   isLikesCheck: boolean;
+  comments: IComments;
 }
 
 export const getPosts = async () => {
-  const response = await axios.get(`${url}/places/posts?page=0&size=30`, {
-    headers: {
-      Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMiIsInJvbGVzIjpbeyJhdXRob3JpdHkiOiJST0xFX1VTRVIifV0sImlhdCI6MTY3NDc5Mzc4NCwiZXhwIjoxNjc0ODI5Nzg0fQ.rkpSoh8qjbTEZS8al0IRuu_6GPaLAeaa7WUSLSy7Fhc`,
-    },
-  });
+  const response = await axios.get(`${url}/places/posts?page=0&size=30`);
   return response.data;
 };
 
 export const getPlacesPost = async (id: number) => {
-  const response = await axios.get(`${url}/placesposts/${id}`);
+  const response = await axios.get(`${url}/places/1/posts/${id}`);
+  console.log(response.data);
   return response.data;
 };
 
@@ -68,7 +66,7 @@ export const createPost = async (
   likes: 0,
   thumbnailUrl: string
 ): Promise<void> => {
-  const response = await axios.post(`${url}/placesposts`, {
+  const response = await axios.post(`${url}/places/1/posts`, {
     nickname,
     profileimg,
     title,
@@ -89,7 +87,7 @@ export const updatePost = async (
   thumbnailUrl: string,
   id: number
 ): Promise<void> => {
-  const response = await axios.patch(`${url}/placesposts/${id}`, {
+  const response = await axios.patch(`${url}/places/1/posts/${id}`, {
     title,
     content,
     createdat,
@@ -100,6 +98,6 @@ export const updatePost = async (
 };
 
 export const deletePost = async (id: number): Promise<void> => {
-  const response = await axios.delete(`${url}/placesposts/${id}`);
+  const response = await axios.delete(`${url}/places/1/posts/${id}`);
   return response.data;
 };

@@ -39,7 +39,10 @@ const Domain: React.FC = () => {
     <StyledFeed>
       <h1>오늘의 맛 Post</h1>
       <StyledPosts>
-        {responseData && responseData.map((post: IPosts) => <PostRead key={post.id} post={post} />)}
+        {responseData &&
+          responseData.map((post: IPosts) => (
+            <PostRead key={post.id} post={post} />
+          ))}
       </StyledPosts>
     </StyledFeed>
   );
