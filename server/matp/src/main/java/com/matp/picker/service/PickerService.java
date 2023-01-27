@@ -1,5 +1,9 @@
 package com.matp.picker.service;
 
+import com.matp.exception.CustomErrorCode;
+import com.matp.exception.CustomException;
+import com.matp.group.entity.Group;
+import com.matp.group.repository.GroupRepository;
 import com.matp.picker.dto.PickerResponseDto;
 import com.matp.picker.entity.Picker;
 import com.matp.picker.repository.PickerRepository;
@@ -8,7 +12,6 @@ import com.matp.place.service.PlaceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
@@ -19,6 +22,7 @@ import java.util.List;
 public class PickerService {
     private final PickerRepository pickerRepository;
     private final PlaceService placeService;
+    private final GroupRepository groupRepository;
 
     @Transactional
     public Mono<PickerResponseDto> pickPlace(long placeId, long pickerGroupId, long memberId) {
@@ -49,8 +53,13 @@ public class PickerService {
     }
 
     @Transactional(readOnly = true)
-    public Flux<PlaceResponseDto> findPickersByGroup(long pickerGroupId, long memberId) {
-        return pickerRepository.findByPickerGroupId(pickerGroupId)
-                .concatMap(picker -> placeService.findByPlaceId(picker.getPlaceId()));
+    public Mono<List<PlaceResponseDto>> findPickersByGroup(long pickerGroupId, long memberId) {
+        return groupRepository.findById(pickerGroupId)
+                .map(Group::getMemberId)
+                .flatMap(isPick -> {
+                    if (isPick != memberId) return Mono.error(new CustomException(CustomErrorCode.NOT_ALLOWED_MEMBER_ID));
+                    return pickerRepository.findByPickerGroupId(pickerGroupId)
+                            .concatMap(picker -> placeService.findByPlaceId(picker.getPlaceId())).collectList();
+                }).switchIfEmpty(Mono.error(new CustomException(CustomErrorCode.GROUP_NOT_FOUND)));
     }
 }
