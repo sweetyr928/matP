@@ -12,11 +12,6 @@ const ImgWrapper = styled.div`
   height: 130px;
   position: relative;
 
-  .post_thumbnail {
-    width: 100%;
-    height: 100%;
-  }
-
   .likes_on {
     position: absolute;
     top: 45%;
@@ -28,26 +23,32 @@ const ImgWrapper = styled.div`
     color: #ffffff;
     font-weight: 700;
     display: none;
+    user-select: none;
   }
 
   &:hover .likes_on {
     display: block;
   }
 
+  &:hover .post_thumbnail {
+    filter: brightness(0.5);
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    vertical-align: middle;
+  }
+
+  .post_thumbnail {
+    width: 100%;
+    height: 100%;
+  }
+
   .heartIcon {
     width: 16px;
     height: 12px;
-  }
-`;
-
-const PostImg = styled.img`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  vertical-align: middle;
-
-  &:hover {
-    filter: brightness(0.5);
   }
 `;
 
@@ -80,7 +81,7 @@ const PostRead = ({ post }: { post: IPosts }) => {
           {post.likes}
         </p>
         <div className="post_thumbnail">
-          <PostImg src={post.thumbnailUrl} alt="thumbnail" />
+          <img src={post.thumbnailUrl} alt="thumbnail" />
         </div>
       </ImgWrapper>
       {isOpenModal === true ? (
