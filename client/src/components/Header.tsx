@@ -2,8 +2,7 @@ import styled from "styled-components";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import LoginIcon from "@mui/icons-material/Login";
 import { Link, useNavigate } from "react-router-dom";
-import { useCallback, useState } from "react";
-import { ModalPortal } from "./index";
+import { useEffect, useState } from "react";
 
 const HeaderContainer = styled.div`
   background-color: #ffffff;
@@ -43,11 +42,19 @@ const LogInButton = styled(LoginIcon)`
 
 const Header: React.FC = () => {
   const navigate = useNavigate();
-  const jwtToken = localStorage.getItem("Authorization");
+  const token = localStorage.getItem("Authorization");
+  const [jwtToken, setJwtToken] = useState(token);
+
+  useEffect(() => {
+    if (!jwtToken) {
+      setJwtToken(null);
+    }
+    setJwtToken(localStorage.getItem("Authorization"));
+    console.log(jwtToken);
+  }, [token]);
 
   return (
     <HeaderContainer>
-      {/* 나중에 토큰 조건 분기에 따라 로그인 바뀜 */}
       {jwtToken ? (
         <Link to={"/mypage"}>
           <IconContainer>

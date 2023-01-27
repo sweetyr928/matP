@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import kakaoLogo from "../assets/images/kakaoLogo.svg";
 import googleLogo from "../assets/images/googleLogo.svg";
+import { useNavigate } from "react-router";
 
 const StyledFeed = styled.div`
   height: 100%;
