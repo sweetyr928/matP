@@ -69,6 +69,7 @@ public record PlaceDetailResponseDto(Long id,
                 .name(place.getName())
                 .category(place.getCategory())
                 .isPick(isPick)
+                .groupImgIndex(4)
                 .longitude((Double) point[0])
                 .latitude((Double) point[1])
                 .posts(posts)
