@@ -1,7 +1,6 @@
 import styled from "styled-components";
-import useAxios from "../hooks/useAxios";
-import { getPickers } from "../api/axiosAPI/groups/PickersAxios";
 import MatPeoplePickersItem from "../components/MatPeoplePickersItem";
+import { useLocation } from "react-router";
 
 const MatPeoplePickerWrapper = styled.div`
   height: 100%;
@@ -38,14 +37,15 @@ const StyledMatPickers = styled.div`
 `;
 
 const MatPeoplePicker: React.FC = () => {
-  const { responseData } = useAxios(getPickers, [], false);
+  // navigate로 컴포넌트 이동 후 받아온 props
+  const { state } = useLocation();
 
   return (
     <MatPeoplePickerWrapper>
       <h1>맛픽커즈</h1>
       <StyledMatPickers>
-        {responseData &&
-          responseData.map((picker: any) => (
+        {state &&
+          state.map((picker: any) => (
             <MatPeoplePickersItem key={picker.id} picker={picker} />
           ))}
       </StyledMatPickers>

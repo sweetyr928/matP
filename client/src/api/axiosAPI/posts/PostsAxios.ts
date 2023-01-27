@@ -1,7 +1,12 @@
 import axios from "axios";
 import type { IComments } from "../comments/commentsAxios";
 
-const url = "http://localhost:3001";
+const url =
+  "http://ec2-15-165-163-251.ap-northeast-2.compute.amazonaws.com:8080";
+
+axios.defaults.headers.common[
+  "Authorization"
+] = `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMiIsInJvbGVzIjpbeyJhdXRob3JpdHkiOiJST0xFX1VTRVIifV0sImlhdCI6MTY3NDc4MjA0MywiZXhwIjoxNjc0ODE4MDQzfQ.6aL5tqmWzmEdYhQgpMNJ891cqaqE_7TtcURKXzr0n30`;
 
 export interface IPosts {
   id: number;
@@ -40,7 +45,11 @@ export interface IPlacesPosts {
 }
 
 export const getPosts = async () => {
-  const response = await axios.get(`${url}/posts`);
+  const response = await axios.get(`${url}/places/posts?page=0&size=30`, {
+    headers: {
+      Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMiIsInJvbGVzIjpbeyJhdXRob3JpdHkiOiJST0xFX1VTRVIifV0sImlhdCI6MTY3NDc5Mzc4NCwiZXhwIjoxNjc0ODI5Nzg0fQ.rkpSoh8qjbTEZS8al0IRuu_6GPaLAeaa7WUSLSy7Fhc`,
+    },
+  });
   return response.data;
 };
 

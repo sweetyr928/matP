@@ -5,6 +5,8 @@ import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
 import HowToRegIcon from "@mui/icons-material/HowToReg";
 import { useState } from "react";
 import useAxios from "../hooks/useAxios";
+import { IPeoplePosts } from "../api/axiosAPI/posts/PostsAxios";
+import PostRead from "../components/PostRead";
 
 const FeedContainer = styled.div`
   height: 100%;
@@ -99,22 +101,34 @@ const TabContainer = styled.div`
   }
 `;
 
+const StyledPosts = styled.div`
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  grid-gap: 4px;
+  margin: 0px 0px 0px 0px;
+`;
+
 const MatPeople: React.FC = () => {
   const navigate = useNavigate();
   const onClickTab = () => {
-    navigate("/matPickers");
+    navigate("/matPickers", { state: pickerGroupInfos });
   };
 
   const [isFollowing, setIsFollowing] = useState<boolean>(false);
 
-  const { responseData } = useAxios(getMatPeople, [], false);
+  const { responseData } = useAxios(() => getMatPeople(10), [], false);
+
+  console.log(responseData);
 
   const {
     nickname = "",
-    profileImg = "",
+    profileUrl = "",
     memo = "",
     followers = "",
     followings = "",
+    postInfos = [],
+    pickerGroupInfos = [],
   } = responseData || {};
 
   const handleFollow = () => {
@@ -124,7 +138,7 @@ const MatPeople: React.FC = () => {
   return (
     <FeedContainer>
       <div className="userInfo_header_container">
-        <UserImg src={profileImg} alt="프로필사진" />
+        <UserImg src={profileUrl} alt="프로필사진" />
         <UserInfo>
           <div className="matPeople_follow">
             <UserNickname>{nickname}</UserNickname>
@@ -148,6 +162,12 @@ const MatPeople: React.FC = () => {
           </div>
         </TabContainer>
       </ContentContainer>
+      {/* <StyledPosts>
+        {postInfos &&
+          postInfos.map((post: IPeoplePosts) => (
+            <PostRead key={post.postId} post={post} />
+          ))}
+      </StyledPosts> */}
     </FeedContainer>
   );
 };
