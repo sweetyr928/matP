@@ -45,35 +45,37 @@ const LogInButton = styled(LoginIcon)`
 
 const Header: React.FC = () => {
   const navigate = useNavigate();
-  const token = localStorage.getItem("Authorization");
-  const [jwtToken, setJwtToken] = useState(token);
+  const [jwtToken, setJwtToken] = useState(localStorage.getItem("Authorization"));
 
-  const { responseData: memberData } = useAxios(getMyData);
-  const { profileUrl } = memberData || {};
+  if (jwtToken) {
+    const { responseData: memberData } = useAxios(getMyData);
+    const { profileUrl } = memberData || {};
 
-  useEffect(() => {
-    if (!jwtToken) {
-      setJwtToken(null);
-    }
-    setJwtToken(localStorage.getItem("Authorization"));
-    console.log(jwtToken);
-  }, [token]);
+    useEffect(() => {
+      if (!jwtToken) {
+        setJwtToken(null);
+      }
+      setJwtToken(localStorage.getItem("Authorization"));
+    }, [jwtToken]);
 
-  return (
-    <HeaderContainer>
-      {jwtToken ? (
+    return (
+      <HeaderContainer>
         <Link to={"/mypage"}>
           <IconContainer>
             <ImgContainer src={profileUrl} alt="프로필 사진" />
           </IconContainer>
         </Link>
-      ) : (
+      </HeaderContainer>
+    );
+  } else {
+    return (
+      <HeaderContainer>
         <IconContainer>
           <LogInButton onClick={() => navigate("/login")} />
         </IconContainer>
-      )}
-    </HeaderContainer>
-  );
+      </HeaderContainer>
+    );
+  }
 };
 
 export default Header;

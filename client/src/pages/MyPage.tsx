@@ -9,6 +9,7 @@ import {
   getMyData,
   getMyFollowings,
   getMyFollowers,
+  convertImageUrl,
 } from "../api/axiosAPI/members/myPageAPI";
 import { ModalPortal } from "../components";
 import axios from "axios";
@@ -301,25 +302,25 @@ const MyPage: React.FC = () => {
 
   const [revisedName, setRevisedName] = useState(nickname);
   const [revisedMemo, setRevisedMemo] = useState(memo);
-  const [image, setImage] = useState(profileUrl);
+  const [revisedImage, setRevisedImage] = useState(profileUrl);
   // 프로필 이미지 수정을 위한 ref
   const fileInput = useRef<HTMLInputElement>(null);
 
   const { axiosData: updateAxios } = useAxios(
-    () => updateMyData(revisedName, image, revisedMemo),
-    [revisedName, image, revisedMemo],
+    () => updateMyData(revisedName, revisedImage, revisedMemo),
+    [revisedName, revisedImage, revisedMemo],
     true
   );
 
   useEffect(() => {
     getAxios();
-  }, [revisedName, image, revisedMemo]);
+  }, [revisedName, revisedImage, revisedMemo]);
 
   const onClickToggleEditModal = () => {
     setOpenEditModal(!isOpenEditModal);
     setRevisedName(nickname);
     setRevisedMemo(memo);
-    setImage(image);
+    setRevisedImage(revisedImage);
   };
 
   const onClickToggleFollowingModal = () => {
@@ -342,16 +343,14 @@ const MyPage: React.FC = () => {
 
   // image uploader
   const onChangeImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    const uploadFile = e.target.files[0];
     const formData = new FormData();
-    formData.append("multipartFiles", e.target.files[0]);
-    const response = await axios.post("서버 배포 url/endpoint", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
+    formData.append("file", uploadFile);
+    const responseUrl = await convertImageUrl(formData);
     // response 형태에 맞추어 변경
-    setImage(response.data.path);
-    // setImage(response.data.url);
+    console.log(responseUrl);
+    setRevisedImage(responseUrl);
   };
 
   const onChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -369,6 +368,7 @@ const MyPage: React.FC = () => {
   const logoutHandler = () => {
     localStorage.removeItem("Authorization");
     navigate("/");
+    window.location.reload();
   };
 
   return (
@@ -434,7 +434,11 @@ const MyPage: React.FC = () => {
             <ModalView>
               <Header>정보 수정하기</Header>
               <div>
-                <EditUserImg src={profileUrl} alt="프로필 사진" onClick={onClickImg} />
+                <EditUserImg
+                  src={revisedImage || profileUrl}
+                  alt="프로필 사진"
+                  onClick={onClickImg}
+                />
                 <input
                   type="file"
                   accept="image/jpg,impge/png,image/jpeg"
@@ -444,8 +448,8 @@ const MyPage: React.FC = () => {
                   ref={fileInput}
                 />
               </div>
-              <Input type="text" value={revisedName} onChange={onChangeName}></Input>
-              <Input type="text" value={revisedMemo} onChange={onChangeMemo}></Input>
+              <Input type="text" value={revisedName || ""} onChange={onChangeName}></Input>
+              <Input type="text" value={revisedMemo || ""} onChange={onChangeMemo}></Input>
               <div className="button_container">
                 <ModalBtn onClick={onRevise}>제출</ModalBtn>
                 <ModalBtn onClick={onClickToggleEditModal}>취소</ModalBtn>
