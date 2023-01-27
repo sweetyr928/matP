@@ -1,8 +1,6 @@
 import styled from "styled-components";
 import kakaoLogo from "../assets/images/kakaoLogo.svg";
 import googleLogo from "../assets/images/googleLogo.svg";
-import { useLocation, useSearchParams } from "react-router-dom";
-import { useEffect } from "react";
 
 const StyledFeed = styled.div`
   height: 100%;
