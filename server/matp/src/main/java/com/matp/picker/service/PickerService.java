@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class PickerService {
@@ -26,7 +28,7 @@ public class PickerService {
     }
 
     @Transactional(readOnly = true)
-    public Mono<PickerResponseDto> isPick(long placeId, long memberId) {
-        return pickerRepository.findByIds(placeId, memberId).map(PickerResponseDto::of);
+    public Mono<List<Picker>> findPickers(long placeId) {
+        return pickerRepository.findByPlaceId(placeId).collectList();
     }
 }
