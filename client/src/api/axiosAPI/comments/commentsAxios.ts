@@ -1,10 +1,15 @@
 import axios from "axios";
-const url = "http://localhost:3001";
+import { IMemberInfo } from "../posts/PostsAxios";
+
+const url =
+  "http://ec2-15-165-163-251.ap-northeast-2.compute.amazonaws.com:8080";
+axios.defaults.headers.common[
+  "Authorization"
+] = `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMiIsInJvbGVzIjpbeyJhdXRob3JpdHkiOiJST0xFX1VTRVIifV0sImlhdCI6MTY3NDgxOTUxNywiZXhwIjoxNjc0ODU1NTE3fQ.vM6laZOP4lB_ZMg9M7sgqqwsIlNvHH-KS5gzuF4v-oQ`;
 
 export interface IComments {
-  id: number;
-  nickname: string;
-  profileImg: string;
+  CommentId: number;
+  memberInfo: IMemberInfo;
   commentContent: string;
   commentCreatedAt: string;
 }

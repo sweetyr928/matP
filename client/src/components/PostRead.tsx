@@ -5,7 +5,8 @@ import styled from "styled-components";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useState, useCallback } from "react";
 import { MatPostRead, ModalPortal } from ".";
-import { IPosts } from "../api/axiosAPI/posts/PostsAxios";
+import { IPosts, getPlacesPost } from "../api/axiosAPI/posts/PostsAxios";
+import useAxios from "../hooks/useAxios";
 
 const ImgWrapper = styled.div`
   width: 130px;
@@ -68,6 +69,18 @@ const ModalBackdrop = styled.div`
 
 const PostRead = ({ post }: { post: IPosts }) => {
   const [isOpenModal, setOpenModal] = useState<boolean>(false);
+  const [selectedPost, setSelectedPost] = useState<number>(1);
+
+  const { responseData } = useAxios(
+    () => getPlacesPost(selectedPost),
+    [selectedPost],
+    false
+  );
+
+  const handleClick = () => {
+    setSelectedPost(post.id);
+    onClickToggleModal();
+  };
 
   const onClickToggleModal = useCallback(() => {
     setOpenModal(!isOpenModal);
@@ -75,7 +88,7 @@ const PostRead = ({ post }: { post: IPosts }) => {
 
   return (
     <>
-      <ImgWrapper onClick={onClickToggleModal}>
+      <ImgWrapper onClick={handleClick}>
         <p className="likes_on">
           <FavoriteIcon className="heartIcon" />
           {post.likes}
@@ -88,7 +101,8 @@ const PostRead = ({ post }: { post: IPosts }) => {
         <ModalPortal>
           <MatPostRead
             onClickToggleModal={onClickToggleModal}
-            postId={post.id}
+            id={post.id}
+            responseData={responseData}
           />
           <ModalBackdrop onClick={onClickToggleModal} />
         </ModalPortal>

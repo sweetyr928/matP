@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import useAxios from "../../hooks/useAxios";
 import { useState, useCallback, useEffect } from "react";
-import { getPlacesPost, deletePost } from "../../api/axiosAPI/posts/PostsAxios";
+import { deletePost } from "../../api/axiosAPI/posts/PostsAxios";
+import { getPlacesPost } from "../../api/axiosAPI/posts/PostsAxios";
 import StarRate from "./StarRate";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -11,6 +12,7 @@ import { useNavigate } from "react-router";
 import { Popover, Typography } from "@mui/material";
 import moment from "moment";
 import "moment/locale/ko";
+import { IPlacesPost } from "../../api/axiosAPI/posts/PostsAxios";
 
 const StyledModal = styled.div`
   border-radius: 10px;
@@ -129,12 +131,14 @@ const StyledStar = styled.div`
 // 모달 토글 버튼 연결 (타입 지정)
 interface ModalDefaultType {
   onClickToggleModal: () => void;
-  postId: number;
+  id: number;
+  responseData: IPlacesPost;
 }
 
 const PostReadModal = ({
   onClickToggleModal,
-  postId,
+  id,
+  responseData,
 }: ModalDefaultType): JSX.Element => {
   const [isOpenUpdateModal, setOpenUpdateModal] = useState<boolean>(false);
   const [isLiked, setIsLiked] = useState<boolean>(false);
@@ -148,19 +152,8 @@ const PostReadModal = ({
     setOpenUpdateModal(!isOpenUpdateModal);
   }, [isOpenUpdateModal]);
 
-  // 단일 post data GET
-  const { responseData } = useAxios(
-    () => getPlacesPost(postId),
-    [postId],
-    false
-  );
-
   // 단일 post 삭제
-  const { axiosData } = useAxios(
-    () => deletePost(postId),
-    [deleteClicked],
-    true
-  );
+  const { axiosData } = useAxios(() => deletePost(id), [deleteClicked], true);
 
   const navigate = useNavigate();
 
@@ -168,7 +161,6 @@ const PostReadModal = ({
     responseData.postInfo.memberInfo || {};
 
   const {
-    id = 0,
     title = "",
     content = "",
     likes = 0,
@@ -177,8 +169,6 @@ const PostReadModal = ({
     star = 0,
     placeId = 0,
   } = responseData.postInfo || {};
-
-  const { comments = [], isLikesCheck = false } = responseData || {};
 
   // 별점 불러오기
   const clicked = new Array(5).fill(true, 0, star);
@@ -245,6 +235,8 @@ const PostReadModal = ({
     width: "40px",
     height: "20px",
   };
+
+  console.log(responseData.comments);
 
   return (
     <StyledModal>
@@ -320,7 +312,7 @@ const PostReadModal = ({
             {isLiked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
           </div>
           {/* 서버 연결 이후 Props로 해당 Post의 comment list 넘겨주기 */}
-          <MatCommentList />
+          <MatCommentList comments={responseData.comments} />
         </StyledDiv>
       )}
     </StyledModal>

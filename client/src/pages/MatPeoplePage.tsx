@@ -119,8 +119,6 @@ const MatPeople: React.FC = () => {
 
   const { responseData } = useAxios(() => getMatPeople(10), [], false);
 
-  console.log(responseData);
-
   const {
     nickname = "",
     profileUrl = "",

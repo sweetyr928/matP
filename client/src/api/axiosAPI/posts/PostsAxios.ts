@@ -6,7 +6,7 @@ const url =
 
 axios.defaults.headers.common[
   "Authorization"
-] = `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMiIsInJvbGVzIjpbeyJhdXRob3JpdHkiOiJST0xFX1VTRVIifV0sImlhdCI6MTY3NDgwOTI1MywiZXhwIjoxNjc0ODQ1MjUzfQ.s0W3wPzOWP-Ce0rLcZP_YEPSvdsh3DHCkNJxjc5-Sqo`;
+] = `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMiIsInJvbGVzIjpbeyJhdXRob3JpdHkiOiJST0xFX1VTRVIifV0sImlhdCI6MTY3NDgxOTUxNywiZXhwIjoxNjc0ODU1NTE3fQ.vM6laZOP4lB_ZMg9M7sgqqwsIlNvHH-KS5gzuF4v-oQ`;
 
 export interface IPosts {
   id: number;
@@ -42,7 +42,7 @@ export interface IPostInfo {
 export interface IPlacesPost {
   postInfo: IPostInfo;
   isLikesCheck: boolean;
-  comments: IComments;
+  comments: IComments[];
 }
 
 export const getPosts = async () => {
@@ -52,7 +52,6 @@ export const getPosts = async () => {
 
 export const getPlacesPost = async (id: number) => {
   const response = await axios.get(`${url}/places/1/posts/${id}`);
-  console.log(response.data);
   return response.data;
 };
 

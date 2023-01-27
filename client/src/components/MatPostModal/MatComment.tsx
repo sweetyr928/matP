@@ -1,6 +1,10 @@
 import styled from "styled-components";
 import { useState } from "react";
-import { updateComment, deleteComment, IComments } from "../../api/axiosAPI/comments/commentsAxios";
+import {
+  updateComment,
+  deleteComment,
+  IComments,
+} from "../../api/axiosAPI/comments/commentsAxios";
 import useAxios from "../../hooks/useAxios";
 import { Popover, Typography } from "@mui/material";
 import moment from "moment";
@@ -103,10 +107,15 @@ const MatComment = ({
 }) => {
   const [isEditing, setIsEditing] = useState<boolean>(false);
   // Comment 객체
-  const [newSingleComment, setNewSingleComment] = useState<IComments>(singleComment);
+  const [newSingleComment, setNewSingleComment] =
+    useState<IComments>(singleComment);
   // 새로 바뀐 댓글의 내용
-  const [editedComment, setEditedComment] = useState<string>(singleComment.commentContent);
-  const [createdAt, setCreatedAt] = useState<string>(singleComment.commentCreatedAt);
+  const [editedComment, setEditedComment] = useState<string>(
+    singleComment.commentContent
+  );
+  const [createdAt, setCreatedAt] = useState<string>(
+    singleComment.commentCreatedAt
+  );
   const [deleteClicked, setDeleteClicked] = useState<boolean>(false);
   // popover ref
   const [anchorEL, setAnchorEL] = useState(null);
@@ -118,14 +127,14 @@ const MatComment = ({
         "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg",
         editedComment,
         createdAt,
-        newSingleComment.id
+        newSingleComment.CommentId
       ),
     [editedComment],
     true
   );
 
   const { axiosData: deleteC } = useAxios(
-    () => deleteComment(newSingleComment.id),
+    () => deleteComment(newSingleComment.CommentId),
     [deleteClicked],
     true
   );
@@ -204,8 +213,13 @@ const MatComment = ({
     <StyledComment>
       <StyledDiv>
         <StyledInfo>
-          <img src={newSingleComment.profileImg} alt="profileImg"></img>
-          <div className="comment_nickname">{newSingleComment.nickname}</div>
+          <img
+            src={newSingleComment.memberInfo.profileImg}
+            alt="profileImg"
+          ></img>
+          <div className="comment_nickname">
+            {newSingleComment.memberInfo.nickname}
+          </div>
           <div className="comment_createdAt">
             {moment(createdAt, "YYYY-MM-DDTHH:mm:ss").format("llll")}
           </div>
