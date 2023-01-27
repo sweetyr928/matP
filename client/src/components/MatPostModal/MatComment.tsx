@@ -3,6 +3,8 @@ import { useState } from "react";
 import { updateComment, deleteComment, IComments } from "../../api/axiosAPI/comments/commentsAxios";
 import useAxios from "../../hooks/useAxios";
 import { Popover, Typography } from "@mui/material";
+import moment from "moment";
+import "moment/locale/ko";
 
 const StyledComment = styled.div`
   display: flex;
@@ -31,6 +33,7 @@ const StyledInfo = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  text-align: center;
 
   img {
     width: 20px;
@@ -45,7 +48,8 @@ const StyledInfo = styled.div`
   }
 
   .comment_createdAt {
-    font-size: 15px;
+    font-size: 13.5px;
+    margin: 2.13px 0px 0px 0px;
   }
 `;
 
@@ -126,12 +130,6 @@ const MatComment = ({
     true
   );
 
-  const setDateFormat = (date: string) => {
-    let newStr = date.split(".");
-    newStr = newStr[0].split("T");
-    return newStr.join(" ");
-  };
-
   // 댓글 수정
   const handleEdit = () => {
     setIsEditing(!isEditing);
@@ -209,7 +207,7 @@ const MatComment = ({
           <img src={newSingleComment.profileImg} alt="profileImg"></img>
           <div className="comment_nickname">{newSingleComment.nickname}</div>
           <div className="comment_createdAt">
-            {setDateFormat(newSingleComment.commentCreatedAt)}
+            {moment(createdAt, "YYYY-MM-DDTHH:mm:ss").format("llll")}
           </div>
         </StyledInfo>
         <div>
