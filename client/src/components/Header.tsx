@@ -1,8 +1,9 @@
 import styled from "styled-components";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import LoginIcon from "@mui/icons-material/Login";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import useAxios from "../hooks/useAxios";
+import { getMyData } from "../api/axiosAPI/members/myPageAPI";
 
 const HeaderContainer = styled.div`
   background-color: #ffffff;
@@ -30,20 +31,25 @@ const IconContainer = styled.div`
   }
 `;
 
-const AccountCircleIconStyled = styled(AccountCircleIcon)`
+const ImgContainer = styled.img`
   color: #505050;
-  transform: scale(1.25);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
 `;
 
 const LogInButton = styled(LoginIcon)`
   color: #505050;
-  transform: scale(1.25);
+  transform: scale(1.5);
 `;
 
 const Header: React.FC = () => {
   const navigate = useNavigate();
   const token = localStorage.getItem("Authorization");
   const [jwtToken, setJwtToken] = useState(token);
+
+  const { responseData: memberData } = useAxios(getMyData);
+  const { profileUrl } = memberData || {};
 
   useEffect(() => {
     if (!jwtToken) {
@@ -58,7 +64,7 @@ const Header: React.FC = () => {
       {jwtToken ? (
         <Link to={"/mypage"}>
           <IconContainer>
-            <AccountCircleIconStyled />
+            <ImgContainer src={profileUrl} alt="프로필 사진" />
           </IconContainer>
         </Link>
       ) : (
