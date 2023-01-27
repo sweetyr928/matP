@@ -7,9 +7,8 @@ import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-public interface PlaceRepositiory extends ReactiveCrudRepository<Place, Long> {
-    // SELECT에 추가되야할 내용 - img
-    // 쿼리에 추가되야할 내용 - 탑 15개
+public interface PlaceRepository extends ReactiveCrudRepository<Place, Long> {
+
 
     @Query("""
         SELECT id, tel, address, name, st_astext(point) as point
@@ -46,4 +45,11 @@ public interface PlaceRepositiory extends ReactiveCrudRepository<Place, Long> {
             values(:tel, :address, :roadNameAddress, :name, :category)
             """)
     Mono<PlaceEnrollmentResponse> registerPlaceInfo(String tel, String address, String roadNameAddress, String name, String category);
+
+    @Query("""
+        SELECT id, tel, address, name, st_astext(point) as point
+        FROM place
+        WHERE id = :placeId
+    """)
+    Flux<Place> findByPlaceId(long placeId);
 }

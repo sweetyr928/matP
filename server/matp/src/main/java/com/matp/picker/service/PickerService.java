@@ -3,22 +3,27 @@ package com.matp.picker.service;
 import com.matp.picker.dto.PickerResponseDto;
 import com.matp.picker.entity.Picker;
 import com.matp.picker.repository.PickerRepository;
+import com.matp.place.dto.PlaceResponseDto;
+import com.matp.place.service.PlaceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class PickerService {
     private final PickerRepository pickerRepository;
+    private final PlaceService placeService;
 
     @Transactional
-    public Mono<PickerResponseDto> pickPlace(long placeId, long groupId, long memberId) {
+    public Mono<PickerResponseDto> pickPlace(long placeId, long pickerGroupId, long memberId) {
         return pickerRepository.findByIds(placeId, memberId).map(PickerResponseDto::of)
-                .switchIfEmpty(pickerRepository.save(Picker.of(placeId, groupId, memberId)).map(PickerResponseDto::of));
+                .switchIfEmpty(pickerRepository.save(Picker.of(placeId, pickerGroupId, memberId)).map(PickerResponseDto::of));
     }
 
 
@@ -27,8 +32,25 @@ public class PickerService {
         return pickerRepository.deleteByIds(placeId, memberId);
     }
 
+
+    @Transactional
+    public Mono<PickerResponseDto> updatePickPlace(long placeId, long pickerGroupId, long memberId) {
+        return pickerRepository.findByIds(placeId, memberId).
+                flatMap(picker -> pickerRepository
+                                .save(Picker.builder()
+                                        .id(picker.getId())
+                                        .placeId(placeId)
+                                        .pickerGroupId(pickerGroupId)
+                                        .memberId(memberId)
+                                        .createdAt(picker.getCreatedAt())
+                                        .modifiedAt(LocalDateTime.now())
+                                        .build()))
+                                .map(PickerResponseDto::of);
+    }
+
     @Transactional(readOnly = true)
-    public Mono<List<Picker>> findPickers(long placeId) {
-        return pickerRepository.findByPlaceId(placeId).collectList();
+    public Flux<PlaceResponseDto> findPickersByGroup(long pickerGroupId, long memberId) {
+        return pickerRepository.findByPickerGroupId(pickerGroupId)
+                .concatMap(picker -> placeService.findByPlaceId(picker.getPlaceId()));
     }
 }

@@ -4,12 +4,12 @@ import com.matp.picker.entity.Picker;
 import lombok.Builder;
 
 @Builder
-public record PickerResponseDto(Long id, Long placeId, Long groupId, Long memberId) {
+public record PickerResponseDto(Long id, Long placeId, Long pickerGroupId, Long memberId) {
     public static PickerResponseDto of(Picker picker) {
         return PickerResponseDto.builder()
                 .id(picker.getId())
                 .placeId(picker.getPlaceId())
-                .groupId(picker.getGroupId())
+                .pickerGroupId(picker.getPickerGroupId())
                 .memberId(picker.getMemberId())
                 .build();
     }
