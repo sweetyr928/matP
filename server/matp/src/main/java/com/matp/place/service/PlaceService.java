@@ -2,13 +2,13 @@ package com.matp.place.service;
 
 
 import com.matp.group.service.GroupService;
-import com.matp.picker.service.PickerService;
+import com.matp.picker.repository.PickerRepository;
 import com.matp.place.dto.PlaceDetailResponseDto;
 import com.matp.place.dto.PlaceEnrollmentRequest;
 import com.matp.place.dto.PlaceEnrollmentResponse;
 import com.matp.place.dto.PlaceResponseDto;
 import com.matp.place.entity.Place;
-import com.matp.place.repository.PlaceRepositiory;
+import com.matp.place.repository.PlaceRepository;
 import com.matp.post.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,9 +20,9 @@ import reactor.core.scheduler.Schedulers;
 @Service
 @RequiredArgsConstructor
 public class PlaceService {
-    private final PlaceRepositiory placeRepository;
+    private final PlaceRepository placeRepository;
     private final PostService postService;
-    private final PickerService pickerService;
+    private final PickerRepository pickerRepository;
     private final GroupService groupService;
 
     /**
@@ -62,11 +62,11 @@ public class PlaceService {
                 .publishOn(Schedulers.boundedElastic())
                 .map(place -> {
                     var posts = postService.findPlaceDetailPosts(placeId).block();
-                    var pickers = pickerService.findPickers(placeId).block();
+                    var pickers = pickerRepository.findByPlaceId(placeId).collectList().block();
                     var isPick = pickers.stream().filter(picker -> picker.getMemberId() == memberId).findFirst();
                     System.out.println(isPick.isPresent());
                     if (isPick.isPresent()) {
-                        var group = groupService.findById(isPick.orElseThrow().getGroupId()).block();
+                        var group = groupService.findById(isPick.orElseThrow().getPickerGroupId()).block();
                         return PlaceDetailResponseDto.of(place, posts, pickers, isPick.isPresent(), group);
                     }
                     return PlaceDetailResponseDto.of(place, posts, pickers, isPick.isPresent());
@@ -76,5 +76,10 @@ public class PlaceService {
     public Mono<PlaceEnrollmentResponse> registerPlaceInfo(Mono<PlaceEnrollmentRequest> placeEnrollmentRequest) {
         return placeEnrollmentRequest.map(PlaceEnrollmentRequest::toEntity)
                 .flatMap(place -> placeRepository.registerPlaceInfo(place.getTel(),place.getAddress(),place.getZonecode(),place.getName(),place.getCategory()));
+    }
+
+    @Transactional(readOnly = true)
+    public Flux<PlaceResponseDto> findByPlaceId(long placeId) {
+        return mapping(placeRepository.findByPlaceId(placeId));
     }
 }

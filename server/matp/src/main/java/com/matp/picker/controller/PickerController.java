@@ -1,27 +1,41 @@
 package com.matp.picker.controller;
 
+import com.matp.picker.dto.PickerRequestDto;
 import com.matp.picker.dto.PickerResponseDto;
 import com.matp.picker.service.PickerService;
+import com.matp.place.dto.PlaceResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
-@RequestMapping("/places/{place-id}/pickers")
+@RequestMapping("/pickers")
 @RequiredArgsConstructor
 public class PickerController {
     private final PickerService pickerService;
 
-    @PostMapping("/{group-id}")
-    public Mono<ResponseEntity<PickerResponseDto>> pickPlace(@PathVariable("place-id") long placeId, @PathVariable("group-id") long groupId) {
-        return pickerService.pickPlace(placeId, groupId, 1L)
+    @PostMapping
+    public Mono<ResponseEntity<PickerResponseDto>> pickPlace(@RequestBody PickerRequestDto pickerRequestDto) {
+        return pickerService.pickPlace(pickerRequestDto.placeId(), pickerRequestDto.pickerGroupId(), 4L)
                 .map(response -> new ResponseEntity<>(response, HttpStatus.CREATED));
     }
 
-    @DeleteMapping
+    @PatchMapping
+    public Mono<ResponseEntity<PickerResponseDto>> updatePickPlace(@RequestBody PickerRequestDto pickerRequestDto) {
+        return pickerService.updatePickPlace(pickerRequestDto.placeId(), pickerRequestDto.pickerGroupId(), 4L)
+                .map(response -> new ResponseEntity<>(response, HttpStatus.OK));
+    }
+
+    @DeleteMapping("/{place-id}")
     public Mono<Void> cancelPickPlace(@PathVariable("place-id") long placeId) {
-        return pickerService.cancelPickPlace(placeId, 1L);
+        return pickerService.cancelPickPlace(placeId, 4L);
+    }
+
+    @GetMapping("/{group-id}")
+    public Flux<PlaceResponseDto> findPickPlaces(@PathVariable("group-id") long groupId) {
+        return pickerService.findPickersByGroup(groupId, 4L);
     }
 }

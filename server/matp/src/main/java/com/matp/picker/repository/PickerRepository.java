@@ -9,7 +9,7 @@ import reactor.core.publisher.Mono;
 public interface PickerRepository extends ReactiveCrudRepository<Picker, Long> {
 
     @Query("""
-    SELECT id, place_id, group_id, member_id
+    SELECT *
     FROM picker 
     WHERE place_id = :placeId and member_id = :memberId;
     """)
@@ -23,4 +23,6 @@ public interface PickerRepository extends ReactiveCrudRepository<Picker, Long> {
     Mono<Void> deleteByIds(long placeId, long memberId);
 
     Flux<Picker> findByPlaceId(long placeId);
+
+    Flux<Picker> findByPickerGroupId(long pickerGroupId);
 }

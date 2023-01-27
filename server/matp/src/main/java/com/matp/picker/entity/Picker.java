@@ -18,7 +18,7 @@ public class Picker {
 
     private Long placeId;
 
-    private Long groupId;
+    private Long pickerGroupId;
 
     private Long memberId;
 
@@ -28,13 +28,11 @@ public class Picker {
     @LastModifiedDate
     private LocalDateTime modifiedAt;
 
-    public static Picker of(Long placeId, Long groupId, Long memberId) {
+    public static Picker of(Long placeId, Long pickerGroupId, Long memberId) {
         return Picker.builder()
                 .placeId(placeId)
-                .groupId(groupId)
+                .pickerGroupId(pickerGroupId)
                 .memberId(memberId)
-                .createdAt(LocalDateTime.now())
-                .modifiedAt(LocalDateTime.now())
                 .build();
     }
 }
