@@ -1,8 +1,8 @@
 import { useState, useCallback } from "react";
 import styled from "styled-components";
-import useAxios from "../utils/useAxios";
-import { getPickers } from "../utils/axiosAPI/groups/PickersAxios";
-import { getPlaceDetail } from "../utils/axiosAPI/places/PlacesAxios";
+import useAxios from "../hooks/useAxios";
+import { getPickers } from "../api/axiosAPI/groups/PickersAxios";
+import { getPlaceDetail } from "../api/axiosAPI/places/PlacesAxios";
 import { PostRead, MatPostCreate, ModalPortal } from "../components";
 
 const FeedContainer = styled.div`
@@ -341,10 +341,7 @@ const MatPlacePost: React.FC = () => {
   }, [isOpenModal]);
 
   // 평점 매긴 유저 수 총합
-  const ratingsTotal = starCount.reduce(
-    (acc: number, cur: number) => (acc += cur),
-    0
-  );
+  const ratingsTotal = starCount.reduce((acc: number, cur: number) => (acc += cur), 0);
 
   // star rating percentage 계산 후 style로 반영
   const ratingToPercent = {
@@ -398,10 +395,7 @@ const MatPlacePost: React.FC = () => {
           </StarBox>
           <ButtonBox>
             <div className="pick-box">
-              <button
-                className={isPick ? "checking" : ""}
-                onClick={pickMenuHandler}
-              >
+              <button className={isPick ? "checking" : ""} onClick={pickMenuHandler}>
                 Pick <span className={!isPick ? "unchecking" : ""}>✓</span>
               </button>{" "}
               <p>{pickCount}</p>
@@ -449,10 +443,7 @@ const MatPlacePost: React.FC = () => {
           </TabContainer>
           {isPost ? (
             <PageContainer>
-              {postList &&
-                postList.map((post: any) => (
-                  <PostRead key={post.id} post={post} />
-                ))}
+              {postList && postList.map((post: any) => <PostRead key={post.id} post={post} />)}
             </PageContainer>
           ) : (
             <PlaceDetailInfo>

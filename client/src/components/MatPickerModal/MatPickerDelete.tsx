@@ -1,7 +1,7 @@
 import { useState } from "react";
 import styled from "styled-components";
-import useAxios from "../../utils/useAxios";
-import { deletePickers } from "../../utils/axiosAPI/groups/PickersAxios";
+import useAxios from "../../hooks/useAxios";
+import { deletePickers } from "../../api/axiosAPI/groups/PickersAxios";
 
 const ModalContainer = styled.div`
   height: 100%;
@@ -59,11 +59,7 @@ interface ModalDefaultType {
   id: number;
 }
 
-const MatPickerDelete = ({
-  getAllPickers,
-  onClickToggleModal,
-  id,
-}: ModalDefaultType) => {
+const MatPickerDelete = ({ getAllPickers, onClickToggleModal, id }: ModalDefaultType) => {
   const [deleteClicked, setDeleteClicked] = useState<boolean>(false);
 
   const closeModal = (e: React.MouseEvent) => {
@@ -73,11 +69,7 @@ const MatPickerDelete = ({
     }
   };
 
-  const { axiosData } = useAxios(
-    () => deletePickers(id),
-    [deleteClicked],
-    true
-  );
+  const { axiosData } = useAxios(() => deletePickers(id), [deleteClicked], true);
 
   const handleMatPickDelete = () => {
     setDeleteClicked(!deleteClicked);

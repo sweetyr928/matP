@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import mainLogo from "../images/matLogo_basic.png";
+import mainLogo from "../assets/images/matLogo_basic.png";
 import SearchIcon from "@mui/icons-material/Search";
 import RoomIcon from "@mui/icons-material/Room";
 

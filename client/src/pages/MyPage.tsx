@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router";
 import styled from "styled-components";
-import useAxios from "../utils/useAxios";
+import useAxios from "../hooks/useAxios";
 import LogoutIcon from "@mui/icons-material/Logout";
 import EditIcon from "@mui/icons-material/Edit";
 import { useState, useRef, useEffect } from "react";
@@ -9,7 +9,7 @@ import {
   getMyData,
   getMyFollowings,
   getMyFollowers,
-} from "../utils/axiosAPI/members/myPageAPI";
+} from "../api/axiosAPI/members/myPageAPI";
 import { ModalPortal } from "../components";
 import axios from "axios";
 

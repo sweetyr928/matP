@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import useAxios from "../../utils/useAxios";
-import { createPickers } from "../../utils/axiosAPI/groups/PickersAxios";
+import useAxios from "../../hooks/useAxios";
+import { createPickers } from "../../api/axiosAPI/groups/PickersAxios";
 
 const ModalContainer = styled.div`
   height: 100%;
@@ -109,10 +109,7 @@ const tabs = [
   },
 ];
 
-const MatPickerCreate = ({
-  getAllPickers,
-  onClickToggleModal,
-}: ModalDefaultType) => {
+const MatPickerCreate = ({ getAllPickers, onClickToggleModal }: ModalDefaultType) => {
   const [colorValue, setColorValue] = useState(3);
   const [nameValue, setNameValue] = useState("");
 

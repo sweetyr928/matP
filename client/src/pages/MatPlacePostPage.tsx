@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import useAxios from "../utils/useAxios";
-import { createPlaces } from "../utils/axiosAPI/places/PlacesAxios";
+import useAxios from "../hooks/useAxios";
+import { createPlaces } from "../api/axiosAPI/places/PlacesAxios";
 
 const MatPlacePostWrapper = styled.div`
   height: 100%;

@@ -1,10 +1,10 @@
 /* eslint-disable */
 import styled from "styled-components";
 import { useEffect, useState } from "react";
-import { createPost } from "../../utils/axiosAPI/posts/PostsAxios";
+import { createPost } from "../../api/axiosAPI/posts/PostsAxios";
 import MatEditor from "./MatEditor";
 import StarRate from "./StarRate";
-import useAxios from "../../utils/useAxios";
+import useAxios from "../../hooks/useAxios";
 
 const StyledModal = styled.div`
   border-radius: 10px;
@@ -165,13 +165,7 @@ const PostCreateModal = ({ onClickToggleModal }: ModalDefaultType) => {
   let thumbnailUrl: string = "";
 
   // 별점 기본값 설정
-  const [clicked, setClicked] = useState<boolean[]>([
-    false,
-    false,
-    false,
-    false,
-    false,
-  ]);
+  const [clicked, setClicked] = useState<boolean[]>([false, false, false, false, false]);
   const [createdAt, setCreatedAt] = useState<string>("");
   const [imageContained, setImageContained] = useState<boolean>(false);
 
@@ -180,9 +174,7 @@ const PostCreateModal = ({ onClickToggleModal }: ModalDefaultType) => {
 
   useEffect(() => {
     getThumbnailUrl();
-    thumbnailUrl.length > 0
-      ? setImageContained(true)
-      : setImageContained(false);
+    thumbnailUrl.length > 0 ? setImageContained(true) : setImageContained(false);
   }, [htmlContent]);
 
   const { axiosData } = useAxios(
@@ -241,17 +233,10 @@ const PostCreateModal = ({ onClickToggleModal }: ModalDefaultType) => {
         &times;
       </span>
       <StyledDiv>
-        <input
-          placeholder="제목을 입력해주세요"
-          value={title}
-          onChange={handleInput}
-        ></input>
+        <input placeholder="제목을 입력해주세요" value={title} onChange={handleInput}></input>
         <hr className="middle_line" />
         <div className={title.length <= 0 ? "disabled" : ""}>
-          <MatEditor
-            htmlContent={htmlContent}
-            setHtmlContent={setHtmlContent}
-          />
+          <MatEditor htmlContent={htmlContent} setHtmlContent={setHtmlContent} />
         </div>
         <StyledStarsWrapper>
           <StyledRatingtxt>평점</StyledRatingtxt>
@@ -262,9 +247,7 @@ const PostCreateModal = ({ onClickToggleModal }: ModalDefaultType) => {
                   key={idx}
                   size="50"
                   onClick={() => handleStarClick(el)}
-                  className={
-                    imageContained ? (clicked[el] ? "yellow" : "") : "disabled"
-                  }
+                  className={imageContained ? (clicked[el] ? "yellow" : "") : "disabled"}
                 />
               );
             })}

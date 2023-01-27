@@ -1,10 +1,10 @@
 import { useNavigate } from "react-router";
 import styled from "styled-components";
-import { getMatPeople } from "../utils/axiosAPI/people/PeopleAxios";
+import { getMatPeople } from "../api/axiosAPI/people/PeopleAxios";
 import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
 import HowToRegIcon from "@mui/icons-material/HowToReg";
 import { useState } from "react";
-import useAxios from "../utils/useAxios";
+import useAxios from "../hooks/useAxios";
 
 const FeedContainer = styled.div`
   height: 100%;
