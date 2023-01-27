@@ -7,7 +7,6 @@ import Sidebar from "./Sidebar";
 import MatPickerCreate from "./MatPickerModal/MatPickerCreate";
 import MatPickerUpdate from "./MatPickerModal/MatPickerUpdate";
 import MatPickerDelete from "./MatPickerModal/MatPickerDelete";
-import LoginModal from "./LoginModal";
 import HeaderFeedHide from "./HeaderFeedHide";
 import ModalPortal from "./ModalPortal";
 import PostRead from "../components/PostRead";
@@ -23,7 +22,6 @@ export {
   MatPickerCreate,
   MatPickerUpdate,
   MatPickerDelete,
-  LoginModal,
   HeaderFeedHide,
   ModalPortal,
   KakaoMap,

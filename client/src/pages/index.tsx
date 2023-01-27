@@ -8,6 +8,7 @@ import SearchDetailPage from "./SearchDetailPage/SearchDetailPage";
 import MatPlace from "./MatPlacePage";
 import MatPlacePostPage from "./MatPlacePostPage";
 import MatPeoplePickerPage from "./MatPeoplePickerPage";
+import LoginPage from "./LoginPage";
 
 export {
   Domain,
@@ -20,4 +21,5 @@ export {
   MatPlace,
   MatPlacePostPage,
   MatPeoplePickerPage,
+  LoginPage,
 };

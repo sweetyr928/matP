@@ -1,9 +1,9 @@
 import styled from "styled-components";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import LoginIcon from "@mui/icons-material/Login";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useCallback, useState } from "react";
-import { LoginModal, ModalPortal } from "./index";
+import { ModalPortal } from "./index";
 
 const HeaderContainer = styled.div`
   background-color: #ffffff;
@@ -42,28 +42,23 @@ const LogInButton = styled(LoginIcon)`
 `;
 
 const Header: React.FC = () => {
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const onClickToggleLoginModal = useCallback(() => {
-    setIsModalOpen(!isModalOpen);
-  }, [isModalOpen]);
+  const navigate = useNavigate();
+  const jwtToken = localStorage.getItem("Authorization");
 
   return (
     <HeaderContainer>
       {/* 나중에 토큰 조건 분기에 따라 로그인 바뀜 */}
-      <IconContainer>
-        <LogInButton onClick={onClickToggleLoginModal} />
-      </IconContainer>
-      {isModalOpen && (
-        <ModalPortal>
-          <LoginModal onClickToggleLoginModal={onClickToggleLoginModal} />
-        </ModalPortal>
-      )}
-
-      {/* <Link to={"/mypage"}>
+      {jwtToken ? (
+        <Link to={"/mypage"}>
+          <IconContainer>
+            <AccountCircleIconStyled />
+          </IconContainer>
+        </Link>
+      ) : (
         <IconContainer>
-          <AccountCircleIconStyled />
+          <LogInButton onClick={() => navigate("/login")} />
         </IconContainer>
-      </Link> */}
+      )}
     </HeaderContainer>
   );
 };
