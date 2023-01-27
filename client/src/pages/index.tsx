@@ -8,6 +8,7 @@ import SearchDetailPage from "./SearchDetailPage/SearchDetailPage";
 import MatPlace from "./MatPlacePage";
 import MatPlacePostPage from "./MatPlacePostPage";
 import MatPeoplePickerPage from "./MatPeoplePickerPage";
+import NotFoundPage from "./NotFoundPage";
 import LoginPage from "./LoginPage";
 
 export {
@@ -21,5 +22,6 @@ export {
   MatPlace,
   MatPlacePostPage,
   MatPeoplePickerPage,
+  NotFoundPage,
   LoginPage,
 };
