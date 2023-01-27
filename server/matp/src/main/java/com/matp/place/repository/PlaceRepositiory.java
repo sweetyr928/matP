@@ -1,5 +1,6 @@
 package com.matp.place.repository;
 
+import com.matp.place.dto.PlaceEnrollmentResponse;
 import com.matp.place.entity.Place;
 import org.springframework.data.r2dbc.repository.Query;
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;
@@ -18,7 +19,7 @@ public interface PlaceRepositiory extends ReactiveCrudRepository<Place, Long> {
     Flux<Place> findPlaces(double longitude, double latitude, int round);
 
     @Query("""
-        SELECT id, tel, address, name, st_astext(point) as point, road_name_address, category
+        SELECT id, tel, address, name, st_astext(point) as point, zonecode, category
         FROM place
         WHERE id = :placeId
     """)
@@ -26,9 +27,9 @@ public interface PlaceRepositiory extends ReactiveCrudRepository<Place, Long> {
 
     @Query("""
         SELECT id, tel, address, name, st_astext(point) as point
-        FROM result
+        FROM place
         WHERE address LIKE CONCAT('%', :search, '%')
-        OR category LIKE CONCAT('%', :search, '%') 
+        OR category LIKE CONCAT('%', :search, '%')
         OR name LIKE CONCAT('%', :search, '%')
     """)
     Flux<Place> searchPlaces(String search);
@@ -40,5 +41,9 @@ public interface PlaceRepositiory extends ReactiveCrudRepository<Place, Long> {
         AND (category LIKE CONCAT('%', :query2, '%') OR name LIKE CONCAT('%', :query2, '%'))
     """)
     Flux<Place> searchPlaces(String query1, String query2);
-
+    @Query("""
+            insert into place_add_request(tel, address, zonecode, name, category)
+            values(:tel, :address, :roadNameAddress, :name, :category)
+            """)
+    Mono<PlaceEnrollmentResponse> registerPlaceInfo(String tel, String address, String roadNameAddress, String name, String category);
 }

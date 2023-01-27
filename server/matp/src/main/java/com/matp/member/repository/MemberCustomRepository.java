@@ -1,9 +1,9 @@
 package com.matp.member.repository;
 
+import com.matp.group.dto.GroupResponseDto;
 import com.matp.member.dto.MemberResponse;
 import com.matp.member.entity.Member;
 import com.matp.post.dto.SimplePostResponse;
-import com.matp.post.entity.Post;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.r2dbc.core.DatabaseClient;
@@ -12,10 +12,11 @@ import reactor.core.publisher.Flux;
 
 import java.time.LocalDateTime;
 import java.util.Comparator;
+import java.util.stream.Collectors;
 
 /**
  * DatabaseClient 사용하여 레포지토리 구현
- * 직접 SQL 쿼리문을 작성하여 유저 정보를 조회할 때 팔로우 테이블도 조회하여 팔로잉과 팔로워 수를 카운트하여 가져온다
+ * 직접 SQL 쿼리문을 작성하여 유저 정보를 조회할 때 다른 테이블도 조회하여 정보를 가져온다
  */
 @Slf4j
 @Repository
@@ -26,21 +27,24 @@ public class MemberCustomRepository {
 
     /**
      * 회원 정보를 조회하여 MemberResponse로 매핑 후 가져올 때
-     * 팔로우 카운팅과 팔로워 카운팅, 포스트 정보들도 함꼐 조회하여 가져온다
+     * 팔로우 카운팅과 팔로워 카운팅, 포스트 정보, 피커 그룹 정보들도 함꼐 조회하여 가져온다
      */
-    public Flux<MemberResponse> findWithFollow() {
+    public Flux<MemberResponse> findWithInfo() {
         var sqlWithFollow = """
-                SELECT 
+                SELECT
                     m.member_id as memberId, m.email as email, m.nickname as nickname,
-                    m.birthday as birthday, m.profile_url as profileUrl, 
+                    m.birthday as birthday, m.profile_url as profileUrl,
                     m.gender as gender, m.memo as memo, m.registration_id as registrationId,
                     m.created_at as createdAt, m.modified_at as modifiedAt,
                     p.id as postId, p.title as title, p.thumbnail_url as thumbnailUrl,
-                    (SELECT COUNT(f.follower_email) as followers FROM follow f WHERE m.email = f.following_email),
-                    (SELECT COUNT(f.following_email) as followings FROM follow f WHERE m.email = f.follower_email)   
+                    g.id as groupId, g.name as name, g.group_img_index as groupImgIndex,
+                    (SELECT COUNT(f.follower_id) as followers FROM follow f WHERE m.member_id = f.following_id),
+                    (SELECT COUNT(f.following_id) as followings FROM follow f WHERE m.member_id = f.follower_id)
                 FROM member m
-                INNER JOIN post p
+                LEFT JOIN post p
                 ON m.member_id = p.member_id
+                LEFT JOIN picker_group g
+                ON m.member_id = g.member_id
                 """;
 
         return databaseClient.sql(sqlWithFollow)
@@ -48,8 +52,11 @@ public class MemberCustomRepository {
                 .sort(Comparator.comparing(result -> (Long) result.get(MEMBER_ID_FIELD_NAME)))
                 .bufferUntilChanged(result -> result.get(MEMBER_ID_FIELD_NAME))
                 .map(result -> {
-                    var followers = Long.parseLong(result.get(0).get("(SELECT COUNT(f.follower_email) as followers FROM follow f WHERE m.email = f.following_email)").toString());
-                    var followings = Long.parseLong(result.get(0).get("(SELECT COUNT(f.following_email) as followings FROM follow f WHERE m.email = f.follower_email)").toString());
+                    Object followerObj = result.get(0).get("(SELECT COUNT(f.follower_id) as followers FROM follow f WHERE m.member_id = f.following_id)");
+                    Object followingObj = result.get(0).get("(SELECT COUNT(f.following_id) as followings FROM follow f WHERE m.member_id = f.follower_id)");
+
+                    var followers = followerObj != null ? Long.parseLong(followerObj.toString()) : 0L;
+                    var followings = followingObj != null ? Long.parseLong(followingObj.toString()) : 0L;
 
                     var postInfos = result.stream()
                             .map(row -> SimplePostResponse.builder()
@@ -58,6 +65,14 @@ public class MemberCustomRepository {
                                     .thumbnailUrl((String) row.get("thumbnailUrl"))
                                     .build())
                             .toList();
+
+                    var pickerGroupInfos = result.stream()
+                            .map(row -> GroupResponseDto.builder()
+                                    .id((Long) row.get("groupId"))
+                                    .name((String) row.get("name"))
+                                    .groupImgIndex((int) row.get("groupImgIndex"))
+                                    .build())
+                            .collect(Collectors.toSet());
 
                     var row = result.get(0);
                     return MemberResponse.from(Member.builder()
@@ -74,6 +89,7 @@ public class MemberCustomRepository {
                             .followings(followings)
                             .followers(followers)
                             .postInfos(postInfos)
+                            .pickerGroupInfos(pickerGroupInfos)
                             .build());
                 });
     }

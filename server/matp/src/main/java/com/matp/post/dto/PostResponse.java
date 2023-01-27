@@ -5,7 +5,7 @@ import com.matp.post.entity.Post;
 import java.time.LocalDateTime;
 
 public record PostResponse(Long id, String title, String content, int likes, String thumbnailUrl,
-                              LocalDateTime createdAt, LocalDateTime modifiedAt, long star, Long memberId) {
+                              LocalDateTime createdAt, LocalDateTime modifiedAt, long star, Long memberId, Long placeId) {
 
     public static PostResponse from(Post matPost) {
         return new PostResponse(
@@ -17,6 +17,7 @@ public record PostResponse(Long id, String title, String content, int likes, Str
                 matPost.getCreatedAt(),
                 matPost.getModifiedAt(),
                 matPost.getStar(),
+                matPost.getPlaceId(),
                 matPost.getMemberId());
     }
 }

@@ -5,7 +5,7 @@ import styled from "styled-components";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useState, useCallback } from "react";
 import { MatPostRead, ModalPortal } from ".";
-import { IPosts } from "../utils/axiosAPI/posts/PostsAxios";
+import { IPosts } from "../api/axiosAPI/posts/PostsAxios";
 
 const ImgWrapper = styled.div`
   width: 130px;
@@ -80,15 +80,12 @@ const PostRead = ({ post }: { post: IPosts }) => {
           {post.likes}
         </p>
         <div className="post_thumbnail">
-          <PostImg src={post.thumbnail_url} alt="thumbnail" />
+          <PostImg src={post.thumbnailUrl} alt="thumbnail" />
         </div>
       </ImgWrapper>
       {isOpenModal === true ? (
         <ModalPortal>
-          <MatPostRead
-            onClickToggleModal={onClickToggleModal}
-            id={post.postId}
-          />
+          <MatPostRead onClickToggleModal={onClickToggleModal} id={post.id} />
           <ModalBackdrop onClick={onClickToggleModal} />
         </ModalPortal>
       ) : null}

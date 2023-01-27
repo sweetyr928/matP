@@ -1,17 +1,14 @@
 import styled from "styled-components";
-import useAxios from "../../utils/useAxios";
-import { useNavigate } from "react-router-dom";
+import useAxios from "../../hooks/useAxios";
 import { useState, useCallback } from "react";
-import {
-  getPlacesPost,
-  deletePost,
-} from "../../utils/axiosAPI/posts/PostsAxios";
+import { getPlacesPost, deletePost } from "../../api/axiosAPI/posts/PostsAxios";
 import StarRate from "./StarRate";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import MatCommentList from "./MatCommentList";
-import ModalPortal from "../ModalPortal";
 import { MatPostUpdate } from "..";
+import { useNavigate } from "react-router";
+import { Popover, Typography } from "@mui/material";
 
 const StyledModal = styled.div`
   border-radius: 10px;
@@ -126,11 +123,6 @@ const StyledStar = styled.div`
     color: #fcc419;
   }
 `;
-// 모달 토글 버튼 연결 (타입 지정)
-interface ModalDefaultType {
-  onClickToggleModal: () => void;
-  id: number;
-}
 
 // 모달 토글 버튼 연결 (타입 지정)
 interface ModalDefaultType {
@@ -138,15 +130,13 @@ interface ModalDefaultType {
   id: number;
 }
 
-const PostReadModal = ({
-  onClickToggleModal,
-  id,
-}: ModalDefaultType): JSX.Element => {
+const PostReadModal = ({ onClickToggleModal, id }: ModalDefaultType): JSX.Element => {
   const [isOpenUpdateModal, setOpenUpdateModal] = useState<boolean>(false);
   const [isLiked, setIsLiked] = useState<boolean>(false);
   const [deleteClicked, setDeleteClicked] = useState<boolean>(false);
-
-  const navigate = useNavigate();
+  const [isEdit, setIsEdit] = useState<boolean>(false);
+  // popover ref
+  const [anchorEL, setAnchorEL] = useState(null);
 
   // 업데이트 모달 토글 함수
   const onClickToggleUpdateModal = useCallback(() => {
@@ -159,6 +149,8 @@ const PostReadModal = ({
   // 단일 post 삭제
   const { axiosData } = useAxios(() => deletePost(id), [deleteClicked], true);
 
+  const navigate = useNavigate();
+
   const {
     nickname = "",
     profileimg = "",
@@ -170,17 +162,31 @@ const PostReadModal = ({
     // comments = [],
   } = responseData || {};
 
-  // const navigate = useNavigate();
-
   // 별점 불러오기
   const clicked = new Array(5).fill(true, 0, star);
 
   // 항상 별이 총 5개(더미 array)
   const array: Array<number> = [0, 1, 2, 3, 4];
 
-  // '수정' 버튼 클릭 시 PostUpdateModal로 이동
+  // 날짜 변환
+  const setDateFormat = (date: string) => {
+    let newStr = date.split(".");
+    newStr = newStr[0].split("T");
+    return newStr.join(" ");
+  };
+
   const handleEdit = () => {
-    navigate(`/edit/${id}`, { state: responseData });
+    setIsEdit(true);
+  };
+
+  // popover post 삭제
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    setAnchorEL(e.currentTarget);
+  };
+
+  // popover post 삭제 취소
+  const handleClose = () => {
+    setAnchorEL(null);
   };
 
   const handleDelete = () => {
@@ -189,63 +195,107 @@ const PostReadModal = ({
     onClickToggleModal();
   };
 
+  // post url
+  const handleUrl = () => {
+    console.log("It's url");
+  };
+
+  /**
+   * post에 해당 하는 맛 플레이스 페이지로 이동
+   * TODO : 서버 연결 후 url 변경 및 지도 이동 기능 추가
+   */
+  const handleMatPlace = () => {
+    navigate("/places");
+  };
+
   // '하트' 이모지 클릭 시 like / default 상태로 바뀜
   const handleLike = () => {
     setIsLiked(!isLiked);
   };
 
+  // popover styling
+  const PopoverStyle = {
+    zIndex: 10000,
+    top: "10px",
+  };
+
+  const PopoverTStyle = {
+    backgroundColor: "#e1e1e1",
+    fontSize: "15px",
+  };
+
+  const PopoverBtnStyle = {
+    backgroundColor: "#874356",
+    color: "#ffffff",
+    border: "none",
+    marginLeft: "5px",
+    borderRadius: "30px",
+    cursor: "pointer",
+    width: "40px",
+    height: "20px",
+  };
+
   return (
     <StyledModal>
-      {/* {isOpenUpdateModal && (
-        <ModalPortal>
-          <MatPostUpdate onClickToggleModal={onClickToggleUpdateModal} />
-        </ModalPortal>
-      )} */}
-      <span
-        role="presentation"
-        onClick={onClickToggleModal}
-        className="close-btn"
-      >
+      <span role="presentation" onClick={onClickToggleModal} className="close-btn">
         &times;
       </span>
-      <StyledDiv>
-        <StyledContentWrapper>
-          <div className="post_title">{title}</div>
-          <StyledMid>
-            <StyledInfo>
-              <img src={profileimg} alt="profileImg"></img>
-              <div className="post_nickname">{nickname}</div>
-              <div className="post_createdAt">{createdat}</div>
-            </StyledInfo>
-            <div>
-              <button onClick={onClickToggleUpdateModal}>수정</button>
-              <button onClick={handleDelete}>삭제</button>
-              <button>url 복사</button>
-            </div>
-          </StyledMid>
-          <StyledContent>
-            <div dangerouslySetInnerHTML={{ __html: content }}></div>
-          </StyledContent>
-          <StyledStarsWrapper>
-            <StyledStar>
-              {array.map((el, idx) => {
-                return (
-                  <StarRate
-                    key={idx}
-                    size="50"
-                    className={clicked[el] ? "yellow" : ""}
-                  />
-                );
-              })}
-            </StyledStar>
-          </StyledStarsWrapper>
-        </StyledContentWrapper>
-        <hr className="post_middle_line" />
-        <div className="post_like" onClick={handleLike} role="presentation">
-          {isLiked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
-        </div>
-        <MatCommentList />
-      </StyledDiv>
+      {isEdit ? (
+        <MatPostUpdate id={id} onClickToggleModal={onClickToggleUpdateModal} state={responseData} />
+      ) : (
+        <StyledDiv>
+          <StyledContentWrapper>
+            <div className="post_title">{title}</div>
+            <StyledMid>
+              <StyledInfo>
+                <img src={profileimg} alt="profileImg"></img>
+                <div className="post_nickname">{nickname}</div>
+                <div className="post_createdAt">{setDateFormat(createdat)}</div>
+              </StyledInfo>
+              <div>
+                <button onClick={handleEdit}>수정</button>
+                <button onClick={handleClick}>삭제</button>
+                <Popover
+                  open={Boolean(anchorEL)}
+                  onClose={handleClose}
+                  anchorEl={anchorEL}
+                  anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+                  transformOrigin={{ vertical: "top", horizontal: "right" }}
+                  style={PopoverStyle}
+                >
+                  <Typography variant="body2" p={3} style={PopoverTStyle}>
+                    정말 삭제하시겠습니까?
+                    <button style={PopoverBtnStyle} onClick={handleDelete}>
+                      Yes
+                    </button>
+                    <button style={PopoverBtnStyle} onClick={handleClose}>
+                      No
+                    </button>
+                  </Typography>
+                </Popover>
+                <button onClick={handleUrl}>url 복사</button>
+                <button onClick={handleMatPlace}>맛 플레이스로 이동</button>
+              </div>
+            </StyledMid>
+            <StyledContent>
+              <div dangerouslySetInnerHTML={{ __html: content }}></div>
+            </StyledContent>
+            <StyledStarsWrapper>
+              <StyledStar>
+                {array.map((el, idx) => {
+                  return <StarRate key={idx} size="50" className={clicked[el] ? "yellow" : ""} />;
+                })}
+              </StyledStar>
+            </StyledStarsWrapper>
+          </StyledContentWrapper>
+          <hr className="post_middle_line" />
+          <div className="post_like" onClick={handleLike} role="presentation">
+            {isLiked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+          </div>
+          {/* 서버 연결 이후 Props로 해당 Post의 comment list 넘겨주기 */}
+          <MatCommentList />
+        </StyledDiv>
+      )}
     </StyledModal>
   );
 };

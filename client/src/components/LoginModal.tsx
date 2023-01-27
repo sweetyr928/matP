@@ -1,9 +1,8 @@
 import { PropsWithChildren } from "react";
 import styled from "styled-components";
 import CloseIcon from "@mui/icons-material/Close";
-import kakaoLogo from "../images/kakaoLogo.svg";
-import naverLogo from "../images/naverLogo.svg";
-import googleLogo from "../images/googleLogo.svg";
+import kakaoLogo from "../assets/images/kakaoLogo.svg";
+import googleLogo from "../assets/images/googleLogo.svg";
 
 const ModalContainer = styled.div`
   margin: auto;
@@ -66,7 +65,8 @@ const LoginViceHeader = styled.h3`
 const OAuthButtonForm = styled.div`
   margin-top: 1.5rem;
 `;
-const KakaoLoginContainer = styled.button`
+const KakaoLoginContainer = styled.a`
+  text-decoration: none;
   width: 306px;
   height: 40px;
   background-color: #fee500;
@@ -92,33 +92,9 @@ const KakaoLabel = styled.span`
   color: #000000 85%;
   font-size: 1.1rem;
 `;
-const NaverLoginContainer = styled.button`
-  width: 306px;
-  height: 40px;
-  background-color: #03c75a;
-  color: #fff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 12px;
-  border: 0px;
-  cursor: pointer;
-  padding: 10px;
-  margin: 10px;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
-  &:hover {
-    background-color: #04ba56;
-  }
-`;
-const NaverLogoImg = styled.img`
-  width: 6%;
-  margin-right: 10px;
-`;
-const NaverLabel = styled.span`
-  color: #fff 85%;
-  font-size: 1.1rem;
-`;
-const GoogleLoginContainer = styled.button`
+
+const GoogleLoginContainer = styled.a`
+  text-decoration: none;
   width: 306px;
   height: 40px;
   background-color: #fff;
@@ -163,15 +139,12 @@ const LoginModal = ({ onClickToggleLoginModal }: PropsWithChildren<ModalDefaultT
         <LoginHeader>로그인</LoginHeader>
         <LoginViceHeader>맛 피플이 돼보실래요?</LoginViceHeader>
         <OAuthButtonForm>
-          <KakaoLoginContainer>
+          <KakaoLoginContainer href="http://ec2-15-165-163-251.ap-northeast-2.compute.amazonaws.com:8080/oauth2/authorization/kakao">
             <KakaoLogoImg src={kakaoLogo} alt="카카오로 시작하기"></KakaoLogoImg>
             <KakaoLabel>카카오로 시작하기</KakaoLabel>
           </KakaoLoginContainer>
-          <NaverLoginContainer>
-            <NaverLogoImg src={naverLogo} alt="네이버로 시작하기"></NaverLogoImg>
-            <NaverLabel>네이버로 시작하기</NaverLabel>
-          </NaverLoginContainer>
-          <GoogleLoginContainer>
+
+          <GoogleLoginContainer href="http://ec2-15-165-163-251.ap-northeast-2.compute.amazonaws.com:8080/oauth2/authorization/google">
             <GoogleLogoImg src={googleLogo} alt="구글로 시작하기"></GoogleLogoImg>
             <GoogleLabel>구글로 시작하기</GoogleLabel>
           </GoogleLoginContainer>

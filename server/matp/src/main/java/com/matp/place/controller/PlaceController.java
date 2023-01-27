@@ -1,7 +1,10 @@
 package com.matp.place.controller;
 
 
+
 import com.matp.place.dto.PlaceDetailResponseDto;
+import com.matp.place.dto.PlaceEnrollmentRequest;
+import com.matp.place.dto.PlaceEnrollmentResponse;
 import com.matp.place.dto.PlaceResponseDto;
 import com.matp.place.service.PlaceService;
 import org.springframework.web.bind.annotation.*;
@@ -30,5 +33,10 @@ public class PlaceController {
     @GetMapping("/search")
     public Flux<PlaceResponseDto> searchPlaces(@RequestParam("query") String search) {
         return placeService.findPlaces(search);
+    }
+
+    @PostMapping
+    public Mono<PlaceEnrollmentResponse> registerPlace(@RequestBody Mono<PlaceEnrollmentRequest> placeEnrollmentRequest) {
+        return placeService.registerPlaceInfo(placeEnrollmentRequest);
     }
 }

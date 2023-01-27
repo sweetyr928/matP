@@ -13,9 +13,10 @@ import {
   SearchPage,
   SearchDetailPage,
   MatPlace,
+  MatPlacePostPage,
+  MatPeoplePickerPage,
 } from "./pages";
 import { RecoilRoot } from "recoil";
-import MatPeoplePicker from "./pages/MatPeoplePicker";
 
 interface AppContainerProps {
   toggle: boolean;
@@ -51,10 +52,11 @@ function App() {
             <Route path="/pickers/:id" element={<MatPickerDetail />} />
             <Route path="/search" element={<SearchPage />} />
             <Route path="/search/:name" element={<SearchDetailPage />} />
+            <Route path="/newplaces" element={<MatPlacePostPage />} />
             <Route path="/places" element={<MatPlace />} />
             <Route path="/mypage" element={<MyPage />} />
             <Route path="/people" element={<MatPeople />} />
-            <Route path="/matPickers" element={<MatPeoplePicker />} />
+            <Route path="/matPickers" element={<MatPeoplePickerPage />} />
           </Routes>
         </div>
         <HeaderFeedHide visible={visible} setVisibility={setVisibility} />

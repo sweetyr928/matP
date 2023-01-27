@@ -1,28 +1,52 @@
 {
   "posts": [
     {
-      "postId": 1,
+      "id": 1,
       "likes": 24,
       "commentcount": 2,
-      "thumbnail_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShvWN6FLgG2lpiFwoT3zNUq9FMCyZiyaXXbA&usqp=CAU"
+      "thumbnailUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShvWN6FLgG2lpiFwoT3zNUq9FMCyZiyaXXbA&usqp=CAU",
+      "title": "수정수정수정수정",
+      "content": "콘텐츠수정콘텐츠수정콘텐츠수정콘텐츠수정",
+      "createdAt": "2023-01-19T10:55:37",
+      "modifiedAt": "2023-01-19T10:55:49",
+      "star": 3,
+      "memberId": 2
     },
     {
-      "postId": 2,
+      "id": 2,
       "likes": 3,
       "commentcount": 4,
-      "thumbnail_url": "https://i.pinimg.com/550x/41/90/b4/4190b4283d11cf6934251698fa1b2e64.jpg"
+      "thumbnailUrl": "https://i.pinimg.com/550x/41/90/b4/4190b4283d11cf6934251698fa1b2e64.jpg",
+      "title": "수정수정수정수정",
+      "content": "콘텐츠수정콘텐츠수정콘텐츠수정콘텐츠수정",
+      "createdAt": "2023-01-19T10:55:37",
+      "modifiedAt": "2023-01-19T10:55:49",
+      "star": 3,
+      "memberId": 2
     },
     {
-      "postId": 3,
+      "id": 3,
       "likes": 34,
       "commentcount": 4,
-      "thumbnail_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQDuqH-2EX6uJe9UIR8lRz5ql8dSwDl1BJAzrxUNdEut8GVP6RtZVdWk4IwCIst4Jk-Rpg&usqp=CAU"
+      "thumbnailUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQDuqH-2EX6uJe9UIR8lRz5ql8dSwDl1BJAzrxUNdEut8GVP6RtZVdWk4IwCIst4Jk-Rpg&usqp=CAU",
+      "title": "수정수정수정수정",
+      "content": "콘텐츠수정콘텐츠수정콘텐츠수정콘텐츠수정",
+      "createdAt": "2023-01-19T10:55:37",
+      "modifiedAt": "2023-01-19T10:55:49",
+      "star": 3,
+      "memberId": 2
     },
     {
-      "postId": 4,
+      "id": 4,
       "likes": 5,
       "commentcount": 43,
-      "thumbnail_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRh-tTdRm7D2U_IVczw3DxrexUbDL3CLOXEKjf1fNCa2dEYnGDSfG3WhrvWQVFRhcMg05c&usqp=CAU"
+      "thumbnailUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRh-tTdRm7D2U_IVczw3DxrexUbDL3CLOXEKjf1fNCa2dEYnGDSfG3WhrvWQVFRhcMg05c&usqp=CAU",
+      "title": "수정수정수정수정",
+      "content": "콘텐츠수정콘텐츠수정콘텐츠수정콘텐츠수정",
+      "createdAt": "2023-01-19T10:55:37",
+      "modifiedAt": "2023-01-19T10:55:49",
+      "star": 3,
+      "memberId": 2
     }
   ],
   "placesposts": [
@@ -32,7 +56,7 @@
       "profileimg": "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg",
       "title": "hello",
       "content": "<p>ggggggg</p>",
-      "createdat": "2023. 1. 17. 오후 3:55:04",
+      "createdat": "2023-01-20T13:26:47",
       "star": 4,
       "likes": 0
     },
@@ -41,7 +65,7 @@
       "profileimg": "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg",
       "title": "hihi",
       "content": "hhhhhhh",
-      "createdat": "2023. 1. 20. 오후 3:06:22",
+      "createdat": "2023-01-20T13:26:47",
       "star": 0,
       "likes": 0,
       "id": 2,
@@ -52,7 +76,7 @@
       "profileimg": "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg",
       "title": "hihi",
       "content": "hhhhhhh",
-      "createdat": "2023. 1. 20. 오후 3:06:22",
+      "createdat": "2023-01-20T13:26:47",
       "star": 0,
       "likes": 0,
       "id": 3,
@@ -61,75 +85,57 @@
     {
       "nickname": "rhino",
       "profileimg": "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg",
-      "title": "hihi",
-      "content": "hhhhhhh",
-      "createdat": "2023. 1. 20. 오후 3:06:22",
-      "star": 0,
-      "likes": 0,
-      "id": 4,
-      "thumbnailUrl": "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg"
-    },
-    {
-      "nickname": "rhino",
-      "profileimg": "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg",
       "title": "adsfafsd",
       "content": "<p>afdsfdasasdffa</p>",
-      "createdat": "2023. 1. 20. 오후 8:13:07",
+      "createdat": "2023-01-20T13:26:47",
       "star": 4,
       "likes": 0,
       "thumbnailUrl": "",
-      "id": 5
+      "id": 4
     }
   ],
   "comments": [
     {
       "id": 1,
-      "nickname": "먹보 1호",
-      "profileimg": "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg",
-      "comment": "너무 맛있어 보여요너무 맛있어 보여요너무 맛있어 보여요너무 맛있어 보여요너무 맛있어 보여요너무 맛있어 보여요너무 맛있어 보여요너무 맛있어 보여요너무 맛있어 보여요너무 맛있어 보여요너무 맛있어 보여요",
-      "createdat": "2022-10-22 17:34:00"
+      "commentContent": "와 정말 맛있겠다.",
+      "commentCreatedAt": "2023-01-20T13:26:47",
+      "nickname": "nicknick",
+      "profileImg": "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg"
     },
     {
-      "nickname": "rhino",
-      "profileimg": "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg",
-      "comment": "와 겁나 맛있어보인다!@",
-      "createdat": "2023. 1. 19. 오후 11:54:44",
-      "id": 2
+      "id": 2,
+      "commentContent": "와 정말 맛있겠다.",
+      "commentCreatedAt": "2023-01-20T13:26:47",
+      "nickname": "nicknick",
+      "profileImg": "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg"
     },
     {
-      "nickname": "rhino",
-      "profileimg": "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg",
-      "comment": "하이루?..",
-      "createdat": "2023. 1. 20. 오전 12:06:11",
-      "id": 3
+      "id": 3,
+      "commentContent": "와 정말 맛있겠다.",
+      "commentCreatedAt": "2023-01-20T13:26:47",
+      "nickname": "nicknick",
+      "profileImg": "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg"
     },
     {
-      "nickname": "rhino",
-      "profileimg": "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg",
-      "comment": "하이루?..",
-      "createdat": "2023. 1. 20. 오전 12:06:11",
-      "id": 4
+      "id": 4,
+      "commentContent": "와 정말 맛있겠다.",
+      "commentCreatedAt": "2023-01-20T13:26:47",
+      "nickname": "nicknick",
+      "profileImg": "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg"
     },
     {
-      "nickname": "rhino",
-      "profileimg": "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg",
-      "comment": "랄랄라",
-      "createdat": "2023. 1. 20. 오후 7:48:31",
-      "id": 5
-    },
-    {
-      "nickname": "rhino",
-      "profileimg": "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg",
-      "comment": "배고파",
-      "createdat": "2023. 1. 20. 오후 7:48:58",
-      "id": 6
+      "id": 5,
+      "commentContent": "와 정말 맛있겠다.",
+      "commentCreatedAt": "2023-01-20T13:26:47",
+      "nickname": "nicknick",
+      "profileImg": "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg"
     }
   ],
   "groups": [
     {
       "id": 1,
-      "name": "기본 맛픽커즈",
-      "groupImgIndex": 2,
+      "name": "기본 그룹",
+      "groupImgIndex": 3,
       "pickPlaces": [
         {
           "id": 1,
@@ -163,19 +169,84 @@
     }
   ],
   "members": {
-    "nickname": "윤뿔소ㅎㅎ",
-    "email": "hgd@gmail.com",
-    "birthday": "1998-08-24",
-    "profileImg": "https://user-images.githubusercontent.com/94962427/211693723-e10b0b7d-95ed-4918-b450-f952168bca3a.jpeg",
-    "gender": "male",
-    "memo": "서울 맛집을 찾아???",
-    "createdAt": "2022-12-31",
-    "modifiedAt": "2023-01-05",
-    "followers": "1.2M",
-    "followings": "1.2K",
-    "postlist": [],
-    "picklist": []
+    "id": 2,
+    "email": "ke2007@naver.com",
+    "nickname": "임준건",
+    "birthday": "0824",
+    "profileUrl": "https://lh3.googleusercontent.com/a/AEdFTp5BXgLFNROgAyvcfeBfat09LyE4d7eW-VEDZ_C-sg=s96-c",
+    "gender": 1,
+    "memo": "서울 맛집을 찾아서!",
+    "followers": 0,
+    "followings": 1,
+    "postInfos": [
+      {
+        "postId": null,
+        "title": null,
+        "thumbnailUrl": null
+      }
+    ],
+    "pickerGroupInfos": [
+      {
+        "id": null,
+        "name": null,
+        "groupImgIndex": 1
+      }
+    ]
   },
+  "membersfollowings": [
+    {
+      "memberId": 2,
+      "nickname": "윤태연",
+      "profileUrl": "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg"
+    },
+    {
+      "memberId": 4,
+      "nickname": "임준건",
+      "profileUrl": "https://lh3.googleusercontent.com/a/AEdFTp5BXgLFNROgAyvcfeBfat09LyE4d7eW-VEDZ_C-sg=s96-c"
+    },
+    {
+      "memberId": 3,
+      "nickname": "윤태연",
+      "profileUrl": "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg"
+    },
+    {
+      "memberId": 6,
+      "nickname": "임준건",
+      "profileUrl": "https://lh3.googleusercontent.com/a/AEdFTp5BXgLFNROgAyvcfeBfat09LyE4d7eW-VEDZ_C-sg=s96-c"
+    },
+    {
+      "memberId": 11,
+      "nickname": "윤태연",
+      "profileUrl": "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg"
+    },
+    {
+      "memberId": 23,
+      "nickname": "임준건",
+      "profileUrl": "https://lh3.googleusercontent.com/a/AEdFTp5BXgLFNROgAyvcfeBfat09LyE4d7eW-VEDZ_C-sg=s96-c"
+    },
+    {
+      "memberId": 1,
+      "nickname": "윤태연",
+      "profileUrl": "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg"
+    },
+    {
+      "memberId": 394,
+      "nickname": "임준건",
+      "profileUrl": "https://lh3.googleusercontent.com/a/AEdFTp5BXgLFNROgAyvcfeBfat09LyE4d7eW-VEDZ_C-sg=s96-c"
+    }
+  ],
+  "membersfollowers": [
+    {
+      "memberId": 2,
+      "nickname": "윤태연",
+      "profileUrl": "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg"
+    },
+    {
+      "memberId": 4,
+      "nickname": "임준건",
+      "profileUrl": "https://lh3.googleusercontent.com/a/AEdFTp5BXgLFNROgAyvcfeBfat09LyE4d7eW-VEDZ_C-sg=s96-c"
+    }
+  ],
   "people": {
     "nickname": "홍길동",
     "email": "hgd@gmail.com",
@@ -199,8 +270,9 @@
     "category": "맛집",
     "starAvg": 4.75,
     "starCount": [0, 0, 0, 1, 3],
+    "pickCount": 4,
     "postCount": 4,
-    "isPick": true,
+    "isPick": false,
     "longitude": 127.149020861577,
     "latitude": 37.4424878693597,
     "postList": [

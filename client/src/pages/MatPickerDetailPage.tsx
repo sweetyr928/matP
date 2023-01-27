@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import useAxios from "../utils/useAxios";
-import { getPickersDetail } from "../utils/axiosAPI/groups/PickersAxios";
+import useAxios from "../hooks/useAxios";
+import { getPickersDetail } from "../api/axiosAPI/groups/PickersAxios";
 import { useParams } from "react-router-dom";
 
 const MatPickPlaceWrapper = styled.div`
@@ -36,16 +36,19 @@ const MatPickPlaceBox = styled.div`
   }
 `;
 
+// 각 맛픽커즈 그룹 데이터가 어떻게 오느냐에 따라 달라질 가능성 높음 (보류)
+
 const MatPickerDetail: React.FC = () => {
   const { id } = useParams();
-  const { responseData } = useAxios(() => getPickersDetail(id), [], false);
+  const { responseData } = useAxios(() => getPickersDetail(id), [id], false);
+  const pickPlacesData = responseData.pickPlaces;
 
   return (
     <MatPickPlaceWrapper>
-      <h1>{responseData.name}</h1>
+      <h1>제목</h1>
       <MatPickPlaceBox>
-        {responseData &&
-          responseData.map((pickPlace: any) => (
+        {pickPlacesData &&
+          pickPlacesData.map((pickPlace: any) => (
             <div key={pickPlace.id}>
               {pickPlace.name}|{pickPlace.address}|✭{pickPlace.star}
             </div>

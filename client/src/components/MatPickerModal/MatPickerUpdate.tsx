@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import useAxios from "../../utils/useAxios";
-import { updatePickers } from "../../utils/axiosAPI/groups/PickersAxios";
+import useAxios from "../../hooks/useAxios";
+import { updatePickers } from "../../api/axiosAPI/groups/PickersAxios";
 
 const ModalContainer = styled.div`
   height: 100%;
@@ -66,11 +66,10 @@ const TabButton = styled.li`
   height: 30px;
   width: 30px;
   list-style: none;
-  border: solid 1px #373737;
   border-radius: 20px;
-  background-color: ${(props) => props.color || "#adadad"};
-  border: ${(props) =>
-    props.id === "focused" ? "2.5px solid #C65D7B" : "1px solid #505050"};
+  background: url(${(props) => props.color || "gray"});
+  background-size: 100%;
+  filter: ${(props) => (props.id === "focused" ? "brightness(0.8)" : "none")};
 `;
 
 const ButtonContainer = styled.div`
@@ -96,9 +95,21 @@ interface ModalDefaultType {
 }
 
 const tabs = [
-  { groupImgIndex: 0, groupImg: "#098f00" },
-  { groupImgIndex: 1, groupImg: "#09d800" },
-  { groupImgIndex: 2, groupImg: "#023f00" },
+  {
+    groupImgIndex: 0,
+    groupImg:
+      "https://user-images.githubusercontent.com/94962427/214733213-a2c51280-6525-49ed-b60c-5e7e248890f8.svg",
+  },
+  {
+    groupImgIndex: 1,
+    groupImg:
+      "https://user-images.githubusercontent.com/94962427/214733289-7588880b-0492-429f-9e7e-8dbc883a88a3.svg",
+  },
+  {
+    groupImgIndex: 2,
+    groupImg:
+      "https://user-images.githubusercontent.com/94962427/214733318-efc109a4-439d-4b3a-b17e-ab478ff16102.svg",
+  },
 ];
 
 const MatPickerUpdate = ({

@@ -12,11 +12,11 @@ const MatPickerSingleBox = styled.div`
   width: 100%;
   height: 50px;
   padding: 15px;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid #a6a6a6;
 
   a {
     text-decoration: none;
-    color: black;
+    color: #373737;
   }
 `;
 
@@ -31,10 +31,10 @@ const NameBox = styled.div`
   .icon {
     width: 30px;
     height: 30px;
-    border: 1px solid black;
     border-radius: 50%;
     margin-right: 20px;
-    background-color: ${(props) => props.color || "gray"};
+    background: url(${(props) => props.color || "gray"});
+    background-size: 100%;
   }
 `;
 
@@ -66,7 +66,12 @@ interface ModalDefaultType {
   groupImgIndex: number;
 }
 
-const groupImg = ["#098f00", "#09d800", "#023f00"];
+const groupImg = [
+  "https://user-images.githubusercontent.com/94962427/214733213-a2c51280-6525-49ed-b60c-5e7e248890f8.svg",
+  "https://user-images.githubusercontent.com/94962427/214733289-7588880b-0492-429f-9e7e-8dbc883a88a3.svg",
+  "https://user-images.githubusercontent.com/94962427/214733318-efc109a4-439d-4b3a-b17e-ab478ff16102.svg",
+  "https://user-images.githubusercontent.com/94962427/213092314-422f10bb-6285-420c-be93-913e252f75e6.svg",
+];
 
 const MatPickersItem = ({
   getAllPickers,
@@ -116,11 +121,11 @@ const MatPickersItem = ({
         </Link>
         <ButtonBox>
           <EditIconStyled
-            className={`update_btn${name === "기본 맛픽커즈" ? "_hidden" : ""}`}
+            className={`update_btn${name === "기본 그룹" ? "_hidden" : ""}`}
             onClick={onClickToggleUpdateModal}
           />
           <DeleteIconStyeld
-            className={`delete_btn${name === "기본 맛픽커즈" ? "_hidden" : ""}`}
+            className={`delete_btn${name === "기본 그룹" ? "_hidden" : ""}`}
             onClick={onClickToggleDeleteModal}
           />
         </ButtonBox>

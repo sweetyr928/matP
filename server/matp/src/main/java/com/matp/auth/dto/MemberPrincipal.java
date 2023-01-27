@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
  * 인증시 넘어온 authentication객체가 MemberPrincipal로 매핑됨
  */
 public record MemberPrincipal(
+        String id,
         String email,
         String nickname,
         String birthday,
@@ -28,18 +29,19 @@ public record MemberPrincipal(
         Collection<? extends GrantedAuthority> authorities,
         Map<String, Object> oAuth2Attributes
 ) implements OAuth2User, OidcUser {
-    public static MemberPrincipal of(String email, Collection<? extends GrantedAuthority> authorities) {
-        return new MemberPrincipal(email, null, null, null, null, null, authorities, Map.of());
+    public static MemberPrincipal of(String id, Collection<? extends GrantedAuthority> authorities) {
+        return new MemberPrincipal(id, null, null, null, null, null, null, authorities, Map.of());
     }
 
-    public static MemberPrincipal of(String email, String nickname, String birthday, Integer gender, String profileUrl, String memo) {
-        return of(email, nickname, birthday, gender, profileUrl, memo, Map.of());
+    public static MemberPrincipal of(String id, String email, String nickname, String birthday, Integer gender, String profileUrl, String memo) {
+        return of(id, email, nickname, birthday, gender, profileUrl, memo, Map.of());
     }
 
-    public static MemberPrincipal of(String email, String nickname, String birthday, Integer gender, String profileUrl, String memo, Map<String, Object> oAuth2Attributes) {
+    public static MemberPrincipal of(String id, String email, String nickname, String birthday, Integer gender, String profileUrl, String memo, Map<String, Object> oAuth2Attributes) {
         Set<RoleType> roleTypes = Set.of(RoleType.USER);
 
         return new MemberPrincipal(
+                id,
                 email,
                 nickname,
                 birthday,
@@ -56,6 +58,7 @@ public record MemberPrincipal(
 
     public static MemberPrincipal from(MemberDto dto) {
         return MemberPrincipal.of(
+                String.valueOf(dto.memberId()),
                 dto.email(),
                 dto.nickname(),
                 dto.birthday(),

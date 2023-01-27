@@ -19,8 +19,8 @@ public record MemberDto(
         LocalDateTime createdAt,
         LocalDateTime modifiedAt
 ) {
-    public static MemberDto of(Long memberId, String email, String nickname, String birthday, String profileUrl, Integer gender, String memo, String registrationId, LocalDateTime createdAt, LocalDateTime modifiedAt) {
-        return new MemberDto(memberId, email, nickname, birthday, profileUrl, gender, memo, registrationId, createdAt, modifiedAt);
+    public static MemberDto of(Long id, String email, String nickname, String birthday, String profileUrl, Integer gender, String memo, String registrationId) {
+        return new MemberDto(id, email, nickname, birthday, profileUrl, gender, memo, registrationId, null, null);
     }
 
     public static MemberDto of(String email, String nickname, String birthday, String profileUrl, Integer gender, String memo, String registrationId) {

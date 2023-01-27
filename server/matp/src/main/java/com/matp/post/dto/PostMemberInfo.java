@@ -1,6 +1,6 @@
-package com.matp.post.dto.testdto;
+package com.matp.post.dto;
 
-import com.matp.post.entity.testentity.TestMember;
+
 import lombok.Builder;
 
 @Builder

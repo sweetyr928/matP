@@ -1,13 +1,13 @@
 import styled from "styled-components";
 import MatComment from "./MatComment";
-import useAxios from "../../utils/useAxios";
-import { getComments } from "../../utils/axiosAPI/comments/commentsAxios";
+import useAxios from "../../hooks/useAxios";
+import { getComments } from "../../api/axiosAPI/comments/commentsAxios";
 import MatCommentAdd from "./MatCommentAdd";
 
 const StyledCommentContainer = styled.div`
   display: flex;
   flex-direction: column;
-  max-height: 200px;
+  max-height: 260px;
 `;
 
 const StyledCommentList = styled.div`
@@ -34,11 +34,7 @@ const MatCommentList = () => {
             .slice(0)
             .reverse()
             .map((comment) => (
-              <MatComment
-                key={comment.id}
-                singleComment={comment}
-                getAllComment={getAllComment}
-              />
+              <MatComment key={comment.id} singleComment={comment} getAllComment={getAllComment} />
             ))}
       </StyledCommentList>
     </StyledCommentContainer>

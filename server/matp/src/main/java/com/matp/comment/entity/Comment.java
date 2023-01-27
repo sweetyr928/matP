@@ -1,6 +1,6 @@
 package com.matp.comment.entity;
 
-import com.matp.post.entity.testentity.TestMember;
+import com.matp.member.entity.Member;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "post_comment")
+@Table(name = "comment")
 public class Comment {
     @Id
     private Long id;
@@ -27,7 +27,7 @@ public class Comment {
     private Long placeId;
 
     @Transient
-    private TestMember member;
+    private Member member;
 
     @CreatedDate
     private LocalDateTime commentCreatedAt;

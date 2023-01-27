@@ -1,15 +1,13 @@
 import styled from "styled-components";
 import { useState } from "react";
-import {
-  updateComment,
-  deleteComment,
-} from "../../utils/axiosAPI/comments/commentsAxios";
-import useAxios from "../../utils/useAxios";
+import { updateComment, deleteComment, IComments } from "../../api/axiosAPI/comments/commentsAxios";
+import useAxios from "../../hooks/useAxios";
+import { Popover, Typography } from "@mui/material";
 
 const StyledComment = styled.div`
   display: flex;
   flex-direction: column;
-  border-bottom: 1.4px solid #a19e9e;
+  border-bottom: 1.4px solid #dcdcdc;
   margin: 0px 0px 5px 0px;
 `;
 
@@ -41,12 +39,12 @@ const StyledInfo = styled.div`
     margin: 0px 10px 0px 0px;
   }
 
-  .post_nickname {
+  .comment_nickname {
     font-size: 15px;
     margin: 0px 10px 0px 0px;
   }
 
-  .post_createdAt {
+  .comment_createdAt {
     font-size: 15px;
   }
 `;
@@ -60,6 +58,7 @@ const StyledEdit = styled.div`
     width: 1080px;
     line-height: 25px;
     border: none;
+    border-bottom: 1px solid;
     font-size: 15px;
     color: #373737;
     font-size: 1rem;
@@ -91,31 +90,22 @@ const StyledContent = styled.div`
   }
 `;
 
-interface IcommentProps {
-  id: number;
-  nickname: string;
-  profileimg: string;
-  comment: string;
-  createdat: string;
-}
-
 const MatComment = ({
   singleComment,
   getAllComment,
 }: {
-  singleComment: IcommentProps;
+  singleComment: IComments;
   getAllComment: () => void;
 }) => {
   const [isEditing, setIsEditing] = useState<boolean>(false);
   // Comment 객체
-  const [newSingleComment, setNewSingleComment] =
-    useState<IcommentProps>(singleComment);
+  const [newSingleComment, setNewSingleComment] = useState<IComments>(singleComment);
   // 새로 바뀐 댓글의 내용
-  const [editedComment, setEditedComment] = useState<string>(
-    singleComment.comment
-  );
-  const [createdAt, setCreatedAt] = useState<string>(singleComment.createdat);
+  const [editedComment, setEditedComment] = useState<string>(singleComment.commentContent);
+  const [createdAt, setCreatedAt] = useState<string>(singleComment.commentCreatedAt);
   const [deleteClicked, setDeleteClicked] = useState<boolean>(false);
+  // popover ref
+  const [anchorEL, setAnchorEL] = useState(null);
 
   const { axiosData: updateC } = useAxios(
     () =>
@@ -126,7 +116,7 @@ const MatComment = ({
         createdAt,
         newSingleComment.id
       ),
-    [editedComment, createdAt],
+    [editedComment],
     true
   );
 
@@ -136,9 +126,25 @@ const MatComment = ({
     true
   );
 
+  const setDateFormat = (date: string) => {
+    let newStr = date.split(".");
+    newStr = newStr[0].split("T");
+    return newStr.join(" ");
+  };
+
   // 댓글 수정
   const handleEdit = () => {
     setIsEditing(!isEditing);
+  };
+
+  // popover comment 삭제
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    setAnchorEL(e.currentTarget);
+  };
+
+  // popover comment 삭제 취소
+  const handleClose = () => {
+    setAnchorEL(null);
   };
 
   // 댓글 삭제
@@ -161,7 +167,10 @@ const MatComment = ({
       setIsEditing(!isEditing);
       setNewSingleComment({
         ...newSingleComment,
-        ...{ comment: editedComment, createdat: new Date().toLocaleString() },
+        ...{
+          commentContent: editedComment,
+          commentCreatedat: new Date().toLocaleString(),
+        },
       });
     }
   };
@@ -171,17 +180,59 @@ const MatComment = ({
     setIsEditing(!isEditing);
   };
 
+  // popover styling
+  const PopoverStyle = {
+    zIndex: 10000,
+    top: "5px",
+  };
+
+  const PopoverTStyle = {
+    backgroundColor: "#e1e1e1",
+    fontSize: "12px",
+  };
+
+  const PopoverBtnStyle = {
+    backgroundColor: "#874356",
+    color: "#ffffff",
+    border: "none",
+    marginLeft: "5px",
+    borderRadius: "30px",
+    cursor: "pointer",
+    width: "35px",
+    height: "18px",
+  };
+
   return (
     <StyledComment>
       <StyledDiv>
         <StyledInfo>
-          <img src={newSingleComment.profileimg} alt="profileImg"></img>
-          <div className="post_nickname">{newSingleComment.nickname}</div>
-          <div className="post_createdAt">{newSingleComment.createdat}</div>
+          <img src={newSingleComment.profileImg} alt="profileImg"></img>
+          <div className="comment_nickname">{newSingleComment.nickname}</div>
+          <div className="comment_createdAt">
+            {setDateFormat(newSingleComment.commentCreatedAt)}
+          </div>
         </StyledInfo>
         <div>
           <button onClick={handleEdit}>수정</button>
-          <button onClick={handleDelete}>삭제</button>
+          <button onClick={handleClick}>삭제</button>
+          <Popover
+            open={Boolean(anchorEL)}
+            onClose={handleClose}
+            anchorEl={anchorEL}
+            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+            transformOrigin={{ vertical: "top", horizontal: "right" }}
+            style={PopoverStyle}
+          >
+            <Typography variant="body2" p={2} style={PopoverTStyle}>
+              정말 삭제하시겠습니까?
+              <button style={PopoverBtnStyle} onClick={handleDelete}>
+                Yes
+              </button>
+              <button style={PopoverBtnStyle} onClick={handleClose}>
+                No
+              </button>
+            </Typography>
+          </Popover>
         </div>
       </StyledDiv>
       <StyledContent>
@@ -196,7 +247,7 @@ const MatComment = ({
             <button onClick={handleCancel}>취소</button>
           </StyledEdit>
         ) : (
-          <div>{newSingleComment.comment}</div>
+          <div>{newSingleComment.commentContent}</div>
         )}
       </StyledContent>
     </StyledComment>

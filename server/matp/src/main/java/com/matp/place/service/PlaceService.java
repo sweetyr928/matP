@@ -3,6 +3,8 @@ package com.matp.place.service;
 
 import com.matp.picker.service.PickerService;
 import com.matp.place.dto.PlaceDetailResponseDto;
+import com.matp.place.dto.PlaceEnrollmentRequest;
+import com.matp.place.dto.PlaceEnrollmentResponse;
 import com.matp.place.dto.PlaceResponseDto;
 import com.matp.place.entity.Place;
 import com.matp.place.repository.PlaceRepositiory;
@@ -61,5 +63,10 @@ public class PlaceService {
                     boolean isPick = pickerService.isPick(placeId, memberId).blockOptional().isPresent();
                     return PlaceDetailResponseDto.of(place, postList, isPick);
                 });
+    }
+
+    public Mono<PlaceEnrollmentResponse> registerPlaceInfo(Mono<PlaceEnrollmentRequest> placeEnrollmentRequest) {
+        return placeEnrollmentRequest.map(PlaceEnrollmentRequest::toEntity)
+                .flatMap(place -> placeRepository.registerPlaceInfo(place.getTel(),place.getAddress(),place.getRoadNameAddress(),place.getName(),place.getCategory()));
     }
 }

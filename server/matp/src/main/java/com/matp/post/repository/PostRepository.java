@@ -37,13 +37,14 @@ public interface PostRepository extends ReactiveCrudRepository<Post, Long> {
             p.likes,
             p.thumbnail_url,
             p.star,
+            p.place_id,
             p.created_at,
             p.modified_at,
             m.nickname,
-            m.profile_img
+            m.profile_url
             FROM post p
             INNER JOIN member m
-            ON p.member_id = m.id
+            ON p.member_id = m.member_id
             where p.id = :postId
             """)
     Mono<PostMemberSpecificInfo> findPostWithMemberInfo(Long postId);
@@ -59,7 +60,7 @@ public interface PostRepository extends ReactiveCrudRepository<Post, Long> {
     @Query("""
            DELETE
            FROM pc,lc,pl
-           USING post_comment pc
+           USING comment pc
            LEFT JOIN likes_count lc
            ON pc.post_id = lc.likes_post_id
            LEFT JOIN post_likes pl
@@ -72,7 +73,7 @@ public interface PostRepository extends ReactiveCrudRepository<Post, Long> {
             SELECT
             id,
             star
-            FROM mat_post
+            FROM post
             WHERE place_id = :placeId
             """)
     Flux<Post> findPlacePosts(Long placeId);
@@ -83,7 +84,7 @@ public interface PostRepository extends ReactiveCrudRepository<Post, Long> {
     likes,
     thumbnail_url,
     star
-    FROM mat_post
+    FROM post
     WHERE place_id = :placeId
     """)
     Flux<Post> findPlaceDetailPosts(Long placeId);

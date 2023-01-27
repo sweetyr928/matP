@@ -3,13 +3,15 @@ package com.matp.post.service;
 
 import com.matp.comment.dto.MultiResponseDto;
 import com.matp.comment.service.CommentService;
+import com.matp.exception.CustomErrorCode;
+import com.matp.exception.CustomErrorResponse;
+import com.matp.exception.CustomException;
 import com.matp.post.dto.*;
-import com.matp.post.dto.testdto.PostMemberInfo;
+import com.matp.post.dto.PostMemberInfo;
 import com.matp.post.entity.Post;
 import com.matp.post.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.relational.core.sql.LockMode;
-import org.springframework.data.relational.repository.Lock;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Flux;
@@ -43,7 +45,7 @@ public class PostService {
      * @author 임준건
      */
     @Transactional(readOnly = true)
-    public Mono<MultiResponseDto> getPost(Long postId,Long memberId) {
+    public Mono<MultiResponseDto> getPost(Long postId, Long memberId) {
         // TODO Member 토큰 에서 memberID 뽑아서 넘겨줘야함 .
         //  좋아요 post 조회시에 체킹유무까지 넘겨줘야함
         return postRepository.findPostWithMemberInfo(postId)
@@ -64,8 +66,9 @@ public class PostService {
                             .likes(result.likes())
                             .thumbnailUrl(result.thumbnailUrl())
                             .star(result.star())
-                            .createdAt(result.createdAt())
-                            .modifiedAt(result.modifiedAt())
+                            .placeId(result.placeId())
+                            .createdAt(result.created_at())
+                            .modifiedAt(result.modified_at())
                             .memberInfo(member)
                             .build();
 
@@ -102,11 +105,12 @@ public class PostService {
      * @author 임준건
      */
     @Transactional
-    public Mono<PostResponse> save(PostRequest request) {
+    public Mono<PostResponse> save(PostRequest request,Long placeId,Long memberId) {
 
         Post Post = request.toEntity();
-        Post.setMemberId(2L);
-
+        //TODO memberID 넣어야함
+        Post.setMemberId(memberId);
+        Post.setPlaceId(placeId);
         Mono<Post> save = postRepository.save(Post);
 
         return save.map(PostResponse::from);
@@ -118,10 +122,13 @@ public class PostService {
      * @author 임준건
      */
     @Transactional
-    public Mono<PostResponse> update(PatchPostRequest updatePostRequest, Long postId) {
+    public Mono<PostResponse> update(PatchPostRequest updatePostRequest, Long postId, Long memberId) {
         Post updatePost = updatePostRequest.toEntity();
-        return postRepository.findById(postId).flatMap(post ->
-                postRepository.save(post.settingPost(post,updatePost))).map(PostResponse::from);
+        if (updatePost.getMemberId() != memberId) {
+            throw new CustomException(CustomErrorCode.NOT_ALLOWED_MEMBER_ID);
+        }
+            return postRepository.findById(postId).flatMap(post ->
+                    postRepository.save(post.settingPost(post, updatePost))).map(PostResponse::from);
     }
 
     /**
@@ -130,9 +137,16 @@ public class PostService {
      * @author 임준건
      */
     @Transactional
-    public Mono<Void> delete(Long postId) {
+    public Mono<Void> delete(Long postId, Long memberId) {
+
 
         return postRepository.findById(postId)
+                .map(post -> {
+                    if (post.getMemberId() != memberId) {
+                        throw new CustomException(CustomErrorCode.NOT_ALLOWED_MEMBER_ID);
+                    }
+                    return post;
+                })
                 .flatMap(postRepository::delete)
                 .switchIfEmpty(postRepository.PostDeleteWithCommentsLikes(postId));
     }

@@ -29,24 +29,31 @@ const NameBox = styled.div`
   .icon {
     width: 30px;
     height: 30px;
-    border: 1px solid black;
     border-radius: 50%;
     margin-right: 20px;
-    background-color: ${(props) => props.color || "gray"};
+    background: url(${(props) => props.color || "gray"});
+    background-size: 100%;
   }
 `;
 
 interface PickersProps {
   id: number;
   name: string;
-  color: string;
+  groupImgIndex: number;
 }
 
-const MatPeoplePickersList = ({ picker }: { picker: PickersProps }) => {
+const groupImg = [
+  "https://user-images.githubusercontent.com/94962427/214733213-a2c51280-6525-49ed-b60c-5e7e248890f8.svg",
+  "https://user-images.githubusercontent.com/94962427/214733289-7588880b-0492-429f-9e7e-8dbc883a88a3.svg",
+  "https://user-images.githubusercontent.com/94962427/214733318-efc109a4-439d-4b3a-b17e-ab478ff16102.svg",
+  "https://user-images.githubusercontent.com/94962427/213092314-422f10bb-6285-420c-be93-913e252f75e6.svg",
+];
+
+const MatPeoplePickersItem = ({ picker }: { picker: PickersProps }) => {
   return (
     <StyledMatPicker>
       <Link to={`/pickers/${picker.id}`}>
-        <NameBox color={picker.color}>
+        <NameBox color={groupImg[picker.groupImgIndex]}>
           <div className="icon"></div>
           <div>{picker.name}</div>
         </NameBox>
@@ -55,4 +62,4 @@ const MatPeoplePickersList = ({ picker }: { picker: PickersProps }) => {
   );
 };
 
-export default MatPeoplePickersList;
+export default MatPeoplePickersItem;

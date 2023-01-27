@@ -1,6 +1,6 @@
 package com.matp.comment.dto;
 
-import com.matp.post.dto.testdto.PostMemberInfo;
+import com.matp.post.dto.PostMemberInfo;
 import lombok.Builder;
 
 import java.time.LocalDateTime;
