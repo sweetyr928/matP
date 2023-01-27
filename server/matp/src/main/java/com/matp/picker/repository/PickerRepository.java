@@ -3,6 +3,7 @@ package com.matp.picker.repository;
 import com.matp.picker.entity.Picker;
 import org.springframework.data.r2dbc.repository.Query;
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 public interface PickerRepository extends ReactiveCrudRepository<Picker, Long> {
@@ -20,4 +21,6 @@ public interface PickerRepository extends ReactiveCrudRepository<Picker, Long> {
     WHERE place_id = :placeId and member_id = :memberId;
     """)
     Mono<Void> deleteByIds(long placeId, long memberId);
+
+    Flux<Picker> findByPlaceId(long placeId);
 }

@@ -50,5 +50,9 @@ public class GroupService {
     public Mono<Void> deleteGroup(Long groupId, Long memberId) {
         return  groupRepository.findByIds(groupId, memberId).flatMap(groupRepository::delete);
     }
+
+    public Mono<Group> findById(Long groupId) {
+        return groupRepository.findById(groupId);
+    }
 }
 

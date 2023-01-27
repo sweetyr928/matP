@@ -20,7 +20,7 @@ public class Place {
 
     private String address;
 
-    private String roadNameAddress;
+    private String zonecode;
 
     private String name;
 
