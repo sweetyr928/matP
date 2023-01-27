@@ -3,6 +3,7 @@ import PostRead from "../components/PostRead";
 import { getPosts } from "../api/axiosAPI/posts/PostsAxios";
 import useAxios from "../hooks/useAxios";
 import type { IPosts } from "../api/axiosAPI/posts/PostsAxios";
+import { useSearchParams } from "react-router-dom";
 
 const StyledFeed = styled.div`
   height: 100%;
@@ -33,6 +34,12 @@ const StyledPosts = styled.div`
 `;
 
 const Domain: React.FC = () => {
+  const [searchParams] = useSearchParams();
+  const Authorization = searchParams.get("access_token") || "";
+  if (Authorization) {
+    localStorage.setItem("Authorization", Authorization);
+  }
+
   const { responseData } = useAxios(getPosts, [], false);
 
   return (

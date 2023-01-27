@@ -242,6 +242,46 @@ const NickName = styled.span`
   font-size: 1.1rem;
 `;
 
+const LogoutModal = styled.div`
+  position: absolute;
+  bottom: 40vh;
+  left: 70px;
+  background-color: #fff;
+  border-radius: 7px;
+  padding: 24px;
+  width: 394px;
+  height: 30vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  span {
+    font-size: 1.5rem;
+  }
+`;
+const ButtonContainer = styled.div`
+  margin-top: 30px;
+  button {
+    cursor: pointer;
+    background-color: #fff;
+    text-decoration: none;
+    border: none;
+    font-size: 20px;
+    padding: 10px 30px;
+  }
+  .yes {
+    color: #ad0000;
+    &:hover {
+      color: #ff8b8b;
+    }
+  }
+  .no {
+    &:hover {
+      color: #7c7c7c;
+    }
+  }
+`;
+
 const MyPage: React.FC = () => {
   const navigate = useNavigate();
   const onClickTab = () => {
@@ -257,6 +297,7 @@ const MyPage: React.FC = () => {
   const [isOpenEditModal, setOpenEditModal] = useState<boolean>(false);
   const [isOpenFollowingModal, setOpenFollowingModal] = useState<boolean>(false);
   const [isOpenFollowerModal, setOpenFollowerModal] = useState<boolean>(false);
+  const [isOpenLogoutModal, setOpenLogoutModal] = useState<boolean>(false);
 
   const [revisedName, setRevisedName] = useState(nickname);
   const [revisedMemo, setRevisedMemo] = useState(memo);
@@ -286,6 +327,10 @@ const MyPage: React.FC = () => {
   };
   const onClickToggleFollowerModal = () => {
     setOpenFollowerModal(!isOpenFollowerModal);
+  };
+
+  const onClickToggleLogoutModal = () => {
+    setOpenLogoutModal(!isOpenLogoutModal);
   };
 
   // 프로필 이미지 클릭시 파일 업로더 뜸
@@ -321,6 +366,11 @@ const MyPage: React.FC = () => {
     onClickToggleEditModal();
   };
 
+  const logoutHandler = () => {
+    localStorage.removeItem("Authorization");
+    navigate("/");
+  };
+
   return (
     <FeedContainer>
       <div className="userInfo_header_container">
@@ -334,7 +384,7 @@ const MyPage: React.FC = () => {
           </UserRemainder>
         </UserInfo>
         <EditIconStyled onClick={onClickToggleEditModal} />
-        <LogoutIconStyled />
+        <LogoutIconStyled onClick={onClickToggleLogoutModal} />
       </div>
       <ContentContainer>
         <TabContainer>
@@ -377,6 +427,7 @@ const MyPage: React.FC = () => {
           <ModalBackdrop onClick={onClickToggleFollowerModal} />
         </ModalPortal>
       )}
+
       {isOpenEditModal && (
         <ModalPortal>
           <ModalContainer>
@@ -402,6 +453,24 @@ const MyPage: React.FC = () => {
             </ModalView>
           </ModalContainer>
           <ModalBackdrop onClick={onClickToggleEditModal} />
+        </ModalPortal>
+      )}
+      {isOpenLogoutModal && (
+        <ModalPortal>
+          <ModalContainer>
+            <LogoutModal>
+              <span>정말 로그아웃 하시겠습니까?</span>
+              <ButtonContainer>
+                <button className="yes" onClick={logoutHandler}>
+                  예
+                </button>
+                <button className="no" onClick={onClickToggleLogoutModal}>
+                  아니오
+                </button>
+              </ButtonContainer>
+            </LogoutModal>
+          </ModalContainer>
+          <ModalBackdrop onClick={onClickToggleLogoutModal} />
         </ModalPortal>
       )}
     </FeedContainer>

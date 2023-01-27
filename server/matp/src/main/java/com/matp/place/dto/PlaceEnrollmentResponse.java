@@ -7,7 +7,7 @@ import lombok.Builder;
 public record PlaceEnrollmentResponse(Long id,
                                String tel,
                                String address,
-                               String roadNameAddress,
+                               String zonecode,
                                String name,
                                String category) {
     public static PlaceEnrollmentResponse of(Place place) {
@@ -15,7 +15,7 @@ public record PlaceEnrollmentResponse(Long id,
                 .id(place.getId())
                 .tel(place.getTel())
                 .address(place.getAddress())
-                .roadNameAddress(place.getRoadNameAddress())
+                .zonecode(place.getZonecode())
                 .name(place.getName())
                 .category(place.getCategory())
                 .build();

@@ -9,7 +9,8 @@ import MatCommentList from "./MatCommentList";
 import { MatPostUpdate } from "..";
 import { useNavigate } from "react-router";
 import { Popover, Typography } from "@mui/material";
-import axios from "axios";
+import moment from "moment";
+import "moment/locale/ko";
 
 const StyledModal = styled.div`
   border-radius: 10px;
@@ -90,7 +91,7 @@ const StyledInfo = styled.div`
   }
 
   .post_createdAt {
-    font-size: 15px;
+    font-size: 14px;
   }
 `;
 
@@ -185,13 +186,6 @@ const PostReadModal = ({
   // 항상 별이 총 5개(더미 array)
   const array: Array<number> = [0, 1, 2, 3, 4];
 
-  // 날짜 변환
-  const setDateFormat = (date: string) => {
-    let newStr = date.split(".");
-    newStr = newStr[0].split("T");
-    return newStr.join(" ");
-  };
-
   const handleEdit = () => {
     setIsEdit(true);
   };
@@ -275,7 +269,9 @@ const PostReadModal = ({
               <StyledInfo>
                 <img src={profileImg} alt="profileImg"></img>
                 <div className="post_nickname">{nickname}</div>
-                <div className="post_createdAt">{setDateFormat(createdAt)}</div>
+                <div className="post_createdAt">
+                  {moment(createdAt, "YYYY-MM-DDTHH:mm:ss").format("llll")}
+                </div>
               </StyledInfo>
               <div>
                 <button onClick={handleEdit}>수정</button>
