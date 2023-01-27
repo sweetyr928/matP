@@ -19,6 +19,7 @@ export interface IPosts {
   modifiedAt: string;
   star: number;
   memberId: number;
+  placeId: number;
 }
 
 export interface IMemberInfo {
@@ -50,53 +51,50 @@ export const getPosts = async () => {
   return response.data;
 };
 
-export const getPlacesPost = async (id: number) => {
-  const response = await axios.get(`${url}/places/1/posts/${id}`);
+export const getPlacesPost = async (id: number, placeId: number) => {
+  const response = await axios.get(`${url}/places/${placeId}/posts/${id}`);
   return response.data;
 };
 
 export const createPost = async (
-  nickname: string,
-  profileimg: string,
   title: string,
   content: string,
-  createdAt: string,
+  thumbnailUrl: string,
   star: number,
-  likes: 0,
-  thumbnailUrl: string
+  placeId: number
 ): Promise<void> => {
-  const response = await axios.post(`${url}/places/1/posts`, {
-    nickname,
-    profileimg,
+  console.log(title);
+  console.log(content);
+  console.log(thumbnailUrl);
+  console.log(star);
+  const response = await axios.post(`${url}/places/${placeId}/posts`, {
     title,
     content,
-    createdAt,
-    star,
-    likes,
     thumbnailUrl,
+    star,
   });
+
   return response.data;
 };
 
 export const updatePost = async (
   title: string,
   content: string,
-  createdAt: string,
-  star: number,
   thumbnailUrl: string,
+  star: number,
   id: number
 ): Promise<void> => {
   const response = await axios.patch(`${url}/places/1/posts/${id}`, {
     title,
     content,
-    createdAt,
-    star,
     thumbnailUrl,
+    star,
   });
   return response.data;
 };
 
 export const deletePost = async (id: number): Promise<void> => {
+  console.log(id);
   const response = await axios.delete(`${url}/places/1/posts/${id}`);
   return response.data;
 };

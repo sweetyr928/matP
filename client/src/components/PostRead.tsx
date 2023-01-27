@@ -70,15 +70,17 @@ const ModalBackdrop = styled.div`
 const PostRead = ({ post }: { post: IPosts }) => {
   const [isOpenModal, setOpenModal] = useState<boolean>(false);
   const [selectedPost, setSelectedPost] = useState<number>(1);
+  const [selectedPlace, setSelectedPlace] = useState<number>(1);
 
   const { responseData } = useAxios(
-    () => getPlacesPost(selectedPost),
+    () => getPlacesPost(selectedPost, selectedPlace),
     [selectedPost],
     false
   );
 
   const handleClick = () => {
     setSelectedPost(post.id);
+    setSelectedPlace(post.placeId);
     onClickToggleModal();
   };
 

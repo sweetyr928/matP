@@ -206,7 +206,7 @@ const PostReadModal = ({
    * TODO : 서버 연결 후 url 변경 및 지도 이동 기능 추가
    */
   const handleMatPlace = () => {
-    navigate("/places");
+    navigate(`/places${id}`);
   };
 
   // '하트' 이모지 클릭 시 like / default 상태로 바뀜
@@ -235,8 +235,6 @@ const PostReadModal = ({
     width: "40px",
     height: "20px",
   };
-
-  console.log(responseData.comments);
 
   return (
     <StyledModal>

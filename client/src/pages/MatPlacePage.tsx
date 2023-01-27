@@ -318,6 +318,7 @@ const MatPlacePost: React.FC = () => {
     longitude = 0,
     latitude = 0,
     postList = [],
+    placeId = 0,
   } = placeData || {};
 
   const pickHandler = () => {
@@ -369,7 +370,10 @@ const MatPlacePost: React.FC = () => {
     <FeedContainer>
       {isOpenModal && (
         <ModalPortal>
-          <MatPostCreate onClickToggleModal={onClickToggleModal} />
+          <MatPostCreate
+            onClickToggleModal={onClickToggleModal}
+            placeId={placeId}
+          />
           <ModalBackdrop onClick={onClickToggleModal} />
         </ModalPortal>
       )}

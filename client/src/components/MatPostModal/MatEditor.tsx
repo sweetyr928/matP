@@ -26,7 +26,7 @@ const MatEditor = ({ htmlContent, setHtmlContent }: QuillEditorProps) => {
     let url = "";
 
     input.setAttribute("type", "file");
-    input.setAttribute("accept", "image/*");
+    input.setAttribute("accept", "image/jpg,impge/png,image/jpeg");
     input.click();
 
     // 파일이 input 태그에 담기면 실행 될 함수
@@ -34,19 +34,25 @@ const MatEditor = ({ htmlContent, setHtmlContent }: QuillEditorProps) => {
       const file = input.files;
 
       if (file) {
-        formData.append("multipartFiles", file[0]);
+        formData.append("file", file[0]);
       }
 
       try {
         // file 데이터 담아서 서버에 전달하여 이미지 업로드
-        const res = await axios.post("서버 배포 url/upload", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        });
+        const res = await axios.post(
+          "http://ec2-15-165-163-251.ap-northeast-2.compute.amazonaws.com:8080/upload",
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
 
         // 이미지 url
-        url = res.data.path;
+        url = res.data.data.path;
+
+        console.log(url);
 
         if (QuillRef.current) {
           // 현재 Editor 커서 위치에 서버로부터 전달받은 이미지 url을 이용하여 이미지 태그 추가
@@ -90,7 +96,7 @@ const MatEditor = ({ htmlContent, setHtmlContent }: QuillEditorProps) => {
           ["image"],
         ],
         handlers: {
-          // image: imageHandler,
+          image: imageHandler,
         },
       },
       imageResize: {

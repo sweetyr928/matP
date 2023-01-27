@@ -110,13 +110,19 @@ interface ModalDefaultType {
   state: any;
 }
 
-const PostUpdateModal = ({ onClickToggleModal, id, state }: ModalDefaultType) => {
+const PostUpdateModal = ({
+  onClickToggleModal,
+  id,
+  state,
+}: ModalDefaultType) => {
   // const { id } = useParams();
 
   // 기존 데이터 받아오기
   const [newTitle, setNewTitle] = useState<string>(state.title);
   const [htmlContent, setHtmlContent] = useState<string>(state.content);
-  const [clicked, setClicked] = useState<boolean[]>(new Array(5).fill(true, 0, state.star));
+  const [clicked, setClicked] = useState<boolean[]>(
+    new Array(5).fill(true, 0, state.star)
+  );
   const [createdAt, setCreatedAt] = useState<string>(state.createdAt);
   // content에 이미지 포함 여부
   const [imageContained, setImageContained] = useState<boolean>(false);
@@ -127,7 +133,9 @@ const PostUpdateModal = ({ onClickToggleModal, id, state }: ModalDefaultType) =>
 
   useEffect(() => {
     getThumbnailUrl();
-    thumbnailUrl.length > 0 ? setImageContained(true) : setImageContained(false);
+    thumbnailUrl.length > 0
+      ? setImageContained(true)
+      : setImageContained(false);
   }, [htmlContent]);
 
   const { axiosData } = useAxios(
@@ -135,10 +143,9 @@ const PostUpdateModal = ({ onClickToggleModal, id, state }: ModalDefaultType) =>
       updatePost(
         newTitle,
         htmlContent,
-        createdAt,
-        clicked.filter(Boolean).length,
         thumbnailUrl,
-        Number(id)
+        clicked.filter(Boolean).length,
+        id
       ),
     [newTitle, htmlContent, clicked, thumbnailUrl],
     true
@@ -175,7 +182,11 @@ const PostUpdateModal = ({ onClickToggleModal, id, state }: ModalDefaultType) =>
 
   return (
     <StyledDiv>
-      <input placeholder="제목을 입력해주세요" value={newTitle} onChange={handleInput}></input>
+      <input
+        placeholder="제목을 입력해주세요"
+        value={newTitle}
+        onChange={handleInput}
+      ></input>
       <hr className="middle_line" />
       <div className={newTitle.length <= 0 ? "disabled" : ""}>
         <MatEditor htmlContent={htmlContent} setHtmlContent={setHtmlContent} />
@@ -189,7 +200,9 @@ const PostUpdateModal = ({ onClickToggleModal, id, state }: ModalDefaultType) =>
                 key={idx}
                 size="50"
                 onClick={() => handleStarClick(el)}
-                className={imageContained ? (clicked[el] ? "yellow" : "") : "disabled"}
+                className={
+                  imageContained ? (clicked[el] ? "yellow" : "") : "disabled"
+                }
               />
             );
           })}
@@ -199,7 +212,9 @@ const PostUpdateModal = ({ onClickToggleModal, id, state }: ModalDefaultType) =>
         <button
           onClick={axiosData}
           className={
-            newTitle.length > 0 && htmlContent.length > 0 && imageContained ? "" : "disabled"
+            newTitle.length > 0 && htmlContent.length > 0 && imageContained
+              ? ""
+              : "disabled"
           }
         >
           수정
