@@ -3,7 +3,8 @@ import PostRead from "../components/PostRead";
 import { getPosts } from "../api/axiosAPI/posts/PostsAxios";
 import useAxios from "../hooks/useAxios";
 import type { IPosts } from "../api/axiosAPI/posts/PostsAxios";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { useEffect } from "react";
 
 const StyledFeed = styled.div`
   height: 100%;
@@ -34,10 +35,14 @@ const StyledPosts = styled.div`
 `;
 
 const Domain: React.FC = () => {
+  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const Authorization = searchParams.get("access_token") || "";
+  const Authorization = searchParams.get("access_token") || null;
+
   if (Authorization) {
     localStorage.setItem("Authorization", Authorization);
+    navigate("/");
+    window.location.reload();
   }
 
   const { responseData } = useAxios(getPosts, [], false);
