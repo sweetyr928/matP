@@ -18,6 +18,8 @@ import moment from "moment";
 import "moment/locale/ko";
 import axios from "axios";
 import { IComments } from "../../api/axiosAPI/comments/commentsAxios";
+import { useRecoilValue } from "recoil";
+import { userInfoState } from "../../store/userInfoAtoms";
 
 const jwtToken = localStorage.getItem("Authorization");
 
@@ -79,6 +81,10 @@ const StyledMid = styled.div`
 
   button:hover {
     font-weight: 700;
+  }
+
+  .disabled {
+    display: none;
   }
 `;
 
@@ -145,6 +151,8 @@ const PostReadModal = ({
   onClickToggleModal,
   id,
 }: ModalDefaultType): JSX.Element => {
+  const userInfo = useRecoilValue(userInfoState);
+  console.log(userInfo.nickname);
   const [nickname, setNickname] = useState<string>("");
   const [profileImg, setProfileImg] = useState<string>("");
   const [title, setTitle] = useState<string>("");
@@ -324,8 +332,18 @@ const PostReadModal = ({
                 </div>
               </StyledInfo>
               <div>
-                <button onClick={handleEdit}>수정</button>
-                <button onClick={handleClick}>삭제</button>
+                <button
+                  onClick={handleEdit}
+                  className={nickname !== userInfo.nickname ? "disabled" : ""}
+                >
+                  수정
+                </button>
+                <button
+                  onClick={handleClick}
+                  className={nickname !== userInfo.nickname ? "disabled" : ""}
+                >
+                  삭제
+                </button>
                 <Popover
                   open={Boolean(anchorEL)}
                   onClose={handleClose}
