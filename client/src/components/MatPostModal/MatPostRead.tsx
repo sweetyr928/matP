@@ -152,7 +152,6 @@ const PostReadModal = ({
   id,
 }: ModalDefaultType): JSX.Element => {
   const userInfo = useRecoilValue(userInfoState);
-  console.log(userInfo.nickname);
   const [nickname, setNickname] = useState<string>("");
   const [profileImg, setProfileImg] = useState<string>("");
   const [title, setTitle] = useState<string>("");

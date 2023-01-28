@@ -121,7 +121,6 @@ const MatPeople: React.FC = () => {
   const { id } = useParams();
 
   useEffect(() => {
-    console.log("start", following);
     axios
       .get(
         `http://ec2-15-165-163-251.ap-northeast-2.compute.amazonaws.com:8080/members/followings`,
@@ -141,7 +140,6 @@ const MatPeople: React.FC = () => {
         } else {
           setFollowing(false);
         }
-        console.log("end", following);
       })
       .catch(function (error) {
         throw error;
