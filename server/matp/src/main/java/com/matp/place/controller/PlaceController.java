@@ -2,23 +2,25 @@ package com.matp.place.controller;
 
 
 
+import com.matp.auth.jwt.JwtTokenProvider;
 import com.matp.place.dto.PlaceDetailResponseDto;
 import com.matp.place.dto.PlaceEnrollmentRequest;
 import com.matp.place.dto.PlaceEnrollmentResponse;
 import com.matp.place.dto.PlaceResponseDto;
 import com.matp.place.service.PlaceService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping
+@RequiredArgsConstructor
 public class PlaceController {
     private final PlaceService placeService;
-
-    public PlaceController(PlaceService placeService) {
-        this.placeService = placeService;
-    }
+    private final JwtTokenProvider jwtTokenProvider;
 
     @GetMapping("/places")
     public Flux<PlaceResponseDto> getPlaces(@RequestParam("lon") double lon, @RequestParam("lat") double lat, @RequestParam("round") double round) {
@@ -26,8 +28,8 @@ public class PlaceController {
     }
 
     @GetMapping("/places/{place-id}")
-    public Mono<PlaceDetailResponseDto> getPlaceDetail(@PathVariable("place-id") Long placeId) {
-        return placeService.findPlaceDetail(placeId, 1L);
+    public Mono<PlaceDetailResponseDto> getPlaceDetail(@PathVariable("place-id") Long placeId, ServerHttpRequest jwt) {
+        return placeService.findPlaceDetail(placeId, extractId(jwt));
     }
 
     @GetMapping("/search")
@@ -38,5 +40,12 @@ public class PlaceController {
     @PostMapping
     public Mono<PlaceEnrollmentResponse> registerPlace(@RequestBody Mono<PlaceEnrollmentRequest> placeEnrollmentRequest) {
         return placeService.registerPlaceInfo(placeEnrollmentRequest);
+    }
+
+    private Long extractId(ServerHttpRequest request) {
+        String bearerToken = request.getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
+        assert bearerToken != null;
+        bearerToken = bearerToken.substring(7);
+        return jwtTokenProvider.getUserId(bearerToken);
     }
 }
