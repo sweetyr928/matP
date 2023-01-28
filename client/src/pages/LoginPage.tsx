@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import kakaoLogo from "../assets/images/kakaoLogo.svg";
 import googleLogo from "../assets/images/googleLogo.svg";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { useEffect } from "react";
 
 const StyledFeed = styled.div`
   height: 100%;
@@ -83,6 +85,17 @@ const GoogleLogoImg = styled.img`
 `;
 
 const LoginPage = () => {
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const Authorization = searchParams.get("access_token") || null;
+  useEffect(() => {
+    if (Authorization) {
+      localStorage.setItem("Authorization", Authorization);
+      navigate("/");
+      window.location.reload();
+    }
+  }, []);
+
   const handleKakaoLogin = () => {
     window.location.href =
       "http://ec2-15-165-163-251.ap-northeast-2.compute.amazonaws.com:8080/oauth2/authorization/kakao";
