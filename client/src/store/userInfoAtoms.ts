@@ -1,20 +1,12 @@
 import { atom } from "recoil";
+import { recoilPersist } from "recoil-persist";
+
+const { persistAtom } = recoilPersist();
 
 const userInfoState = atom({
   key: "userInfoState",
-  default: {
-    id: 5,
-    email: "",
-    nickname: "",
-    birthday: "",
-    profileUrl: "",
-    gender: 0,
-    memo: "",
-    followers: 0,
-    followings: 0,
-    postInfos: [],
-    pickerGroupInfos: [],
-  },
+  default: {},
+  effects_UNSTABLE: [persistAtom],
 });
 
 export { userInfoState };

@@ -12,7 +12,8 @@ import {
   convertImageUrl,
 } from "../api/axiosAPI/members/myPageAPI";
 import { ModalPortal } from "../components";
-import axios from "axios";
+import { userInfoState } from "../store/userInfoAtoms";
+import { useSetRecoilState } from "recoil";
 
 const FeedContainer = styled.div`
   height: 100%;
@@ -305,6 +306,9 @@ const MyPage: React.FC = () => {
   const [revisedName, setRevisedName] = useState(nickname);
   const [revisedMemo, setRevisedMemo] = useState(memo);
   const [revisedImage, setRevisedImage] = useState(profileUrl);
+
+  const setUserInfo = useSetRecoilState(userInfoState);
+
   // 프로필 이미지 수정을 위한 ref
   const fileInput = useRef<HTMLInputElement>(null);
 
@@ -369,6 +373,7 @@ const MyPage: React.FC = () => {
 
   const logoutHandler = () => {
     localStorage.removeItem("Authorization");
+    setUserInfo({});
     navigate("/");
     window.location.reload();
   };

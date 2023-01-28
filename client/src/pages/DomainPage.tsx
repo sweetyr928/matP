@@ -3,14 +3,10 @@ import PostRead from "../components/PostRead";
 import { getPosts } from "../api/axiosAPI/posts/PostsAxios";
 import useAxios from "../hooks/useAxios";
 import type { IPosts } from "../api/axiosAPI/posts/PostsAxios";
+import { useEffect } from "react";
+import { getMyData } from "../api/axiosAPI/members/myPageAPI";
 import { userInfoState } from "../store/userInfoAtoms";
 import { useSetRecoilState } from "recoil";
-import { getMyData } from "../api/axiosAPI/members/myPageAPI";
-import { useEffect } from "react";
-import { useRecoilValue } from "recoil";
-import axios from "axios";
-
-const jwtToken = localStorage.getItem("Authorization");
 
 const StyledFeed = styled.div`
   height: 100%;
@@ -41,24 +37,21 @@ const StyledPosts = styled.div`
 `;
 
 const Domain: React.FC = () => {
+  const token = localStorage.getItem("Authorization");
   const setUserInfo = useSetRecoilState(userInfoState);
-  const userInfo = useRecoilValue(userInfoState);
-  const { responseData: loginUser } = useAxios(getMyData, [], false);
+  const { axiosData: getUserInfo, responseData: memberData } =
+    useAxios(getMyData);
+  useEffect(() => {
+    if (token) {
+      getUserInfo();
+    }
+  }, [token]);
 
   useEffect(() => {
-    axios
-      .get(
-        "http://ec2-15-165-163-251.ap-northeast-2.compute.amazonaws.com:8080/members/mypage",
-        {
-          headers: {
-            Authorization: `Bearer ${jwtToken}`,
-          },
-        }
-      )
-      .then((res) => {
-        setUserInfo(res.data);
-      });
-  }, []);
+    if (memberData) {
+      setUserInfo(memberData);
+    }
+  }, [memberData]);
 
   const { responseData } = useAxios(getPosts, [], false);
 
