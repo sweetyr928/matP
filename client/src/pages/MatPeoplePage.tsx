@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import styled from "styled-components";
 import { getMatPeople } from "../api/axiosAPI/people/PeopleAxios";
 import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
@@ -115,9 +115,11 @@ const MatPeople: React.FC = () => {
     navigate("/matPickers", { state: pickerGroupInfos });
   };
 
+  const id = useParams();
+
   const [isFollowing, setIsFollowing] = useState<boolean>(false);
 
-  const { responseData } = useAxios(() => getMatPeople(10), [], false);
+  const { responseData } = useAxios(() => getMatPeople(Number(id)), [], false);
 
   const {
     nickname = "",

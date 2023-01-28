@@ -28,22 +28,27 @@ export const createComment = async (
 };
 
 export const updateComment = async (
-  nickname: string,
-  profileImg: string,
-  commentContent: string,
-  commentCreatedAt: string,
-  id: number
+  content: string,
+  placeId: number,
+  postId: number,
+  commentId: number
 ): Promise<void> => {
-  const response = await axios.patch(`${url}/comments/${id}`, {
-    nickname,
-    profileImg,
-    commentContent,
-    commentCreatedAt,
-  });
+  const response = await axios.patch(
+    `${url}/places/${placeId}/posts/${postId}/comments/${commentId}`,
+    {
+      content,
+    }
+  );
   return response.data;
 };
 
-export const deleteComment = async (id: number): Promise<void> => {
-  const response = await axios.delete(`${url}/comments/${id}`);
+export const deleteComment = async (
+  placeId: number,
+  postId: number,
+  commentId: number
+): Promise<void> => {
+  const response = await axios.delete(
+    `${url}/places/${placeId}/posts/${postId}/comments/${commentId}`
+  );
   return response.data;
 };

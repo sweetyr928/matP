@@ -124,19 +124,13 @@ const MatComment = ({
 
   const { axiosData: updateC } = useAxios(
     () =>
-      updateComment(
-        "rhino",
-        "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg",
-        editedComment,
-        createdAt,
-        newSingleComment.CommentId
-      ),
+      updateComment(editedComment, placeId, postId, newSingleComment.CommentId),
     [editedComment],
     true
   );
 
   const { axiosData: deleteC } = useAxios(
-    () => deleteComment(newSingleComment.CommentId),
+    () => deleteComment(placeId, postId, newSingleComment.CommentId),
     [deleteClicked],
     true
   );

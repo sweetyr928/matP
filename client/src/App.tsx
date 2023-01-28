@@ -57,7 +57,7 @@ function App() {
             <Route path="/newplaces" element={<MatPlacePostPage />} />
             <Route path="/places/:id" element={<MatPlace />} />
             <Route path="/mypage" element={<MyPage />} />
-            <Route path="/people" element={<MatPeople />} />
+            <Route path="/people/:id" element={<MatPeople />} />
             <Route path="/matPickers" element={<MatPeoplePickerPage />} />
             <Route path="*" element={<NotFoundPage />} />
             <Route path="/login" element={<LoginPage />} />
