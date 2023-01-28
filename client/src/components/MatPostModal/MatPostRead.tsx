@@ -145,31 +145,6 @@ const PostReadModal = ({
   onClickToggleModal,
   id,
 }: ModalDefaultType): JSX.Element => {
-  useEffect(() => {
-    axios
-      .get(
-        `http://ec2-15-165-163-251.ap-northeast-2.compute.amazonaws.com:8080/places/1/posts/${id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${jwtToken}`,
-          },
-        }
-      )
-      .then((res) => {
-        console.log(res.data);
-        console.log(res.data.postInfo.title);
-        setNickname(res.data.postInfo.memberInfo.nickname);
-        setProfileImg(res.data.postInfo.memberInfo.profileImg);
-        setTitle(res.data.postInfo.title);
-        setContent(res.data.postInfo.content);
-        setCreatedAt(res.data.postInfo.createdAt);
-        setStar(res.data.postInfo.star);
-        setPlaceId(res.data.postInfo.placeId);
-        setComments(res.data.comments);
-        setIsLikesCheck(res.data.isLikesCheck);
-      });
-  }, []);
-
   const [nickname, setNickname] = useState<string>("");
   const [profileImg, setProfileImg] = useState<string>("");
   const [title, setTitle] = useState<string>("");
@@ -184,6 +159,34 @@ const PostReadModal = ({
   // popover ref
   const [anchorEL, setAnchorEL] = useState(null);
 
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    axios
+      .get(
+        `http://ec2-15-165-163-251.ap-northeast-2.compute.amazonaws.com:8080/places/1/posts/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${jwtToken}`,
+          },
+        }
+      )
+      .then((res) => {
+        setNickname(res.data.postInfo.memberInfo.nickname);
+        setProfileImg(res.data.postInfo.memberInfo.profileImg);
+        setTitle(res.data.postInfo.title);
+        setContent(res.data.postInfo.content);
+        setCreatedAt(res.data.postInfo.createdAt);
+        setStar(res.data.postInfo.star);
+        setPlaceId(res.data.postInfo.placeId);
+        setComments(res.data.comments);
+        setIsLikesCheck(res.data.isLikesCheck);
+      })
+      .catch(function (error) {
+        throw error;
+      });
+  }, []);
+
   // 단일 post 삭제
   const { axiosData: deleteP } = useAxios(
     () => deletePost(id, placeId),
@@ -191,22 +194,17 @@ const PostReadModal = ({
     true
   );
 
-  // // '좋아요'
-  const { axiosData: likeP } = useAxios(
-    () => likePost(id, placeId),
-    [deleteClicked],
-    true
-  );
+  //'좋아요'
+  const { axiosData: likeP } = useAxios(() => likePost(id, placeId), [], true);
 
-  // // '좋아요' 취소
+  // '좋아요' 취소
   const { axiosData: dislikeP } = useAxios(
     () => dislikePost(id, placeId),
-    [deleteClicked],
+    [],
     true
   );
 
-  const navigate = useNavigate();
-
+  // matPostUpdate 컴포넌트로 post data 넘겨줌
   const postData = {
     postInfo: {
       id: id,
@@ -222,16 +220,6 @@ const PostReadModal = ({
     comments: comments,
     isLikesCheck: isLikesCheck,
   };
-
-  // const { nickname = "", profileImg = "" } = postData.postInfo.memberInfo || {};
-
-  // const {
-  //   title = "",
-  //   content = "",
-  //   createdAt = "",
-  //   star = 0,
-  //   placeId = 0,
-  // } = postData.postInfo || {};
 
   // // 별점 불러오기
   const clicked = new Array(5).fill(true, 0, star);
@@ -296,15 +284,12 @@ const PostReadModal = ({
 
   // '하트' 이모지 클릭 시 like / default 상태로 바뀜
   const handleLike = () => {
-    console.log("start", isLikesCheck);
     if (!isLikesCheck) {
       likeP();
       setIsLikesCheck(true);
-      console.log("end", isLikesCheck);
     } else {
       dislikeP();
       setIsLikesCheck(false);
-      console.log("end", isLikesCheck);
     }
   };
 

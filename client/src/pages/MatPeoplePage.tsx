@@ -1,12 +1,20 @@
 import { useNavigate, useParams } from "react-router";
 import styled from "styled-components";
-import { getMatPeople } from "../api/axiosAPI/people/PeopleAxios";
+import {
+  followMatPeople,
+  getMatPeople,
+  unfollowMatPeople,
+  IMatPeopleInfo,
+} from "../api/axiosAPI/people/PeopleAxios";
 import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
 import HowToRegIcon from "@mui/icons-material/HowToReg";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useAxios from "../hooks/useAxios";
 import { IPosts } from "../api/axiosAPI/posts/PostsAxios";
 import PostRead from "../components/PostRead";
+import axios from "axios";
+
+const jwtToken = localStorage.getItem("Authorization");
 
 const FeedContainer = styled.div`
   height: 100%;
@@ -43,7 +51,7 @@ const UserInfo = styled.div`
   }
 `;
 
-const StyledFollow = styled(HowToRegIcon)`
+const Follow = styled(HowToRegIcon)`
   color: #505050;
   margin: 50px 0px 10px 0px;
   cursor: pointer;
@@ -53,7 +61,7 @@ const StyledFollow = styled(HowToRegIcon)`
   }
 `;
 
-const StyledUnFollow = styled(PersonAddAlt1Icon)`
+const UnFollow = styled(PersonAddAlt1Icon)`
   color: #505050;
   margin: 50px 0px 10px 0px;
   cursor: pointer;
@@ -110,16 +118,57 @@ const StyledPosts = styled.div`
 `;
 
 const MatPeople: React.FC = () => {
-  const navigate = useNavigate();
-  const onClickTab = () => {
-    navigate("/matPickers", { state: pickerGroupInfos });
-  };
-
   const { id } = useParams();
 
-  const [isFollowing, setIsFollowing] = useState<boolean>(false);
+  useEffect(() => {
+    console.log("start", following);
+    axios
+      .get(
+        `http://ec2-15-165-163-251.ap-northeast-2.compute.amazonaws.com:8080/members/followings`,
+        {
+          headers: {
+            Authorization: `Bearer ${jwtToken}`,
+          },
+        }
+      )
+      .then((res) => {
+        if (
+          res.data
+            .map((el: IMatPeopleInfo) => el.memberId)
+            .filter((el: number) => el === Number(id)).length
+        ) {
+          setFollowing(true);
+        } else {
+          setFollowing(false);
+        }
+        console.log("end", following);
+      })
+      .catch(function (error) {
+        throw error;
+      });
+  }, []);
 
-  const { responseData } = useAxios(() => getMatPeople(Number(id)), [], false);
+  const [following, setFollowing] = useState<boolean>(false);
+
+  const navigate = useNavigate();
+
+  const { responseData: matPeople } = useAxios(
+    () => getMatPeople(Number(id)),
+    [],
+    false
+  );
+
+  const { axiosData: follow } = useAxios(
+    () => followMatPeople(Number(id)),
+    [],
+    true
+  );
+
+  const { axiosData: unfollow } = useAxios(
+    () => unfollowMatPeople(Number(id)),
+    [],
+    true
+  );
 
   const {
     nickname = "",
@@ -129,10 +178,21 @@ const MatPeople: React.FC = () => {
     followings = "",
     postInfos = [],
     pickerGroupInfos = [],
-  } = responseData || {};
+  } = matPeople || {};
 
   const handleFollow = () => {
-    setIsFollowing(!isFollowing);
+    console.log("cur", following);
+    if (following) {
+      unfollow();
+      setFollowing(false);
+    } else {
+      follow();
+      setFollowing(true);
+    }
+  };
+
+  const onClickTab = () => {
+    navigate("/matPickers", { state: pickerGroupInfos });
   };
 
   return (
@@ -143,7 +203,7 @@ const MatPeople: React.FC = () => {
           <div className="matPeople_follow">
             <UserNickname>{nickname}</UserNickname>
             <div role="presentation" onClick={handleFollow}>
-              {isFollowing ? <StyledFollow /> : <StyledUnFollow />}
+              {following ? <Follow /> : <UnFollow />}
             </div>
           </div>
           <UserRemainder>{memo}</UserRemainder>
