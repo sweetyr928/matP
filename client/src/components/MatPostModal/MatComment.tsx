@@ -98,7 +98,15 @@ const StyledContent = styled.div`
   }
 `;
 
-const MatComment = ({ singleComment }: { singleComment: IComments }) => {
+const MatComment = ({
+  singleComment,
+  placeId,
+  postId,
+}: {
+  singleComment: IComments;
+  placeId: number;
+  postId: number;
+}) => {
   const [isEditing, setIsEditing] = useState<boolean>(false);
   // Comment 객체
   const [newSingleComment, setNewSingleComment] =
@@ -214,7 +222,7 @@ const MatComment = ({ singleComment }: { singleComment: IComments }) => {
             {newSingleComment.memberInfo.nickname}
           </div>
           <div className="comment_createdAt">
-            {moment(createdAt, "YYYY-MM-DDTHH:mm:ss").format("llll")}
+            {moment(createdAt, "YYYY-MM-DDTHH:mm:ss").format("YYYY년 MMM Do")}
           </div>
         </StyledInfo>
         <div>

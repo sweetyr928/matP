@@ -3,9 +3,8 @@ import { IMemberInfo } from "../posts/PostsAxios";
 
 const url =
   "http://ec2-15-165-163-251.ap-northeast-2.compute.amazonaws.com:8080";
-axios.defaults.headers.common[
-  "Authorization"
-] = `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMiIsInJvbGVzIjpbeyJhdXRob3JpdHkiOiJST0xFX1VTRVIifV0sImlhdCI6MTY3NDgxOTUxNywiZXhwIjoxNjc0ODU1NTE3fQ.vM6laZOP4lB_ZMg9M7sgqqwsIlNvHH-KS5gzuF4v-oQ`;
+const jwtToken = localStorage.getItem("Authorization");
+axios.defaults.headers.common["Authorization"] = `Bearer ${jwtToken}`;
 
 export interface IComments {
   CommentId: number;
@@ -14,23 +13,17 @@ export interface IComments {
   commentCreatedAt: string;
 }
 
-export const getComments = async () => {
-  const response = await axios.get<IComments[]>(`${url}/comments`);
-  return response.data;
-};
-
 export const createComment = async (
-  nickname: string,
-  profileImg: string,
-  commentContent: string,
-  commentCreatedAt: string
+  content: string,
+  placeId: number,
+  postId: number
 ): Promise<void> => {
-  const response = await axios.post(`${url}/comments`, {
-    nickname,
-    profileImg,
-    commentContent,
-    commentCreatedAt,
-  });
+  const response = await axios.post(
+    `${url}/places/${placeId}/posts/${postId}/comments`,
+    {
+      content,
+    }
+  );
   return response.data;
 };
 

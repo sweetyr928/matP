@@ -35,18 +35,17 @@ const StyledComment = styled.div`
   }
 `;
 
-const MatCommentAdd = (): JSX.Element => {
+const MatCommentAdd = ({
+  placeId,
+  postId,
+}: {
+  placeId: number;
+  postId: number;
+}): JSX.Element => {
   const [comment, setComment] = useState<string>("");
-  const [createdAt, setCreatedAt] = useState<string>("");
 
   const { axiosData } = useAxios(
-    () =>
-      createComment(
-        "rhino",
-        "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg",
-        comment,
-        createdAt
-      ),
+    () => createComment(comment, placeId, postId),
     [comment],
     true
   );
@@ -58,7 +57,6 @@ const MatCommentAdd = (): JSX.Element => {
 
   // enter 키 누를 시 댓글 업로드
   const handleKeyUp = (e: React.KeyboardEvent) => {
-    setCreatedAt(new Date().toLocaleString());
     if (e.key === "Enter" && comment.length > 0) {
       axiosData();
       setComment("");
@@ -67,7 +65,6 @@ const MatCommentAdd = (): JSX.Element => {
 
   // 댓글 업로드
   const handleSumbit = () => {
-    setCreatedAt(new Date().toLocaleString());
     if (comment.length > 0) {
       axiosData();
       setComment("");

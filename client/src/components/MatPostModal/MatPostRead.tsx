@@ -267,7 +267,9 @@ const PostReadModal = ({
                 <img src={profileImg} alt="profileImg"></img>
                 <div className="post_nickname">{nickname}</div>
                 <div className="post_createdAt">
-                  {moment(createdAt, "YYYY-MM-DDTHH:mm:ss").format("llll")}
+                  {moment(createdAt, "YYYY-MM-DDTHH:mm:ss").format(
+                    "YYYY년 MMM Do"
+                  )}
                 </div>
               </StyledInfo>
               <div>
@@ -317,7 +319,11 @@ const PostReadModal = ({
             {isLiked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
           </div>
           {/* 서버 연결 이후 Props로 해당 Post의 comment list 넘겨주기 */}
-          <MatCommentList comments={responseData.comments} />
+          <MatCommentList
+            comments={responseData.comments}
+            placeId={placeId}
+            postId={id}
+          />
         </StyledDiv>
       )}
     </StyledModal>
