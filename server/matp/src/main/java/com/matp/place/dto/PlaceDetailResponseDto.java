@@ -19,6 +19,7 @@ public record PlaceDetailResponseDto(Long id,
                                      String category,
                                      double starAvg,
                                      int[] starCount,
+                                     String fiveStarProbability,
                                      int postCount,
                                      int pickCount,
                                      boolean isPick,
@@ -28,15 +29,16 @@ public record PlaceDetailResponseDto(Long id,
                                      double latitude,
                                      List<PlaceDetailPostDto> posts) {
     public static PlaceDetailResponseDto of(Place place, List<PlaceDetailPostDto> posts, List<Picker> pickers, boolean isPick, Group group) {
-        Object[] point = Arrays.stream(place.getPoint().substring(6,place.getPoint().length()-1).split(" ")).map(Double::parseDouble).toArray();
+        Object[] point = Arrays.stream(place.getPoint().substring(6, place.getPoint().length() - 1).split(" ")).map(Double::parseDouble).toArray();
         int[] starCount = new int[5];
-        posts.stream().forEach(post -> starCount[post.star()-1]++);
+        posts.stream().forEach(post -> starCount[post.star() - 1]++);
         return PlaceDetailResponseDto.builder()
                 .id(place.getId())
                 .tel(place.getTel())
-                .img(posts.get((int) (Math.random() * posts.size())).thumbnailUrl())
+                .img(!posts.isEmpty() ? posts.get((int) (Math.random() * posts.size())).thumbnailUrl() : null) // null 대신 기본이미지
                 .starAvg(posts.stream().map(PlaceDetailPostDto::star).collect(Collectors.averagingDouble(Integer::doubleValue)))
                 .starCount(starCount)
+                .fiveStarProbability(String.format("%.1f", ((double) (starCount[4] + 1) / (posts.size() + 5) * 100)))
                 .postCount(posts.size())
                 .pickCount(pickers.size())
                 .address(place.getAddress())
@@ -44,32 +46,8 @@ public record PlaceDetailResponseDto(Long id,
                 .name(place.getName())
                 .category(place.getCategory())
                 .isPick(isPick)
-                .groupName(group.getName())
-                .groupImgIndex(group.getGroupImgIndex())
-                .longitude((Double) point[0])
-                .latitude((Double) point[1])
-                .posts(posts)
-                .build();
-    }
-
-    public static PlaceDetailResponseDto of(Place place, List<PlaceDetailPostDto> posts, List<Picker> pickers, boolean isPick) {
-        Object[] point = Arrays.stream(place.getPoint().substring(6,place.getPoint().length()-1).split(" ")).map(Double::parseDouble).toArray();
-        int[] starCount = new int[5];
-        posts.stream().forEach(post -> starCount[post.star()-1]++);
-        return PlaceDetailResponseDto.builder()
-                .id(place.getId())
-                .tel(place.getTel())
-                .img(posts.size() > 0 ? posts.get((int) (Math.random() * posts.size())).thumbnailUrl() : null)
-                .starAvg(posts.stream().map(PlaceDetailPostDto::star).collect(Collectors.averagingDouble(Integer::doubleValue)))
-                .starCount(starCount)
-                .postCount(posts.size())
-                .pickCount(pickers.size())
-                .address(place.getAddress())
-                .zonecode(place.getZonecode())
-                .name(place.getName())
-                .category(place.getCategory())
-                .isPick(isPick)
-                .groupImgIndex(4)
+                .groupName(isPick ? group.getName() : null)
+                .groupImgIndex(isPick ? group.getGroupImgIndex() : 4)
                 .longitude((Double) point[0])
                 .latitude((Double) point[1])
                 .posts(posts)

@@ -67,9 +67,9 @@ public class PlaceService {
                     System.out.println(isPick.isPresent());
                     if (isPick.isPresent()) {
                         var group = groupService.findById(isPick.orElseThrow().getPickerGroupId()).block();
-                        return PlaceDetailResponseDto.of(place, posts, pickers, isPick.isPresent(), group);
+                        return PlaceDetailResponseDto.of(place, posts, pickers, true, group);
                     }
-                    return PlaceDetailResponseDto.of(place, posts, pickers, isPick.isPresent());
+                    return PlaceDetailResponseDto.of(place, posts, pickers, false, null);
                 });
     }
 
