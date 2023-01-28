@@ -1,6 +1,7 @@
 import { useState, useCallback } from "react";
 import styled from "styled-components";
 import useAxios from "../hooks/useAxios";
+import { useParams } from "react-router-dom";
 import { getPickers } from "../api/axiosAPI/groups/PickersAxios";
 import { getPlaceDetail } from "../api/axiosAPI/places/PlacesAxios";
 import { PostRead, MatPostCreate, ModalPortal } from "../components";
@@ -125,6 +126,10 @@ const PageContainer = styled.div`
   grid-gap: 4px;
   margin: 0px 0px 0px 0px;
   padding-top: 10px;
+  overflow-y: scroll;
+  ::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const PickContainer = styled.div`
@@ -294,20 +299,25 @@ const groupImg = [
 ];
 
 const MatPlacePost: React.FC = () => {
+  const { placeId } = useParams();
   const [isPost, setIsPost] = useState<boolean>(true);
   const [isPickers, setIsPickers] = useState<boolean>(false);
   const [isOpenModal, setOpenModal] = useState<boolean>(false);
   // const [deleteClicked, setDeleteClicked] = useState<boolean>(false);
 
   const { responseData: pickersData } = useAxios(getPickers, [], false);
-  const { responseData: placeData } = useAxios(getPlaceDetail, [], false);
+  const { responseData: placeData } = useAxios(
+    () => getPlaceDetail(Number(placeId)),
+    [],
+    false
+  );
 
   const {
     id = 0,
-    placeImg = "",
+    img = "",
     tel = "",
     address = "",
-    roadNameAddress = "",
+    zonecode = "",
     name = "",
     category = "",
     starAvg = 0,
@@ -317,13 +327,21 @@ const MatPlacePost: React.FC = () => {
     pickCount = 0,
     longitude = 0,
     latitude = 0,
-    postList = [],
-    placeId = 0,
+    posts = [],
   } = placeData || {};
 
-  const pickHandler = () => {
-    console.log("test!");
-  };
+  // const pickHandler = () => {
+  //   /*첫 픽*/
+  //   if (isVotedQ === "" && e.target.id) {
+  //     postPick(e.target.id);
+  //   } else if (isVotedQ !== e.target.id) {
+  //     /*픽 변경*/
+  //     patchPick(e.target.id);
+  //   } else {
+  //     /*픽 취소(현재 픽한 그룹 id와 누른 버튼 id가 동일할 때)*/
+  //     deletePick("NO_VOTE");
+  //   }
+  // };
 
   //   const { axiosData: createAxiosData } = useAxios(
   //     () => createPick(id, picker.id),
@@ -362,6 +380,7 @@ const MatPlacePost: React.FC = () => {
 
   const aboutMenuHandler = () => {
     setIsPost(false);
+    console.log(posts);
   };
 
   const ratingsAvg = (el: number) => (el / ratingsTotal) * 100;
@@ -370,15 +389,12 @@ const MatPlacePost: React.FC = () => {
     <FeedContainer>
       {isOpenModal && (
         <ModalPortal>
-          <MatPostCreate
-            onClickToggleModal={onClickToggleModal}
-            placeId={placeId}
-          />
+          <MatPostCreate onClickToggleModal={onClickToggleModal} placeId={id} />
           <ModalBackdrop onClick={onClickToggleModal} />
         </ModalPortal>
       )}
       <div className="userInfo_header_container">
-        <PlaceImg src={placeImg} alt="프로필사진" />
+        <PlaceImg src={img} alt="프로필사진" />
         <PlaceInfo>
           <h1>{name}</h1>
           <StarBox>
@@ -398,7 +414,7 @@ const MatPlacePost: React.FC = () => {
                 <span>★</span>
               </div>
             </div>
-            <div>{`(${starAvg})`}</div>
+            <div>{`(${starAvg.toFixed(1)})`}</div>
           </StarBox>
           <ButtonBox>
             <div className="pick-box">
@@ -426,7 +442,7 @@ const MatPlacePost: React.FC = () => {
                 key={picker.id}
                 disabled={isPick}
                 color={groupImg[picker.groupImgIndex]}
-                onClick={pickHandler}
+                // onClick={pickHandler}
               >
                 <div className="icon"></div>
                 <div>{picker.name}</div>
@@ -453,8 +469,8 @@ const MatPlacePost: React.FC = () => {
           </TabContainer>
           {isPost ? (
             <PageContainer>
-              {postList &&
-                postList.map((post: any) => (
+              {posts &&
+                posts.map((post: any) => (
                   <PostRead key={post.id} post={post} />
                 ))}
             </PageContainer>
@@ -546,7 +562,7 @@ const MatPlacePost: React.FC = () => {
                     <span>★</span>
                   </div>
                 </div>
-                <div>{`(${starAvg})`}</div>
+                <div>{`(${starAvg.toFixed(1)})`}</div>
               </StarBox>
               <InfoBox>
                 <p>
@@ -560,7 +576,7 @@ const MatPlacePost: React.FC = () => {
                 <p>
                   <div className="info-title">주소 </div>
                   <div className="info">
-                    {address}, {roadNameAddress}
+                    {address}, {zonecode}
                   </div>
                 </p>
               </InfoBox>
