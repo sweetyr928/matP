@@ -5,6 +5,7 @@ import { createPost } from "../../api/axiosAPI/posts/PostsAxios";
 import MatEditor from "./MatEditor";
 import StarRate from "./StarRate";
 import useAxios from "../../hooks/useAxios";
+import { useNavigate } from "react-router";
 
 const StyledModal = styled.div`
   border-radius: 10px;
@@ -166,6 +167,8 @@ const PostCreateModal = ({ onClickToggleModal, placeId }: ModalDefaultType) => {
   // 항상 별이 총 5개(더미 array)
   const array: Array<number> = [0, 1, 2, 3, 4];
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     getThumbnailUrl();
     thumbnail.length > 0 ? setImageContained(true) : setImageContained(false);
@@ -178,7 +181,7 @@ const PostCreateModal = ({ onClickToggleModal, placeId }: ModalDefaultType) => {
         htmlContent,
         thumbnailUrl,
         clicked.filter(Boolean).length,
-        1
+        placeId
       ),
     [title, htmlContent, thumbnailUrl, clicked, submit],
     true
@@ -211,18 +214,14 @@ const PostCreateModal = ({ onClickToggleModal, placeId }: ModalDefaultType) => {
     setClicked(clickStates);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (e: React.MouseEvent) => {
     setSubmit(!submit);
-    postSubmit();
-  };
-
-  const postSubmit = () => {
     axiosData();
+    closeModal(e);
   };
 
   // '취소' 버튼 누를시 초기화
   const handleCancel = (e: React.MouseEvent) => {
-    setHtmlContent("");
     closeModal(e);
   };
 

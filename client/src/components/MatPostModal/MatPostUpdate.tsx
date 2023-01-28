@@ -45,7 +45,7 @@ const StyledDiv = styled.div`
   }
 
   .buttons {
-    margin: 30px 0px 15px 530px;
+    margin: 30px 0px 15px 500px;
 
     button {
       width: 100px;
@@ -60,11 +60,15 @@ const StyledDiv = styled.div`
     button:hover {
       font-weight: 700;
     }
-  }
 
-  .disabled {
-    opacity: calc(0.4);
-    cursor: not-allowed;
+    button:first-child {
+      margin: 0px 10px 0px 0px;
+    }
+
+    .disabled {
+      opacity: calc(0.4);
+      cursor: not-allowed;
+    }
   }
 `;
 
@@ -117,6 +121,14 @@ const PostUpdateModal = ({
   state,
   placeId,
 }: ModalDefaultType) => {
+  // 모달 닫기
+  const closeModal = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (onClickToggleModal) {
+      onClickToggleModal();
+    }
+  };
+
   // 기존 데이터 받아오기
   const [newTitle, setNewTitle] = useState<string>(state.postInfo.title);
   const [htmlContent, setHtmlContent] = useState<string>(
@@ -137,14 +149,12 @@ const PostUpdateModal = ({
   // 항상 별이 총 5개(더미 array)
   const array: Array<number> = [0, 1, 2, 3, 4];
 
-  console.log(state);
-
   useEffect(() => {
     getThumbnailUrl();
     thumbnail.length > 0 ? setImageContained(true) : setImageContained(false);
   }, [htmlContent]);
 
-  const { axiosData } = useAxios(
+  const { axiosData, status } = useAxios(
     () =>
       updatePost(
         newTitle,
@@ -186,13 +196,13 @@ const PostUpdateModal = ({
     setClicked(clickStates);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (e: React.MouseEvent) => {
     setSubmit(!submit);
-    postSubmit();
-  };
-
-  const postSubmit = () => {
     axiosData();
+    closeModal(e);
+  };
+  const handleCancel = (e: React.MouseEvent) => {
+    closeModal(e);
   };
 
   return (
@@ -234,6 +244,7 @@ const PostUpdateModal = ({
         >
           수정
         </button>
+        <button onClick={handleCancel}>취소</button>
       </div>
     </StyledDiv>
   );

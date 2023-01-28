@@ -6,6 +6,7 @@ const url =
 
 const jwtToken = localStorage.getItem("Authorization");
 axios.defaults.headers.common["Authorization"] = `Bearer ${jwtToken}`;
+
 export interface IPosts {
   id: number;
   likes: number;

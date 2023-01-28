@@ -142,17 +142,12 @@ const PostReadModal = ({
   id,
   responseData,
 }: ModalDefaultType): JSX.Element => {
-  const [isOpenUpdateModal, setOpenUpdateModal] = useState<boolean>(false);
+  const [isOpenModal, setOpenModal] = useState<boolean>(false);
   const [isLiked, setIsLiked] = useState<boolean>(false);
   const [deleteClicked, setDeleteClicked] = useState<boolean>(false);
   const [isEdit, setIsEdit] = useState<boolean>(false);
   // popover ref
   const [anchorEL, setAnchorEL] = useState(null);
-
-  // 업데이트 모달 토글 함수
-  const onClickToggleUpdateModal = useCallback(() => {
-    setOpenUpdateModal(!isOpenUpdateModal);
-  }, [isOpenUpdateModal]);
 
   // 단일 post 삭제
   const { axiosData } = useAxios(
@@ -254,7 +249,7 @@ const PostReadModal = ({
       {isEdit ? (
         <MatPostUpdate
           id={id}
-          onClickToggleModal={onClickToggleUpdateModal}
+          onClickToggleModal={onClickToggleModal}
           state={responseData}
           placeId={placeId}
         />
