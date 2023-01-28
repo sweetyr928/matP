@@ -216,7 +216,7 @@ const MatComment = ({
       <StyledDiv>
         <StyledInfo>
           <img
-            src={newSingleComment.memberInfo.profileImg}
+            src={newSingleComment.memberInfo.profileUrl}
             alt="profileImg"
           ></img>
           <div className="comment_nickname">

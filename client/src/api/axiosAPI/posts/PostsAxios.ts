@@ -23,7 +23,7 @@ export interface IPosts {
 
 export interface IMemberInfo {
   nickname: string;
-  profileImg: string;
+  profileUrl: string;
 }
 
 export interface IPostInfo {

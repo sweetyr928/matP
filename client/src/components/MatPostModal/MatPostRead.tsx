@@ -153,7 +153,7 @@ const PostReadModal = ({
 }: ModalDefaultType): JSX.Element => {
   const userInfo = useRecoilValue(userInfoState);
   const [nickname, setNickname] = useState<string>("");
-  const [profileImg, setProfileImg] = useState<string>("");
+  const [profileUrl, setProfileUrl] = useState<string>("");
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<string>("");
   const [createdAt, setCreatedAt] = useState<string>("");
@@ -180,7 +180,7 @@ const PostReadModal = ({
       )
       .then((res) => {
         setNickname(res.data.postInfo.memberInfo.nickname);
-        setProfileImg(res.data.postInfo.memberInfo.profileImg);
+        setProfileUrl(res.data.postInfo.memberInfo.profileUrl);
         setTitle(res.data.postInfo.title);
         setContent(res.data.postInfo.content);
         setCreatedAt(res.data.postInfo.createdAt);
@@ -221,7 +221,7 @@ const PostReadModal = ({
       star: star,
       memberInfo: {
         nickname: nickname,
-        profileImg: profileImg,
+        profileImg: profileUrl,
       },
     },
     comments: comments,
@@ -322,7 +322,7 @@ const PostReadModal = ({
             <div className="post_title">{title}</div>
             <StyledMid>
               <StyledInfo>
-                <img src={profileImg} alt="profileImg"></img>
+                <img src={profileUrl} alt="profileImg"></img>
                 <div className="post_nickname">{nickname}</div>
                 <div className="post_createdAt">
                   {moment(createdAt, "YYYY-MM-DDTHH:mm:ss").format(
