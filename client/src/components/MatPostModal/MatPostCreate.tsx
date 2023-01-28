@@ -18,7 +18,6 @@ const StyledModal = styled.div`
   top: 10%;
   left: 15%;
   z-index: 1010;
-
   > span.close-btn {
     margin: 5px 0px 0px 1375px;
     cursor: pointer;
@@ -31,14 +30,12 @@ const StyledDiv = styled.div`
   height: auto;
   display: flex;
   flex-direction: column;
-
   input {
     width: 100%;
     line-height: 25px;
     border: none;
     font-size: 20px;
   }
-
   .middle_line {
     border: 0;
     width: 100%;
@@ -46,31 +43,24 @@ const StyledDiv = styled.div`
     background: #b8b8b8;
     margin: 20px 0px 20px 0px;
   }
-
   input:focus {
     outline: none;
   }
-
   .disabled {
     cursor: not-allowed;
     opacity: calc(0.4);
   }
-
   .ql-container.ql-snow {
     height: 450px;
   }
-
   .ql-editor p strong {
     font-weight: bold;
   }
-
   .ql-editor p em {
     font-style: italic;
   }
-
   .buttons {
     margin: 30px 0px 15px 500px;
-
     button {
       width: 100px;
       height: 35px;
@@ -80,15 +70,12 @@ const StyledDiv = styled.div`
       border-radius: 30px;
       font-size: 15px;
     }
-
     button:hover {
       font-weight: 700;
     }
-
     button:first-child {
       margin: 0px 10px 0px 0px;
     }
-
     .disabled {
       opacity: calc(0.4);
       cursor: not-allowed;
@@ -112,20 +99,16 @@ const StyledStar = styled.div`
   display: flex;
   width: 125px;
   padding: 5px 0px 0px 0px;
-
   & svg {
     color: gray;
     cursor: pointer;
   }
-
   :hover svg {
     color: #fcc419;
   }
-
   & svg:hover ~ svg {
     color: #989898;
   }
-
   .yellow {
     color: #fcc419;
   }
