@@ -7,6 +7,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { userInfoState } from "../store/userInfoAtoms";
 import { useSetRecoilState } from "recoil";
 import { getMyData } from "../api/axiosAPI/members/myPageAPI";
+import { useEffect } from "react";
 
 const StyledFeed = styled.div`
   height: 100%;
@@ -48,7 +49,9 @@ const Domain: React.FC = () => {
 
   const setUserInfo = useSetRecoilState(userInfoState);
   const { responseData: loginUser } = useAxios(getMyData, [], false);
-  setUserInfo(loginUser);
+  useEffect(() => {
+    setUserInfo(loginUser);
+  }, []);
 
   const { responseData } = useAxios(getPosts, [], false);
 
