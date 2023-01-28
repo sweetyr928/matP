@@ -115,7 +115,7 @@ const MatPeople: React.FC = () => {
     navigate("/matPickers", { state: pickerGroupInfos });
   };
 
-  const id = useParams();
+  const { id } = useParams();
 
   const [isFollowing, setIsFollowing] = useState<boolean>(false);
 
