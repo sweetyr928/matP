@@ -4,7 +4,9 @@ import { getPosts } from "../api/axiosAPI/posts/PostsAxios";
 import useAxios from "../hooks/useAxios";
 import type { IPosts } from "../api/axiosAPI/posts/PostsAxios";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { useEffect } from "react";
+import { userInfoState } from "../store/userInfoAtoms";
+import { useSetRecoilState } from "recoil";
+import { getMyData } from "../api/axiosAPI/members/myPageAPI";
 
 const StyledFeed = styled.div`
   height: 100%;
@@ -38,12 +40,15 @@ const Domain: React.FC = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const Authorization = searchParams.get("access_token") || null;
-
   if (Authorization) {
     localStorage.setItem("Authorization", Authorization);
     navigate("/");
     window.location.reload();
   }
+
+  const setUserInfo = useSetRecoilState(userInfoState);
+  const { responseData: loginUser } = useAxios(getMyData, [], false);
+  setUserInfo(loginUser);
 
   const { responseData } = useAxios(getPosts, [], false);
 
