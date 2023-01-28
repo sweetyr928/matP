@@ -93,7 +93,26 @@ export const deletePost = async (
   id: number,
   placeId: number
 ): Promise<void> => {
-  console.log(id);
   const response = await axios.delete(`${url}/places/${placeId}/posts/${id}`);
+  return response.data;
+};
+
+export const likePost = async (id: number, placeId: number): Promise<void> => {
+  const response = await axios.post(
+    `${url}/places/${placeId}/posts/${id}/likes`,
+    {
+      likesCheck: 1,
+    }
+  );
+  return response.data;
+};
+
+export const dislikePost = async (
+  id: number,
+  placeId: number
+): Promise<void> => {
+  const response = await axios.delete(
+    `${url}/places/${placeId}/posts/${id}/likes`
+  );
   return response.data;
 };

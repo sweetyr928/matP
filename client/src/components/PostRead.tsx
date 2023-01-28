@@ -68,19 +68,9 @@ const ModalBackdrop = styled.div`
 `;
 
 const PostRead = ({ post }: { post: IPosts }) => {
-  const [selectedPost, setSelectedPost] = useState<number>(1);
-  const [selectedPlace, setSelectedPlace] = useState<number>(1);
   const [isOpenModal, setOpenModal] = useState<boolean>(false);
 
-  const { responseData } = useAxios(
-    () => getPlacesPost(selectedPost, selectedPlace),
-    [selectedPost],
-    false
-  );
-
   const handleClick = () => {
-    setSelectedPost(post.id);
-    setSelectedPlace(post.placeId);
     onClickToggleModal();
   };
 
@@ -101,11 +91,7 @@ const PostRead = ({ post }: { post: IPosts }) => {
       </ImgWrapper>
       {isOpenModal === true ? (
         <ModalPortal>
-          <MatPostRead
-            onClickToggleModal={onClickToggleModal}
-            id={post.id}
-            responseData={responseData}
-          />
+          <MatPostRead onClickToggleModal={onClickToggleModal} id={post.id} />
           <ModalBackdrop onClick={onClickToggleModal} />
         </ModalPortal>
       ) : null}

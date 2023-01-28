@@ -181,7 +181,9 @@ const PostCreateModal = ({ onClickToggleModal, placeId }: ModalDefaultType) => {
         htmlContent,
         thumbnailUrl,
         clicked.filter(Boolean).length,
-        placeId
+        1
+        // TODO : 추후 Place 추가되면 변경
+        // placeId
       ),
     [title, htmlContent, thumbnailUrl, clicked, submit],
     true

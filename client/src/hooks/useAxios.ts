@@ -21,6 +21,7 @@ const useAxios = <T = any>(
       const data = await callback();
       setResponseData(data);
       setStatus("Success");
+      return data;
     } catch (error) {
       setStatus("Error");
       throw error;
