@@ -3,10 +3,10 @@ import PostRead from "../components/PostRead";
 import { getPosts } from "../api/axiosAPI/posts/PostsAxios";
 import useAxios from "../hooks/useAxios";
 import type { IPosts } from "../api/axiosAPI/posts/PostsAxios";
+import { useEffect } from "react";
+import { getMyData } from "../api/axiosAPI/members/myPageAPI";
 import { userInfoState } from "../store/userInfoAtoms";
 import { useSetRecoilState } from "recoil";
-import { getMyData } from "../api/axiosAPI/members/myPageAPI";
-import { useEffect } from "react";
 
 const StyledFeed = styled.div`
   height: 100%;
@@ -37,11 +37,20 @@ const StyledPosts = styled.div`
 `;
 
 const Domain: React.FC = () => {
+  const token = localStorage.getItem("Authorization");
   const setUserInfo = useSetRecoilState(userInfoState);
-  const { responseData: loginUser } = useAxios(getMyData, [], false);
+  const { axiosData: getUserInfo, responseData: memberData } = useAxios(getMyData);
   useEffect(() => {
-    setUserInfo(loginUser);
-  }, []);
+    if (token) {
+      getUserInfo();
+    }
+  }, [token]);
+
+  useEffect(() => {
+    if (memberData) {
+      setUserInfo(memberData);
+    }
+  }, [memberData]);
 
   const { responseData } = useAxios(getPosts, [], false);
 
