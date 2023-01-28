@@ -80,10 +80,12 @@ const MapMarkerComponent = () => {
   // </>
   // );
   const markerImg = [
-    "https://user-images.githubusercontent.com/94962427/213089353-0c35dd6b-a40f-46d9-88d0-03b515888bc8.png",
-    "https://user-images.githubusercontent.com/94962427/213089353-0c35dd6b-a40f-46d9-88d0-03b515888bc8.png",
+    "https://user-images.githubusercontent.com/94962427/214733548-640ad950-b4ce-42cd-ad04-7b37eb4eaf8f.svg",
+    "https://user-images.githubusercontent.com/94962427/214733213-a2c51280-6525-49ed-b60c-5e7e248890f8.svg",
+    "https://user-images.githubusercontent.com/94962427/214733289-7588880b-0492-429f-9e7e-8dbc883a88a3.svg",
+    "https://user-images.githubusercontent.com/94962427/214733318-efc109a4-439d-4b3a-b17e-ab478ff16102.svg",
   ];
-  const imgScore = 0;
+
   return (
     <>
       {searchResults.map((result) => (
@@ -92,14 +94,14 @@ const MapMarkerComponent = () => {
           position={{ lat: result.latitude, lng: result.longitude }}
           clickable={true}
           image={{
-            src: markerImg[imgScore],
+            src: markerImg[result.postCount],
             size: { width: 25, height: 25 },
           }}
           onClick={() => setIsOpen({ id: result.id, open: true })}
         >
           {isOpen.open && isOpen.id === result.id && (
             <InfoWindowContainer onClick={() => setIsOpen({ id: -1, open: false })}>
-              <InfoValue>{result.placeName}</InfoValue>
+              <InfoValue>{result.name}</InfoValue>
             </InfoWindowContainer>
           )}
         </MapMarker>
