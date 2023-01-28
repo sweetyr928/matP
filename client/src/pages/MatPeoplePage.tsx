@@ -4,15 +4,13 @@ import {
   followMatPeople,
   getMatPeople,
   unfollowMatPeople,
-  IMatPeopleInfo,
 } from "../api/axiosAPI/people/PeopleAxios";
 import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
 import HowToRegIcon from "@mui/icons-material/HowToReg";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import useAxios from "../hooks/useAxios";
 import { IPosts } from "../api/axiosAPI/posts/PostsAxios";
 import PostRead from "../components/PostRead";
-import axios from "axios";
 
 const jwtToken = localStorage.getItem("Authorization");
 
@@ -120,34 +118,6 @@ const StyledPosts = styled.div`
 const MatPeople: React.FC = () => {
   const { id } = useParams();
 
-  useEffect(() => {
-    axios
-      .get(
-        `http://ec2-15-165-163-251.ap-northeast-2.compute.amazonaws.com:8080/members/followings`,
-        {
-          headers: {
-            Authorization: `Bearer ${jwtToken}`,
-          },
-        }
-      )
-      .then((res) => {
-        if (
-          res.data
-            .map((el: IMatPeopleInfo) => el.memberId)
-            .filter((el: number) => el === Number(id)).length
-        ) {
-          setFollowing(true);
-        } else {
-          setFollowing(false);
-        }
-      })
-      .catch(function (error) {
-        throw error;
-      });
-  }, []);
-
-  const [following, setFollowing] = useState<boolean>(false);
-
   const navigate = useNavigate();
 
   const { responseData: matPeople } = useAxios(
@@ -175,17 +145,15 @@ const MatPeople: React.FC = () => {
     followers = "",
     followings = "",
     postInfos = [],
+    isFollowing = false,
     pickerGroupInfos = [],
   } = matPeople || {};
 
   const handleFollow = () => {
-    console.log("cur", following);
-    if (following) {
+    if (isFollowing) {
       unfollow();
-      setFollowing(false);
     } else {
       follow();
-      setFollowing(true);
     }
   };
 
@@ -201,7 +169,7 @@ const MatPeople: React.FC = () => {
           <div className="matPeople_follow">
             <UserNickname>{nickname}</UserNickname>
             <div role="presentation" onClick={handleFollow}>
-              {following ? <Follow /> : <UnFollow />}
+              {isFollowing ? <Follow /> : <UnFollow />}
             </div>
           </div>
           <UserRemainder>{memo}</UserRemainder>
