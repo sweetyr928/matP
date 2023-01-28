@@ -9,6 +9,8 @@ import useAxios from "../../hooks/useAxios";
 import { Popover, Typography } from "@mui/material";
 import moment from "moment";
 import "moment/locale/ko";
+import { useRecoilValue } from "recoil";
+import { userInfoState } from "../../store/userInfoAtoms";
 
 const StyledComment = styled.div`
   display: flex;
@@ -30,6 +32,10 @@ const StyledDiv = styled.div`
 
   button:hover {
     font-weight: 700;
+  }
+
+  .disabled {
+    display: none;
   }
 `;
 
@@ -107,6 +113,7 @@ const MatComment = ({
   placeId: number;
   postId: number;
 }) => {
+  const userInfo = useRecoilValue(userInfoState);
   const [isEditing, setIsEditing] = useState<boolean>(false);
   // Comment 객체
   const [newSingleComment, setNewSingleComment] =
@@ -220,8 +227,26 @@ const MatComment = ({
           </div>
         </StyledInfo>
         <div>
-          <button onClick={handleEdit}>수정</button>
-          <button onClick={handleClick}>삭제</button>
+          <button
+            onClick={handleEdit}
+            className={
+              newSingleComment.memberInfo.nickname !== userInfo.nickname
+                ? "disabled"
+                : ""
+            }
+          >
+            수정
+          </button>
+          <button
+            onClick={handleClick}
+            className={
+              newSingleComment.memberInfo.nickname !== userInfo.nickname
+                ? "disabled"
+                : ""
+            }
+          >
+            삭제
+          </button>
           <Popover
             open={Boolean(anchorEL)}
             onClose={handleClose}
