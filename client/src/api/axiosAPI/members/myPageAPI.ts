@@ -5,30 +5,26 @@ const url =
   "http://ec2-15-165-163-251.ap-northeast-2.compute.amazonaws.com:8080/members";
 
 interface MemberData {
-  nickname: string;
+  id: number;
   email: string;
+  nickname: string;
   birthday: string;
   profileUrl: string;
-  gender: string;
+  gender: number;
   memo: string;
-  createdAt: string;
-  modifiedAt: string;
-  followers: string;
-  followings: string;
-  postlist: Array<Post>;
-  picklist: Array<Pick>;
-}
-interface Post {
-  postId: number;
-  likes: number;
-  commentcount: number;
-  thumbnail_url: string;
-}
-
-interface Pick {
-  groupId: number;
-  name: string;
-  color: string;
+  followers: number;
+  followings: number;
+  postInfos: Array<{
+    id: number | null;
+    title: string | null;
+    thumbnailUrl: string | null;
+    likes: number | null;
+  }>;
+  pickerGroupInfos: Array<{
+    id: number;
+    name: string;
+    groupImgIndex: number;
+  }>;
 }
 
 interface FollowData {
