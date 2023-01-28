@@ -3,7 +3,6 @@ import PostRead from "../components/PostRead";
 import { getPosts } from "../api/axiosAPI/posts/PostsAxios";
 import useAxios from "../hooks/useAxios";
 import type { IPosts } from "../api/axiosAPI/posts/PostsAxios";
-import { useNavigate, useSearchParams } from "react-router-dom";
 import { userInfoState } from "../store/userInfoAtoms";
 import { useSetRecoilState } from "recoil";
 import { getMyData } from "../api/axiosAPI/members/myPageAPI";
@@ -38,15 +37,6 @@ const StyledPosts = styled.div`
 `;
 
 const Domain: React.FC = () => {
-  const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
-  const Authorization = searchParams.get("access_token") || null;
-  if (Authorization) {
-    localStorage.setItem("Authorization", Authorization);
-    navigate("/");
-    window.location.reload();
-  }
-
   const setUserInfo = useSetRecoilState(userInfoState);
   const { responseData: loginUser } = useAxios(getMyData, [], false);
   useEffect(() => {
