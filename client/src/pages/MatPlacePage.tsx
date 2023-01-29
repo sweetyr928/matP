@@ -166,14 +166,19 @@ const NameBox = styled.button`
   border: none;
   background-color: transparent;
   border-bottom: 1px solid #a6a6a6;
-  cursor: pointer;
+
   .icon {
     width: 30px;
-    height: 30px;
+    height: 26px;
+    margin-right: 13px;
     border-radius: 50%;
-    margin-right: 20px;
     background: url(${(props) => props.color || "gray"});
     background-size: 100%;
+  }
+  .click-part {
+    cursor: pointer;
+    width: 100%;
+    text-align: start;
   }
 `;
 
@@ -442,7 +447,9 @@ const MatPlacePost: React.FC = () => {
                 onClick={pickHandler}
               >
                 <div className="icon"></div>
-                <div id={picker.id}>{picker.name}</div>
+                <div id={picker.id} className="click-part">
+                  {picker.name}
+                </div>
               </NameBox>
             ))}
         </PickContainer>
