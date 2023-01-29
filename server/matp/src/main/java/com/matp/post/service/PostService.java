@@ -4,14 +4,12 @@ package com.matp.post.service;
 import com.matp.comment.dto.MultiResponseDto;
 import com.matp.comment.service.CommentService;
 import com.matp.exception.CustomErrorCode;
-import com.matp.exception.CustomErrorResponse;
 import com.matp.exception.CustomException;
 import com.matp.post.dto.*;
 import com.matp.post.dto.PostMemberInfo;
 import com.matp.post.entity.Post;
 import com.matp.post.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Flux;
@@ -19,6 +17,7 @@ import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -32,7 +31,7 @@ public class PostService {
      * @author 임준건
      */
     @Transactional(readOnly = true)
-    public Flux<PostResponse> getAll(int page,int size) {
+    public Flux<PostResponse> getAll(int page, int size) {
 
         Flux<PostResponse> map = postRepository.findAll().skip(page * size).take(size).map(PostResponse::from);
 
@@ -54,7 +53,7 @@ public class PostService {
 
                     var member = PostMemberInfo.builder()
                             .nickname(result.nickname())
-                            .profileImg(result.profileImg())
+                            .profileUrl(result.profileUrl())
                             .build();
 
                     var comments = commentService.getComments(postId).block();
@@ -67,12 +66,12 @@ public class PostService {
                             .thumbnailUrl(result.thumbnailUrl())
                             .star(result.star())
                             .placeId(result.placeId())
-                            .createdAt(result.created_at())
-                            .modifiedAt(result.modified_at())
+                            .createdAt(result.createdAt())
+                            .modifiedAt(result.modifiedAt())
                             .memberInfo(member)
                             .build();
 
-                    return new MultiResponseDto(postResponseWithInfo, comments,block);
+                    return new MultiResponseDto(postResponseWithInfo, comments, block);
                 });
     }
 
@@ -87,6 +86,7 @@ public class PostService {
         return postRepository.searchPostByTitleKeyword(keyword)
                 .map(PostResponse::from);
     }
+
     /**
      * @return Flux < PostResponse >
      * @apiNote content keyword 로 Post 를 {@link PostRepository} 에서 찾아오는 메서드
@@ -105,7 +105,7 @@ public class PostService {
      * @author 임준건
      */
     @Transactional
-    public Mono<PostResponse> save(PostRequest request,Long placeId,Long memberId) {
+    public Mono<PostResponse> save(PostRequest request, Long placeId, Long memberId) {
 
         Post Post = request.toEntity();
         //TODO memberID 넣어야함
@@ -124,11 +124,15 @@ public class PostService {
     @Transactional
     public Mono<PostResponse> update(PatchPostRequest updatePostRequest, Long postId, Long memberId) {
         Post updatePost = updatePostRequest.toEntity();
-        if (updatePost.getMemberId() != memberId) {
-            throw new CustomException(CustomErrorCode.NOT_ALLOWED_MEMBER_ID);
-        }
-            return postRepository.findById(postId).flatMap(post ->
-                    postRepository.save(post.settingPost(post, updatePost))).map(PostResponse::from);
+        updatePost.setMemberId(memberId);
+        return postRepository.findById(postId)
+                .flatMap(post -> {
+                    if (!Objects.equals(post.getMemberId(), memberId)) {
+                        return Mono.error(new CustomException(CustomErrorCode.NOT_ALLOWED_MEMBER_ID));
+                    }
+                    return postRepository.save(post.settingPost(post, updatePost));
+                })
+                .map(PostResponse::from);
     }
 
     /**
@@ -142,7 +146,7 @@ public class PostService {
 
         return postRepository.findById(postId)
                 .map(post -> {
-                    if (post.getMemberId() != memberId) {
+                    if (!Objects.equals(post.getMemberId(), memberId)) {
                         throw new CustomException(CustomErrorCode.NOT_ALLOWED_MEMBER_ID);
                     }
                     return post;

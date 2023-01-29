@@ -9,6 +9,7 @@ import com.matp.post.dto.PostRequest;
 import com.matp.post.dto.PostResponse;
 import com.matp.post.service.PostService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+@Slf4j
 @RestController
 @RequestMapping({"/places/posts","/places/{place-id}/posts"})
 @RequiredArgsConstructor
@@ -42,13 +44,16 @@ public class PostController {
      * @author 임준건
      **/
     @GetMapping("/{post-id}")
-    public Mono<ResponseEntity<MultiResponseDto>> getSpecific(@PathVariable("post-id") Long postId) {
+    public Mono<ResponseEntity<MultiResponseDto>> getSpecific(@PathVariable("post-id") Long postId,
+                                                              ServerHttpRequest jwt) {
         // TODO token 에서 member 빼오기
         // 조회기능이라 pathVariable placeId 필요없음
-        Long memberId = 1L;
+        Long memberId = extractId(jwt);
         Mono<ResponseEntity<MultiResponseDto>> map = postService.getPost(postId,memberId)
                 .map(ResponseEntity::ok)
                 .switchIfEmpty(Mono.defer(() -> Mono.error(new CustomException(CustomErrorCode.POST_NOT_FOUND))));
+
+        log.info(" 요청 : {}", " ========== 게시물 조회 기능 ========");
 
         return map;
     }
@@ -82,6 +87,7 @@ public class PostController {
     public Mono<ResponseEntity<PostResponse>> saveMatPost(@RequestBody @Validated Mono<PostRequest> request, @PathVariable("place-id") Long placeId,
                                                           ServerHttpRequest jwt) {
         Long memberId = extractId(jwt);
+        log.info(" 요청 : {}", " ========== 게시물 작성 완료 ========");
         return request
                 .flatMap(postRequest -> postService.save(postRequest,placeId,memberId))
                 .map(mp -> new ResponseEntity<>(mp, HttpStatus.CREATED));
@@ -97,6 +103,7 @@ public class PostController {
                                                             @PathVariable("place-id") Long placeId,
                                                             ServerHttpRequest jwt) {
         Long memberId = extractId(jwt);
+        log.info(" 요청 : {}", " ========== 게시물 수정 완료 ========");
         return request
                 .flatMap((PatchPostRequest patchPostRequest) -> postService.update(patchPostRequest, postId,memberId))
                 .map(ResponseEntity::ok);
@@ -110,6 +117,7 @@ public class PostController {
     public Mono<ResponseEntity<Void>> deleteMatPost(@PathVariable("post-id") Long postId,
                                                     ServerHttpRequest jwt) {
         Long memberId = extractId(jwt);
+        log.info(" 요청 : {}", " ========== 게시물 삭제 완료 ========");
         return postService.delete(postId,memberId)
                 .map(response -> ResponseEntity.noContent().build());
     }

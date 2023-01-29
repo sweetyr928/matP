@@ -4,5 +4,5 @@ package com.matp.post.dto;
 import lombok.Builder;
 
 @Builder
-public record PostMemberInfo(String nickname, String profileImg) {
+public record PostMemberInfo(String nickname, String profileUrl) {
 }
