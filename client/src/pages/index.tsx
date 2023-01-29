@@ -5,7 +5,7 @@ import MatPickerDetail from "./MatPickerDetailPage";
 import MyPage from "./MyPage";
 import MatPeople from "./MatPeoplePage";
 import SearchDetailPage from "./SearchDetailPage/SearchDetailPage";
-import MatPlace from "./MatPlacePage";
+import MatPlacePage from "./MatPlacePage";
 import MatPlacePostPage from "./MatPlacePostPage";
 import MatPeoplePickerPage from "./MatPeoplePickerPage";
 import NotFoundPage from "./NotFoundPage";
@@ -19,7 +19,7 @@ export {
   MyPage,
   SearchDetailPage,
   MatPeople,
-  MatPlace,
+  MatPlacePage,
   MatPlacePostPage,
   MatPeoplePickerPage,
   NotFoundPage,
