@@ -5,6 +5,7 @@ import com.matp.member.dto.MemberPatchDto;
 import com.matp.member.dto.MemberResponse;
 import com.matp.member.dto.MemberSearchResponse;
 import com.matp.member.service.MemberService;
+import com.matp.utils.Function;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -24,14 +25,14 @@ import java.util.Map;
 @RequestMapping("/members")
 public class MemberController {
     private final MemberService memberService;
-    private final JwtTokenProvider jwtTokenProvider;
+    private final Function function;
 
     /**
      * 유저 정보와 필요한 다른 정보를 함께 가져온 후 토큰에서 id 추출하여 해당 유저 정보만 반환
      */
     @GetMapping("/mypage")
     public Mono<ResponseEntity<MemberResponse>> myPage(ServerHttpRequest request) {
-        Long id = extractId(request);
+        Long id = function.extractId(request);
         return memberService.findAllWithInfo()
                 .filter(member -> member.id().equals(id))
                 .last()
@@ -44,7 +45,7 @@ public class MemberController {
     @GetMapping("/{member-id}")
     public Mono<ResponseEntity<MemberResponse>> findMember(@PathVariable("member-id") Long id,
                                                            ServerHttpRequest request) {
-        Long myId = extractId(request);
+        Long myId = function.extractId(request);
         return memberService.findAllWithInfo(myId,id)
                 .filter(member -> member.id().equals(id))
                 .last()
@@ -61,20 +62,10 @@ public class MemberController {
     @PatchMapping
     public Mono<ResponseEntity<MemberPatchDto>> updateMember(@RequestBody MemberPatchDto patchRequest,
                                                              ServerHttpRequest request) {
-        Long id = extractId(request);
+        Long id = function.extractId(request);
         return memberService.updateMember(id, patchRequest)
                 .map(MemberPatchDto::from)
                 .map(ResponseEntity::ok);
-    }
-
-    /**
-     * 리퀘스트 헤더에 있는 토큰을 사용하여 ID 추출
-     */
-    private Long extractId(ServerHttpRequest request) {
-        String bearerToken = request.getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
-        assert bearerToken != null;
-        bearerToken = bearerToken.substring(7);
-        return jwtTokenProvider.getUserId(bearerToken);
     }
 
 }

@@ -8,6 +8,7 @@ import com.matp.place.dto.PlaceEnrollmentRequest;
 import com.matp.place.dto.PlaceEnrollmentResponse;
 import com.matp.place.dto.PlaceResponseDto;
 import com.matp.place.service.PlaceService;
+import com.matp.utils.Function;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.server.reactive.ServerHttpRequest;
@@ -20,7 +21,7 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class PlaceController {
     private final PlaceService placeService;
-    private final JwtTokenProvider jwtTokenProvider;
+    private final Function function;
 
     @GetMapping("/places")
     public Flux<PlaceResponseDto> getPlaces(@RequestParam("lon") double lon, @RequestParam("lat") double lat, @RequestParam("round") double round) {
@@ -29,7 +30,7 @@ public class PlaceController {
 
     @GetMapping("/places/{place-id}")
     public Mono<PlaceDetailResponseDto> getPlaceDetail(@PathVariable("place-id") Long placeId, ServerHttpRequest jwt) {
-        return placeService.findPlaceDetail(placeId, extractId(jwt));
+        return placeService.findPlaceDetail(placeId, function.extractId(jwt));
     }
 
     @GetMapping("/search")
@@ -43,10 +44,4 @@ public class PlaceController {
         return placeService.registerPlaceInfo(placeEnrollmentRequest);
     }
 
-    private Long extractId(ServerHttpRequest request) {
-        String bearerToken = request.getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
-        assert bearerToken != null;
-        bearerToken = bearerToken.substring(7);
-        return jwtTokenProvider.getUserId(bearerToken);
-    }
 }

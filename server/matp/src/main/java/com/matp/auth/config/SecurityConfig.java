@@ -60,7 +60,7 @@ public class SecurityConfig {
                         .pathMatchers(HttpMethod.GET, "/member-login/**").permitAll()
                         .pathMatchers(HttpMethod.GET, "/login").permitAll()
                         .pathMatchers(HttpMethod.GET,"/**").permitAll()
-                        .pathMatchers(HttpMethod.POST,"**").permitAll()
+                        .pathMatchers(HttpMethod.POST,"/**").permitAll()
                         .pathMatchers(HttpMethod.PATCH,"/**").permitAll()
                         .pathMatchers(HttpMethod.DELETE,"/**").permitAll()
                         .pathMatchers(HttpMethod.OPTIONS).permitAll()
