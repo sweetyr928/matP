@@ -279,11 +279,6 @@ const PostReadModal = ({
     onClickToggleModal();
   };
 
-  // 해당 post url
-  // const handleUrl = () => {
-  //   console.log("It's url");
-  // };
-
   /**
    * post에 해당 하는 맛 플레이스 페이지로 이동
    * TODO :지도 이동 기능 추가 확인
@@ -326,7 +321,7 @@ const PostReadModal = ({
   };
 
   // comment list 변동사항 발생 시 true
-  const getAllComments = () => {
+  const getAllCommentsReload = () => {
     setCommentReload(true);
   };
 
@@ -391,7 +386,6 @@ const PostReadModal = ({
                     </button>
                   </Typography>
                 </Popover>
-                <button>url 복사</button>
                 <button onClick={handleMatPlace}>맛 플레이스로 이동</button>
               </div>
             </StyledMid>
@@ -420,7 +414,7 @@ const PostReadModal = ({
             comments={comments}
             placeId={placeId}
             postId={id}
-            getAllComments={getAllComments}
+            getAllCommentsReload={getAllCommentsReload}
           />
         </StyledDiv>
       )}
