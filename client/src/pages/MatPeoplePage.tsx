@@ -7,7 +7,7 @@ import {
 } from "../api/axiosAPI/people/PeopleAxios";
 import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
 import HowToRegIcon from "@mui/icons-material/HowToReg";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useAxios from "../hooks/useAxios";
 import { IPosts } from "../api/axiosAPI/posts/PostsAxios";
 import PostRead from "../components/PostRead";
@@ -118,9 +118,15 @@ const StyledPosts = styled.div`
 const MatPeople: React.FC = () => {
   const { id } = useParams();
 
+  const [followReload, setFollowReload] = useState<boolean>(false);
+
   const navigate = useNavigate();
 
-  const { responseData: matPeople } = useAxios(
+  useEffect(() => {
+    getMatPeopleInfo();
+  }, [followReload]);
+
+  const { axiosData: getMatPeopleInfo, responseData: matPeople } = useAxios(
     () => getMatPeople(Number(id)),
     [],
     false
@@ -155,6 +161,7 @@ const MatPeople: React.FC = () => {
     } else {
       follow();
     }
+    setFollowReload(!followReload);
   };
 
   const onClickTab = () => {

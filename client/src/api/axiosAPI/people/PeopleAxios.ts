@@ -22,8 +22,7 @@ export const followMatPeople = async (memberId: number) => {
 };
 
 export const unfollowMatPeople = async (memberId: number) => {
-  console.log("h");
   const response = await axios.delete(`${url}/followings/${memberId}`);
-  console.log(response);
+
   return response.data;
 };
