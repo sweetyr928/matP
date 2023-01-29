@@ -13,12 +13,12 @@ const UserWrapper = styled.div`
     border-bottom: 1px solid #adadad;
   }
 
-  .user_thumbnail {
+  /* .user_thumbnail {
     width: 70px;
     height: 70px;
     border-radius: 50%;
     margin-right: 10px;
-  }
+  } */
 
   .text-box {
     width: 80%;
@@ -29,11 +29,14 @@ const UserWrapper = styled.div`
 `;
 
 interface PlaceProps {
-  userId: number;
+  id: number;
+  tel: string;
+  address: string;
   name: string;
-  followers: number;
-  memo: string;
-  thumbnail_url: string;
+  starAvg: number;
+  postCount: number;
+  longitude: number;
+  latitude: number;
 }
 
 const PlaceSearchResult = ({ place }: { place: PlaceProps }) => {
@@ -41,11 +44,10 @@ const PlaceSearchResult = ({ place }: { place: PlaceProps }) => {
     <>
       <UserWrapper>
         <div className="result-box">
-          <img src={place.thumbnail_url} alt="thumbnail" className="user_thumbnail" />
           <div className="text-box">
             <p>{place.name}</p>
-            <p>{place.memo}</p>
-            <p>{place.followers}</p>
+            <p>{place.address}</p>
+            <p>{place.tel}</p>
           </div>
         </div>
       </UserWrapper>

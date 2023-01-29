@@ -1,30 +1,19 @@
-// 검색 페이지 생기면 추가 usePlaceSearch(e)로 추가
-import { useRecoilState } from "recoil";
-import { searchResultsState, searchStatusState } from "../../../store/searchAtoms";
 import axios from "axios";
-import { useCallback, useEffect } from "react";
+const jwtToken = localStorage.getItem("Authorization");
+axios.defaults.headers.common["Authorization"] = `Bearer ${jwtToken}`;
+const url = "http://ec2-15-165-163-251.ap-northeast-2.compute.amazonaws.com:8080/search";
 
-const placeSearchAxios = (e: React.ChangeEvent<HTMLInputElement>) => {
-  const [searchResults, setSearchResults] = useRecoilState(searchResultsState);
-  const [searchStatus, setSearchStatus] = useRecoilState(searchStatusState);
+interface PlaceData {
+  id: number;
+  tel: string;
+  address: string;
+  name: string;
+  starAvg: number;
+  postCount: number;
+  longitude: number;
+  latitude: number;
+}
 
-  const handleSearch = useCallback(async () => {
-    setSearchStatus("loading");
-    try {
-      const response = await axios.get(`도메인/search?query=${e.target.value}`);
-      setSearchResults(response.data);
-      setSearchStatus("success");
-    } catch (error) {
-      setSearchStatus("error");
-      console.error(error);
-    }
-  }, []);
-
-  useEffect(() => {
-    handleSearch();
-  }, [handleSearch]);
-
-  return { searchResults, searchStatus };
+export const getSearchPlaceData = (keyword: string): Promise<PlaceData[]> => {
+  return axios.get(`${url}?query=${keyword}`).then((response) => response.data);
 };
-
-export default placeSearchAxios;

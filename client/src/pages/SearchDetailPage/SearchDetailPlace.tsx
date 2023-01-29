@@ -1,6 +1,11 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import PlaceSearchResult from "../../components/PlaceSearchResult";
+import { useEffect, useState } from "react";
+import { searchResultsState, searchStatusState } from "../../store/searchAtoms";
+import { useRecoilState } from "recoil";
+import useAxios from "../../hooks/useAxios";
+import { getSearchPlaceData } from "../../api/axiosAPI/search/placeSearchAxios";
 
 const SearchWrapper = styled.div`
   height: 100%;
@@ -46,54 +51,75 @@ const PostPlaceBox = styled.div`
   align-items: center;
   justify-content: center;
   button {
-    color: #373737;
+    color: #939393;
     border: none;
     font-size: 16px;
     background-color: transparent;
     cursor: pointer;
+    &:hover {
+      color: #373737;
+    }
   }
 `;
+
+interface PlaceData {
+  id: number;
+  tel: string;
+  address: string;
+  name: string;
+  starAvg: number;
+  postCount: number;
+  longitude: number;
+  latitude: number;
+}
 
 const SearchDetailPlace: React.FC = () => {
   const navigate = useNavigate();
 
-  const places = [
-    {
-      userId: 1,
-      name: "윤뿔소",
-      followers: 200,
-      memo: "맛있다!",
-      thumbnail_url:
-        "https://user-images.githubusercontent.com/94962427/211693723-e10b0b7d-95ed-4918-b450-f952168bca3a.jpeg",
-    },
-    {
-      userId: 2,
-      name: "윤뿔소",
-      followers: 200,
-      memo: "맛있다!",
-      thumbnail_url:
-        "https://user-images.githubusercontent.com/94962427/211693723-e10b0b7d-95ed-4918-b450-f952168bca3a.jpeg",
-    },
-    {
-      userId: 3,
-      name: "윤뿔소",
-      followers: 200,
-      memo: "맛있다!",
-      thumbnail_url:
-        "https://user-images.githubusercontent.com/94962427/211693723-e10b0b7d-95ed-4918-b450-f952168bca3a.jpeg",
-    },
-  ];
+  const [keyword, setKeyword] = useState("");
+
+  const { axiosData: getSearch, responseData: searchData } = useAxios<PlaceData[]>(
+    () => getSearchPlaceData(keyword.split(" ").join("_")),
+    [keyword]
+  );
+
+  const [searchResults, setSearchResults] = useRecoilState(searchResultsState);
+  const [searchStatus, setSearchStatus] = useRecoilState(searchStatusState);
+
+  useEffect(() => {
+    if (searchStatus === "Loading") {
+      setSearchResults(searchData);
+      setSearchStatus("Success");
+    }
+  }, [searchStatus, searchData, setSearchResults, setSearchStatus]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setKeyword(e.target.value);
+  };
+
+  const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      getSearch();
+      setSearchStatus("Loading");
+    }
+  };
 
   return (
     <SearchWrapper>
       <label htmlFor="input-title">
         <h1>맛플레이스 검색</h1>
       </label>
-      <input id="input-title" placeholder="검색어를 입력하세요" />
-      {places ? (
+      <input
+        id="input-title"
+        placeholder="검색어를 입력하세요"
+        value={keyword}
+        onChange={handleChange}
+        onKeyDown={handleKeyPress}
+      />
+      {searchResults && searchStatus === "Success" ? (
         <SearchResultPlaceBox>
-          {places.map((place) => (
-            <PlaceSearchResult key={place.userId} place={place} />
+          {searchResults.map((place) => (
+            <PlaceSearchResult key={place.id} place={place} />
           ))}
         </SearchResultPlaceBox>
       ) : null}
@@ -103,7 +129,7 @@ const SearchDetailPlace: React.FC = () => {
             navigate("/newplaces");
           }}
         >
-          혹시 새로운 맛플레이스를 발견하셨다면 클릭!
+          나만의 맛플레이스가 없다면?
         </button>
       </PostPlaceBox>
     </SearchWrapper>
