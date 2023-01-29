@@ -4,7 +4,9 @@ import { Map } from "react-kakao-maps-sdk";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 import { placeInfoState, placeInfoStatusState } from "../../store/placeInfoAtoms";
-import MapMarkerComponent from "./MapMarkerComponent";
+import PickerMarker from "./PIckerMarker";
+import PlaceDetailMarker from "./PlaceDetailMarker";
+import SearchMarker from "./SearchMarker";
 
 const MapContainer = styled(Map)`
   width: 100%;
@@ -22,7 +24,9 @@ const KakaoMap = () => {
     <>
       {placeInfo && placeInfoStatus === "Success" ? (
         <MapContainer center={{ lat: readjustLat, lng: readjustLng }} level={3} isPanto={true}>
-          <MapMarkerComponent />
+          <PlaceDetailMarker />
+          <SearchMarker />
+          <PickerMarker />
         </MapContainer>
       ) : (
         <MapContainer
@@ -30,7 +34,9 @@ const KakaoMap = () => {
           level={8}
           isPanto={false}
         >
-          <MapMarkerComponent />
+          <PlaceDetailMarker />
+          <SearchMarker />
+          <PickerMarker />
         </MapContainer>
       )}
     </>
