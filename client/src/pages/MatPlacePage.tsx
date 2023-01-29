@@ -10,7 +10,7 @@ import {
 } from "../api/axiosAPI/groups/PickersAxios";
 import { getPlaceDetail } from "../api/axiosAPI/places/PlacesAxios";
 import { PostRead, MatPostCreate, ModalPortal } from "../components";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import { placeInfoState, placeInfoStatusState } from "../store/placeInfoAtoms";
 
 const FeedContainer = styled.div`

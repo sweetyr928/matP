@@ -3,10 +3,6 @@ import kakaoLogo from "../assets/images/kakaoLogo.svg";
 import googleLogo from "../assets/images/googleLogo.svg";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useEffect } from "react";
-import { useRecoilValue, useSetRecoilState } from "recoil";
-import { userInfoState } from "../store/userInfoAtoms";
-import useAxios from "../hooks/useAxios";
-import { getMyData } from "../api/axiosAPI/members/myPageAPI";
 
 const StyledFeed = styled.div`
   height: 100%;

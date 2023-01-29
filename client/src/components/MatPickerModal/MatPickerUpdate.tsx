@@ -135,7 +135,7 @@ const MatPickerUpdate = ({
     true
   );
 
-  const handleName = (e: any) => {
+  const handleName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewNameValue(e.target.value);
   };
 
