@@ -322,7 +322,11 @@ const MatPlacePost: React.FC = () => {
   const [isOpenModal, setOpenModal] = useState<boolean>(false);
 
   const { responseData: pickersData } = useAxios(getPickers, [], false);
-  const { responseData: placeData } = useAxios(() => getPlaceDetail(Number(placeId)), [], false);
+  const { responseData: placeData } = useAxios(
+    () => getPlaceDetail(Number(placeId)),
+    [placeId],
+    false
+  );
 
   const {
     id = 0,
@@ -387,7 +391,8 @@ const MatPlacePost: React.FC = () => {
       setPlaceInfo(placeData);
       setPlaceInfoStatus("Success");
     }
-  }, [placeData]);
+    console.log(placeId);
+  }, [placeData, placeId]);
 
   return (
     <FeedContainer>
