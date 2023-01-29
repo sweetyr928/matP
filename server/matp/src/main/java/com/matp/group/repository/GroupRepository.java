@@ -16,7 +16,7 @@ public interface GroupRepository extends ReactiveCrudRepository<Group, Long> {
     Flux<Group> findAllByMemberId(long memberId);
 
     @Query("""
-        SELECT id, name, group_img_index
+        SELECT id, name, group_img_index, member_id, created_at
         FROM picker_group
         WHERE member_id = :memberId and id = :groupId
     """)

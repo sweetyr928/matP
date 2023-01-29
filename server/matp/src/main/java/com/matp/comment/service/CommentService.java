@@ -26,7 +26,7 @@ public class CommentService {
 
             var memberInfo = PostMemberInfo.builder()
                     .nickname(commentSpecificInfo.nickname())
-                    .profileImg(commentSpecificInfo.profileImg())
+                    .profileUrl(commentSpecificInfo.profileUrl())
                     .build();
 
             return CommentInfo.builder()
@@ -55,11 +55,12 @@ public class CommentService {
     public Mono<CommentResponse> updateComment(CommentRequest saveCommentRequest, Long postId, Long commentId, Long memberId) {
         Comment patchRequestComment = saveCommentRequest.toEntity();
 
-        if(patchRequestComment.getCommentMemberId() != memberId) {
-            throw new CustomException(CustomErrorCode.NOT_ALLOWED_MEMBER_ID);
-        }
+
         return commentRepository.findById(commentId)
                 .flatMap(comment -> {
+                    if(comment.getCommentMemberId() != memberId) {
+                        return Mono.error(new CustomException(CustomErrorCode.NOT_ALLOWED_MEMBER_ID));
+                    }
                     comment.patchComment(patchRequestComment.getCommentContent());
                     return commentRepository.save(comment);
                 })

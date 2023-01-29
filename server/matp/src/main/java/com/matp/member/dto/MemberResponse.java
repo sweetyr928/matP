@@ -20,8 +20,12 @@ public record MemberResponse(
         String memo,
         Long followers,
         Long followings,
+
+        boolean isFollowing,
+
         List<SimplePostResponse> postInfos,
         Set<GroupResponseDto> pickerGroupInfos
+
 ) {
     public static MemberResponse from(MemberDto dto) {
         return new MemberResponse(
@@ -34,6 +38,7 @@ public record MemberResponse(
                 dto.memo(),
                 null,
                 null,
+                false,
                 null,
                 null
         );
@@ -50,6 +55,7 @@ public record MemberResponse(
                 entity.getMemo(),
                 entity.getFollowers(),
                 entity.getFollowings(),
+                entity.isFollowing(),
                 entity.getPostInfos(),
                 entity.getPickerGroupInfos()
         );

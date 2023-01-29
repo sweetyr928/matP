@@ -53,6 +53,7 @@ public class Post {
         this.content = updatePost.getContent();
         this.thumbnailUrl = updatePost.getThumbnailUrl();
         this.star = updatePost.getStar();
+        this.memberId = updatePost.getMemberId();
         return post;
     }
     public void setMemberId(Long memberId) {

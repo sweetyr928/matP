@@ -15,14 +15,14 @@ public interface LikesRepository extends ReactiveCrudRepository<Likes, Long> {
             """)
     Mono<Likes> findLikes(Long postId, Long memberId);
 
-    @Modifying
+
     @Query("""
             insert into likes_count(count_likes, likes_post_id) values(count_likes + 1,:postId)
             ON DUPLICATE KEY UPDATE count_likes = count_likes + 1
             """)
     Mono<Void> increasePostLikesCount(Long postId);
 
-    @Modifying
+
     @Query("""
             update
             likes_count lc
@@ -32,7 +32,7 @@ public interface LikesRepository extends ReactiveCrudRepository<Likes, Long> {
             """)
     Mono<Void> decreasePostLikesCount(Long PostId);
 
-    @Modifying
+
     @Query("""
             update post p
             set

@@ -42,8 +42,10 @@ public class MemberController {
      * 유저 정보와 필요한 다른 정보를 함께 가져온 후 memberId로 해당 유저 정보만 반환
      */
     @GetMapping("/{member-id}")
-    public Mono<ResponseEntity<MemberResponse>> findMember(@PathVariable("member-id") Long id) {
-        return memberService.findAllWithInfo()
+    public Mono<ResponseEntity<MemberResponse>> findMember(@PathVariable("member-id") Long id,
+                                                           ServerHttpRequest request) {
+        Long myId = extractId(request);
+        return memberService.findAllWithInfo(myId,id)
                 .filter(member -> member.id().equals(id))
                 .last()
                 .map(ResponseEntity::ok);
