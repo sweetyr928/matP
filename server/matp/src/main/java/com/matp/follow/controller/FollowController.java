@@ -3,6 +3,7 @@ package com.matp.follow.controller;
 import com.matp.auth.jwt.JwtTokenProvider;
 import com.matp.follow.dto.FollowResponseWithInfo;
 import com.matp.follow.service.FollowService;
+import com.matp.utils.Function;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -20,42 +21,32 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class FollowController {
     private final FollowService followService;
-    private final JwtTokenProvider jwtTokenProvider;
+    private final Function function;
 
     @PostMapping("/followings/{member-id}")
     public Mono<ResponseEntity> followMember(@PathVariable("member-id") Long followingId,
                                              ServerHttpRequest request) {
-        Long followerId = extractId(request);
+        Long followerId = function.extractId(request);
         return followService.post(followerId, followingId).map(ResponseEntity::ok);
     }
 
     @DeleteMapping("/followings/{member-id}")
     public Mono<ResponseEntity> followCancel(@PathVariable("member-id") Long followingId,
                                              ServerHttpRequest request) {
-        Long followerId = extractId(request);
+        Long followerId = function.extractId(request);
         return followService.cancel(followerId, followingId).map(ResponseEntity::ok);
     }
 
     @GetMapping("/followings")
     public Flux<FollowResponseWithInfo> checkFollowings(ServerHttpRequest request) {
-        Long id = extractId(request);
+        Long id = function.extractId(request);
         return followService.findFollowingByFollowerId(id);
     }
 
     @GetMapping("/followers")
     public Flux<FollowResponseWithInfo> checkFollowers(ServerHttpRequest request) {
-        Long id = extractId(request);
+        Long id = function.extractId(request);
         return followService.findFollowerByFollowingId(id);
-    }
-
-    /**
-     * 리퀘스트 헤더에 있는 토큰을 사용하여 ID 추출
-     */
-    private Long extractId(ServerHttpRequest request) {
-        String bearerToken = request.getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
-        assert bearerToken != null;
-        bearerToken = bearerToken.substring(7);
-        return jwtTokenProvider.getUserId(bearerToken);
     }
 
 }

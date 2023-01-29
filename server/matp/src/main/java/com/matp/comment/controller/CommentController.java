@@ -5,6 +5,7 @@ import com.matp.comment.dto.CommentInfo;
 import com.matp.comment.dto.CommentRequest;
 import com.matp.comment.dto.CommentResponse;
 import com.matp.comment.service.CommentService;
+import com.matp.utils.Function;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -16,18 +17,19 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
+
 @Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/places/{place-id}/posts/{post-id}/comments")
 public class CommentController {
     private final CommentService commentService;
-    private final JwtTokenProvider jwtTokenProvider;
+    private final Function function;
     @PostMapping
     public Mono<ResponseEntity<CommentResponse>> createComment(@Validated @RequestBody Mono<CommentRequest> request,
                                                                @PathVariable("post-id")Long postId,
                                                                ServerHttpRequest jwt) {
-        Long memberId = extractId(jwt);
+        Long memberId = function.extractId(jwt);
         log.info(" 요청 : {}", " ========== 댓글 작성 완료 ========");
         Mono<ResponseEntity<CommentResponse>> map = request
                 .flatMap(CommentRequest -> commentService.save(CommentRequest,postId,memberId))
@@ -39,7 +41,7 @@ public class CommentController {
                                                                @PathVariable("post-id") Long postId,
                                                                @PathVariable("comment-id") Long commentId,
                                                                ServerHttpRequest jwt) {
-        Long memberId = extractId(jwt);
+        Long memberId = function.extractId(jwt);
         log.info(" 요청 : {}", " ========== 댓글 수정 완료 ========");
         return request.flatMap(postCommentRequest -> commentService.updateComment(postCommentRequest, postId, commentId,memberId))
                 .map(commentResponse -> new ResponseEntity<>(commentResponse, HttpStatus.OK));
@@ -48,7 +50,7 @@ public class CommentController {
     @DeleteMapping("/{comment-id}")
     public Mono<ResponseEntity<Void>> deleteComment(@PathVariable("comment-id") Long commentId,
                                                     ServerHttpRequest jwt) {
-        Long memberId = extractId(jwt);
+        Long memberId = function.extractId(jwt);
         log.info(" 요청 : {}", " ========== 댓글 삭제 완료 ========");
         return commentService.deleteComment(commentId,memberId)
                 .map(response -> ResponseEntity.noContent().<Void>build())
@@ -60,11 +62,5 @@ public class CommentController {
     public Mono<ResponseEntity<List<CommentInfo>>> reloadComments(@PathVariable("post-id")Long postId) {
         return commentService.getComments(postId)
                 .map(commentInfos -> new ResponseEntity<>(commentInfos,HttpStatus.OK));
-    }
-    private Long extractId(ServerHttpRequest request) {
-        String bearerToken = request.getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
-        assert bearerToken != null;
-        bearerToken = bearerToken.substring(7);
-        return jwtTokenProvider.getUserId(bearerToken);
     }
 }
