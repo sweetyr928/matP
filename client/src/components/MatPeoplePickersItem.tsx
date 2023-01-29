@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 const StyledMatPicker = styled.div`
@@ -10,8 +10,10 @@ const StyledMatPicker = styled.div`
   padding: 15px;
   border-bottom: 1px solid #373737;
 
-  a {
-    text-decoration: none;
+  button {
+    padding: 0;
+    border: none;
+    background-color: transparent;
     color: #373737;
   }
 `;
@@ -50,14 +52,23 @@ const groupImg = [
 ];
 
 const MatPeoplePickersItem = ({ picker }: { picker: PickersProps }) => {
+  const navigate = useNavigate();
+  const move = () => {
+    navigate(`/pickers/${picker.id}`, {
+      state: {
+        name: picker.name,
+      },
+    });
+  };
+
   return (
     <StyledMatPicker>
-      <Link to={`/pickers/${picker.id}`}>
+      <button onClick={move}>
         <NameBox color={groupImg[picker.groupImgIndex]}>
           <div className="icon"></div>
           <div>{picker.name}</div>
         </NameBox>
-      </Link>
+      </button>
     </StyledMatPicker>
   );
 };

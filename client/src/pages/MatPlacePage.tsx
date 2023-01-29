@@ -2,7 +2,12 @@ import { useState, useCallback } from "react";
 import styled from "styled-components";
 import useAxios from "../hooks/useAxios";
 import { useParams } from "react-router-dom";
-import { getPickers } from "../api/axiosAPI/groups/PickersAxios";
+import {
+  getPickers,
+  createPick,
+  updatePick,
+  deletePick,
+} from "../api/axiosAPI/groups/PickersAxios";
 import { getPlaceDetail } from "../api/axiosAPI/places/PlacesAxios";
 import { PostRead, MatPostCreate, ModalPortal } from "../components";
 
@@ -141,6 +146,11 @@ const PickContainer = styled.div`
     font-size: 20px;
     text-align: center;
     margin: 30px 0;
+  }
+  #pick {
+    border-radius: 5px;
+    background-color: rgb(200, 200, 200, 0.2);
+    filter: brightness(0.8);
   }
 `;
 
@@ -303,7 +313,6 @@ const MatPlacePost: React.FC = () => {
   const [isPost, setIsPost] = useState<boolean>(true);
   const [isPickers, setIsPickers] = useState<boolean>(false);
   const [isOpenModal, setOpenModal] = useState<boolean>(false);
-  // const [deleteClicked, setDeleteClicked] = useState<boolean>(false);
 
   const { responseData: pickersData } = useAxios(getPickers, [], false);
   const { responseData: placeData } = useAxios(
@@ -325,35 +334,23 @@ const MatPlacePost: React.FC = () => {
     isPick = true,
     postCount = 0,
     pickCount = 0,
+    groupName = "",
+    groupImgIndex = 0,
     longitude = 0,
     latitude = 0,
     posts = [],
   } = placeData || {};
 
-  // const pickHandler = () => {
-  //   /*첫 픽*/
-  //   if (isVotedQ === "" && e.target.id) {
-  //     postPick(e.target.id);
-  //   } else if (isVotedQ !== e.target.id) {
-  //     /*픽 변경*/
-  //     patchPick(e.target.id);
-  //   } else {
-  //     /*픽 취소(현재 픽한 그룹 id와 누른 버튼 id가 동일할 때)*/
-  //     deletePick("NO_VOTE");
-  //   }
-  // };
-
-  //   const { axiosData: createAxiosData } = useAxios(
-  //     () => createPick(id, picker.id),
-  //     [nameValue, colorValue],
-  //     true
-  //   );
-
-  //   const { axiosData: deleteAxiosData } = useAxios(
-  //     () => deletePick(id),
-  //     [deleteClicked],
-  //     true
-  //   );
+  const pickHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const target = e.target as HTMLDivElement;
+    if (!isPick && target.id) {
+      createPick(Number(placeId), Number(target.id));
+    } else if (isPick && target.textContent === groupName) {
+      deletePick(id);
+    } else if (target.id && target.textContent !== groupName) {
+      updatePick(Number(placeId), Number(target.id));
+    }
+  };
 
   const onClickToggleModal = useCallback(() => {
     setOpenModal(!isOpenModal);
@@ -439,13 +436,13 @@ const MatPlacePost: React.FC = () => {
           {pickersData &&
             pickersData.map((picker: any) => (
               <NameBox
+                id={`${isPick && picker.name === groupName ? "pick" : ""}`}
                 key={picker.id}
-                disabled={isPick}
                 color={groupImg[picker.groupImgIndex]}
-                // onClick={pickHandler}
+                onClick={pickHandler}
               >
                 <div className="icon"></div>
-                <div>{picker.name}</div>
+                <div id={picker.id}>{picker.name}</div>
               </NameBox>
             ))}
         </PickContainer>

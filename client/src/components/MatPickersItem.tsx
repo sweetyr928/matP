@@ -1,5 +1,5 @@
 import { useState, useCallback } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { MatPickerUpdate, MatPickerDelete, ModalPortal } from ".";
 import EditIcon from "@mui/icons-material/Edit";
@@ -14,9 +14,12 @@ const MatPickerSingleBox = styled.div`
   padding: 15px;
   border-bottom: 1px solid #a6a6a6;
 
-  a {
-    text-decoration: none;
+  button {
     color: #373737;
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    font-size: 16px;
   }
 `;
 
@@ -82,6 +85,16 @@ const MatPickersItem = ({
   const [isOpenUpdateModal, setOpenUpdateModal] = useState<boolean>(false);
   const [isOpenDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
 
+  const navigate = useNavigate();
+
+  const move = () => {
+    navigate(`/pickers/${id}`, {
+      state: {
+        name,
+      },
+    });
+  };
+
   const onClickToggleUpdateModal = useCallback(() => {
     setOpenUpdateModal(!isOpenUpdateModal);
   }, [isOpenUpdateModal]);
@@ -113,12 +126,12 @@ const MatPickersItem = ({
             />
           </ModalPortal>
         )}
-        <Link to={`/pickers/${id}`}>
+        <button onClick={move}>
           <NameBox color={groupImg[groupImgIndex]}>
             <div className="icon"></div>
             <div>{name}</div>
           </NameBox>
-        </Link>
+        </button>
         <ButtonBox>
           <EditIconStyled
             className={`update_btn${name === "기본 그룹" ? "_hidden" : ""}`}
