@@ -24,8 +24,6 @@ public class Comment {
     private Long commentMemberId;
     private Long postId;
 
-    private Long placeId;
-
     @Transient
     private Member member;
 
