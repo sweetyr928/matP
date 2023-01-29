@@ -52,7 +52,7 @@ public class MemberController {
                 .map(ResponseEntity::ok);
     }
 
-    @GetMapping("/{member-nickname}")
+    @GetMapping("/search/{member-nickname}")
     public Flux<MemberSearchResponse> findMembers(@PathVariable("member-nickname") String nickname) {
         return memberService.findAllWithInfo()
                 .filter(member -> member.nickname().equals(nickname))
