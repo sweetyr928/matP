@@ -165,9 +165,13 @@ const PostReadModal = ({
   const [isEdit, setIsEdit] = useState<boolean>(false);
   // popover ref
   const [anchorEL, setAnchorEL] = useState(null);
+  // comment 리스트 변동사항 여부(reload 위해)
+  const [commentReload, setCommentReload] = useState<boolean>(null);
 
+  // matPostUdate로 navigate하기 위해 선언
   const navigate = useNavigate();
 
+  // 단일 Post data get
   useEffect(() => {
     axios
       .get(
@@ -194,7 +198,27 @@ const PostReadModal = ({
       });
   }, []);
 
-  // 단일 post 삭제
+  // comment list update
+  useEffect(() => {
+    axios
+      .get(
+        `http://ec2-15-165-163-251.ap-northeast-2.compute.amazonaws.com:8080/places/1/posts/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${jwtToken}`,
+          },
+        }
+      )
+      .then((res) => {
+        setComments(res.data.comments);
+        setCommentReload(false);
+      })
+      .catch(function (error) {
+        throw error;
+      });
+  }, [commentReload]);
+
+  // post 삭제
   const { axiosData: deleteP } = useAxios(
     () => deletePost(id, placeId),
     [deleteClicked],
@@ -228,12 +252,13 @@ const PostReadModal = ({
     isLikesCheck: isLikesCheck,
   };
 
-  // // 별점 불러오기
+  // 별점 불러오기
   const clicked = new Array(5).fill(true, 0, star);
 
   // 항상 별이 총 5개(더미 array)
   const array: Array<number> = [0, 1, 2, 3, 4];
 
+  // post 수정 중/미 수정 중 여부 변환
   const handleEdit = () => {
     setIsEdit(true);
   };
@@ -254,14 +279,14 @@ const PostReadModal = ({
     onClickToggleModal();
   };
 
-  // post url
+  // 해당 post url
   // const handleUrl = () => {
   //   console.log("It's url");
   // };
 
   /**
    * post에 해당 하는 맛 플레이스 페이지로 이동
-   * TODO : 서버 연결 후 url 변경 및 지도 이동 기능 추가
+   * TODO :지도 이동 기능 추가 확인
    */
   const handleMatPlace = () => {
     navigate(`/places/${placeId}`);
@@ -272,12 +297,12 @@ const PostReadModal = ({
     zIndex: 10000,
     top: "10px",
   };
-
+  // popover styling
   const PopoverTStyle = {
     backgroundColor: "#e1e1e1",
     fontSize: "15px",
   };
-
+  // popover styling
   const PopoverBtnStyle = {
     backgroundColor: "#874356",
     color: "#ffffff",
@@ -298,6 +323,11 @@ const PostReadModal = ({
       dislikeP();
       setIsLikesCheck(false);
     }
+  };
+
+  // comment list 변동사항 발생 시 true
+  const getAllComments = () => {
+    setCommentReload(true);
   };
 
   return (
@@ -386,7 +416,12 @@ const PostReadModal = ({
           <div className="post_like" onClick={handleLike} role="presentation">
             {isLikesCheck ? <FavoriteIcon /> : <FavoriteBorderIcon />}
           </div>
-          <MatCommentList comments={comments} placeId={placeId} postId={id} />
+          <MatCommentList
+            comments={comments}
+            placeId={placeId}
+            postId={id}
+            getAllComments={getAllComments}
+          />
         </StyledDiv>
       )}
     </StyledModal>

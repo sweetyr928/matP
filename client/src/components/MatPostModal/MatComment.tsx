@@ -108,10 +108,12 @@ const MatComment = ({
   singleComment,
   placeId,
   postId,
+  getAllComments,
 }: {
   singleComment: IComments;
   placeId: number;
   postId: number;
+  getAllComments: () => void;
 }) => {
   const userInfo = useRecoilValue(userInfoState);
   const [isEditing, setIsEditing] = useState<boolean>(false);
@@ -161,6 +163,7 @@ const MatComment = ({
   const handleDelete = () => {
     setDeleteClicked(!deleteClicked);
     deleteC();
+    getAllComments();
   };
 
   // 댓글 수정 input
