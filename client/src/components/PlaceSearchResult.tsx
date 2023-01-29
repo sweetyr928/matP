@@ -1,31 +1,34 @@
 import styled from "styled-components";
 
-const UserWrapper = styled.div`
+const PlaceWrapper = styled.div`
   height: 100%;
   width: 100%;
+`;
 
-  .result-box {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 10px;
-    padding-left: 20px;
-    border-bottom: 1px solid #adadad;
+const ResultList = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 10px;
+  padding-left: 40px;
+  border-bottom: 1px solid #cdcdcd;
+  &:hover {
+    background-color: #efefef;
   }
+`;
 
-  /* .user_thumbnail {
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    margin-right: 10px;
-  } */
-
-  .text-box {
-    width: 80%;
+const PlaceName = styled.h3`
+  cursor: pointer;
+  font-size: 1.2rem;
+  margin: 7px 0;
+  color: #874356;
+  &:hover {
+    color: #c65d7b;
   }
-  p {
-    margin: 10px;
-  }
+`;
+const PlaceAddress = styled.p`
+  font-size: 0.8rem;
+  margin-top: 5px;
 `;
 
 interface PlaceProps {
@@ -41,17 +44,12 @@ interface PlaceProps {
 
 const PlaceSearchResult = ({ place }: { place: PlaceProps }) => {
   return (
-    <>
-      <UserWrapper>
-        <div className="result-box">
-          <div className="text-box">
-            <p>{place.name}</p>
-            <p>{place.address}</p>
-            <p>{place.tel}</p>
-          </div>
-        </div>
-      </UserWrapper>
-    </>
+    <PlaceWrapper>
+      <ResultList>
+        <PlaceName>{place.name}</PlaceName>
+        <PlaceAddress>{place.address}</PlaceAddress>
+      </ResultList>
+    </PlaceWrapper>
   );
 };
 

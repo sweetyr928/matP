@@ -14,6 +14,7 @@ interface PlaceData {
   latitude: number;
 }
 
-export const getSearchPlaceData = (keyword: string): Promise<PlaceData[]> => {
-  return axios.get(`${url}?query=${keyword}`).then((response) => response.data);
+export const getSearchPlaceData = async (keyword: string): Promise<PlaceData[]> => {
+  const response = await axios.get(`${url}?query=${keyword}`);
+  return response.data;
 };

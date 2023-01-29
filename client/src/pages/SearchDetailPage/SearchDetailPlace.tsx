@@ -41,14 +41,14 @@ const SearchResultPlaceBox = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
+  overflow: scroll;
 `;
 
 const PostPlaceBox = styled.div`
   width: 100%;
-  height: 20px;
+  height: 16px;
   margin-top: 20px;
   display: flex;
-  align-items: center;
   justify-content: center;
   button {
     color: #939393;
@@ -60,6 +60,12 @@ const PostPlaceBox = styled.div`
       color: #373737;
     }
   }
+`;
+
+const NoneResultMessage = styled.div`
+  margin: 3rem 0;
+  font-size: 1.5rem;
+  font-weight: 500;
 `;
 
 interface PlaceData {
@@ -98,9 +104,11 @@ const SearchDetailPlace: React.FC = () => {
   };
 
   const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === "Enter") {
+    if (event.key === "Enter" && keyword.length !== 0) {
       getSearch();
       setSearchStatus("Loading");
+    } else if (event.key === "Enter" && keyword.length === 0) {
+      return alert("검색어를 입력해주세요!");
     }
   };
 
@@ -122,6 +130,9 @@ const SearchDetailPlace: React.FC = () => {
             <PlaceSearchResult key={place.id} place={place} />
           ))}
         </SearchResultPlaceBox>
+      ) : null}
+      {searchResults.length === 0 && searchStatus === "Success" ? (
+        <NoneResultMessage>검색 결과가 없습니다!</NoneResultMessage>
       ) : null}
       <PostPlaceBox>
         <button
