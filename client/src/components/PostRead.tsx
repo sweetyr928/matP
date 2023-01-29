@@ -5,17 +5,13 @@ import styled from "styled-components";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useState, useCallback } from "react";
 import { MatPostRead, ModalPortal } from ".";
-import { IPosts } from "../api/axiosAPI/posts/PostsAxios";
+import { IPosts, getPlacesPost } from "../api/axiosAPI/posts/PostsAxios";
+import useAxios from "../hooks/useAxios";
 
 const ImgWrapper = styled.div`
   width: 130px;
   height: 130px;
   position: relative;
-
-  .post_thumbnail {
-    width: 100%;
-    height: 100%;
-  }
 
   .likes_on {
     position: absolute;
@@ -28,26 +24,32 @@ const ImgWrapper = styled.div`
     color: #ffffff;
     font-weight: 700;
     display: none;
+    user-select: none;
   }
 
   &:hover .likes_on {
     display: block;
   }
 
+  &:hover .post_thumbnail {
+    filter: brightness(0.5);
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    vertical-align: middle;
+  }
+
+  .post_thumbnail {
+    width: 100%;
+    height: 100%;
+  }
+
   .heartIcon {
     width: 16px;
     height: 12px;
-  }
-`;
-
-const PostImg = styled.img`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  vertical-align: middle;
-
-  &:hover {
-    filter: brightness(0.5);
   }
 `;
 
@@ -65,28 +67,43 @@ const ModalBackdrop = styled.div`
   place-items: center;
 `;
 
-const PostRead = ({ post }: { post: IPosts }) => {
+const PostRead = ({
+  post,
+  getAllPostsReload,
+}: {
+  post: IPosts;
+  getAllPostsReload?: () => void;
+}) => {
   const [isOpenModal, setOpenModal] = useState<boolean>(false);
+
+  const handleClick = () => {
+    onClickToggleModal();
+  };
 
   const onClickToggleModal = useCallback(() => {
     setOpenModal(!isOpenModal);
   }, [isOpenModal]);
 
+  const onClickToggleModal_BD = useCallback(() => {
+    getAllPostsReload();
+    setOpenModal(!isOpenModal);
+  }, [isOpenModal]);
+
   return (
     <>
-      <ImgWrapper onClick={onClickToggleModal}>
+      <ImgWrapper onClick={handleClick}>
         <p className="likes_on">
           <FavoriteIcon className="heartIcon" />
           {post.likes}
         </p>
         <div className="post_thumbnail">
-          <PostImg src={post.thumbnailUrl} alt="thumbnail" />
+          <img src={post.thumbnailUrl} alt="thumbnail" />
         </div>
       </ImgWrapper>
       {isOpenModal === true ? (
         <ModalPortal>
           <MatPostRead onClickToggleModal={onClickToggleModal} id={post.id} />
-          <ModalBackdrop onClick={onClickToggleModal} />
+          <ModalBackdrop onClick={onClickToggleModal_BD} />
         </ModalPortal>
       ) : null}
     </>

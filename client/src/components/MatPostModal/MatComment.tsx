@@ -1,10 +1,16 @@
 import styled from "styled-components";
 import { useState } from "react";
-import { updateComment, deleteComment, IComments } from "../../api/axiosAPI/comments/commentsAxios";
+import {
+  updateComment,
+  deleteComment,
+  IComments,
+} from "../../api/axiosAPI/comments/commentsAxios";
 import useAxios from "../../hooks/useAxios";
 import { Popover, Typography } from "@mui/material";
 import moment from "moment";
 import "moment/locale/ko";
+import { useRecoilValue } from "recoil";
+import { userInfoState } from "../../store/userInfoAtoms";
 
 const StyledComment = styled.div`
   display: flex;
@@ -26,6 +32,10 @@ const StyledDiv = styled.div`
 
   button:hover {
     font-weight: 700;
+  }
+
+  .disabled {
+    display: none;
   }
 `;
 
@@ -96,36 +106,40 @@ const StyledContent = styled.div`
 
 const MatComment = ({
   singleComment,
-  getAllComment,
+  placeId,
+  postId,
+  getAllCommentsReload,
 }: {
   singleComment: IComments;
-  getAllComment: () => void;
+  placeId: number;
+  postId: number;
+  getAllCommentsReload: () => void;
 }) => {
+  const userInfo = useRecoilValue(userInfoState);
   const [isEditing, setIsEditing] = useState<boolean>(false);
   // Comment 객체
-  const [newSingleComment, setNewSingleComment] = useState<IComments>(singleComment);
+  const [newSingleComment, setNewSingleComment] =
+    useState<IComments>(singleComment);
   // 새로 바뀐 댓글의 내용
-  const [editedComment, setEditedComment] = useState<string>(singleComment.commentContent);
-  const [createdAt, setCreatedAt] = useState<string>(singleComment.commentCreatedAt);
+  const [editedComment, setEditedComment] = useState<string>(
+    singleComment.commentContent
+  );
+  const [createdAt, setCreatedAt] = useState<string>(
+    singleComment.commentCreatedAt
+  );
   const [deleteClicked, setDeleteClicked] = useState<boolean>(false);
   // popover ref
   const [anchorEL, setAnchorEL] = useState(null);
 
   const { axiosData: updateC } = useAxios(
     () =>
-      updateComment(
-        "rhino",
-        "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg",
-        editedComment,
-        createdAt,
-        newSingleComment.id
-      ),
+      updateComment(editedComment, placeId, postId, newSingleComment.CommentId),
     [editedComment],
     true
   );
 
   const { axiosData: deleteC } = useAxios(
-    () => deleteComment(newSingleComment.id),
+    () => deleteComment(placeId, postId, newSingleComment.CommentId),
     [deleteClicked],
     true
   );
@@ -149,7 +163,7 @@ const MatComment = ({
   const handleDelete = () => {
     setDeleteClicked(!deleteClicked);
     deleteC();
-    getAllComment();
+    getAllCommentsReload();
   };
 
   // 댓글 수정 input
@@ -204,15 +218,38 @@ const MatComment = ({
     <StyledComment>
       <StyledDiv>
         <StyledInfo>
-          <img src={newSingleComment.profileImg} alt="profileImg"></img>
-          <div className="comment_nickname">{newSingleComment.nickname}</div>
+          <img
+            src={newSingleComment.memberInfo.profileUrl}
+            alt="profileImg"
+          ></img>
+          <div className="comment_nickname">
+            {newSingleComment.memberInfo.nickname}
+          </div>
           <div className="comment_createdAt">
-            {moment(createdAt, "YYYY-MM-DDTHH:mm:ss").format("llll")}
+            {moment(createdAt, "YYYY-MM-DDTHH:mm:ss").format("YYYY년 MMM Do")}
           </div>
         </StyledInfo>
         <div>
-          <button onClick={handleEdit}>수정</button>
-          <button onClick={handleClick}>삭제</button>
+          <button
+            onClick={handleEdit}
+            className={
+              newSingleComment.memberInfo.nickname !== userInfo.nickname
+                ? "disabled"
+                : ""
+            }
+          >
+            수정
+          </button>
+          <button
+            onClick={handleClick}
+            className={
+              newSingleComment.memberInfo.nickname !== userInfo.nickname
+                ? "disabled"
+                : ""
+            }
+          >
+            삭제
+          </button>
           <Popover
             open={Boolean(anchorEL)}
             onClose={handleClose}

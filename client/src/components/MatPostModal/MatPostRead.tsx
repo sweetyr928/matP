@@ -1,7 +1,12 @@
 import styled from "styled-components";
 import useAxios from "../../hooks/useAxios";
-import { useState, useCallback } from "react";
-import { getPlacesPost, deletePost } from "../../api/axiosAPI/posts/PostsAxios";
+import { useEffect, useState } from "react";
+import {
+  deletePost,
+  IPlacesPost,
+  likePost,
+  dislikePost,
+} from "../../api/axiosAPI/posts/PostsAxios";
 import StarRate from "./StarRate";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -11,6 +16,12 @@ import { useNavigate } from "react-router";
 import { Popover, Typography } from "@mui/material";
 import moment from "moment";
 import "moment/locale/ko";
+import axios from "axios";
+import { IComments } from "../../api/axiosAPI/comments/commentsAxios";
+import { useRecoilValue } from "recoil";
+import { userInfoState } from "../../store/userInfoAtoms";
+
+const jwtToken = localStorage.getItem("Authorization");
 
 const StyledModal = styled.div`
   border-radius: 10px;
@@ -70,6 +81,10 @@ const StyledMid = styled.div`
 
   button:hover {
     font-weight: 700;
+  }
+
+  .disabled {
+    display: none;
   }
 `;
 
@@ -132,37 +147,110 @@ interface ModalDefaultType {
   id: number;
 }
 
-const PostReadModal = ({ onClickToggleModal, id }: ModalDefaultType): JSX.Element => {
-  const [isOpenUpdateModal, setOpenUpdateModal] = useState<boolean>(false);
-  const [isLiked, setIsLiked] = useState<boolean>(false);
+const PostReadModal = ({
+  onClickToggleModal,
+  id,
+}: ModalDefaultType): JSX.Element => {
+  const userInfo = useRecoilValue(userInfoState);
+  const [nickname, setNickname] = useState<string>("");
+  const [profileUrl, setProfileUrl] = useState<string>("");
+  const [title, setTitle] = useState<string>("");
+  const [content, setContent] = useState<string>("");
+  const [createdAt, setCreatedAt] = useState<string>("");
+  const [star, setStar] = useState<number>(0);
+  const [placeId, setPlaceId] = useState<number>(0);
+  const [comments, setComments] = useState<IComments[]>([]);
+  const [isLikesCheck, setIsLikesCheck] = useState<boolean>(false);
   const [deleteClicked, setDeleteClicked] = useState<boolean>(false);
   const [isEdit, setIsEdit] = useState<boolean>(false);
   // popover ref
   const [anchorEL, setAnchorEL] = useState(null);
+  // comment 리스트 변동사항 여부(reload 위해)
+  const [commentReload, setCommentReload] = useState<boolean>(null);
 
-  // 업데이트 모달 토글 함수
-  const onClickToggleUpdateModal = useCallback(() => {
-    setOpenUpdateModal(!isOpenUpdateModal);
-  }, [isOpenUpdateModal]);
-
-  // 단일 post data GET
-  const { responseData } = useAxios(() => getPlacesPost(id), [id], false);
-
-  // 단일 post 삭제
-  const { axiosData } = useAxios(() => deletePost(id), [deleteClicked], true);
-
+  // matPostUdate로 navigate하기 위해 선언
   const navigate = useNavigate();
 
-  const {
-    nickname = "",
-    profileimg = "",
-    createdAt = "",
-    title = "",
-    content = "",
-    star = 0,
-    likes = 0,
-    // comments = [],
-  } = responseData || {};
+  // 단일 Post data get
+  useEffect(() => {
+    axios
+      .get(
+        `http://ec2-15-165-163-251.ap-northeast-2.compute.amazonaws.com:8080/places/1/posts/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${jwtToken}`,
+          },
+        }
+      )
+      .then((res) => {
+        setNickname(res.data.postInfo.memberInfo.nickname);
+        setProfileUrl(res.data.postInfo.memberInfo.profileUrl);
+        setTitle(res.data.postInfo.title);
+        setContent(res.data.postInfo.content);
+        setCreatedAt(res.data.postInfo.createdAt);
+        setStar(res.data.postInfo.star);
+        setPlaceId(res.data.postInfo.placeId);
+        setComments(res.data.comments);
+        setIsLikesCheck(res.data.isLikesCheck);
+      })
+      .catch(function (error) {
+        throw error;
+      });
+  }, []);
+
+  // comment list update
+  useEffect(() => {
+    axios
+      .get(
+        `http://ec2-15-165-163-251.ap-northeast-2.compute.amazonaws.com:8080/places/1/posts/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${jwtToken}`,
+          },
+        }
+      )
+      .then((res) => {
+        setComments(res.data.comments);
+        setCommentReload(false);
+      })
+      .catch(function (error) {
+        throw error;
+      });
+  }, [commentReload]);
+
+  // post 삭제
+  const { axiosData: deleteP } = useAxios(
+    () => deletePost(id, placeId),
+    [deleteClicked],
+    true
+  );
+
+  //'좋아요'
+  const { axiosData: likeP } = useAxios(() => likePost(id, placeId), [], true);
+
+  // '좋아요' 취소
+  const { axiosData: dislikeP } = useAxios(
+    () => dislikePost(id, placeId),
+    [],
+    true
+  );
+
+  // matPostUpdate 컴포넌트로 post data 넘겨줌
+  const postData = {
+    postInfo: {
+      id: id,
+      title: title,
+      content: content,
+      createdAt: createdAt,
+      star: star,
+      memberInfo: {
+        nickname: nickname,
+        profileImg: profileUrl,
+      },
+    },
+    comments: comments,
+    isLikesCheck: isLikesCheck,
+  };
 
   // 별점 불러오기
   const clicked = new Array(5).fill(true, 0, star);
@@ -170,6 +258,7 @@ const PostReadModal = ({ onClickToggleModal, id }: ModalDefaultType): JSX.Elemen
   // 항상 별이 총 5개(더미 array)
   const array: Array<number> = [0, 1, 2, 3, 4];
 
+  // post 수정 중/미 수정 중 여부 변환
   const handleEdit = () => {
     setIsEdit(true);
   };
@@ -186,26 +275,16 @@ const PostReadModal = ({ onClickToggleModal, id }: ModalDefaultType): JSX.Elemen
 
   const handleDelete = () => {
     setDeleteClicked(!deleteClicked);
-    axiosData();
+    deleteP();
     onClickToggleModal();
-  };
-
-  // post url
-  const handleUrl = () => {
-    console.log("It's url");
   };
 
   /**
    * post에 해당 하는 맛 플레이스 페이지로 이동
-   * TODO : 서버 연결 후 url 변경 및 지도 이동 기능 추가
+   * TODO :지도 이동 기능 추가 확인
    */
   const handleMatPlace = () => {
-    navigate("/places");
-  };
-
-  // '하트' 이모지 클릭 시 like / default 상태로 바뀜
-  const handleLike = () => {
-    setIsLiked(!isLiked);
+    navigate(`/places/${placeId}`);
   };
 
   // popover styling
@@ -213,12 +292,12 @@ const PostReadModal = ({ onClickToggleModal, id }: ModalDefaultType): JSX.Elemen
     zIndex: 10000,
     top: "10px",
   };
-
+  // popover styling
   const PopoverTStyle = {
     backgroundColor: "#e1e1e1",
     fontSize: "15px",
   };
-
+  // popover styling
   const PopoverBtnStyle = {
     backgroundColor: "#874356",
     color: "#ffffff",
@@ -230,28 +309,65 @@ const PostReadModal = ({ onClickToggleModal, id }: ModalDefaultType): JSX.Elemen
     height: "20px",
   };
 
+  // '하트' 이모지 클릭 시 like / default 상태로 바뀜
+  const handleLike = () => {
+    if (!isLikesCheck) {
+      likeP();
+      setIsLikesCheck(true);
+    } else {
+      dislikeP();
+      setIsLikesCheck(false);
+    }
+  };
+
+  // comment list 변동사항 발생 시 true
+  const getAllCommentsReload = () => {
+    setCommentReload(true);
+  };
+
   return (
     <StyledModal>
-      <span role="presentation" onClick={onClickToggleModal} className="close-btn">
+      <span
+        role="presentation"
+        onClick={onClickToggleModal}
+        className="close-btn"
+      >
         &times;
       </span>
       {isEdit ? (
-        <MatPostUpdate id={id} onClickToggleModal={onClickToggleUpdateModal} state={responseData} />
+        <MatPostUpdate
+          id={id}
+          onClickToggleModal={onClickToggleModal}
+          state={postData}
+          placeId={placeId}
+        />
       ) : (
         <StyledDiv>
           <StyledContentWrapper>
             <div className="post_title">{title}</div>
             <StyledMid>
               <StyledInfo>
-                <img src={profileimg} alt="profileImg"></img>
+                <img src={profileUrl} alt="profileImg"></img>
                 <div className="post_nickname">{nickname}</div>
                 <div className="post_createdAt">
-                  {moment(createdAt, "YYYY-MM-DDTHH:mm:ss").format("llll")}
+                  {moment(createdAt, "YYYY-MM-DDTHH:mm:ss").format(
+                    "YYYY년 MMM Do"
+                  )}
                 </div>
               </StyledInfo>
               <div>
-                <button onClick={handleEdit}>수정</button>
-                <button onClick={handleClick}>삭제</button>
+                <button
+                  onClick={handleEdit}
+                  className={nickname !== userInfo.nickname ? "disabled" : ""}
+                >
+                  수정
+                </button>
+                <button
+                  onClick={handleClick}
+                  className={nickname !== userInfo.nickname ? "disabled" : ""}
+                >
+                  삭제
+                </button>
                 <Popover
                   open={Boolean(anchorEL)}
                   onClose={handleClose}
@@ -270,7 +386,6 @@ const PostReadModal = ({ onClickToggleModal, id }: ModalDefaultType): JSX.Elemen
                     </button>
                   </Typography>
                 </Popover>
-                <button onClick={handleUrl}>url 복사</button>
                 <button onClick={handleMatPlace}>맛 플레이스로 이동</button>
               </div>
             </StyledMid>
@@ -280,17 +395,27 @@ const PostReadModal = ({ onClickToggleModal, id }: ModalDefaultType): JSX.Elemen
             <StyledStarsWrapper>
               <StyledStar>
                 {array.map((el, idx) => {
-                  return <StarRate key={idx} size="50" className={clicked[el] ? "yellow" : ""} />;
+                  return (
+                    <StarRate
+                      key={idx}
+                      size="50"
+                      className={clicked[el] ? "yellow" : ""}
+                    />
+                  );
                 })}
               </StyledStar>
             </StyledStarsWrapper>
           </StyledContentWrapper>
           <hr className="post_middle_line" />
           <div className="post_like" onClick={handleLike} role="presentation">
-            {isLiked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+            {isLikesCheck ? <FavoriteIcon /> : <FavoriteBorderIcon />}
           </div>
-          {/* 서버 연결 이후 Props로 해당 Post의 comment list 넘겨주기 */}
-          <MatCommentList />
+          <MatCommentList
+            comments={comments}
+            placeId={placeId}
+            postId={id}
+            getAllCommentsReload={getAllCommentsReload}
+          />
         </StyledDiv>
       )}
     </StyledModal>

@@ -1,51 +1,54 @@
 import axios from "axios";
-const url = "http://localhost:3001";
+import { IMemberInfo } from "../posts/PostsAxios";
+
+const url =
+  "http://ec2-15-165-163-251.ap-northeast-2.compute.amazonaws.com:8080";
+const jwtToken = localStorage.getItem("Authorization");
+axios.defaults.headers.common["Authorization"] = `Bearer ${jwtToken}`;
 
 export interface IComments {
-  id: number;
-  nickname: string;
-  profileImg: string;
+  CommentId: number;
+  memberInfo: IMemberInfo;
   commentContent: string;
   commentCreatedAt: string;
 }
 
-export const getComments = async () => {
-  const response = await axios.get<IComments[]>(`${url}/comments`);
-  return response.data;
-};
-
 export const createComment = async (
-  nickname: string,
-  profileImg: string,
-  commentContent: string,
-  commentCreatedAt: string
+  content: string,
+  placeId: number,
+  postId: number
 ): Promise<void> => {
-  const response = await axios.post(`${url}/comments`, {
-    nickname,
-    profileImg,
-    commentContent,
-    commentCreatedAt,
-  });
+  const response = await axios.post(
+    `${url}/places/${placeId}/posts/${postId}/comments`,
+    {
+      content,
+    }
+  );
   return response.data;
 };
 
 export const updateComment = async (
-  nickname: string,
-  profileImg: string,
-  commentContent: string,
-  commentCreatedAt: string,
-  id: number
+  content: string,
+  placeId: number,
+  postId: number,
+  commentId: number
 ): Promise<void> => {
-  const response = await axios.patch(`${url}/comments/${id}`, {
-    nickname,
-    profileImg,
-    commentContent,
-    commentCreatedAt,
-  });
+  const response = await axios.patch(
+    `${url}/places/${placeId}/posts/${postId}/comments/${commentId}`,
+    {
+      content,
+    }
+  );
   return response.data;
 };
 
-export const deleteComment = async (id: number): Promise<void> => {
-  const response = await axios.delete(`${url}/comments/${id}`);
+export const deleteComment = async (
+  placeId: number,
+  postId: number,
+  commentId: number
+): Promise<void> => {
+  const response = await axios.delete(
+    `${url}/places/${placeId}/posts/${postId}/comments/${commentId}`
+  );
   return response.data;
 };

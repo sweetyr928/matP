@@ -92,6 +92,7 @@ const SearchDetailPost: React.FC = () => {
       modifiedAt: "2023-01-19T10:55:49",
       star: 3,
       memberId: 2,
+      placeId: 1,
     },
     {
       id: 2,
@@ -105,6 +106,7 @@ const SearchDetailPost: React.FC = () => {
       modifiedAt: "2023-01-19T10:55:49",
       star: 3,
       memberId: 2,
+      placeId: 1,
     },
     {
       id: 3,
@@ -118,6 +120,7 @@ const SearchDetailPost: React.FC = () => {
       modifiedAt: "2023-01-19T10:55:49",
       star: 3,
       memberId: 2,
+      placeId: 1,
     },
     {
       id: 4,
@@ -131,6 +134,7 @@ const SearchDetailPost: React.FC = () => {
       modifiedAt: "2023-01-19T10:55:49",
       star: 3,
       memberId: 2,
+      placeId: 1,
     },
   ];
 

@@ -35,18 +35,19 @@ const StyledComment = styled.div`
   }
 `;
 
-const MatCommentAdd = ({ getAllComment }: { getAllComment: () => void }): JSX.Element => {
+const MatCommentAdd = ({
+  placeId,
+  postId,
+  getAllCommentsReload,
+}: {
+  placeId: number;
+  postId: number;
+  getAllCommentsReload: () => void;
+}): JSX.Element => {
   const [comment, setComment] = useState<string>("");
-  const [createdAt, setCreatedAt] = useState<string>("");
 
   const { axiosData } = useAxios(
-    () =>
-      createComment(
-        "rhino",
-        "https://user-images.githubusercontent.com/94962427/211698399-0cf1ffff-89d3-4595-8abb-5bcb23843a5d.jpeg",
-        comment,
-        createdAt
-      ),
+    () => createComment(comment, placeId, postId),
     [comment],
     true
   );
@@ -58,21 +59,19 @@ const MatCommentAdd = ({ getAllComment }: { getAllComment: () => void }): JSX.El
 
   // enter 키 누를 시 댓글 업로드
   const handleKeyUp = (e: React.KeyboardEvent) => {
-    setCreatedAt(new Date().toLocaleString());
     if (e.key === "Enter" && comment.length > 0) {
       axiosData();
       setComment("");
-      getAllComment();
+      getAllCommentsReload();
     }
   };
 
   // 댓글 업로드
   const handleSumbit = () => {
-    setCreatedAt(new Date().toLocaleString());
     if (comment.length > 0) {
       axiosData();
       setComment("");
-      getAllComment();
+      getAllCommentsReload();
     }
   };
 

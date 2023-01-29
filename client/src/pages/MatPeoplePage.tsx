@@ -1,10 +1,18 @@
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import styled from "styled-components";
-import { getMatPeople } from "../api/axiosAPI/people/PeopleAxios";
+import {
+  followMatPeople,
+  getMatPeople,
+  unfollowMatPeople,
+} from "../api/axiosAPI/people/PeopleAxios";
 import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
 import HowToRegIcon from "@mui/icons-material/HowToReg";
 import { useState } from "react";
 import useAxios from "../hooks/useAxios";
+import { IPosts } from "../api/axiosAPI/posts/PostsAxios";
+import PostRead from "../components/PostRead";
+
+const jwtToken = localStorage.getItem("Authorization");
 
 const FeedContainer = styled.div`
   height: 100%;
@@ -41,7 +49,7 @@ const UserInfo = styled.div`
   }
 `;
 
-const StyledFollow = styled(HowToRegIcon)`
+const Follow = styled(HowToRegIcon)`
   color: #505050;
   margin: 50px 0px 10px 0px;
   cursor: pointer;
@@ -51,7 +59,7 @@ const StyledFollow = styled(HowToRegIcon)`
   }
 `;
 
-const StyledUnFollow = styled(PersonAddAlt1Icon)`
+const UnFollow = styled(PersonAddAlt1Icon)`
   color: #505050;
   margin: 50px 0px 10px 0px;
   cursor: pointer;
@@ -99,37 +107,69 @@ const TabContainer = styled.div`
   }
 `;
 
+const StyledPosts = styled.div`
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  grid-gap: 4px;
+  margin: 0px 0px 0px 0px;
+`;
+
 const MatPeople: React.FC = () => {
+  const { id } = useParams();
+
   const navigate = useNavigate();
-  const onClickTab = () => {
-    navigate("/matPickers");
-  };
 
-  const [isFollowing, setIsFollowing] = useState<boolean>(false);
+  const { responseData: matPeople } = useAxios(
+    () => getMatPeople(Number(id)),
+    [],
+    false
+  );
 
-  const { responseData } = useAxios(getMatPeople, [], false);
+  const { axiosData: follow } = useAxios(
+    () => followMatPeople(Number(id)),
+    [],
+    true
+  );
+
+  const { axiosData: unfollow } = useAxios(
+    () => unfollowMatPeople(Number(id)),
+    [],
+    true
+  );
 
   const {
     nickname = "",
-    profileImg = "",
+    profileUrl = "",
     memo = "",
     followers = "",
     followings = "",
-  } = responseData || {};
+    postInfos = [],
+    isFollowing = false,
+    pickerGroupInfos = [],
+  } = matPeople || {};
 
   const handleFollow = () => {
-    setIsFollowing(!isFollowing);
+    if (isFollowing) {
+      unfollow();
+    } else {
+      follow();
+    }
+  };
+
+  const onClickTab = () => {
+    navigate("/matPickers", { state: pickerGroupInfos });
   };
 
   return (
     <FeedContainer>
       <div className="userInfo_header_container">
-        <UserImg src={profileImg} alt="프로필사진" />
+        <UserImg src={profileUrl} alt="프로필사진" />
         <UserInfo>
           <div className="matPeople_follow">
             <UserNickname>{nickname}</UserNickname>
             <div role="presentation" onClick={handleFollow}>
-              {isFollowing ? <StyledFollow /> : <StyledUnFollow />}
+              {isFollowing ? <Follow /> : <UnFollow />}
             </div>
           </div>
           <UserRemainder>{memo}</UserRemainder>
@@ -148,6 +188,12 @@ const MatPeople: React.FC = () => {
           </div>
         </TabContainer>
       </ContentContainer>
+      <StyledPosts>
+        {postInfos &&
+          postInfos.map((post: IPosts) => (
+            <PostRead key={post.id} post={post} />
+          ))}
+      </StyledPosts>
     </FeedContainer>
   );
 };

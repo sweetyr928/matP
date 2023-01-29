@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import MatComment from "./MatComment";
-import useAxios from "../../hooks/useAxios";
-import { getComments } from "../../api/axiosAPI/comments/commentsAxios";
+import { IComments } from "../../api/axiosAPI/comments/commentsAxios";
 import MatCommentAdd from "./MatCommentAdd";
 
 const StyledCommentContainer = styled.div`
@@ -18,23 +17,37 @@ const StyledCommentList = styled.div`
   }
 `;
 
-const MatCommentList = () => {
-  const { axiosData, responseData } = useAxios(getComments, [], false);
-
-  const getAllComment = () => {
-    axiosData();
-  };
-
+const MatCommentList = ({
+  comments,
+  placeId,
+  postId,
+  getAllCommentsReload,
+}: {
+  comments: IComments[];
+  placeId: number;
+  postId: number;
+  getAllCommentsReload: () => void;
+}) => {
   return (
     <StyledCommentContainer>
-      <MatCommentAdd getAllComment={getAllComment} />
+      <MatCommentAdd
+        placeId={placeId}
+        postId={postId}
+        getAllCommentsReload={getAllCommentsReload}
+      />
       <StyledCommentList>
-        {responseData &&
-          responseData
+        {comments &&
+          comments
             .slice(0)
             .reverse()
-            .map((comment) => (
-              <MatComment key={comment.id} singleComment={comment} getAllComment={getAllComment} />
+            .map((comment: IComments) => (
+              <MatComment
+                key={comment.CommentId}
+                singleComment={comment}
+                placeId={placeId}
+                postId={postId}
+                getAllCommentsReload={getAllCommentsReload}
+              />
             ))}
       </StyledCommentList>
     </StyledCommentContainer>

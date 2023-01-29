@@ -55,9 +55,9 @@ function App() {
             <Route path="/search" element={<SearchPage />} />
             <Route path="/search/:name" element={<SearchDetailPage />} />
             <Route path="/newplaces" element={<MatPlacePostPage />} />
-            <Route path="/places" element={<MatPlace />} />
+            <Route path="/places/:placeId" element={<MatPlace />} />
             <Route path="/mypage" element={<MyPage />} />
-            <Route path="/people" element={<MatPeople />} />
+            <Route path="/people/:id" element={<MatPeople />} />
             <Route path="/matPickers" element={<MatPeoplePickerPage />} />
             <Route path="*" element={<NotFoundPage />} />
             <Route path="/login" element={<LoginPage />} />
