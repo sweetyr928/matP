@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import styled from "styled-components";
 import useAxios from "../hooks/useAxios";
 import { useParams } from "react-router-dom";
@@ -10,6 +10,8 @@ import {
 } from "../api/axiosAPI/groups/PickersAxios";
 import { getPlaceDetail } from "../api/axiosAPI/places/PlacesAxios";
 import { PostRead, MatPostCreate, ModalPortal } from "../components";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { placeInfoState, placeInfoStatusState } from "../store/placeInfoAtoms";
 
 const FeedContainer = styled.div`
   height: 100%;
@@ -213,7 +215,7 @@ const PlaceDetailInfo = styled.div`
   align-items: center;
   width: 100%;
   font-size: 19px;
-
+  overflow: scroll;
   h2 {
     font-size: 23px;
     margin-top: 50px;
@@ -320,11 +322,7 @@ const MatPlacePost: React.FC = () => {
   const [isOpenModal, setOpenModal] = useState<boolean>(false);
 
   const { responseData: pickersData } = useAxios(getPickers, [], false);
-  const { responseData: placeData } = useAxios(
-    () => getPlaceDetail(Number(placeId)),
-    [],
-    false
-  );
+  const { responseData: placeData } = useAxios(() => getPlaceDetail(Number(placeId)), [], false);
 
   const {
     id = 0,
@@ -340,9 +338,6 @@ const MatPlacePost: React.FC = () => {
     postCount = 0,
     pickCount = 0,
     groupName = "",
-    groupImgIndex = 0,
-    longitude = 0,
-    latitude = 0,
     posts = [],
   } = placeData || {};
 
@@ -362,10 +357,7 @@ const MatPlacePost: React.FC = () => {
   }, [isOpenModal]);
 
   // 평점 매긴 유저 수 총합
-  const ratingsTotal = starCount.reduce(
-    (acc: number, cur: number) => (acc += cur),
-    0
-  );
+  const ratingsTotal = starCount.reduce((acc: number, cur: number) => (acc += cur), 0);
 
   // star rating percentage 계산 후 style로 반영
   const ratingToPercent = {
@@ -386,6 +378,16 @@ const MatPlacePost: React.FC = () => {
   };
 
   const ratingsAvg = (el: number) => (el / ratingsTotal) * 100;
+
+  const setPlaceInfo = useSetRecoilState(placeInfoState);
+  const setPlaceInfoStatus = useSetRecoilState(placeInfoStatusState);
+  useEffect(() => {
+    if (placeData) {
+      setPlaceInfoStatus("Loading");
+      setPlaceInfo(placeData);
+      setPlaceInfoStatus("Success");
+    }
+  }, [placeData]);
 
   return (
     <FeedContainer>
@@ -420,10 +422,7 @@ const MatPlacePost: React.FC = () => {
           </StarBox>
           <ButtonBox>
             <div className="pick-box">
-              <button
-                className={isPick ? "checking" : ""}
-                onClick={pickMenuHandler}
-              >
+              <button className={isPick ? "checking" : ""} onClick={pickMenuHandler}>
                 Pick <span className={!isPick ? "unchecking" : ""}>✓</span>
               </button>{" "}
               <p>{pickCount}</p>
@@ -473,10 +472,7 @@ const MatPlacePost: React.FC = () => {
           </TabContainer>
           {isPost ? (
             <PageContainer>
-              {posts &&
-                posts.map((post: any) => (
-                  <PostRead key={post.id} post={post} />
-                ))}
+              {posts && posts.map((post: any) => <PostRead key={post.id} post={post} />)}
             </PageContainer>
           ) : (
             <PlaceDetailInfo>
