@@ -52,8 +52,8 @@ public class MemberController {
                 .map(ResponseEntity::ok);
     }
 
-    @GetMapping("/search/{member-nickname}")
-    public Flux<MemberSearchResponse> findMembers(@PathVariable("member-nickname") String nickname) {
+    @GetMapping
+    public Flux<MemberSearchResponse> findMembers(@RequestParam("nickname") String nickname) {
         return memberService.findAllWithInfo()
                 .filter(member -> member.nickname().equals(nickname))
                 .map(MemberSearchResponse::from);
