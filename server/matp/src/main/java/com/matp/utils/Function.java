@@ -4,8 +4,10 @@ import com.matp.auth.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.server.reactive.ServerHttpRequest;
+import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
+@Component
 public class Function implements FunctionInterface{
     private final JwtTokenProvider jwtTokenProvider;
 

@@ -56,9 +56,6 @@ public class SecurityConfig {
                 .httpBasic().disable()
                 .cors().disable()
                 .authorizeExchange(auth -> auth
-                        .pathMatchers(HttpMethod.GET, "/mypage").permitAll()
-                        .pathMatchers(HttpMethod.GET, "/member-login/**").permitAll()
-                        .pathMatchers(HttpMethod.GET, "/login").permitAll()
                         .pathMatchers(HttpMethod.GET,"/**").permitAll()
                         .pathMatchers(HttpMethod.POST,"/**").permitAll()
                         .pathMatchers(HttpMethod.PATCH,"/**").permitAll()
