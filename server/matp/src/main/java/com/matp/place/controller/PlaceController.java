@@ -37,7 +37,8 @@ public class PlaceController {
         return placeService.findPlaces(search);
     }
 
-    @PostMapping
+
+    @PostMapping("/places")
     public Mono<PlaceEnrollmentResponse> registerPlace(@RequestBody Mono<PlaceEnrollmentRequest> placeEnrollmentRequest) {
         return placeService.registerPlaceInfo(placeEnrollmentRequest);
     }
