@@ -11,4 +11,11 @@ public interface MemberRepository extends ReactiveCrudRepository<Member, Long> {
 
     Flux<Member> findAllByNickname(String nickname);
 
+    @Query("""
+            select id
+            from follow fl
+            where  fl.follower_id = :myId  AND fl.following_id = :followingId
+            """)
+    Mono<Integer> getFollowCheck(Long myId, Long followingId);
+
 }

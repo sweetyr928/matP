@@ -5,9 +5,10 @@ import lombok.Builder;
 
 @Builder
 public record SimplePostResponse(
-        Long postId,
+        Long id,
         String title,
-        String thumbnailUrl
+        String thumbnailUrl,
+        Integer likes
 ) {
 
 }

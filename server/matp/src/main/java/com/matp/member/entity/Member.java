@@ -48,6 +48,7 @@ public class Member {
     @Transient private Long followers;
     @Transient private List<SimplePostResponse> postInfos;
     @Transient private Set<GroupResponseDto> pickerGroupInfos;
+    @Transient private boolean isFollowing;
 
     private Member(String email, String nickname, String birthday, String profileUrl, Integer gender, String memo, String registrationId) {
         this.email = email;

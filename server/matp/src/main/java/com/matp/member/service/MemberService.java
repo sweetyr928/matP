@@ -27,6 +27,10 @@ public class MemberService {
     private final MemberCustomRepository memberCustomRepository;
     private final GroupRepository groupRepository;
     @Transactional(readOnly = true)
+    public Flux<MemberResponse> findAllWithInfo(Long myId, Long id) {
+        return memberCustomRepository.findWithInfo(myId, id);
+    }
+    @Transactional(readOnly = true)
     public Flux<MemberResponse> findAllWithInfo() {
         return memberCustomRepository.findWithInfo();
     }
@@ -71,7 +75,7 @@ public class MemberService {
         return memberRepository.save(member)
                 .publishOn(Schedulers.boundedElastic())
                 .map( member1 ->{
-                    Group group = Group.builder().groupImgIndex(1).name("기본 그룹").memberId(member1.getMemberId()).build();
+                    Group group = Group.builder().groupImgIndex(3).name("기본 그룹").memberId(member1.getMemberId()).build();
                     groupRepository.save(group).subscribe();
                     return MemberDto.from(member1);
                 });
