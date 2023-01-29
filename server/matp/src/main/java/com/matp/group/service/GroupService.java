@@ -1,5 +1,7 @@
 package com.matp.group.service;
 
+import com.matp.exception.CustomErrorCode;
+import com.matp.exception.CustomException;
 import com.matp.group.dto.GroupRequestDto;
 import com.matp.group.dto.GroupResponseDto;
 import com.matp.group.entity.Group;
@@ -33,7 +35,8 @@ public class GroupService {
                                 .createdAt(group.getCreatedAt())
                                 .modifiedAt(LocalDateTime.now())
                                 .memberId(group.getMemberId())
-                                .build());
+                                .build()).switchIfEmpty(Mono.defer( () -> Mono.error(new CustomException(CustomErrorCode.NOT_ALLOWED_MEMBER_ID))));
+
         return findGroup.flatMap(group -> groupRepository.save(group).map(GroupResponseDto::of));
     }
 
@@ -48,7 +51,7 @@ public class GroupService {
     // 삭제하려는사람과 삭제될 그룹의 memberId 같은지 확인해야됨
     @Transactional
     public Mono<Void> deleteGroup(Long groupId, Long memberId) {
-        return  groupRepository.findByIds(groupId, memberId).flatMap(groupRepository::delete);
+        return groupRepository.findByIds(groupId, memberId).flatMap(groupRepository::delete);
     }
 
     public Mono<Group> findById(Long groupId) {
