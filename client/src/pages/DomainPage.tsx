@@ -59,17 +59,12 @@ const Domain: React.FC = () => {
     [],
     false
   );
-  const [allPosts, setAllPosts] = useState<IPosts[]>(posts);
 
   useEffect(() => {
-    console.log(2);
     getAllPosts();
-    console.log(posts);
-    setAllPosts(posts);
   }, [postsReload]);
 
   const getAllPostsReload = () => {
-    console.log(1);
     setPostsReload(!postsReload);
   };
 
