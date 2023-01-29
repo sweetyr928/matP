@@ -5,7 +5,6 @@ import { createPost } from "../../api/axiosAPI/posts/PostsAxios";
 import MatEditor from "./MatEditor";
 import StarRate from "./StarRate";
 import useAxios from "../../hooks/useAxios";
-import { useNavigate } from "react-router";
 
 const StyledModal = styled.div`
   border-radius: 10px;
@@ -149,8 +148,6 @@ const PostCreateModal = ({ onClickToggleModal, placeId }: ModalDefaultType) => {
 
   // 항상 별이 총 5개(더미 array)
   const array: Array<number> = [0, 1, 2, 3, 4];
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     getThumbnailUrl();

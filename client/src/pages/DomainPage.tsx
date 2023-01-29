@@ -3,7 +3,7 @@ import PostRead from "../components/PostRead";
 import { getPosts } from "../api/axiosAPI/posts/PostsAxios";
 import useAxios from "../hooks/useAxios";
 import type { IPosts } from "../api/axiosAPI/posts/PostsAxios";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getMyData } from "../api/axiosAPI/members/myPageAPI";
 import { userInfoState } from "../store/userInfoAtoms";
 import { useSetRecoilState } from "recoil";
@@ -53,15 +53,37 @@ const Domain: React.FC = () => {
     }
   }, [memberData]);
 
-  const { responseData } = useAxios(getPosts, [], false);
+  const [postsReload, setPostsReload] = useState<boolean>(false);
+  const { axiosData: getAllPosts, responseData: posts } = useAxios(
+    getPosts,
+    [],
+    false
+  );
+  const [allPosts, setAllPosts] = useState<IPosts[]>(posts);
+
+  useEffect(() => {
+    console.log(2);
+    getAllPosts();
+    console.log(posts);
+    setAllPosts(posts);
+  }, [postsReload]);
+
+  const getAllPostsReload = () => {
+    console.log(1);
+    setPostsReload(!postsReload);
+  };
 
   return (
     <StyledFeed>
       <h1>오늘의 맛 Post</h1>
       <StyledPosts>
-        {responseData &&
-          responseData.map((post: IPosts) => (
-            <PostRead key={post.id} post={post} />
+        {posts &&
+          posts.map((post: IPosts) => (
+            <PostRead
+              key={post.id}
+              post={post}
+              getAllPostsReload={getAllPostsReload}
+            />
           ))}
       </StyledPosts>
     </StyledFeed>

@@ -21,19 +21,19 @@ const MatCommentList = ({
   comments,
   placeId,
   postId,
-  getAllComments,
+  getAllCommentsReload,
 }: {
   comments: IComments[];
   placeId: number;
   postId: number;
-  getAllComments: () => void;
+  getAllCommentsReload: () => void;
 }) => {
   return (
     <StyledCommentContainer>
       <MatCommentAdd
         placeId={placeId}
         postId={postId}
-        getAllComments={getAllComments}
+        getAllCommentsReload={getAllCommentsReload}
       />
       <StyledCommentList>
         {comments &&
@@ -46,7 +46,7 @@ const MatCommentList = ({
                 singleComment={comment}
                 placeId={placeId}
                 postId={postId}
-                getAllComments={getAllComments}
+                getAllCommentsReload={getAllCommentsReload}
               />
             ))}
       </StyledCommentList>

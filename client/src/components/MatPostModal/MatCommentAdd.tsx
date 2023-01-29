@@ -38,11 +38,11 @@ const StyledComment = styled.div`
 const MatCommentAdd = ({
   placeId,
   postId,
-  getAllComments,
+  getAllCommentsReload,
 }: {
   placeId: number;
   postId: number;
-  getAllComments: () => void;
+  getAllCommentsReload: () => void;
 }): JSX.Element => {
   const [comment, setComment] = useState<string>("");
 
@@ -62,7 +62,7 @@ const MatCommentAdd = ({
     if (e.key === "Enter" && comment.length > 0) {
       axiosData();
       setComment("");
-      getAllComments();
+      getAllCommentsReload();
     }
   };
 
@@ -71,7 +71,7 @@ const MatCommentAdd = ({
     if (comment.length > 0) {
       axiosData();
       setComment("");
-      getAllComments();
+      getAllCommentsReload();
     }
   };
 

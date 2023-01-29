@@ -67,7 +67,13 @@ const ModalBackdrop = styled.div`
   place-items: center;
 `;
 
-const PostRead = ({ post }: { post: IPosts }) => {
+const PostRead = ({
+  post,
+  getAllPostsReload,
+}: {
+  post: IPosts;
+  getAllPostsReload?: () => void;
+}) => {
   const [isOpenModal, setOpenModal] = useState<boolean>(false);
 
   const handleClick = () => {
@@ -75,6 +81,11 @@ const PostRead = ({ post }: { post: IPosts }) => {
   };
 
   const onClickToggleModal = useCallback(() => {
+    setOpenModal(!isOpenModal);
+  }, [isOpenModal]);
+
+  const onClickToggleModal_BD = useCallback(() => {
+    getAllPostsReload();
     setOpenModal(!isOpenModal);
   }, [isOpenModal]);
 
@@ -92,7 +103,7 @@ const PostRead = ({ post }: { post: IPosts }) => {
       {isOpenModal === true ? (
         <ModalPortal>
           <MatPostRead onClickToggleModal={onClickToggleModal} id={post.id} />
-          <ModalBackdrop onClick={onClickToggleModal} />
+          <ModalBackdrop onClick={onClickToggleModal_BD} />
         </ModalPortal>
       ) : null}
     </>
