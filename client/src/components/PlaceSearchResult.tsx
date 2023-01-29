@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router";
 import styled from "styled-components";
 
 const PlaceWrapper = styled.div`
@@ -43,10 +44,11 @@ interface PlaceProps {
 }
 
 const PlaceSearchResult = ({ place }: { place: PlaceProps }) => {
+  const navigate = useNavigate();
   return (
     <PlaceWrapper>
       <ResultList>
-        <PlaceName>{place.name}</PlaceName>
+        <PlaceName onClick={() => navigate(`/places/${place.id}`)}>{place.name}</PlaceName>
         <PlaceAddress>{place.address}</PlaceAddress>
       </ResultList>
     </PlaceWrapper>
