@@ -123,6 +123,7 @@ const MatPeople: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    console.log(followReload);
     getMatPeopleInfo();
   }, [followReload]);
 
@@ -148,8 +149,8 @@ const MatPeople: React.FC = () => {
     nickname = "",
     profileUrl = "",
     memo = "",
-    followers = "",
-    followings = "",
+    followers = 0,
+    followings = 0,
     postInfos = [],
     isFollowing = false,
     pickerGroupInfos = [],
@@ -158,10 +159,11 @@ const MatPeople: React.FC = () => {
   const handleFollow = () => {
     if (isFollowing) {
       unfollow();
+      setFollowReload(!followReload);
     } else {
       follow();
+      setFollowReload(!followReload);
     }
-    setFollowReload(!followReload);
   };
 
   const onClickTab = () => {
@@ -179,7 +181,7 @@ const MatPeople: React.FC = () => {
               {isFollowing ? <Follow /> : <UnFollow />}
             </div>
           </div>
-          <UserRemainder>{memo}</UserRemainder>
+          {memo && <UserRemainder>{memo}</UserRemainder>}
           <UserRemainder>
             팔로워 {followers} 팔로잉 {followings}
           </UserRemainder>
