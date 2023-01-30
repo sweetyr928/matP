@@ -16,14 +16,32 @@ const StyledPosts = styled.div`
   }
 `;
 
+const Nothing = styled.span`
+  display: flex;
+  font-size: 1.5rem;
+  margin-top: 10vh;
+`;
+
 const MyPagePostInfo = () => {
   const { responseData: memberData } = useAxios(getMyData);
   const { postInfos = [] } = memberData || {};
 
+  const postInfosFiltered = postInfos.filter((item) => {
+    item.id !== null;
+  });
+
   return (
-    <StyledPosts>
-      {postInfos && postInfos.map((post: IMyPostInfo) => <PostRead key={post.id} post={post} />)}
-    </StyledPosts>
+    <>
+      {postInfosFiltered && postInfosFiltered.length !== 0 ? (
+        <StyledPosts>
+          {postInfosFiltered.map((post: IMyPostInfo) => (
+            <PostRead key={post.id} post={post} />
+          ))}
+        </StyledPosts>
+      ) : (
+        <Nothing>작성한 글이 없습니다!</Nothing>
+      )}
+    </>
   );
 };
 

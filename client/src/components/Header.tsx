@@ -56,7 +56,6 @@ const Header: React.FC = () => {
       </HeaderContainer>
     );
   } else {
-    console.log("실행");
     const { responseData: memberData } = useAxios(getMyData);
     const { profileUrl } = memberData || {};
 

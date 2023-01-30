@@ -117,6 +117,12 @@ const StyledPosts = styled.div`
   }
 `;
 
+const Nothing = styled.span`
+  display: flex;
+  font-size: 1.5rem;
+  margin-top: 10vh;
+`;
+
 const MatPeople: React.FC = () => {
   const { id } = useParams();
   const [followReload, setFollowReload] = useState<boolean>(false);
@@ -133,17 +139,9 @@ const MatPeople: React.FC = () => {
     status,
   } = useAxios(() => getMatPeople(Number(id)), [followReload], false);
 
-  const { axiosData: follow } = useAxios(
-    () => followMatPeople(Number(id)),
-    [],
-    true
-  );
+  const { axiosData: follow } = useAxios(() => followMatPeople(Number(id)), [], true);
 
-  const { axiosData: unfollow } = useAxios(
-    () => unfollowMatPeople(Number(id)),
-    [],
-    true
-  );
+  const { axiosData: unfollow } = useAxios(() => unfollowMatPeople(Number(id)), [], true);
 
   const {
     nickname = "",
@@ -172,6 +170,10 @@ const MatPeople: React.FC = () => {
     navigate("/matPickers", { state: pickerGroupInfos });
   };
 
+  const postInfosFiltered = postInfos.filter((item: IPosts) => {
+    item.id !== null;
+  });
+
   return (
     <FeedContainer>
       <div className="userInfo_header_container">
@@ -199,12 +201,15 @@ const MatPeople: React.FC = () => {
           </div>
         </TabContainer>
       </ContentContainer>
-      <StyledPosts>
-        {postInfos &&
-          postInfos.map((post: IPosts) => (
+      {postInfosFiltered && postInfosFiltered.length !== 0 ? (
+        <StyledPosts>
+          {postInfosFiltered.map((post: IPosts) => (
             <PostRead key={post.id} post={post} />
           ))}
-      </StyledPosts>
+        </StyledPosts>
+      ) : (
+        <Nothing>작성한 글이 없습니다!</Nothing>
+      )}
     </FeedContainer>
   );
 };
