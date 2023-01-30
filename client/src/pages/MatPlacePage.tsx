@@ -132,7 +132,6 @@ const ButtonBox = styled.div`
   }
 
   button:hover {
-    background-color: #efefef;
     font-weight: 700;
   }
 `;
