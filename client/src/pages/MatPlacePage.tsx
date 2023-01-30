@@ -339,7 +339,7 @@ const MatPlacePost: React.FC = () => {
 
   const { axiosData: getPlaceData, responseData: placeData } = useAxios(
     () => getPlaceDetail(Number(placeId)),
-    [dataReload],
+    [dataReload, placeId],
     false
   );
 
