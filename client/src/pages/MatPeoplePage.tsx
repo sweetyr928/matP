@@ -126,6 +126,7 @@ const StyledPosts = styled.div`
 
 const Nothing = styled.span`
   display: flex;
+  justify-content: center;
   font-size: 1.5rem;
   margin-top: 10vh;
 `;
@@ -137,9 +138,7 @@ const MatPeople: React.FC = () => {
   const [postsReload, setPostsReload] = useState<boolean>(false);
 
   useEffect(() => {
-    !!localStorage.getItem("Authorization")
-      ? setJwtToken(true)
-      : setJwtToken(false);
+    !!localStorage.getItem("Authorization") ? setJwtToken(true) : setJwtToken(false);
   }, []);
 
   useEffect(() => {
@@ -159,15 +158,13 @@ const MatPeople: React.FC = () => {
     status,
   } = useAxios(() => getMatPeople(Number(id)), [followReload], false);
 
-  const { axiosData: getMatPeopleInfoUser, responseData: matPeopleUser } =
-    useAxios(() => getMatPeopleInfoForUser(Number(id)), [followReload], false);
-
-  const { axiosData: follow } = useAxios(
-    () => followMatPeople(Number(id)),
-    [],
-    true
+  const { axiosData: getMatPeopleInfoUser, responseData: matPeopleUser } = useAxios(
+    () => getMatPeopleInfoForUser(Number(id)),
+    [followReload],
+    false
   );
 
+  const { axiosData: follow } = useAxios(() => followMatPeople(Number(id)), [], true);
 
   const { axiosData: unfollow } = useAxios(() => unfollowMatPeople(Number(id)), [], true);
 
@@ -242,17 +239,10 @@ const MatPeople: React.FC = () => {
       </ContentContainer>
       {postInfosFiltered && postInfosFiltered.length !== 0 ? (
         <StyledPosts>
-          {postInfosFiltered.map((post: IPosts) => (
-            <PostRead key={post.id} post={post} />
-      <StyledPosts>
-        {postInfos &&
-          postInfos.map((post: IPosts) => (
-            <PostRead
-              key={post.id}
-              post={post}
-              getAllPostsReload={getAllPostsReload}
-            />
-          ))}
+          {postInfosFiltered &&
+            postInfosFiltered.map((post: IPosts) => (
+              <PostRead key={post.id} post={post} getAllPostsReload={getAllPostsReload} />
+            ))}
         </StyledPosts>
       ) : (
         <Nothing>작성한 글이 없습니다!</Nothing>

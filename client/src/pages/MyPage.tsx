@@ -254,57 +254,9 @@ const NickName = styled.span`
   color: #874356;
 `;
 
-
 const Nothing = styled.span`
   font-size: 1.5rem;
   margin-top: 2rem;
-`;
-
-const LogoutModal = styled.div`
-  position: absolute;
-  bottom: 40vh;
-  left: 70px;
-  background-color: #fff;
-  border-radius: 7px;
-  padding: 24px;
-  width: 394px;
-  height: 30vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  span {
-    font-size: 1.5rem;
-  }
-`;
-const ButtonContainer = styled.div`
-  margin-top: 30px;
-  button {
-    cursor: pointer;
-    background-color: #fff;
-    text-decoration: none;
-    border: none;
-    font-size: 15px;
-    border-radius: 20px;
-    background-color: #874356;
-    color: #fff;
-    width: 110px;
-    height: 40px;
-  }
-  .yes {
-    margin: 0px 10px 0px 0px;
-    &:hover {
-      color: #fff;
-      font-weight: 700;
-    }
-  }
-
-  .no {
-    &:hover {
-      color: #fff;
-      font-weight: 700;
-    }
-  }
 `;
 
 const MyPage: React.FC = () => {
