@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { useState, useEffect } from "react";
 import { PostRead } from "../../components";
 import useAxios from "../../hooks/useAxios";
-
+import { getPosts } from "../../api/axiosAPI/posts/PostsAxios";
 import { searchStatusState } from "../../store/searchAtoms";
 import { useRecoilState } from "recoil";
 import {
@@ -84,9 +84,24 @@ const NoneResultMessage = styled.div`
 const SearchDetailPost: React.FC = () => {
   const [currentMenu, setCurrentMenu] = useState(0);
   const [isSearching, setIsSearching] = useState<boolean>(false);
+  const [postsReload, setPostsReload] = useState<boolean>(false);
   const [isTitleSearching, setIsTitleSearching] = useState<boolean>(false);
   const [isContentSearching, setIsContentSearching] = useState<boolean>(false);
   const [keyword, setKeyword] = useState("");
+
+  const getAllPostsReload = () => {
+    setPostsReload(!postsReload);
+  };
+
+  const { axiosData: getAllPosts, responseData: posts } = useAxios(
+    getPosts,
+    [],
+    false
+  );
+
+  useEffect(() => {
+    getAllPosts();
+  }, [postsReload]);
 
   const { axiosData: getTitleSearch, responseData: searchTitleData } = useAxios(
     () => getSearchTitleData(keyword),
@@ -167,7 +182,11 @@ const SearchDetailPost: React.FC = () => {
       {currentMenu && searchContentData ? (
         <SearchResultBox>
           {searchContentData.map((post) => (
-            <PostRead key={post.id} post={post} />
+            <PostRead
+              key={post.id}
+              post={post}
+              getAllPostsReload={getAllPostsReload}
+            />
           ))}
         </SearchResultBox>
       ) : null}

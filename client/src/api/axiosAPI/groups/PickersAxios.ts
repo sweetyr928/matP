@@ -1,12 +1,4 @@
-import axios from "axios";
-const jwtToken = localStorage.getItem("Authorization");
-axios.defaults.headers.common["Authorization"] = `Bearer ${jwtToken}`;
-
-const url1 =
-  "http://ec2-15-165-163-251.ap-northeast-2.compute.amazonaws.com:8080/groups";
-
-const url2 =
-  "http://ec2-15-165-163-251.ap-northeast-2.compute.amazonaws.com:8080/pickers";
+import axios from "../../CustomAxios";
 
 export interface PickersData {
   id: number;
@@ -15,12 +7,12 @@ export interface PickersData {
 }
 
 export const getPickers = async () => {
-  const response = await axios.get(url1);
+  const response = await axios.get("/groups");
   return response.data;
 };
 
 export const getPickersDetail = async (id: number) => {
-  const response = await axios.get(`${url2}/${id}`);
+  const response = await axios.get(`/pickers/${id}`);
   return response.data;
 };
 
@@ -28,7 +20,7 @@ export const createPickers = async (
   name: string,
   groupImgIndex: number
 ): Promise<void> => {
-  const response = await axios.post(url1, {
+  const response = await axios.post("/groups", {
     name,
     groupImgIndex,
   });
@@ -40,7 +32,7 @@ export const updatePickers = async (
   name: string,
   groupImgIndex: number
 ): Promise<void> => {
-  const response = await axios.patch(`${url1}/${id}`, {
+  const response = await axios.patch(`/groups/${id}`, {
     name,
     groupImgIndex,
   });
@@ -48,7 +40,7 @@ export const updatePickers = async (
 };
 
 export const deletePickers = async (id: number): Promise<void> => {
-  const response = await axios.delete(`${url1}/${id}`);
+  const response = await axios.delete(`/groups/${id}`);
   return response.data;
 };
 
@@ -56,7 +48,7 @@ export const createPick = async (
   placeId: number,
   pickerGroupId: number
 ): Promise<void> => {
-  const response = await axios.post(url2, {
+  const response = await axios.post("/pickers", {
     placeId,
     pickerGroupId,
   });
@@ -67,7 +59,7 @@ export const updatePick = async (
   placeId: number,
   pickerGroupId: number
 ): Promise<void> => {
-  const response = await axios.patch(url2, {
+  const response = await axios.patch("/pickers", {
     placeId,
     pickerGroupId,
   });
@@ -75,6 +67,6 @@ export const updatePick = async (
 };
 
 export const deletePick = async (id: number): Promise<void> => {
-  const response = await axios.delete(`${url2}/${id}`);
+  const response = await axios.delete(`/pickers/${id}`);
   return response.data;
 };

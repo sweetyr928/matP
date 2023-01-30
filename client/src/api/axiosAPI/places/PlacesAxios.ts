@@ -1,6 +1,5 @@
 import axios from "axios";
-const jwtToken = localStorage.getItem("Authorization");
-axios.defaults.headers.common["Authorization"] = `Bearer ${jwtToken}`;
+import instance from "../../CustomAxios";
 
 const url =
   "http://ec2-15-165-163-251.ap-northeast-2.compute.amazonaws.com:8080/places";
@@ -28,7 +27,7 @@ export const createPlaces = async (
   tel: string,
   category: string
 ): Promise<void> => {
-  const response = await axios.post(url, {
+  const response = await instance.post("/places", {
     name,
     address,
     zonecode,

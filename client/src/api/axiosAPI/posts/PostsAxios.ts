@@ -1,11 +1,9 @@
 import axios from "axios";
+import instance from "../../CustomAxios";
 import type { IComments } from "../comments/commentsAxios";
 
 const url =
   "http://ec2-15-165-163-251.ap-northeast-2.compute.amazonaws.com:8080";
-
-const jwtToken = localStorage.getItem("Authorization");
-axios.defaults.headers.common["Authorization"] = `Bearer ${jwtToken}`;
 
 export interface IPosts {
   id: number;
@@ -62,7 +60,7 @@ export const createPost = async (
   star: number,
   placeId: number
 ): Promise<void> => {
-  const response = await axios.post(`${url}/places/${placeId}/posts`, {
+  const response = await instance.post(`/places/${placeId}/posts`, {
     placeId,
     title,
     content,
@@ -81,7 +79,7 @@ export const updatePost = async (
   placeId: number,
   id: number
 ): Promise<void> => {
-  const response = await axios.patch(`${url}/places/${placeId}/posts/${id}`, {
+  const response = await instance.patch(`/places/${placeId}/posts/${id}`, {
     title,
     content,
     thumbnailUrl,
@@ -94,17 +92,14 @@ export const deletePost = async (
   id: number,
   placeId: number
 ): Promise<void> => {
-  const response = await axios.delete(`${url}/places/${placeId}/posts/${id}`);
+  const response = await instance.delete(`/places/${placeId}/posts/${id}`);
   return response.data;
 };
 
 export const likePost = async (id: number, placeId: number): Promise<void> => {
-  const response = await axios.post(
-    `${url}/places/${placeId}/posts/${id}/likes`,
-    {
-      likesCheck: 1,
-    }
-  );
+  const response = await instance.post(`/places/${placeId}/posts/${id}/likes`, {
+    likesCheck: 1,
+  });
   return response.data;
 };
 
@@ -112,8 +107,8 @@ export const dislikePost = async (
   id: number,
   placeId: number
 ): Promise<void> => {
-  const response = await axios.delete(
-    `${url}/places/${placeId}/posts/${id}/likes`
+  const response = await instance.delete(
+    `/places/${placeId}/posts/${id}/likes`
   );
   return response.data;
 };
