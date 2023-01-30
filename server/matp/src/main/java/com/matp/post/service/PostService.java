@@ -68,6 +68,7 @@ public class PostService {
                             .placeId(result.placeId())
                             .createdAt(result.createdAt())
                             .modifiedAt(result.modifiedAt())
+                            .commentCount(result.commentCount())
                             .memberInfo(member)
                             .build();
 
@@ -81,9 +82,11 @@ public class PostService {
      * @author 임준건
      */
     @Transactional(readOnly = true)
-    public Flux<PostResponse> findPostByTitleKeyword(String keyword) {
+    public Flux<PostResponse> findPostByTitleKeyword(String keyword,int page, int size) {
 
         return postRepository.searchPostByTitleKeyword(keyword)
+                .skip(page * size)
+                .take(size)
                 .map(PostResponse::from);
     }
 
@@ -93,10 +96,11 @@ public class PostService {
      * @author 임준건
      */
     @Transactional(readOnly = true)
-    public Flux<PostResponse> findPostByContentKeyword(String keyword) {
+    public Flux<PostResponse> findPostByContentKeyword(String keyword, int page, int size) {
 
         return postRepository.searchPostByContentKeyword(keyword)
-                .map(PostResponse::from);
+                .skip(page * size)
+                .take(size).map(PostResponse::from);
     }
 
     /**

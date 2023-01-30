@@ -33,7 +33,7 @@ public class MemberController {
     @GetMapping("/mypage")
     public Mono<ResponseEntity<MemberResponse>> myPage(ServerHttpRequest request) {
         Long id = function.extractId(request);
-        return memberService.findAllWithInfo()
+        return memberService.findAllWithInfo2()
                 .filter(member -> member.id().equals(id))
                 .last()
                 .map(ResponseEntity::ok);
@@ -56,8 +56,9 @@ public class MemberController {
     public Flux<MemberSearchResponse> findMembers(@RequestParam("nickname") String nickname,
                                                   @RequestParam(defaultValue = "0") long page,
                                                   @RequestParam(defaultValue = "30") long size) {
-        return memberService.findAllWithInfo()
-                .filter(member -> member.nickname().equals(nickname))
+        String replace = nickname.replace("\"", "");
+        return memberService.findAllWithInfo2()
+                .filter(member -> member.nickname().equals(replace))
                 .skip(page * size)
                 .take(size)
                 .map(MemberSearchResponse::from);
