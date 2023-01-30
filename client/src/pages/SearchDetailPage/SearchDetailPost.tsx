@@ -100,6 +100,12 @@ const SearchDetailPost: React.FC = () => {
 
   useEffect(() => {
     getAllPosts();
+    if (isTitleSearching) {
+      getTitleSearch();
+    }
+    if (isContentSearching) {
+      getContentSearch();
+    }
   }, [postsReload]);
 
   const { axiosData: getTitleSearch, responseData: searchTitleData } = useAxios(
