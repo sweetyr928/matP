@@ -1,8 +1,12 @@
 /* eslint-disable */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Map } from "react-kakao-maps-sdk";
+import { useRecoilValue } from "recoil";
 import styled from "styled-components";
-import MapMarkerComponent from "./MapMarkerComponent";
+import { placeInfoState, placeInfoStatusState } from "../../store/placeInfoAtoms";
+import PickerMarker from "./PIckerMarker";
+import PlaceDetailMarker from "./PlaceDetailMarker";
+import SearchMarker from "./SearchMarker";
 
 const MapContainer = styled(Map)`
   width: 100%;
@@ -10,18 +14,31 @@ const MapContainer = styled(Map)`
 `;
 
 const KakaoMap = () => {
-  const [state, setState] = useState({
-    // 지도의 초기 위치
-    center: { lat: 37.50039427271689, lng: 127.02796438287635 },
-    // 지도 위치 변경시 panto를 이용할지에 대해서 정의
-    isPanto: false,
-  });
+  const placeInfo = useRecoilValue(placeInfoState);
+  const placeInfoStatus = useRecoilValue(placeInfoStatusState);
+  const readjustLat = placeInfo.latitude - 0.0003;
+  const readjustLng = placeInfo.longitude - 0.0009;
 
   return (
-    // 지도를 표시할 Container
-    <MapContainer center={state.center} level={3}>
-      <MapMarkerComponent />
-    </MapContainer>
+    <>
+      {placeInfo && placeInfoStatus === "Success" ? (
+        <MapContainer center={{ lat: readjustLat, lng: readjustLng }} level={3} isPanto={true}>
+          <PlaceDetailMarker />
+          <SearchMarker />
+          <PickerMarker />
+        </MapContainer>
+      ) : (
+        <MapContainer
+          center={{ lat: 37.5554522671854, lng: 126.92415641617547 }}
+          level={8}
+          isPanto={false}
+        >
+          <PlaceDetailMarker />
+          <SearchMarker />
+          <PickerMarker />
+        </MapContainer>
+      )}
+    </>
   );
 };
 

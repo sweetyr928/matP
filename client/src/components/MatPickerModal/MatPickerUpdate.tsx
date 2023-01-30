@@ -141,7 +141,14 @@ const MatPickerUpdate = ({
     }
   };
 
-  const handleName = (e: any) => {
+
+  const { axiosData } = useAxios(
+    () => updatePickers(id, newNameValue, newColorValue),
+    [newNameValue, newColorValue],
+    true
+  );
+
+  const handleName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewNameValue(e.target.value);
   };
 

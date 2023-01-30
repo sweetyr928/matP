@@ -2,8 +2,7 @@ import axios from "axios";
 import instance from "../../CustomAxios";
 import type { IComments } from "../comments/commentsAxios";
 
-const url =
-  "http://ec2-15-165-163-251.ap-northeast-2.compute.amazonaws.com:8080";
+const url = "http://ec2-15-165-163-251.ap-northeast-2.compute.amazonaws.com:8080";
 
 export interface IPosts {
   id: number;
@@ -44,7 +43,12 @@ export interface IPlacesPost {
 }
 
 export const getPosts = async () => {
-  const response = await axios.get(`${url}/places/posts?page=0&size=30`);
+  const response = await axios.get(`${url}/places/posts?page=0&size=21`);
+  return response.data;
+};
+
+export const getPagePosts = async (page: number, limit: number) => {
+  const response = await axios.get(`${url}/places/posts?page=${page}&size=${limit}`);
   return response.data;
 };
 
@@ -88,6 +92,7 @@ export const updatePost = async (
   return response.data;
 };
 
+
 export const deletePost = async (
   id: number,
   placeId: number
@@ -110,5 +115,6 @@ export const dislikePost = async (
   const response = await instance.delete(
     `/places/${placeId}/posts/${id}/likes`
   );
+
   return response.data;
 };

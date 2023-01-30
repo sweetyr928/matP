@@ -15,6 +15,7 @@ const MatPlacePostWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   position: absolute;
+  overflow: scroll;
   h1 {
     color: #373737;
     font-size: 25px;
@@ -46,6 +47,7 @@ const MatPlacePostWrapper = styled.div`
 const ButtonContainer = styled.div`
   display: flex;
   margin-top: 40px;
+  margin-bottom: 40px;
   button {
     background-color: transparent;
     cursor: pointer;

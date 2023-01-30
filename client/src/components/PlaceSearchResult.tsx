@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router";
 import styled from "styled-components";
 import { useNavigate } from "react-router";
 import { IMatPlace } from "../api/axiosAPI/places/PlacesAxios";
@@ -40,10 +41,12 @@ const PlaceSearchResult = ({ place }: { place: IMatPlace }) => {
     navigate(`/places/${place.id}`);
   };
 
+const PlaceSearchResult = ({ place }: { place: PlaceProps }) => {
+  const navigate = useNavigate();
   return (
     <PlaceWrapper onClick={handleClick}>
       <ResultList>
-        <PlaceName>{place.name}</PlaceName>
+        <PlaceName onClick={() => navigate(`/places/${place.id}`)}>{place.name}</PlaceName>
         <PlaceAddress>{place.address}</PlaceAddress>
       </ResultList>
     </PlaceWrapper>

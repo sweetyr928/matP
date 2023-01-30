@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import PostRead from "../components/PostRead";
-import { getPosts } from "../api/axiosAPI/posts/PostsAxios";
+import { getPagePosts, getPosts } from "../api/axiosAPI/posts/PostsAxios";
 import useAxios from "../hooks/useAxios";
 import type { IPosts } from "../api/axiosAPI/posts/PostsAxios";
 import { useEffect, useState } from "react";
@@ -20,9 +20,13 @@ const StyledFeed = styled.div`
   flex-direction: column;
   align-items: center;
   position: absolute;
+`;
 
+const HeaderContainer = styled.div`
+  border-bottom: 1px solid #bbbbbb;
+  margin-bottom: 4px;
   h1 {
-    margin: 20px 70px 20px 70px;
+    margin: 24px 129px;
     font-size: 23px;
     font-weight: 600;
   }
@@ -33,14 +37,13 @@ const StyledPosts = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
   grid-gap: 4px;
-  margin: 0px 0px 0px 0px;
+  overflow: scroll;
 `;
 
 const Domain: React.FC = () => {
   const token = localStorage.getItem("Authorization");
   const setUserInfo = useSetRecoilState(userInfoState);
-  const { axiosData: getUserInfo, responseData: memberData } =
-    useAxios(getMyData);
+  const { axiosData: getUserInfo, responseData: memberData } = useAxios(getMyData);
   useEffect(() => {
     if (token) {
       getUserInfo();
@@ -53,16 +56,35 @@ const Domain: React.FC = () => {
     }
   }, [memberData]);
 
+  const [hasMore, setHasMore] = useState<boolean>(true);
   const [postsReload, setPostsReload] = useState<boolean>(false);
-  const { axiosData: getAllPosts, responseData: posts } = useAxios(
-    getPosts,
-    [],
+  const [page, setPage] = useState(1);
+  const [limit] = useState(15);
+  const [postData, setPostData] = useState([]);
+  const { responseData: posts } = useAxios(getPosts, [], false);
+  const { axiosData: getPageAxios, responseData: pagePosts } = useAxios(
+    () => getPagePosts(page, limit),
+    [page],
     false
   );
 
-  useEffect(() => {
-    getAllPosts();
-  }, [postsReload]);
+  const handleScroll = (event: React.UIEvent<HTMLDivElement>) => {
+    const target = event.target as HTMLDivElement;
+    const { scrollTop, clientHeight, scrollHeight } = target;
+    if (scrollTop + clientHeight >= scrollHeight && hasMore) {
+      setPage(page + 1);
+      loadData();
+      if (pagePosts.length < limit) {
+        setHasMore(false);
+        console.log(hasMore);
+      }
+    }
+  };
+
+  const loadData = () => {
+    getPageAxios();
+    setPostData([...postData, ...pagePosts]);
+  };
 
   const getAllPostsReload = () => {
     setPostsReload(!postsReload);
@@ -70,15 +92,17 @@ const Domain: React.FC = () => {
 
   return (
     <StyledFeed>
-      <h1>오늘의 맛 Post</h1>
-      <StyledPosts>
+      <HeaderContainer>
+        <h1>오늘의 맛 Post</h1>
+      </HeaderContainer>
+      <StyledPosts onScroll={handleScroll}>
         {posts &&
           posts.map((post: IPosts) => (
-            <PostRead
-              key={post.id}
-              post={post}
-              getAllPostsReload={getAllPostsReload}
-            />
+            <PostRead key={post.id} post={post} getAllPostsReload={getAllPostsReload} />
+          ))}
+        {postData &&
+          postData.map((post: IPosts) => (
+            <PostRead key={post.id} post={post} getAllPostsReload={getAllPostsReload} />
           ))}
       </StyledPosts>
     </StyledFeed>

@@ -10,6 +10,9 @@ import {
 } from "../api/axiosAPI/groups/PickersAxios";
 import { getPlaceDetail } from "../api/axiosAPI/places/PlacesAxios";
 import { PostRead, MatPostCreate, ModalPortal } from "../components";
+import { useSetRecoilState } from "recoil";
+import { placeInfoState, placeInfoStatusState } from "../store/placeInfoAtoms";
+import basicLogoImg from "../assets/images/matLogo_fill.png";
 
 const FeedContainer = styled.div`
   height: 100%;
@@ -213,7 +216,7 @@ const PlaceDetailInfo = styled.div`
   align-items: center;
   width: 100%;
   font-size: 19px;
-
+  overflow: scroll;
   h2 {
     font-size: 23px;
     margin-top: 50px;
@@ -351,9 +354,6 @@ const MatPlacePost: React.FC = () => {
     postCount = 0,
     pickCount = 0,
     groupName = "",
-    groupImgIndex = 0,
-    longitude = 0,
-    latitude = 0,
     posts = [],
   } = placeData || {};
 
@@ -380,10 +380,7 @@ const MatPlacePost: React.FC = () => {
   }, [dataReload]);
 
   // 평점 매긴 유저 수 총합
-  const ratingsTotal = starCount.reduce(
-    (acc: number, cur: number) => (acc += cur),
-    0
-  );
+  const ratingsTotal = starCount.reduce((acc: number, cur: number) => (acc += cur), 0);
 
   // star rating percentage 계산 후 style로 반영
   const ratingToPercent = {
@@ -404,6 +401,16 @@ const MatPlacePost: React.FC = () => {
 
   const ratingsAvg = (el: number) => (el / ratingsTotal) * 100;
 
+  const setPlaceInfo = useSetRecoilState(placeInfoState);
+  const setPlaceInfoStatus = useSetRecoilState(placeInfoStatusState);
+  useEffect(() => {
+    if (placeData) {
+      setPlaceInfoStatus("Loading");
+      setPlaceInfo(placeData);
+      setPlaceInfoStatus("Success");
+    }
+  }, [placeData, placeId]);
+
   return (
     <FeedContainer>
       {isOpenModal && (
@@ -417,7 +424,7 @@ const MatPlacePost: React.FC = () => {
         </ModalPortal>
       )}
       <div className="userInfo_header_container">
-        <PlaceImg src={img} alt="프로필사진" />
+        <PlaceImg src={img || basicLogoImg} alt="프로필사진" />
         <PlaceInfo>
           <h1>{name}</h1>
           <StarBox>
@@ -441,10 +448,7 @@ const MatPlacePost: React.FC = () => {
           </StarBox>
           <ButtonBox>
             <div className="pick-box">
-              <button
-                className={isPick ? "checking" : ""}
-                onClick={pickMenuHandler}
-              >
+              <button className={isPick ? "checking" : ""} onClick={pickMenuHandler}>
                 Pick <span className={!isPick ? "unchecking" : ""}>✓</span>
               </button>{" "}
               <p>{pickCount}</p>
@@ -494,10 +498,7 @@ const MatPlacePost: React.FC = () => {
           </TabContainer>
           {isPost ? (
             <PageContainer>
-              {posts &&
-                posts.map((post: any) => (
-                  <PostRead key={post.id} post={post} />
-                ))}
+              {posts && posts.map((post: any) => <PostRead key={post.id} post={post} />)}
             </PageContainer>
           ) : (
             <PlaceDetailInfo>

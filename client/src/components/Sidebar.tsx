@@ -3,6 +3,9 @@ import styled from "styled-components";
 import mainLogo from "../assets/images/matLogo_basic.png";
 import SearchIcon from "@mui/icons-material/Search";
 import RoomIcon from "@mui/icons-material/Room";
+import { placeInfoState, placeInfoStatusState } from "../store/placeInfoAtoms";
+import { useSetRecoilState } from "recoil";
+import { searchResultsState, searchStatusState } from "../store/searchPlaceAtoms";
 
 const SidebarContainer = styled.div`
   width: 63px;
@@ -57,19 +60,49 @@ const RoomIconStyled = styled(RoomIcon)`
 `;
 
 const Sidebar = () => {
-  // 사이드바 구성 요소: 검색 페이지 버튼, 맛픽커 페이지 버튼
+  const setPlaceInfo = useSetRecoilState(placeInfoState);
+  const setPlaceInfoStatus = useSetRecoilState(placeInfoStatusState);
+  const setSearchResults = useSetRecoilState(searchResultsState);
+  const setSearchStatus = useSetRecoilState(searchStatusState);
+
+  const resetStateHandler = () => {
+    setPlaceInfoStatus("Idle");
+    setSearchStatus("Idle");
+    setPlaceInfo({
+      id: -1,
+      tel: "",
+      img: "",
+      address: "",
+      zonecode: "",
+      name: "",
+      category: "",
+      starAvg: 0,
+      starCount: [],
+      fiveStarProbability: "",
+      postCount: 0,
+      pickCount: 0,
+      isPick: false,
+      groupName: null,
+      groupImgIndex: 0,
+      longitude: 0,
+      latitude: 0,
+      posts: [],
+    });
+    setSearchResults([]);
+  };
+
   return (
     <SidebarContainer>
       <ImageContainer>
-        <Link to="/">
+        <Link to="/" onClick={resetStateHandler}>
           <img className="imgSrc" src={mainLogo} alt="맛피로고" />
         </Link>
       </ImageContainer>
       <MenuContainer>
-        <Link to="/search">
+        <Link to="/search" onClick={resetStateHandler}>
           <SearchIconStyled />
         </Link>
-        <Link to="/pickers">
+        <Link to="/pickers" onClick={resetStateHandler}>
           <RoomIconStyled />
         </Link>
       </MenuContainer>

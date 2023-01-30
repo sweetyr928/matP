@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import PlaceSearchResult from "../../components/PlaceSearchResult";
 import { useEffect, useState } from "react";
-import { searchResultsState, searchStatusState } from "../../store/searchAtoms";
+import { searchResultsState, searchStatusState } from "../../store/searchPlaceAtoms";
 import { useRecoilState } from "recoil";
 import useAxios from "../../hooks/useAxios";
 import { getSearchPlaceData } from "../../api/axiosAPI/search/PlaceSearchAxios";

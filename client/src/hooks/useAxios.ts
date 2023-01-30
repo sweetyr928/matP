@@ -7,7 +7,7 @@ interface UseAxiosReturn<T> {
   status: Status;
 }
 
-const useAxios = <T = any>(
+const useAxios = <T>(
   callback: () => Promise<T>,
   deps: any[] = [],
   skip = false

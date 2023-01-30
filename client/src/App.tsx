@@ -12,7 +12,7 @@ import {
   MatPickerDetail,
   SearchPage,
   SearchDetailPage,
-  MatPlace,
+  MatPlacePage,
   MatPlacePostPage,
   MatPeoplePickerPage,
   NotFoundPage,
@@ -55,7 +55,7 @@ function App() {
             <Route path="/search" element={<SearchPage />} />
             <Route path="/search/:name" element={<SearchDetailPage />} />
             <Route path="/newplaces" element={<MatPlacePostPage />} />
-            <Route path="/places/:placeId" element={<MatPlace />} />
+            <Route path="/places/:placeId" element={<MatPlacePage />} />
             <Route path="/mypage" element={<MyPage />} />
             <Route path="/people/:id" element={<MatPeople />} />
             <Route path="/matPickers" element={<MatPeoplePickerPage />} />
