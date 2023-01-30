@@ -445,7 +445,14 @@ const MatPlacePost: React.FC = () => {
     setIsPost(false);
   };
 
-  const ratingsAvg = (el: number) => (el / ratingsTotal) * 100;
+  // chart bar
+  const ratingsAvg = (el: number) => {
+    if (el > 0) {
+      return (el / ratingsTotal) * 100;
+    } else {
+      return 0;
+    }
+  };
 
   const setPlaceInfo = useSetRecoilState(placeInfoState);
   const setPlaceInfoStatus = useSetRecoilState(placeInfoStatusState);
