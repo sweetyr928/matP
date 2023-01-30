@@ -1,4 +1,5 @@
 import axios from "axios";
+import { IPosts } from "../posts/PostsAxios";
 const jwtToken = localStorage.getItem("Authorization");
 axios.defaults.headers.common["Authorization"] = `Bearer ${jwtToken}`;
 
@@ -8,7 +9,19 @@ const url =
 export interface IMatPeopleInfo {
   memberId: number;
   nickname: string;
-  profileImg: string;
+  profileUrl: string;
+  memo: string;
+  followings: number;
+  followers: number;
+  isFollowing: boolean;
+  postInfos: IPosts[];
+  pickerGroupInfos: pickerGroupInfo[];
+}
+
+export interface pickerGroupInfo {
+  id: number;
+  name: number;
+  groupImgIndex: number;
 }
 
 export const getMatPeople = async (id: number) => {

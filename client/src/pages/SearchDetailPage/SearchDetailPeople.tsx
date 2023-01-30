@@ -1,5 +1,10 @@
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import PeopleSearchResult from "../../components/PeopleSearchResult";
+import useAxios from "../../hooks/useAxios";
+import { getSearchPeople } from "../../api/axiosAPI/search/PeopleSearchAxios";
+import { searchResultsState, searchStatusState } from "../../store/searchAtoms";
+import { useRecoilState } from "recoil";
 
 const SearchWrapper = styled.div`
   height: 100%;
@@ -37,47 +42,61 @@ const SearchResultPeoPleBox = styled.div`
   flex-direction: column;
 `;
 
+const NoneResultMessage = styled.div`
+  margin: 3rem 0;
+  font-size: 1.5rem;
+  font-weight: 500;
+`;
+
 const SearchDetailPeople: React.FC = () => {
-  const peoples = [
-    {
-      userId: 1,
-      name: "윤뿔소",
-      followers: 200,
-      memo: "맛있다!",
-      thumbnail_url:
-        "https://user-images.githubusercontent.com/94962427/211693723-e10b0b7d-95ed-4918-b450-f952168bca3a.jpeg",
-    },
-    {
-      userId: 2,
-      name: "윤뿔소",
-      followers: 200,
-      memo: "맛있다!",
-      thumbnail_url:
-        "https://user-images.githubusercontent.com/94962427/211693723-e10b0b7d-95ed-4918-b450-f952168bca3a.jpeg",
-    },
-    {
-      userId: 3,
-      name: "윤뿔소",
-      followers: 200,
-      memo: "맛있다!",
-      thumbnail_url:
-        "https://user-images.githubusercontent.com/94962427/211693723-e10b0b7d-95ed-4918-b450-f952168bca3a.jpeg",
-    },
-  ];
+  const [nickname, setNickname] = useState<string>("");
+  const { axiosData: getSearch, responseData: searchData } = useAxios(
+    () => getSearchPeople(nickname),
+    [nickname],
+    true
+  );
+
+  const [searchStatus, setSearchStatus] = useRecoilState(searchStatusState);
+
+  useEffect(() => {
+    if (searchStatus === "Loading") {
+      setSearchStatus("Success");
+    }
+  }, [searchStatus, searchData]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setNickname(e.target.value);
+  };
+
+  const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (nickname.length !== 0) {
+      getSearch();
+    } else if (event.key === "Enter" && nickname.length === 0) {
+      return alert("검색어를 입력해주세요!");
+    }
+  };
 
   return (
     <SearchWrapper>
       <label htmlFor="input-title">
         <h1>맛피플 검색</h1>
       </label>
-      <input id="input-title" placeholder="검색어를 입력하세요" />
-
-      {peoples ? (
+      <input
+        id="input-title"
+        placeholder="검색어를 입력하세요"
+        value={nickname}
+        onChange={handleChange}
+        onKeyDown={handleKeyPress}
+      />
+      {searchData && (
         <SearchResultPeoPleBox>
-          {peoples.map((people) => (
-            <PeopleSearchResult key={people.userId} people={people} />
+          {searchData.map((people) => (
+            <PeopleSearchResult key={people.id} people={people} />
           ))}
         </SearchResultPeoPleBox>
+      )}
+      {searchData === null ? (
+        <NoneResultMessage>검색 결과가 없습니다!</NoneResultMessage>
       ) : null}
     </SearchWrapper>
   );

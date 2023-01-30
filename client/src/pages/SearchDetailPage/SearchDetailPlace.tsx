@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { searchResultsState, searchStatusState } from "../../store/searchAtoms";
 import { useRecoilState } from "recoil";
 import useAxios from "../../hooks/useAxios";
-import { getSearchPlaceData } from "../../api/axiosAPI/search/placeSearchAxios";
+import { getSearchPlaceData } from "../../api/axiosAPI/search/PlaceSearchAxios";
 
 const SearchWrapper = styled.div`
   height: 100%;
@@ -84,10 +84,9 @@ const SearchDetailPlace: React.FC = () => {
 
   const [keyword, setKeyword] = useState("");
 
-  const { axiosData: getSearch, responseData: searchData } = useAxios<PlaceData[]>(
-    () => getSearchPlaceData(keyword.split(" ").join("_")),
-    [keyword]
-  );
+  const { axiosData: getSearch, responseData: searchData } = useAxios<
+    PlaceData[]
+  >(() => getSearchPlaceData(keyword.split(" ").join("_")), [keyword]);
 
   const [searchResults, setSearchResults] = useRecoilState(searchResultsState);
   const [searchStatus, setSearchStatus] = useRecoilState(searchStatusState);
