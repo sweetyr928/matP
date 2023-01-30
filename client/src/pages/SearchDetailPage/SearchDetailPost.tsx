@@ -1,6 +1,13 @@
 import styled from "styled-components";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { PostRead } from "../../components";
+import useAxios from "../../hooks/useAxios";
+import {
+  getSearchTitleData,
+  getSearchContentData,
+} from "../../api/axiosAPI/search/PostSearchAxios";
+import { searchStatusState } from "../../store/searchAtoms";
+import { useRecoilState } from "recoil";
 
 const SearchWrapper = styled.div`
   height: 100%;
@@ -67,26 +74,77 @@ const SearchResultBox = styled.div`
   margin: 0px 0px 0px 0px;
 `;
 
+const NoneResultMessage = styled.div`
+  margin: 3rem 0;
+  font-size: 1.5rem;
+  font-weight: 500;
+`;
+
 const SearchDetailPost: React.FC = () => {
   const [currentMenu, setCurrentMenu] = useState(0);
-  const [result, setResult] = useState([]);
+  const [isSearching, setIsSearching] = useState<boolean>(false);
+  const [isTitleSearching, setIsTitleSearching] = useState<boolean>(false);
+  const [isContentSearching, setIsContentSearching] = useState<boolean>(false);
+  const [keyword, setKeyword] = useState("");
+
+  const { axiosData: getTitleSearch, responseData: searchTitleData } = useAxios(
+    () => getSearchTitleData(keyword),
+    [keyword],
+    true
+  );
+
+  const { axiosData: getContentSearch, responseData: searchContentData } =
+    useAxios(() => getSearchContentData(keyword), [keyword], true);
+
+  const [searchStatus, setSearchStatus] = useRecoilState(searchStatusState);
+
+  useEffect(() => {
+    if (searchStatus === "Loading") {
+      setSearchStatus("Success");
+    }
+  }, [searchStatus, searchTitleData, searchContentData, isSearching]);
 
   const selectMenuHandler = (idx: number) => {
     setCurrentMenu(idx);
   };
 
   const tabs = [
-    { index: 1, name: "제목" },
-    { index: 2, name: "내용" },
+    { index: 0, name: "제목" },
+    { index: 1, name: "내용" },
   ];
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setKeyword(e.target.value);
+  };
+
+  const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    setIsSearching(true);
+    if (!currentMenu && keyword.length !== 0 && event.key === "Enter") {
+      getTitleSearch();
+      setIsSearching(false);
+      setIsTitleSearching(true);
+    } else if (currentMenu && keyword.length !== 0 && event.key === "Enter") {
+      getContentSearch();
+      setIsSearching(false);
+      setIsContentSearching(true);
+    } else if (event.key === "Enter" && keyword.length === 0) {
+      setIsSearching(false);
+      return alert("검색어를 입력해 주세요!");
+    }
+  };
 
   return (
     <SearchWrapper>
       <label htmlFor="input-title">
         <h1>맛포스트 검색</h1>
       </label>
-      <input id="input-title" placeholder="검색어를 입력하세요" />
-
+      <input
+        id="input-title"
+        placeholder="검색어를 입력하세요"
+        value={keyword}
+        onChange={handleChange}
+        onKeyDown={handleKeyPress}
+      />
       <SearchTab>
         {tabs.map((el, idx) => (
           <TabButton
@@ -98,14 +156,27 @@ const SearchDetailPost: React.FC = () => {
           </TabButton>
         ))}
       </SearchTab>
-
-      <SearchResultBox>
-        {result ? (
-          result.map((post) => <PostRead key={post.id} post={post} />)
-        ) : (
-          <p>검색 결과가 없습니다.</p>
-        )}
-      </SearchResultBox>
+      {!currentMenu && searchTitleData ? (
+        <SearchResultBox>
+          {" "}
+          {searchTitleData.map((post) => (
+            <PostRead key={post.id} post={post} />
+          ))}
+        </SearchResultBox>
+      ) : null}{" "}
+      {currentMenu && searchContentData ? (
+        <SearchResultBox>
+          {searchContentData.map((post) => (
+            <PostRead key={post.id} post={post} />
+          ))}
+        </SearchResultBox>
+      ) : null}{" "}
+      {!currentMenu && !searchTitleData && isTitleSearching ? (
+        <NoneResultMessage>검색 결과가 없습니다!</NoneResultMessage>
+      ) : null}
+      {currentMenu && !searchContentData && isContentSearching ? (
+        <NoneResultMessage>검색 결과가 없습니다!</NoneResultMessage>
+      ) : null}
     </SearchWrapper>
   );
 };
