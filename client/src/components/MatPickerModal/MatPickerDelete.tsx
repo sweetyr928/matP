@@ -54,28 +54,43 @@ const ButtonContainer = styled.div`
 `;
 
 interface ModalDefaultType {
-  getAllPickers: () => void;
+  dataReloadHandler: () => void;
   onClickToggleModal: () => void;
   id: number;
 }
 
-const MatPickerDelete = ({ getAllPickers, onClickToggleModal, id }: ModalDefaultType) => {
+const MatPickerDelete = ({
+  dataReloadHandler,
+  onClickToggleModal,
+  id,
+}: ModalDefaultType) => {
   const [deleteClicked, setDeleteClicked] = useState<boolean>(false);
 
   const closeModal = (e: React.MouseEvent) => {
     e.preventDefault();
     if (onClickToggleModal) {
+      dataReloadHandler();
       onClickToggleModal();
     }
   };
 
-  const { axiosData } = useAxios(() => deletePickers(id), [deleteClicked], true);
+  const { axiosData } = useAxios(
+    () => deletePickers(id),
+    [deleteClicked],
+    true
+  );
 
-  const handleMatPickDelete = () => {
+  const handleMatPickDelete = (e: React.MouseEvent) => {
     setDeleteClicked(!deleteClicked);
     axiosData();
-    getAllPickers();
-    onClickToggleModal();
+    closeModal(e);
+  };
+
+  const hadleCancle = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (onClickToggleModal) {
+      onClickToggleModal();
+    }
   };
 
   return (
@@ -84,10 +99,10 @@ const MatPickerDelete = ({ getAllPickers, onClickToggleModal, id }: ModalDefault
         정말 삭제하시겠습니까?
         <ButtonContainer>
           <button onClick={handleMatPickDelete}>예</button>
-          <button onClick={closeModal}>아니오</button>
+          <button onClick={hadleCancle}>아니오</button>
         </ButtonContainer>
       </DialogBox>
-      <Backdrop onClick={closeModal} />
+      <Backdrop onClick={hadleCancle} />
     </ModalContainer>
   );
 };

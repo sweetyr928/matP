@@ -88,7 +88,7 @@ const ButtonContainer = styled.div`
 
 interface ModalDefaultType {
   onClickToggleModal: () => void;
-  getAllPickers: () => void;
+  dataReloadHandler: () => void;
 }
 
 const tabs = [
@@ -109,17 +109,20 @@ const tabs = [
   },
 ];
 
-const MatPickerCreate = ({ getAllPickers, onClickToggleModal }: ModalDefaultType) => {
+const MatPickerCreate = ({
+  onClickToggleModal,
+  dataReloadHandler,
+}: ModalDefaultType) => {
   const [colorValue, setColorValue] = useState(3);
   const [nameValue, setNameValue] = useState("");
 
   const closeModal = (e: React.MouseEvent) => {
     e.preventDefault();
     if (onClickToggleModal) {
+      dataReloadHandler();
       onClickToggleModal();
     }
   };
-
   const { axiosData } = useAxios(
     () => createPickers(nameValue, colorValue),
     [nameValue, colorValue],
@@ -130,10 +133,16 @@ const MatPickerCreate = ({ getAllPickers, onClickToggleModal }: ModalDefaultType
     setNameValue(e.target.value);
   };
 
-  const handleMatPickPost = () => {
+  const handleMatPickPost = (e: React.MouseEvent) => {
     if (nameValue && colorValue !== 9) {
       axiosData();
-      getAllPickers();
+      closeModal(e);
+    }
+  };
+
+  const hadleCancle = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (onClickToggleModal) {
       onClickToggleModal();
     }
   };
@@ -165,10 +174,10 @@ const MatPickerCreate = ({ getAllPickers, onClickToggleModal }: ModalDefaultType
         </TabContainer>
         <ButtonContainer>
           <button onClick={handleMatPickPost}>확인</button>
-          <button onClick={closeModal}>취소</button>
+          <button onClick={hadleCancle}>취소</button>
         </ButtonContainer>
       </DialogBox>
-      <Backdrop onClick={closeModal} />
+      <Backdrop onClick={hadleCancle} />
     </ModalContainer>
   );
 };

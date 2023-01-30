@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import styled from "styled-components";
 import useAxios from "../hooks/useAxios";
 import { useParams } from "react-router-dom";
@@ -318,11 +318,22 @@ const MatPlacePost: React.FC = () => {
   const [isPost, setIsPost] = useState<boolean>(true);
   const [isPickers, setIsPickers] = useState<boolean>(false);
   const [isOpenModal, setOpenModal] = useState<boolean>(false);
+  const [dataReload, setDataReload] = useState<boolean>(false);
 
-  const { responseData: pickersData } = useAxios(getPickers, [], false);
-  const { responseData: placeData } = useAxios(
+  useEffect(() => {
+    getPickersData();
+    getPlaceData();
+  }, [dataReload]);
+
+  const { axiosData: getPickersData, responseData: pickersData } = useAxios(
+    () => getPickers(),
+    [dataReload],
+    false
+  );
+
+  const { axiosData: getPlaceData, responseData: placeData } = useAxios(
     () => getPlaceDetail(Number(placeId)),
-    [],
+    [dataReload],
     false
   );
 
@@ -350,16 +361,23 @@ const MatPlacePost: React.FC = () => {
     const target = e.target as HTMLDivElement;
     if (!isPick && target.id) {
       createPick(Number(placeId), Number(target.id));
+      setDataReload(!dataReload);
     } else if (isPick && target.textContent === groupName) {
       deletePick(id);
+      setDataReload(!dataReload);
     } else if (target.id && target.textContent !== groupName) {
       updatePick(Number(placeId), Number(target.id));
+      setDataReload(!dataReload);
     }
   };
 
   const onClickToggleModal = useCallback(() => {
     setOpenModal(!isOpenModal);
   }, [isOpenModal]);
+
+  const dataReloadHandler = useCallback(() => {
+    setDataReload(!dataReload);
+  }, [dataReload]);
 
   // 평점 매긴 유저 수 총합
   const ratingsTotal = starCount.reduce(
@@ -382,7 +400,6 @@ const MatPlacePost: React.FC = () => {
 
   const aboutMenuHandler = () => {
     setIsPost(false);
-    console.log(posts);
   };
 
   const ratingsAvg = (el: number) => (el / ratingsTotal) * 100;
@@ -391,7 +408,11 @@ const MatPlacePost: React.FC = () => {
     <FeedContainer>
       {isOpenModal && (
         <ModalPortal>
-          <MatPostCreate onClickToggleModal={onClickToggleModal} placeId={id} />
+          <MatPostCreate
+            onClickToggleModal={onClickToggleModal}
+            placeId={id}
+            dataReloadHandler={dataReloadHandler}
+          />
           <ModalBackdrop onClick={onClickToggleModal} />
         </ModalPortal>
       )}

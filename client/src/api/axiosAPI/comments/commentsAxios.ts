@@ -1,10 +1,5 @@
-import axios from "axios";
+import axios from "../../CustomAxios";
 import { IMemberInfo } from "../posts/PostsAxios";
-
-const url =
-  "http://ec2-15-165-163-251.ap-northeast-2.compute.amazonaws.com:8080";
-const jwtToken = localStorage.getItem("Authorization");
-axios.defaults.headers.common["Authorization"] = `Bearer ${jwtToken}`;
 
 export interface IComments {
   CommentId: number;
@@ -19,7 +14,7 @@ export const createComment = async (
   postId: number
 ): Promise<void> => {
   const response = await axios.post(
-    `${url}/places/${placeId}/posts/${postId}/comments`,
+    `/places/${placeId}/posts/${postId}/comments`,
     {
       content,
     }
@@ -34,7 +29,7 @@ export const updateComment = async (
   commentId: number
 ): Promise<void> => {
   const response = await axios.patch(
-    `${url}/places/${placeId}/posts/${postId}/comments/${commentId}`,
+    `/places/${placeId}/posts/${postId}/comments/${commentId}`,
     {
       content,
     }
@@ -48,7 +43,7 @@ export const deleteComment = async (
   commentId: number
 ): Promise<void> => {
   const response = await axios.delete(
-    `${url}/places/${placeId}/posts/${postId}/comments/${commentId}`
+    `/places/${placeId}/posts/${postId}/comments/${commentId}`
   );
   return response.data;
 };

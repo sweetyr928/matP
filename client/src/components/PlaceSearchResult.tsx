@@ -1,4 +1,6 @@
 import styled from "styled-components";
+import { useNavigate } from "react-router";
+import { IMatPlace } from "../api/axiosAPI/places/PlacesAxios";
 
 const PlaceWrapper = styled.div`
   height: 100%;
@@ -11,7 +13,7 @@ const ResultList = styled.div`
   justify-content: center;
   padding: 10px;
   padding-left: 40px;
-  border-bottom: 1px solid #cdcdcd;
+  border-bottom: 1px solid #ececec;
   &:hover {
     background-color: #efefef;
   }
@@ -26,25 +28,20 @@ const PlaceName = styled.h3`
     color: #c65d7b;
   }
 `;
+
 const PlaceAddress = styled.p`
   font-size: 0.8rem;
   margin-top: 5px;
 `;
 
-interface PlaceProps {
-  id: number;
-  tel: string;
-  address: string;
-  name: string;
-  starAvg: number;
-  postCount: number;
-  longitude: number;
-  latitude: number;
-}
+const PlaceSearchResult = ({ place }: { place: IMatPlace }) => {
+  const navigate = useNavigate();
+  const handleClick = () => {
+    navigate(`/places/${place.id}`);
+  };
 
-const PlaceSearchResult = ({ place }: { place: PlaceProps }) => {
   return (
-    <PlaceWrapper>
+    <PlaceWrapper onClick={handleClick}>
       <ResultList>
         <PlaceName>{place.name}</PlaceName>
         <PlaceAddress>{place.address}</PlaceAddress>

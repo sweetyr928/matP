@@ -7,12 +7,10 @@ import {
 } from "../api/axiosAPI/people/PeopleAxios";
 import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
 import HowToRegIcon from "@mui/icons-material/HowToReg";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useAxios from "../hooks/useAxios";
 import { IPosts } from "../api/axiosAPI/posts/PostsAxios";
 import PostRead from "../components/PostRead";
-
-const jwtToken = localStorage.getItem("Authorization");
 
 const FeedContainer = styled.div`
   height: 100%;
@@ -113,18 +111,27 @@ const StyledPosts = styled.div`
   grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
   grid-gap: 4px;
   margin: 0px 0px 0px 0px;
+  overflow-y: scroll;
+  ::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const MatPeople: React.FC = () => {
   const { id } = useParams();
+  const [followReload, setFollowReload] = useState<boolean>(false);
+
+  useEffect(() => {
+    getMatPeopleInfo();
+  }, [followReload]);
 
   const navigate = useNavigate();
 
-  const { responseData: matPeople } = useAxios(
-    () => getMatPeople(Number(id)),
-    [],
-    false
-  );
+  const {
+    axiosData: getMatPeopleInfo,
+    responseData: matPeople,
+    status,
+  } = useAxios(() => getMatPeople(Number(id)), [followReload], false);
 
   const { axiosData: follow } = useAxios(
     () => followMatPeople(Number(id)),
@@ -142,18 +149,22 @@ const MatPeople: React.FC = () => {
     nickname = "",
     profileUrl = "",
     memo = "",
-    followers = "",
-    followings = "",
+    followers = 0,
+    followings = 0,
     postInfos = [],
     isFollowing = false,
     pickerGroupInfos = [],
   } = matPeople || {};
 
   const handleFollow = () => {
-    if (isFollowing) {
-      unfollow();
-    } else {
-      follow();
+    if (status === "Idle" || status === "Success") {
+      if (isFollowing) {
+        unfollow();
+        setFollowReload(!followReload);
+      } else {
+        follow();
+        setFollowReload(!followReload);
+      }
     }
   };
 
@@ -172,7 +183,7 @@ const MatPeople: React.FC = () => {
               {isFollowing ? <Follow /> : <UnFollow />}
             </div>
           </div>
-          <UserRemainder>{memo}</UserRemainder>
+          {memo && <UserRemainder>{memo}</UserRemainder>}
           <UserRemainder>
             팔로워 {followers} 팔로잉 {followings}
           </UserRemainder>

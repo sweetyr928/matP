@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import useAxios from "../../hooks/useAxios";
-import { updatePickers } from "../../api/axiosAPI/groups/PickersAxios";
+import {
+  PickersData,
+  updatePickers,
+} from "../../api/axiosAPI/groups/PickersAxios";
 
 const ModalContainer = styled.div`
   height: 100%;
@@ -87,7 +90,7 @@ const ButtonContainer = styled.div`
 `;
 
 interface ModalDefaultType {
-  getAllPickers: () => void;
+  dataReloadHandler: () => void;
   onClickToggleModal: () => void;
   id: number;
   name: string;
@@ -113,21 +116,16 @@ const tabs = [
 ];
 
 const MatPickerUpdate = ({
-  getAllPickers,
+  dataReloadHandler,
   onClickToggleModal,
   id,
   name,
   groupImgIndex,
 }: ModalDefaultType) => {
-  const [newColorValue, setNewColorValue] = useState(groupImgIndex);
-  const [newNameValue, setNewNameValue] = useState(name);
-
-  const closeModal = (e: React.MouseEvent) => {
-    e.preventDefault();
-    if (onClickToggleModal) {
-      onClickToggleModal();
-    }
-  };
+  const [newColorValue, setNewColorValue] = useState<number>(
+    Number(groupImgIndex)
+  );
+  const [newNameValue, setNewNameValue] = useState<string>(name);
 
   const { axiosData } = useAxios(
     () => updatePickers(id, newNameValue, newColorValue),
@@ -135,14 +133,26 @@ const MatPickerUpdate = ({
     true
   );
 
+  const closeModal = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (onClickToggleModal) {
+      dataReloadHandler();
+      onClickToggleModal();
+    }
+  };
+
   const handleName = (e: any) => {
     setNewNameValue(e.target.value);
   };
 
-  const handleMatPickPatch = () => {
-    if (newNameValue && newColorValue) {
-      axiosData();
-      getAllPickers();
+  const handleMatPickPatch = (e: React.MouseEvent) => {
+    axiosData();
+    closeModal(e);
+  };
+
+  const hadleCancle = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (onClickToggleModal) {
       onClickToggleModal();
     }
   };
@@ -174,10 +184,10 @@ const MatPickerUpdate = ({
         </TabContainer>
         <ButtonContainer>
           <button onClick={handleMatPickPatch}>수정</button>
-          <button onClick={closeModal}>취소</button>
+          <button onClick={hadleCancle}>취소</button>
         </ButtonContainer>
       </DialogBox>
-      <Backdrop onClick={closeModal} />
+      <Backdrop onClick={hadleCancle} />
     </ModalContainer>
   );
 };
