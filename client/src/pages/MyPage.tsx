@@ -24,10 +24,10 @@ const FeedContainer = styled.div`
   border-right: 1px solid #d7d9dc;
   display: flex;
   flex-direction: column;
-  align-items: center;
   position: absolute;
   .userInfo_header_container {
     display: flex;
+    justify-content: flex-start;
     margin-bottom: 32px;
   }
 `;
@@ -36,7 +36,7 @@ const UserImg = styled.img`
   width: 110px;
   height: 110px;
   border-radius: 100%;
-  margin: 32px 25px 0 0;
+  margin: 32px 25px 0 30px;
   border: 1px solid #a6a6a6;
 `;
 const UserInfo = styled.div`
