@@ -25,7 +25,11 @@ const MatPickPlaceWrapper = styled.div`
 const MatPickPlaceList = styled.div`
   width: 100%;
   height: 100%;
-  overflow: scroll;
+  overflow-y: scroll;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
   .notice {
     margin-top: 170px;
     text-align: center;
@@ -56,7 +60,11 @@ const MatPickPlaceItem = styled.div`
 const MatPickerDetail: React.FC = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { responseData } = useAxios(() => getPickersDetail(Number(id)), [], false);
+  const { responseData } = useAxios(
+    () => getPickersDetail(Number(id)),
+    [],
+    false
+  );
 
   const location = useLocation();
   const name = location.state.name;

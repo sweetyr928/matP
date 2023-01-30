@@ -50,7 +50,8 @@ const KakaoLoginContainer = styled.button`
   cursor: pointer;
   padding: 10px;
   margin: 10px;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
   &:hover {
     background-color: #f3da00;
   }
@@ -74,7 +75,8 @@ const GoogleLoginContainer = styled.button`
   cursor: pointer;
   padding: 10px;
   margin: 10px;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
   &:hover {
     background-color: #f0f0f0;
   }
@@ -108,7 +110,7 @@ const LoginPage = () => {
   return (
     <StyledFeed>
       <LoginHeader>로그인</LoginHeader>
-      <LoginViceHeader>맛 피플이 되어보실래요?</LoginViceHeader>
+      <LoginViceHeader>맛 피플이 되어 보실래요?</LoginViceHeader>
       <OAuthButtonForm>
         <KakaoLoginContainer onClick={handleKakaoLogin}>
           <KakaoLogoImg src={kakaoLogo} alt="카카오로 시작하기"></KakaoLogoImg>
