@@ -120,7 +120,7 @@ const SearchDetailPlace: React.FC = () => {
         placeholder="검색어를 입력하세요"
         value={keyword}
         onChange={handleChange}
-        onKeyDown={handleKeyPress}
+        onKeyUp={handleKeyPress}
       />
       {searchResults && searchStatus === "Success" ? (
         <SearchResultPlaceBox>
