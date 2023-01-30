@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { searchResultsState, searchStatusState } from "../../store/searchPlaceAtoms";
 import { useRecoilState } from "recoil";
 import useAxios from "../../hooks/useAxios";
-import { getSearchPlaceData } from "../../api/axiosAPI/search/placeSearchAxios";
+import { getSearchPlaceData } from "../../api/axiosAPI/search/PlaceSearchAxios";
 
 const SearchWrapper = styled.div`
   height: 100%;
@@ -41,7 +41,11 @@ const SearchResultPlaceBox = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  overflow: scroll;
+  overflow-y: scroll;
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const PostPlaceBox = styled.div`
@@ -84,11 +88,9 @@ const SearchDetailPlace: React.FC = () => {
 
   const [keyword, setKeyword] = useState("");
 
-  const { axiosData: getSearch, responseData: searchData } = useAxios<PlaceData[]>(
-    () => getSearchPlaceData(keyword.split(" ").join("_")),
-    [keyword]
-  );
-
+  const { axiosData: getSearch, responseData: searchData } = useAxios<
+    PlaceData[]
+  >(() => getSearchPlaceData(keyword), [keyword]);
   const [searchResults, setSearchResults] = useRecoilState(searchResultsState);
   const [searchStatus, setSearchStatus] = useRecoilState(searchStatusState);
 
@@ -122,7 +124,7 @@ const SearchDetailPlace: React.FC = () => {
         placeholder="검색어를 입력하세요"
         value={keyword}
         onChange={handleChange}
-        onKeyDown={handleKeyPress}
+        onKeyUp={handleKeyPress}
       />
       {searchResults && searchStatus === "Success" ? (
         <SearchResultPlaceBox>

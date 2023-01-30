@@ -117,13 +117,19 @@ const StyledStar = styled.div`
 interface ModalDefaultType {
   onClickToggleModal: () => void;
   placeId: number;
+  dataReloadHandler: () => void;
 }
 
-const PostCreateModal = ({ onClickToggleModal, placeId }: ModalDefaultType) => {
+const PostCreateModal = ({
+  onClickToggleModal,
+  placeId,
+  dataReloadHandler,
+}: ModalDefaultType) => {
   // 모달 닫기
   const closeModal = (e: React.MouseEvent) => {
     e.preventDefault();
     if (onClickToggleModal) {
+      dataReloadHandler();
       onClickToggleModal();
     }
   };
@@ -161,9 +167,7 @@ const PostCreateModal = ({ onClickToggleModal, placeId }: ModalDefaultType) => {
         htmlContent,
         thumbnailUrl,
         clicked.filter(Boolean).length,
-        1
-        // TODO : 추후 Place 추가되면 변경
-        // placeId
+        placeId
       ),
     [title, htmlContent, thumbnailUrl, clicked, submit],
     true

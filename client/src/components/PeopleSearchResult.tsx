@@ -1,4 +1,6 @@
 import styled from "styled-components";
+import { IPeopleSearch } from "../api/axiosAPI/search/PeopleSearchAxios";
+import { useNavigate } from "react-router";
 
 const UserWrapper = styled.div`
   height: 100%;
@@ -10,42 +12,51 @@ const UserWrapper = styled.div`
     align-items: center;
     padding: 10px;
     padding-left: 20px;
-    border-bottom: 1px solid #adadad;
+    border-bottom: 1px solid #ececec;
+
+    &:hover {
+      background-color: #efefef;
+    }
   }
 
   .user_thumbnail {
-    width: 70px;
-    height: 70px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     margin-right: 10px;
   }
 
   .text-box {
     width: 80%;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
   }
+
   p {
-    margin: 10px;
+    margin: 10px 10px 10px 10px;
+    font-size: 1.1rem;
   }
 `;
 
-interface PeopleProps {
-  userId: number;
-  name: string;
-  followers: number;
-  memo: string;
-  thumbnail_url: string;
-}
+const PeopleSearchResult = ({ people }: { people: IPeopleSearch }) => {
+  const navigate = useNavigate();
+  const handleClick = () => {
+    navigate(`/people/${people.id}`);
+  };
 
-const PeopleSearchResult = ({ people }: { people: PeopleProps }) => {
   return (
     <>
-      <UserWrapper>
+      <UserWrapper onClick={handleClick}>
         <div className="result-box">
-          <img src={people.thumbnail_url} alt="thumbnail" className="user_thumbnail" />
+          <img
+            src={people.profileUrl}
+            alt="thumbnail"
+            className="user_thumbnail"
+          />
           <div className="text-box">
-            <p>{people.name}</p>
-            <p>{people.memo}</p>
-            <p>{people.followers}</p>
+            <p>{people.nickname}</p>
+            {people.memo && <p>{people.memo}</p>}
           </div>
         </div>
       </UserWrapper>

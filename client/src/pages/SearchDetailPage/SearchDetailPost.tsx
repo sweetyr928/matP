@@ -1,6 +1,14 @@
 import styled from "styled-components";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { PostRead } from "../../components";
+import useAxios from "../../hooks/useAxios";
+import { getPosts } from "../../api/axiosAPI/posts/PostsAxios";
+import { searchStatusState } from "../../store/searchAtoms";
+import { useRecoilState } from "recoil";
+import {
+  getSearchContentData,
+  getSearchTitleData,
+} from "../../api/axiosAPI/search/postSearchAxios";
 
 const SearchWrapper = styled.div`
   height: 100%;
@@ -67,84 +75,92 @@ const SearchResultBox = styled.div`
   margin: 0px 0px 0px 0px;
 `;
 
+const NoneResultMessage = styled.div`
+  margin: 3rem 0;
+  font-size: 1.5rem;
+  font-weight: 500;
+`;
+
 const SearchDetailPost: React.FC = () => {
   const [currentMenu, setCurrentMenu] = useState(0);
+  const [isSearching, setIsSearching] = useState<boolean>(false);
+  const [postsReload, setPostsReload] = useState<boolean>(false);
+  const [isTitleSearching, setIsTitleSearching] = useState<boolean>(false);
+  const [isContentSearching, setIsContentSearching] = useState<boolean>(false);
+  const [keyword, setKeyword] = useState("");
+
+  const getAllPostsReload = () => {
+    setPostsReload(!postsReload);
+  };
+
+  const { axiosData: getAllPosts, responseData: posts } = useAxios(
+    getPosts,
+    [],
+    false
+  );
+
+  useEffect(() => {
+    getAllPosts();
+  }, [postsReload]);
+
+  const { axiosData: getTitleSearch, responseData: searchTitleData } = useAxios(
+    () => getSearchTitleData(keyword),
+    [keyword],
+    true
+  );
+
+  const { axiosData: getContentSearch, responseData: searchContentData } =
+    useAxios(() => getSearchContentData(keyword), [keyword], true);
+
+  const [searchStatus, setSearchStatus] = useRecoilState(searchStatusState);
+
+  useEffect(() => {
+    if (searchStatus === "Loading") {
+      setSearchStatus("Success");
+    }
+  }, [searchStatus, searchTitleData, searchContentData, isSearching]);
 
   const selectMenuHandler = (idx: number) => {
     setCurrentMenu(idx);
   };
 
   const tabs = [
-    { index: 1, name: "제목" },
-    { index: 2, name: "내용" },
+    { index: 0, name: "제목" },
+    { index: 1, name: "내용" },
   ];
 
-  const result = [
-    {
-      id: 1,
-      likes: 24,
-      commentcount: 2,
-      thumbnailUrl:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShvWN6FLgG2lpiFwoT3zNUq9FMCyZiyaXXbA&usqp=CAU",
-      title: "수정수정수정수정",
-      content: "콘텐츠수정콘텐츠수정콘텐츠수정콘텐츠수정",
-      createdAt: "2023-01-19T10:55:37",
-      modifiedAt: "2023-01-19T10:55:49",
-      star: 3,
-      memberId: 2,
-      placeId: 1,
-    },
-    {
-      id: 2,
-      likes: 3,
-      commentcount: 4,
-      thumbnailUrl:
-        "https://i.pinimg.com/550x/41/90/b4/4190b4283d11cf6934251698fa1b2e64.jpg",
-      title: "수정수정수정수정",
-      content: "콘텐츠수정콘텐츠수정콘텐츠수정콘텐츠수정",
-      createdAt: "2023-01-19T10:55:37",
-      modifiedAt: "2023-01-19T10:55:49",
-      star: 3,
-      memberId: 2,
-      placeId: 1,
-    },
-    {
-      id: 3,
-      likes: 34,
-      commentcount: 4,
-      thumbnailUrl:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQDuqH-2EX6uJe9UIR8lRz5ql8dSwDl1BJAzrxUNdEut8GVP6RtZVdWk4IwCIst4Jk-Rpg&usqp=CAU",
-      title: "수정수정수정수정",
-      content: "콘텐츠수정콘텐츠수정콘텐츠수정콘텐츠수정",
-      createdAt: "2023-01-19T10:55:37",
-      modifiedAt: "2023-01-19T10:55:49",
-      star: 3,
-      memberId: 2,
-      placeId: 1,
-    },
-    {
-      id: 4,
-      likes: 5,
-      commentcount: 43,
-      thumbnailUrl:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRh-tTdRm7D2U_IVczw3DxrexUbDL3CLOXEKjf1fNCa2dEYnGDSfG3WhrvWQVFRhcMg05c&usqp=CAU",
-      title: "수정수정수정수정",
-      content: "콘텐츠수정콘텐츠수정콘텐츠수정콘텐츠수정",
-      createdAt: "2023-01-19T10:55:37",
-      modifiedAt: "2023-01-19T10:55:49",
-      star: 3,
-      memberId: 2,
-      placeId: 1,
-    },
-  ];
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setKeyword(e.target.value);
+  };
+
+  const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    setIsSearching(true);
+    if (!currentMenu && keyword.length !== 0 && event.key === "Enter") {
+      getTitleSearch();
+      setIsSearching(false);
+      setIsTitleSearching(true);
+    } else if (currentMenu && keyword.length !== 0 && event.key === "Enter") {
+      getContentSearch();
+      setIsSearching(false);
+      setIsContentSearching(true);
+    } else if (event.key === "Enter" && keyword.length === 0) {
+      setIsSearching(false);
+      return alert("검색어를 입력해 주세요!");
+    }
+  };
 
   return (
     <SearchWrapper>
       <label htmlFor="input-title">
         <h1>맛포스트 검색</h1>
       </label>
-      <input id="input-title" placeholder="검색어를 입력하세요" />
-
+      <input
+        id="input-title"
+        placeholder="검색어를 입력하세요"
+        value={keyword}
+        onChange={handleChange}
+        onKeyDown={handleKeyPress}
+      />
       <SearchTab>
         {tabs.map((el, idx) => (
           <TabButton
@@ -156,12 +172,29 @@ const SearchDetailPost: React.FC = () => {
           </TabButton>
         ))}
       </SearchTab>
-      {result ? (
+      {!currentMenu && searchTitleData ? (
         <SearchResultBox>
-          {result.map((post) => (
+          {searchTitleData.map((post) => (
             <PostRead key={post.id} post={post} />
           ))}
         </SearchResultBox>
+      ) : null}
+      {currentMenu && searchContentData ? (
+        <SearchResultBox>
+          {searchContentData.map((post) => (
+            <PostRead
+              key={post.id}
+              post={post}
+              getAllPostsReload={getAllPostsReload}
+            />
+          ))}
+        </SearchResultBox>
+      ) : null}
+      {!currentMenu && !searchTitleData && isTitleSearching ? (
+        <NoneResultMessage>검색 결과가 없습니다!</NoneResultMessage>
+      ) : null}
+      {currentMenu && !searchContentData && isContentSearching ? (
+        <NoneResultMessage>검색 결과가 없습니다!</NoneResultMessage>
       ) : null}
     </SearchWrapper>
   );

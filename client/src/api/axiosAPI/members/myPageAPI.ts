@@ -1,8 +1,4 @@
-import axios from "axios";
-const jwtToken = localStorage.getItem("Authorization");
-axios.defaults.headers.common["Authorization"] = `Bearer ${jwtToken}`;
-const url =
-  "http://ec2-15-165-163-251.ap-northeast-2.compute.amazonaws.com:8080/members";
+import axios from "../../CustomAxios";
 
 interface MemberData {
   id: number;
@@ -34,20 +30,16 @@ interface FollowData {
 }
 
 export const getMyData = async (): Promise<MemberData> => {
-  const response = await axios.get<MemberData>(`${url}/mypage`);
+  const response = await axios.get<MemberData>("/members/mypage");
   return response.data;
 };
 
 export const convertImageUrl = async (formData: any): Promise<any> => {
-  const response = await axios.post(
-    "http://ec2-15-165-163-251.ap-northeast-2.compute.amazonaws.com:8080/upload",
-    formData,
-    {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    }
-  );
+  const response = await axios.post("/upload", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
   return response.data.data.path;
 };
 
@@ -56,7 +48,7 @@ export const updateMyData = async (
   profileUrl: string,
   memo: string
 ): Promise<MemberData> => {
-  const response = await axios.patch(`${url}`, {
+  const response = await axios.patch("/members", {
     nickname,
     profileUrl,
     memo,
@@ -65,10 +57,10 @@ export const updateMyData = async (
 };
 
 export const getMyFollowings = async (): Promise<FollowData[]> => {
-  const response = await axios.get<FollowData[]>(`${url}/followings`);
+  const response = await axios.get<FollowData[]>("/members/followings");
   return response.data;
 };
 export const getMyFollowers = async (): Promise<FollowData[]> => {
-  const response = await axios.get<FollowData[]>(`${url}/followers`);
+  const response = await axios.get<FollowData[]>("/members/followers");
   return response.data;
 };

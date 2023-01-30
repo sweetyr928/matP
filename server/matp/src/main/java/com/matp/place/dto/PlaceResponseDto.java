@@ -14,9 +14,10 @@ public record PlaceResponseDto(Long id,
                                String name,
                                double starAvg,
                                int postCount,
+                               int groupImgIndex,
                                double longitude,
                                double latitude) {
-    public static PlaceResponseDto of(Place place, List<Post> postStarList) {
+    public static PlaceResponseDto of(Place place, List<Post> postStarList, int groupImgIndex) {
         Object[] point = Arrays.stream(place.getPoint().substring(6,place.getPoint().length()-1).split(" ")).map(Double::parseDouble).toArray();
         return PlaceResponseDto.builder()
                 .id(place.getId())
@@ -26,6 +27,7 @@ public record PlaceResponseDto(Long id,
                 .postCount(postStarList.size())
                 .address(place.getAddress())
                 .name(place.getName())
+                .groupImgIndex(groupImgIndex)
                 .longitude((Double) point[0])
                 .latitude((Double) point[1])
                 .build();

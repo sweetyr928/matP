@@ -12,6 +12,7 @@ import com.matp.place.service.PlaceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
@@ -61,5 +62,13 @@ public class PickerService {
                     return pickerRepository.findByPickerGroupId(pickerGroupId)
                             .concatMap(picker -> placeService.findByPlaceId(picker.getPlaceId())).collectList();
                 }).switchIfEmpty(Mono.error(new CustomException(CustomErrorCode.GROUP_NOT_FOUND)));
+    }
+
+    @Transactional(readOnly = true)
+    public Flux<PlaceResponseDto> findAllPickers(long memberId) {
+        return groupRepository.findAllByMemberId(memberId)
+                .concatMap(group -> pickerRepository.findByPickerGroupId(group.getId())
+                                .concatMap(picker -> placeService.findByPlaceId(picker.getPlaceId(), group.getGroupImgIndex()))
+                );
     }
 }

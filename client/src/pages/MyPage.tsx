@@ -145,12 +145,16 @@ const ModalView = styled.div.attrs(() => ({
   justify-content: center;
   align-items: center;
   z-index: 1002;
-  overflow: scroll;
+  overflow-y: scroll;
   .button-container {
     margin-top: 24px;
     display: flex;
   }
   .image_upload {
+    display: none;
+  }
+
+  ::-webkit-scrollbar {
     display: none;
   }
 `;
@@ -220,8 +224,13 @@ const FollowModalView = styled.div.attrs(() => ({
   flex-direction: column;
   align-items: center;
   z-index: 1002;
-  overflow: scroll;
+  overflow-y: scroll;
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
 `;
+
 const FollowContainer = styled.div`
   width: 100%;
   height: 4rem;
@@ -384,7 +393,7 @@ const MyPage: React.FC = () => {
         <UserImg src={profileUrl} alt="프로필사진" />
         <UserInfo>
           <UserNickname>{nickname}</UserNickname>
-          <UserRemainder>{memo}</UserRemainder>
+          {memo && <UserRemainder>{memo}</UserRemainder>}
           <UserRemainder>
             <FollowButton onClick={onClickToggleFollowingModal}>
               팔로잉 {followings}

@@ -1,9 +1,19 @@
 import axios from "axios";
-const jwtToken = localStorage.getItem("Authorization");
-axios.defaults.headers.common["Authorization"] = `Bearer ${jwtToken}`;
+import instance from "../../CustomAxios";
 
 const url =
   "http://ec2-15-165-163-251.ap-northeast-2.compute.amazonaws.com:8080/places";
+
+export interface IMatPlace {
+  id: number;
+  tel: string;
+  address: string;
+  name: string;
+  starAvg: number;
+  postCount: number;
+  longitude: number;
+  latitude: number;
+}
 
 export const getPlaceDetail = async (id: number) => {
   const response = await axios.get(`${url}/${id}`);
@@ -17,7 +27,7 @@ export const createPlaces = async (
   tel: string,
   category: string
 ): Promise<void> => {
-  const response = await axios.post(url, {
+  const response = await instance.post("/places", {
     name,
     address,
     zonecode,

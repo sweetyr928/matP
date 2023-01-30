@@ -1,6 +1,6 @@
 import axios from "axios";
-const jwtToken = localStorage.getItem("Authorization");
-axios.defaults.headers.common["Authorization"] = `Bearer ${jwtToken}`;
+import instance from "../../CustomAxios";
+import { IPosts } from "../posts/PostsAxios";
 
 const url =
   "http://ec2-15-165-163-251.ap-northeast-2.compute.amazonaws.com:8080/members";
@@ -8,7 +8,19 @@ const url =
 export interface IMatPeopleInfo {
   memberId: number;
   nickname: string;
-  profileImg: string;
+  profileUrl: string;
+  memo: string;
+  followings: number;
+  followers: number;
+  isFollowing: boolean;
+  postInfos: IPosts[];
+  pickerGroupInfos: pickerGroupInfo[];
+}
+
+export interface pickerGroupInfo {
+  id: number;
+  name: number;
+  groupImgIndex: number;
 }
 
 export const getMatPeople = async (id: number) => {
@@ -17,13 +29,12 @@ export const getMatPeople = async (id: number) => {
 };
 
 export const followMatPeople = async (memberId: number) => {
-  const response = await axios.post(`${url}/followings/${memberId}`);
+  const response = await instance.post(`/members/followings/${memberId}`);
   return response.data;
 };
 
 export const unfollowMatPeople = async (memberId: number) => {
-  console.log("h");
-  const response = await axios.delete(`${url}/followings/${memberId}`);
-  console.log(response);
+  const response = await instance.delete(`/members/followings/${memberId}`);
+
   return response.data;
 };
