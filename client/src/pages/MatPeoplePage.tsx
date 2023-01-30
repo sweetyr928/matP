@@ -1,6 +1,7 @@
 /* eslint-disable */
 import { useNavigate, useParams } from "react-router";
 import styled from "styled-components";
+import { getPosts } from "../api/axiosAPI/posts/PostsAxios";
 import {
   followMatPeople,
   getMatPeople,
@@ -123,6 +124,7 @@ const MatPeople: React.FC = () => {
   const { id } = useParams();
   const [followReload, setFollowReload] = useState<boolean>(false);
   const [jwtToken, setJwtToken] = useState(false);
+  const [postsReload, setPostsReload] = useState<boolean>(false);
 
   useEffect(() => {
     !!localStorage.getItem("Authorization")
@@ -161,6 +163,16 @@ const MatPeople: React.FC = () => {
     [],
     true
   );
+
+  const { axiosData: getAllPosts } = useAxios(getPosts, [], false);
+
+  useEffect(() => {
+    getAllPosts();
+  }, [postsReload]);
+
+  const getAllPostsReload = () => {
+    setPostsReload(!postsReload);
+  };
 
   const {
     nickname = "",
@@ -220,7 +232,11 @@ const MatPeople: React.FC = () => {
       <StyledPosts>
         {postInfos &&
           postInfos.map((post: IPosts) => (
-            <PostRead key={post.id} post={post} />
+            <PostRead
+              key={post.id}
+              post={post}
+              getAllPostsReload={getAllPostsReload}
+            />
           ))}
       </StyledPosts>
     </FeedContainer>

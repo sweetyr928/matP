@@ -395,16 +395,13 @@ const MatPlacePost: React.FC = () => {
 
   const pickHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
     const target = e.target as HTMLDivElement;
-    if (!placeUserData.isPick && target.id) {
+    if (!isPick && target.id) {
       createPick(Number(placeId), Number(target.id));
       setDataReload(!dataReload);
-    } else if (
-      placeUserData.isPick &&
-      target.textContent === placeUserData.groupName
-    ) {
+    } else if (isPick && target.textContent === groupName) {
       deletePick(id);
       setDataReload(!dataReload);
-    } else if (target.id && target.textContent !== placeUserData.groupName) {
+    } else if (target.id && target.textContent !== groupName) {
       updatePick(Number(placeId), Number(target.id));
       setDataReload(!dataReload);
     }
