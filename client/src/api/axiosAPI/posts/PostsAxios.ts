@@ -45,7 +45,7 @@ export interface IPlacesPost {
 }
 
 export const getPosts = async () => {
-  const response = await axios.get(`${url}/places/posts?page=0&size=15`);
+  const response = await axios.get(`${url}/places/posts?page=0&size=21`);
   return response.data;
 };
 
