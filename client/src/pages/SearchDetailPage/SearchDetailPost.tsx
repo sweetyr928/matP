@@ -37,10 +37,6 @@ const SearchWrapper = styled.div`
     border-radius: 12px;
     color: #373737;
     font-size: 1rem;
-
-    &:hover {
-      outline: rgb(241, 133, 137, 0.4) solid 3px;
-    }
   }
 `;
 
@@ -67,10 +63,9 @@ const TabButton = styled.li`
   list-style: none;
   border-top: 1px solid #dbdbdb;
   font-weight: ${(props) => (props.id === "focused" ? "600" : "400")};
-  border-bottom: ${(props) =>
-    props.id === "focused" ? "2px solid #373737" : "1px solid #adadad"};
+  border-bottom: ${(props) => (props.id === "focused" ? "2px solid #373737" : "1px solid #adadad")};
   &:hover {
-    font-weight: 700;
+    font-weight: 600;
   }
 `;
 
@@ -113,8 +108,11 @@ const SearchDetailPost: React.FC = () => {
     true
   );
 
-  const { axiosData: getContentSearch, responseData: searchContentData } =
-    useAxios(() => getSearchContentData(keyword), [keyword], true);
+  const { axiosData: getContentSearch, responseData: searchContentData } = useAxios(
+    () => getSearchContentData(keyword),
+    [keyword],
+    true
+  );
 
   const [searchStatus, setSearchStatus] = useRecoilState(searchStatusState);
 
@@ -179,22 +177,14 @@ const SearchDetailPost: React.FC = () => {
       {!currentMenu && searchTitleData ? (
         <SearchResultBox>
           {searchTitleData.map((post) => (
-            <PostRead
-              key={post.id}
-              post={post}
-              getAllPostsReload={getAllPostsReload}
-            />
+            <PostRead key={post.id} post={post} getAllPostsReload={getAllPostsReload} />
           ))}
         </SearchResultBox>
       ) : null}
       {currentMenu && searchContentData ? (
         <SearchResultBox>
           {searchContentData.map((post) => (
-            <PostRead
-              key={post.id}
-              post={post}
-              getAllPostsReload={getAllPostsReload}
-            />
+            <PostRead key={post.id} post={post} getAllPostsReload={getAllPostsReload} />
           ))}
         </SearchResultBox>
       ) : null}

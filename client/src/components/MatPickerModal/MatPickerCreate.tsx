@@ -50,10 +50,6 @@ const DialogBox = styled.dialog`
     border-radius: 12px;
     color: #373737;
     font-size: 1rem;
-
-    &:hover {
-      outline: rgb(241, 133, 137, 0.4) solid 3px;
-    }
   }
 `;
 
@@ -92,10 +88,6 @@ const ButtonContainer = styled.div`
     color: #ffffff;
     border-radius: 30px;
   }
-
-  button:hover {
-    font-weight: 700;
-  }
 `;
 
 interface ModalDefaultType {
@@ -121,10 +113,7 @@ const tabs = [
   },
 ];
 
-const MatPickerCreate = ({
-  onClickToggleModal,
-  dataReloadHandler,
-}: ModalDefaultType) => {
+const MatPickerCreate = ({ onClickToggleModal, dataReloadHandler }: ModalDefaultType) => {
   const [colorValue, setColorValue] = useState(3);
   const [nameValue, setNameValue] = useState("");
 

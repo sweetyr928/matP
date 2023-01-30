@@ -38,10 +38,6 @@ const MatPlacePostWrapper = styled.div`
     color: #373737;
     font-size: 1rem;
     margin-bottom: 10px;
-
-    &:focus {
-      outline: rgb(241, 133, 137, 0.4) solid 3px;
-    }
   }
   input::placeholder {
     color: #373737;
@@ -62,10 +58,6 @@ const ButtonContainer = styled.div`
     font-size: 20px;
     height: 40px;
     margin: 0 20px;
-  }
-
-  button:hover {
-    font-weight: 700;
   }
 `;
 
@@ -118,7 +110,7 @@ const ListItem = styled.li`
 
   &:hover {
     background-color: #efefef;
-    font-weight: 700;
+    font-weight: 500;
   }
 `;
 

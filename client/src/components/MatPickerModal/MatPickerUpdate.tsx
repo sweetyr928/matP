@@ -50,10 +50,6 @@ const DialogBox = styled.dialog`
     border-radius: 12px;
     color: #373737;
     font-size: 1rem;
-
-    &:hover {
-      outline: rgb(241, 133, 137, 0.4) solid 3px;
-    }
   }
 `;
 
@@ -92,10 +88,6 @@ const ButtonContainer = styled.div`
     color: #ffffff;
     border-radius: 30px;
   }
-
-  button:hover {
-    font-weight: 700;
-  }
 `;
 
 interface ModalDefaultType {
@@ -131,9 +123,7 @@ const MatPickerUpdate = ({
   name,
   groupImgIndex,
 }: ModalDefaultType) => {
-  const [newColorValue, setNewColorValue] = useState<number>(
-    Number(groupImgIndex)
-  );
+  const [newColorValue, setNewColorValue] = useState<number>(Number(groupImgIndex));
   const [newNameValue, setNewNameValue] = useState<string>(name);
 
   const closeModal = (e: React.MouseEvent) => {

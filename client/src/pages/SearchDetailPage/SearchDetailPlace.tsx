@@ -2,10 +2,7 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import PlaceSearchResult from "../../components/PlaceSearchResult";
 import { useEffect, useState } from "react";
-import {
-  searchResultsState,
-  searchStatusState,
-} from "../../store/searchPlaceAtoms";
+import { searchResultsState, searchStatusState } from "../../store/searchPlaceAtoms";
 import { useRecoilState } from "recoil";
 import useAxios from "../../hooks/useAxios";
 import { getSearchPlaceData } from "../../api/axiosAPI/search/placeSearchAxios";
@@ -37,10 +34,6 @@ const SearchWrapper = styled.div`
     border-radius: 12px;
     color: #373737;
     font-size: 1rem;
-
-    &:hover {
-      outline: rgb(241, 133, 137, 0.4) solid 3px;
-    }
   }
 `;
 
@@ -95,9 +88,10 @@ const SearchDetailPlace: React.FC = () => {
 
   const [keyword, setKeyword] = useState("");
 
-  const { axiosData: getSearch, responseData: searchData } = useAxios<
-    PlaceData[]
-  >(() => getSearchPlaceData(keyword), [keyword]);
+  const { axiosData: getSearch, responseData: searchData } = useAxios<PlaceData[]>(
+    () => getSearchPlaceData(keyword),
+    [keyword]
+  );
   const [searchResults, setSearchResults] = useRecoilState(searchResultsState);
   const [searchStatus, setSearchStatus] = useRecoilState(searchStatusState);
 

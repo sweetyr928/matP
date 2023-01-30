@@ -1,10 +1,6 @@
 import styled from "styled-components";
 import { useState } from "react";
-import {
-  updateComment,
-  deleteComment,
-  IComments,
-} from "../../api/axiosAPI/comments/commentsAxios";
+import { updateComment, deleteComment, IComments } from "../../api/axiosAPI/comments/commentsAxios";
 import useAxios from "../../hooks/useAxios";
 import { Popover, Typography } from "@mui/material";
 import moment from "moment";
@@ -29,10 +25,6 @@ const StyledDiv = styled.div`
     background-color: transparent;
     color: #727272;
     cursor: pointer;
-  }
-
-  button:hover {
-    font-weight: 700;
   }
 
   .disabled {
@@ -82,17 +74,13 @@ const StyledEdit = styled.div`
   }
 
   button {
-    width: 5%;
+    width: 40px;
     background-color: #874356;
     color: #ffffff;
     border: none;
     border-radius: 30px;
     font-size: 15px;
     cursor: pointer;
-  }
-
-  button:hover {
-    font-weight: 700;
   }
 `;
 
@@ -118,22 +106,16 @@ const MatComment = ({
   const userInfo = useRecoilValue(userInfoState);
   const [isEditing, setIsEditing] = useState<boolean>(false);
   // Comment 객체
-  const [newSingleComment, setNewSingleComment] =
-    useState<IComments>(singleComment);
+  const [newSingleComment, setNewSingleComment] = useState<IComments>(singleComment);
   // 새로 바뀐 댓글의 내용
-  const [editedComment, setEditedComment] = useState<string>(
-    singleComment.commentContent
-  );
-  const [createdAt, setCreatedAt] = useState<string>(
-    singleComment.commentCreatedAt
-  );
+  const [editedComment, setEditedComment] = useState<string>(singleComment.commentContent);
+  const [createdAt, setCreatedAt] = useState<string>(singleComment.commentCreatedAt);
   const [deleteClicked, setDeleteClicked] = useState<boolean>(false);
   // popover ref
   const [anchorEL, setAnchorEL] = useState(null);
 
   const { axiosData: updateC } = useAxios(
-    () =>
-      updateComment(editedComment, placeId, postId, newSingleComment.CommentId),
+    () => updateComment(editedComment, placeId, postId, newSingleComment.CommentId),
     [editedComment],
     true
   );
@@ -218,13 +200,8 @@ const MatComment = ({
     <StyledComment>
       <StyledDiv>
         <StyledInfo>
-          <img
-            src={newSingleComment.memberInfo.profileUrl}
-            alt="profileImg"
-          ></img>
-          <div className="comment_nickname">
-            {newSingleComment.memberInfo.nickname}
-          </div>
+          <img src={newSingleComment.memberInfo.profileUrl} alt="profileImg"></img>
+          <div className="comment_nickname">{newSingleComment.memberInfo.nickname}</div>
           <div className="comment_createdAt">
             {moment(createdAt, "YYYY-MM-DDTHH:mm:ss").format("YYYY년 MMM Do")}
           </div>
@@ -232,21 +209,13 @@ const MatComment = ({
         <div>
           <button
             onClick={handleEdit}
-            className={
-              newSingleComment.memberInfo.nickname !== userInfo.nickname
-                ? "disabled"
-                : ""
-            }
+            className={newSingleComment.memberInfo.nickname !== userInfo.nickname ? "disabled" : ""}
           >
             수정
           </button>
           <button
             onClick={handleClick}
-            className={
-              newSingleComment.memberInfo.nickname !== userInfo.nickname
-                ? "disabled"
-                : ""
-            }
+            className={newSingleComment.memberInfo.nickname !== userInfo.nickname ? "disabled" : ""}
           >
             삭제
           </button>

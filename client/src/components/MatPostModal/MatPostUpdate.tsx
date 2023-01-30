@@ -68,7 +68,7 @@ const StyledDiv = styled.div`
     }
 
     button:hover {
-      font-weight: 700;
+      font-weight: 550;
     }
 
     button:first-child {

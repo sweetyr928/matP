@@ -36,7 +36,6 @@ const UserWrapper = styled.div`
   .name {
     margin: 10px 10px 0px 10px;
     font-size: 1.1rem;
-    font-weight: 600;
     color: #874356;
     &:hover {
       color: #c65d7b;
@@ -61,11 +60,7 @@ const PeopleSearchResult = ({ people }: { people: IPeopleSearch }) => {
     <>
       <UserWrapper onClick={handleClick}>
         <div className="result-box">
-          <img
-            src={people.profileUrl}
-            alt="thumbnail"
-            className="user_thumbnail"
-          />
+          <img src={people.profileUrl} alt="thumbnail" className="user_thumbnail" />
           <div className="text-box">
             <p className="name">{people.nickname}</p>
             {people.memo && <p className="memo">{people.memo}</p>}

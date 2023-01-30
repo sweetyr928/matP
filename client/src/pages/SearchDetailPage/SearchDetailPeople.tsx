@@ -33,10 +33,6 @@ const SearchWrapper = styled.div`
     border-radius: 12px;
     color: #373737;
     font-size: 1rem;
-
-    &:hover {
-      outline: rgb(241, 133, 137, 0.4) solid 3px;
-    }
   }
 `;
 

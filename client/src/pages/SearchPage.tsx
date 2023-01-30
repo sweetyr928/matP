@@ -60,7 +60,7 @@ const TabButton = styled.li`
 
   &:hover {
     background-color: #efefef;
-    font-weight: 700;
+    font-weight: 500;
   }
 `;
 

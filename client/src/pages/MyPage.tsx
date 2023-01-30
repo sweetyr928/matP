@@ -184,10 +184,6 @@ const Input = styled.input`
   background-color: #fff;
   border-radius: 5px;
   outline: none;
-
-  &:hover {
-    outline: rgb(241, 133, 137, 0.4) solid 3px;
-  }
 `;
 
 const ModalBtn = styled.button`
@@ -204,9 +200,6 @@ const ModalBtn = styled.button`
   border-radius: 20px;
   cursor: pointer;
   text-decoration: none;
-  :hover {
-    font-weight: 700;
-  }
 `;
 
 const FollowModalView = styled.div.attrs(() => ({
@@ -266,16 +259,16 @@ const MyPage: React.FC = () => {
     navigate("/pickers");
   };
 
-  const { axiosData: getAxios, responseData: memberData } = useAxios(getMyData);
+  const [isChange, setIsChange] = useState<boolean>(false);
+
+  const { axiosData: getMemberAxios, responseData: memberData } = useAxios(getMyData, [isChange]);
   const { responseData: followingData } = useAxios(getMyFollowings);
   const { responseData: followerData } = useAxios(getMyFollowers);
 
-  const { nickname, memo, followers, followings, profileUrl } =
-    memberData || {};
+  const { nickname, memo, followers, followings, profileUrl } = memberData || {};
 
   const [isOpenEditModal, setOpenEditModal] = useState<boolean>(false);
-  const [isOpenFollowingModal, setOpenFollowingModal] =
-    useState<boolean>(false);
+  const [isOpenFollowingModal, setOpenFollowingModal] = useState<boolean>(false);
   const [isOpenFollowerModal, setOpenFollowerModal] = useState<boolean>(false);
   const [isOpenLogoutModal, setOpenLogoutModal] = useState<boolean>(false);
 
@@ -293,8 +286,8 @@ const MyPage: React.FC = () => {
   );
 
   useEffect(() => {
-    getAxios();
-  }, [revisedName, revisedImage, revisedMemo]);
+    getMemberAxios();
+  }, [isChange]);
 
   const onClickToggleEditModal = () => {
     setOpenEditModal(!isOpenEditModal);
@@ -342,6 +335,7 @@ const MyPage: React.FC = () => {
   const onRevise = () => {
     updateAxios();
     onClickToggleEditModal();
+    setIsChange(!isChange);
   };
 
   return (
@@ -352,12 +346,8 @@ const MyPage: React.FC = () => {
           <UserNickname>{nickname}</UserNickname>
           {memo && <UserRemainder>{memo}</UserRemainder>}
           <UserRemainder>
-            <FollowButton onClick={onClickToggleFollowingModal}>
-              팔로잉 {followings}
-            </FollowButton>
-            <FollowButton onClick={onClickToggleFollowerModal}>
-              팔로워 {followers}
-            </FollowButton>
+            <FollowButton onClick={onClickToggleFollowingModal}>팔로잉 {followings}</FollowButton>
+            <FollowButton onClick={onClickToggleFollowerModal}>팔로워 {followers}</FollowButton>
           </UserRemainder>
         </UserInfo>
         <EditIconStyled onClick={onClickToggleEditModal} />
@@ -440,16 +430,8 @@ const MyPage: React.FC = () => {
                   ref={fileInput}
                 />
               </div>
-              <Input
-                type="text"
-                value={revisedName || ""}
-                onChange={onChangeName}
-              ></Input>
-              <Input
-                type="text"
-                value={revisedMemo || ""}
-                onChange={onChangeMemo}
-              ></Input>
+              <Input type="text" value={revisedName || ""} onChange={onChangeName}></Input>
+              <Input type="text" value={revisedMemo || ""} onChange={onChangeMemo}></Input>
               <div className="button_container">
                 <ModalBtn onClick={onRevise}>제출</ModalBtn>
                 <ModalBtn onClick={onClickToggleEditModal}>취소</ModalBtn>

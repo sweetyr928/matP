@@ -91,10 +91,6 @@ const StyledMid = styled.div`
     cursor: pointer;
   }
 
-  button:hover {
-    font-weight: 700;
-  }
-
   .disabled {
     display: none;
   }

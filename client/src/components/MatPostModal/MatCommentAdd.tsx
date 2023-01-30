@@ -32,10 +32,6 @@ const StyledComment = styled.div`
     font-size: 15px;
     cursor: pointer;
   }
-
-  button:hover {
-    font-weight: 700;
-  }
 `;
 
 const MatCommentAdd = ({
@@ -49,11 +45,7 @@ const MatCommentAdd = ({
 }): JSX.Element => {
   const [comment, setComment] = useState<string>("");
 
-  const { axiosData } = useAxios(
-    () => createComment(comment, placeId, postId),
-    [comment],
-    true
-  );
+  const { axiosData } = useAxios(() => createComment(comment, placeId, postId), [comment], true);
 
   // 댓글 input 창
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {

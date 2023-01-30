@@ -44,7 +44,7 @@ const NameBox = styled.div`
     background-size: 100%;
   }
   &:hover {
-    font-weight: 700;
+    font-weight: 500;
   }
 `;
 

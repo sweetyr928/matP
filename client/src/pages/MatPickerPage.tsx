@@ -67,9 +67,6 @@ const MatPickerCreateBox = styled.div`
   div {
     font-size: 17px;
   }
-  &:hover {
-    font-weight: 700;
-  }
 `;
 const AddCircleOutlineIconStyled = styled(AddCircleOutlineIcon)`
   color: #505050;
@@ -88,14 +85,11 @@ const MatPicker: React.FC = () => {
 
   useEffect(() => {
     axios
-      .get(
-        "http://ec2-15-165-163-251.ap-northeast-2.compute.amazonaws.com:8080/groups",
-        {
-          headers: {
-            Authorization: `Bearer ${jwtToken}`,
-          },
-        }
-      )
+      .get("http://ec2-15-165-163-251.ap-northeast-2.compute.amazonaws.com:8080/groups", {
+        headers: {
+          Authorization: `Bearer ${jwtToken}`,
+        },
+      })
       .then((res) => setPickers(res.data))
       .catch(function (error) {
         throw error;

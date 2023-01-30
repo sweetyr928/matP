@@ -61,10 +61,6 @@ const ButtonContainer = styled.div`
     color: #ffffff;
     border-radius: 30px;
   }
-
-  button:hover {
-    font-weight: 700;
-  }
 `;
 
 interface ModalDefaultType {
@@ -73,11 +69,7 @@ interface ModalDefaultType {
   id: number;
 }
 
-const MatPickerDelete = ({
-  dataReloadHandler,
-  onClickToggleModal,
-  id,
-}: ModalDefaultType) => {
+const MatPickerDelete = ({ dataReloadHandler, onClickToggleModal, id }: ModalDefaultType) => {
   const [deleteClicked, setDeleteClicked] = useState<boolean>(false);
 
   const closeModal = (e: React.MouseEvent) => {
@@ -88,11 +80,7 @@ const MatPickerDelete = ({
     }
   };
 
-  const { axiosData } = useAxios(
-    () => deletePickers(id),
-    [deleteClicked],
-    true
-  );
+  const { axiosData } = useAxios(() => deletePickers(id), [deleteClicked], true);
 
   const handleMatPickDelete = (e: React.MouseEvent) => {
     setDeleteClicked(!deleteClicked);
