@@ -47,8 +47,7 @@ const StyledPosts = styled.div`
 const Domain: React.FC = () => {
   const token = localStorage.getItem("Authorization");
   const setUserInfo = useSetRecoilState(userInfoState);
-  const { axiosData: getUserInfo, responseData: memberData } =
-    useAxios(getMyData);
+  const { axiosData: getUserInfo, responseData: memberData } = useAxios(getMyData);
   useEffect(() => {
     if (token) {
       getUserInfo();
@@ -81,7 +80,6 @@ const Domain: React.FC = () => {
       loadData();
       if (pagePosts.length < limit) {
         setHasMore(false);
-        console.log(hasMore);
       }
     }
   };
@@ -103,19 +101,11 @@ const Domain: React.FC = () => {
       <StyledPosts onScroll={handleScroll}>
         {posts &&
           posts.map((post: IPosts) => (
-            <PostRead
-              key={post.id}
-              post={post}
-              getAllPostsReload={getAllPostsReload}
-            />
+            <PostRead key={post.id} post={post} getAllPostsReload={getAllPostsReload} />
           ))}
         {postData &&
           postData.map((post: IPosts) => (
-            <PostRead
-              key={post.id}
-              post={post}
-              getAllPostsReload={getAllPostsReload}
-            />
+            <PostRead key={post.id} post={post} getAllPostsReload={getAllPostsReload} />
           ))}
       </StyledPosts>
     </StyledFeed>

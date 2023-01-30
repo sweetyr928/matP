@@ -1,12 +1,7 @@
 import styled from "styled-components";
 import useAxios from "../../hooks/useAxios";
 import { useEffect, useState } from "react";
-import {
-  deletePost,
-  IPlacesPost,
-  likePost,
-  dislikePost,
-} from "../../api/axiosAPI/posts/PostsAxios";
+import { deletePost, likePost, dislikePost } from "../../api/axiosAPI/posts/PostsAxios";
 import StarRate from "./StarRate";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -26,24 +21,29 @@ const jwtToken = localStorage.getItem("Authorization");
 const StyledModal = styled.div`
   border-radius: 10px;
   background-color: #ffffff;
-  width: 1400px;
-  height: 800px;
+  width: 80vw;
+  height: 90vh;
   display: flex;
   flex-direction: column;
   position: fixed;
-  top: 10%;
-  left: 15%;
+  top: 5vh;
+  left: 10vw;
   z-index: 10000;
 
   > span.close-btn {
-    margin: 5px 0px 0px 1375px;
+    position: absolute;
+    top: 1vh;
+    right: 1vw;
     cursor: pointer;
     font-size: 30px;
   }
 `;
 
 const StyledDiv = styled.div`
-  margin: 0px 100px 10px 100px;
+  margin: 7vh 10vw;
+  @media screen and (max-width: 1080px) {
+    margin: 5vh 7vw;
+  }
   display: flex;
   flex-direction: column;
   overflow-y: auto;
@@ -147,10 +147,7 @@ interface ModalDefaultType {
   id: number;
 }
 
-const PostReadModal = ({
-  onClickToggleModal,
-  id,
-}: ModalDefaultType): JSX.Element => {
+const PostReadModal = ({ onClickToggleModal, id }: ModalDefaultType): JSX.Element => {
   const userInfo = useRecoilValue(userInfoState);
   const [nickname, setNickname] = useState<string>("");
   const [profileUrl, setProfileUrl] = useState<string>("");
@@ -219,21 +216,13 @@ const PostReadModal = ({
   }, [commentReload]);
 
   // post 삭제
-  const { axiosData: deleteP } = useAxios(
-    () => deletePost(id, placeId),
-    [deleteClicked],
-    true
-  );
+  const { axiosData: deleteP } = useAxios(() => deletePost(id, placeId), [deleteClicked], true);
 
   //'좋아요'
   const { axiosData: likeP } = useAxios(() => likePost(id, placeId), [], true);
 
   // '좋아요' 취소
-  const { axiosData: dislikeP } = useAxios(
-    () => dislikePost(id, placeId),
-    [],
-    true
-  );
+  const { axiosData: dislikeP } = useAxios(() => dislikePost(id, placeId), [], true);
 
   // matPostUpdate 컴포넌트로 post data 넘겨줌
   const postData = {
@@ -327,11 +316,7 @@ const PostReadModal = ({
 
   return (
     <StyledModal>
-      <span
-        role="presentation"
-        onClick={onClickToggleModal}
-        className="close-btn"
-      >
+      <span role="presentation" onClick={onClickToggleModal} className="close-btn">
         &times;
       </span>
       {isEdit ? (
@@ -350,9 +335,7 @@ const PostReadModal = ({
                 <img src={profileUrl} alt="profileImg"></img>
                 <div className="post_nickname">{nickname}</div>
                 <div className="post_createdAt">
-                  {moment(createdAt, "YYYY-MM-DDTHH:mm:ss").format(
-                    "YYYY년 MMM Do"
-                  )}
+                  {moment(createdAt, "YYYY-MM-DDTHH:mm:ss").format("YYYY년 MMM Do")}
                 </div>
               </StyledInfo>
               <div>
@@ -395,13 +378,7 @@ const PostReadModal = ({
             <StyledStarsWrapper>
               <StyledStar>
                 {array.map((el, idx) => {
-                  return (
-                    <StarRate
-                      key={idx}
-                      size="50"
-                      className={clicked[el] ? "yellow" : ""}
-                    />
-                  );
+                  return <StarRate key={idx} size="50" className={clicked[el] ? "yellow" : ""} />;
                 })}
               </StyledStar>
             </StyledStarsWrapper>

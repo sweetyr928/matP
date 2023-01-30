@@ -18,7 +18,7 @@ const StyledPosts = styled.div`
 
 const MyPagePostInfo = () => {
   const { responseData: memberData } = useAxios(getMyData);
-  const { postInfos } = memberData || {};
+  const { postInfos = [] } = memberData || {};
 
   return (
     <StyledPosts>

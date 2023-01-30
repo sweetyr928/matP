@@ -1,10 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import useAxios from "../../hooks/useAxios";
-import {
-  PickersData,
-  updatePickers,
-} from "../../api/axiosAPI/groups/PickersAxios";
+import { updatePickers } from "../../api/axiosAPI/groups/PickersAxios";
 
 const ModalContainer = styled.div`
   height: 100%;
@@ -122,9 +119,7 @@ const MatPickerUpdate = ({
   name,
   groupImgIndex,
 }: ModalDefaultType) => {
-  const [newColorValue, setNewColorValue] = useState<number>(
-    Number(groupImgIndex)
-  );
+  const [newColorValue, setNewColorValue] = useState<number>(Number(groupImgIndex));
   const [newNameValue, setNewNameValue] = useState<string>(name);
 
   const closeModal = (e: React.MouseEvent) => {

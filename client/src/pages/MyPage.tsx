@@ -325,7 +325,6 @@ const MyPage: React.FC = () => {
     formData.append("file", uploadFile);
     const responseUrl = await convertImageUrl(formData);
     // response 형태에 맞추어 변경
-    console.log(responseUrl);
     setRevisedImage(responseUrl);
   };
 

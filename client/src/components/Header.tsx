@@ -47,7 +47,16 @@ const Header: React.FC = () => {
   const navigate = useNavigate();
   const [jwtToken, setJwtToken] = useState(localStorage.getItem("Authorization"));
 
-  if (jwtToken) {
+  if (!jwtToken) {
+    return (
+      <HeaderContainer>
+        <IconContainer>
+          <LogInButton onClick={() => navigate("/login")} />
+        </IconContainer>
+      </HeaderContainer>
+    );
+  } else {
+    console.log("실행");
     const { responseData: memberData } = useAxios(getMyData);
     const { profileUrl } = memberData || {};
 
@@ -65,14 +74,6 @@ const Header: React.FC = () => {
             <ImgContainer src={profileUrl} alt="프로필 사진" />
           </IconContainer>
         </Link>
-      </HeaderContainer>
-    );
-  } else {
-    return (
-      <HeaderContainer>
-        <IconContainer>
-          <LogInButton onClick={() => navigate("/login")} />
-        </IconContainer>
       </HeaderContainer>
     );
   }

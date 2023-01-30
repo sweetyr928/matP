@@ -4,7 +4,6 @@ import styled from "styled-components";
 import { MatPickerUpdate, MatPickerDelete, ModalPortal } from ".";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { PickersData } from "../api/axiosAPI/groups/PickersAxios";
 
 const MatPickerSingleBox = styled.div`
   display: flex;
@@ -77,12 +76,7 @@ const groupImg = [
   "https://user-images.githubusercontent.com/94962427/213092314-422f10bb-6285-420c-be93-913e252f75e6.svg",
 ];
 
-const MatPickersItem = ({
-  dataReloadHandler,
-  id,
-  name,
-  groupImgIndex,
-}: ModalDefaultType) => {
+const MatPickersItem = ({ dataReloadHandler, id, name, groupImgIndex }: ModalDefaultType) => {
   const [isOpenUpdateModal, setOpenUpdateModal] = useState<boolean>(false);
   const [isOpenDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
 
