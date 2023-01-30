@@ -133,10 +133,6 @@ const ButtonBox = styled.div`
     color: white;
     background-color: #874356;
   }
-
-  button:hover {
-    font-weight: 700;
-  }
 `;
 
 const PageContainer = styled.div`
@@ -163,7 +159,7 @@ const PickContainer = styled.div`
     margin: 30px 0;
   }
   #pick {
-    border-radius: 5px;
+    font-weight: 700;
     background-color: rgb(200, 200, 200, 0.2);
     filter: brightness(0.8);
   }
@@ -175,9 +171,9 @@ const NameBox = styled.button`
   flex-direction: row;
   align-items: center;
   width: 100%;
-  height: 50px;
+  height: 70px;
   padding: 15px;
-  font-size: 16px;
+  font-size: 18px;
   border: none;
   background-color: transparent;
   border-bottom: 1px solid #a6a6a6;
@@ -194,6 +190,9 @@ const NameBox = styled.button`
     cursor: pointer;
     width: 100%;
     text-align: start;
+  }
+  &:hover {
+    background-color: #eeeeee;
   }
 `;
 

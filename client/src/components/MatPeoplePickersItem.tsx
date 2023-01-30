@@ -6,15 +6,19 @@ const StyledMatPicker = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  height: 50px;
+  height: 70px;
   padding: 15px;
-  border-bottom: 1px solid #373737;
+  border-bottom: 1px solid #adadad;
 
   button {
-    padding: 0;
-    border: none;
-    background-color: transparent;
     color: #373737;
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    font-size: 17px;
+  }
+  &:hover {
+    background-color: #eeeeee;
   }
 `;
 
@@ -23,11 +27,10 @@ const NameBox = styled.div`
   flex-direction: row;
   align-items: center;
   width: 300px;
-
+  cursor: pointer;
   button {
     background-color: transparent;
   }
-
   .icon {
     width: 30px;
     height: 30px;
@@ -35,6 +38,9 @@ const NameBox = styled.div`
     margin-right: 20px;
     background: url(${(props) => props.color || "gray"});
     background-size: 100%;
+  }
+  &:hover {
+    font-weight: 700;
   }
 `;
 

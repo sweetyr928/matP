@@ -4,7 +4,7 @@ import { useLocation } from "react-router";
 
 const MatPeoplePickerWrapper = styled.div`
   height: 100%;
-  min-width: calc(1340px * 2 / 5 - 63px);
+  width: calc(1340px * 2 / 5 - 63px);
   z-index: 997;
   padding: 0px 8px 0px 70px;
   background-color: #f8f8f8;
@@ -16,24 +16,14 @@ const MatPeoplePickerWrapper = styled.div`
   h1 {
     font-size: 28px;
     font-weight: 500;
-    margin-top: 200px;
+    margin-top: 120px;
     margin-bottom: 80px;
+    color: #373737;
   }
 `;
-
 const StyledMatPickers = styled.div`
   width: 100%;
   height: 100%;
-
-  .default_mat_pick {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    height: 50px;
-    padding: 15px;
-    border-bottom: 1px solid black;
-  }
 `;
 
 const MatPeoplePicker: React.FC = () => {
