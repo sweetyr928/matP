@@ -18,6 +18,7 @@ const StyledPosts = styled.div`
 
 const Nothing = styled.span`
   display: flex;
+  justify-content: center;
   font-size: 1.5rem;
   margin-top: 10vh;
 `;

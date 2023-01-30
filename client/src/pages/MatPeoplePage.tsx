@@ -207,7 +207,7 @@ const MatPeople: React.FC = () => {
   };
 
   const postInfosFiltered = postInfos.filter((item: IPosts) => {
-    item.id !== null;
+    return item.id !== null;
   });
 
   return (
