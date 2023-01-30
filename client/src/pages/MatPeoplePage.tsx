@@ -24,20 +24,21 @@ const FeedContainer = styled.div`
   border-right: 1px solid #d7d9dc;
   display: flex;
   flex-direction: column;
-  align-items: center;
   position: absolute;
 
   .userInfo_header_container {
     display: flex;
     margin-bottom: 32px;
+    justify-content: flex-start;
+    align-items: center;
   }
 `;
 
 const UserImg = styled.img`
-  width: 132px;
-  height: 132px;
+  width: 110px;
+  height: 110px;
   border-radius: 100%;
-  margin: 32px 25px 0 0;
+  margin: 32px 25px 0 30px;
   border: 1px solid #a6a6a6;
 `;
 

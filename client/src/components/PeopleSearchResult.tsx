@@ -36,6 +36,10 @@ const UserWrapper = styled.div`
   p {
     margin: 10px 10px 10px 10px;
     font-size: 1.1rem;
+    color: #874356;
+    &:hover {
+      color: #c65d7b;
+    }
   }
 `;
 

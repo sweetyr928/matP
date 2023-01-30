@@ -33,8 +33,8 @@ const FeedContainer = styled.div`
 `;
 
 const UserImg = styled.img`
-  width: 132px;
-  height: 132px;
+  width: 110px;
+  height: 110px;
   border-radius: 100%;
   margin: 32px 25px 0 0;
   border: 1px solid #a6a6a6;
