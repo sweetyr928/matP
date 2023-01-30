@@ -1,8 +1,7 @@
 import axios from "axios";
 import type { IComments } from "../comments/commentsAxios";
 
-const url =
-  "http://ec2-15-165-163-251.ap-northeast-2.compute.amazonaws.com:8080";
+const url = "http://ec2-15-165-163-251.ap-northeast-2.compute.amazonaws.com:8080";
 
 const jwtToken = localStorage.getItem("Authorization");
 axios.defaults.headers.common["Authorization"] = `Bearer ${jwtToken}`;
@@ -45,8 +44,8 @@ export interface IPlacesPost {
   comments: IComments[];
 }
 
-export const getPosts = async () => {
-  const response = await axios.get(`${url}/places/posts?page=0&size=30`);
+export const getPosts = async (page: number) => {
+  const response = await axios.get(`${url}/places/posts?page=${page}&size=30`);
   return response.data;
 };
 
@@ -89,30 +88,19 @@ export const updatePost = async (
   return response.data;
 };
 
-export const deletePost = async (
-  id: number,
-  placeId: number
-): Promise<void> => {
+export const deletePost = async (id: number, placeId: number): Promise<void> => {
   const response = await axios.delete(`${url}/places/${placeId}/posts/${id}`);
   return response.data;
 };
 
 export const likePost = async (id: number, placeId: number): Promise<void> => {
-  const response = await axios.post(
-    `${url}/places/${placeId}/posts/${id}/likes`,
-    {
-      likesCheck: 1,
-    }
-  );
+  const response = await axios.post(`${url}/places/${placeId}/posts/${id}/likes`, {
+    likesCheck: 1,
+  });
   return response.data;
 };
 
-export const dislikePost = async (
-  id: number,
-  placeId: number
-): Promise<void> => {
-  const response = await axios.delete(
-    `${url}/places/${placeId}/posts/${id}/likes`
-  );
+export const dislikePost = async (id: number, placeId: number): Promise<void> => {
+  const response = await axios.delete(`${url}/places/${placeId}/posts/${id}/likes`);
   return response.data;
 };

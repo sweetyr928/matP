@@ -57,7 +57,8 @@ const Domain: React.FC = () => {
   }, [memberData]);
 
   const [postsReload, setPostsReload] = useState<boolean>(false);
-  const { axiosData: getAllPosts, responseData: posts } = useAxios(getPosts, [], false);
+  const [page, setPage] = useState(0);
+  const { axiosData: getAllPosts, responseData: posts } = useAxios(() => getPosts(page), [], false);
 
   useEffect(() => {
     getAllPosts();
