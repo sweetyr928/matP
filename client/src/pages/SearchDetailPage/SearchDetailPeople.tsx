@@ -56,7 +56,8 @@ const SearchDetailPeople: React.FC = () => {
 
   const { axiosData: getSearch, responseData: searchData } = useAxios(
     () => getSearchPeople(nickname),
-    [nickname]
+    [nickname],
+    true
   );
   const [searchStatus, setSearchStatus] = useRecoilState(searchStatusState);
 
@@ -88,7 +89,7 @@ const SearchDetailPeople: React.FC = () => {
         placeholder="검색어를 입력하세요"
         value={nickname}
         onChange={handleChange}
-        onKeyDown={handleKeyPress}
+        onKeyUp={handleKeyPress}
       />
       {searchData ? (
         <SearchResultPeoPleBox>
