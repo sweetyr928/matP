@@ -12,7 +12,7 @@ import {
   convertImageUrl,
 } from "../api/axiosAPI/members/myPageAPI";
 import { ModalPortal } from "../components";
-import LogoutModal from "../components/MyPageModal/LogoutModal";
+import LogoutModal from "../components/LogoutModal";
 
 const FeedContainer = styled.div`
   height: 100%;

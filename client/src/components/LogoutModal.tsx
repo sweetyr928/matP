@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router";
 import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
-import { userInfoState } from "../../store/userInfoAtoms";
+import { userInfoState } from "../store/userInfoAtoms";
 
 const LogoutModalContainer = styled.div`
   position: absolute;
