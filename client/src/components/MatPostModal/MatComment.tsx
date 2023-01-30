@@ -78,6 +78,7 @@ const StyledEdit = styled.div`
     margin: 0px 0px 0px 5px;
     border-radius: 10px;
     outline: rgb(241, 133, 137, 0.4) solid 3px;
+    padding: 0px 10px;
   }
 
   button {

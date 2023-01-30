@@ -16,6 +16,7 @@ const StyledComment = styled.div`
     font-size: 1rem;
     margin: 0px 0px 0px 5px;
     border-radius: 10px;
+    padding: 0px 10px;
   }
 
   input:focus {
