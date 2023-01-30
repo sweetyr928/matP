@@ -86,8 +86,7 @@ const SearchDetailPlace: React.FC = () => {
 
   const { axiosData: getSearch, responseData: searchData } = useAxios<
     PlaceData[]
-  >(() => getSearchPlaceData(keyword.split(" ").join("_")), [keyword]);
-
+  >(() => getSearchPlaceData(keyword), [keyword]);
   const [searchResults, setSearchResults] = useRecoilState(searchResultsState);
   const [searchStatus, setSearchStatus] = useRecoilState(searchStatusState);
 
