@@ -9,23 +9,26 @@ import useAxios from "../../hooks/useAxios";
 const StyledModal = styled.div`
   border-radius: 10px;
   background-color: #ffffff;
-  width: 1400px;
-  height: 800px;
+  width: 80vw;
+  height: 90vh;
   display: flex;
   flex-direction: column;
   position: fixed;
-  top: 10%;
-  left: 15%;
-  z-index: 1010;
+  top: 5vh;
+  left: 10vw;
+  z-index: 10000;
+
   > span.close-btn {
-    margin: 5px 0px 0px 1375px;
+    position: absolute;
+    top: 1vh;
+    right: 1vw;
     cursor: pointer;
     font-size: 30px;
   }
 `;
 
 const StyledDiv = styled.div`
-  margin: 25px 100px 10px 100px;
+  margin: 7vh 10vw;
   height: auto;
   display: flex;
   flex-direction: column;
@@ -120,11 +123,7 @@ interface ModalDefaultType {
   dataReloadHandler: () => void;
 }
 
-const PostCreateModal = ({
-  onClickToggleModal,
-  placeId,
-  dataReloadHandler,
-}: ModalDefaultType) => {
+const PostCreateModal = ({ onClickToggleModal, placeId, dataReloadHandler }: ModalDefaultType) => {
   // 모달 닫기
   const closeModal = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -139,13 +138,7 @@ const PostCreateModal = ({
   const [thumbnailUrl, setThumbnailUrl] = useState<string>("");
 
   // 별점 기본값 설정
-  const [clicked, setClicked] = useState<boolean[]>([
-    false,
-    false,
-    false,
-    false,
-    false,
-  ]);
+  const [clicked, setClicked] = useState<boolean[]>([false, false, false, false, false]);
 
   const [imageContained, setImageContained] = useState<boolean>(false);
   const [submit, setSubmit] = useState<boolean>(false);
@@ -161,14 +154,7 @@ const PostCreateModal = ({
   }, [htmlContent]);
 
   const { axiosData } = useAxios(
-    () =>
-      createPost(
-        title,
-        htmlContent,
-        thumbnailUrl,
-        clicked.filter(Boolean).length,
-        placeId
-      ),
+    () => createPost(title, htmlContent, thumbnailUrl, clicked.filter(Boolean).length, placeId),
     [title, htmlContent, thumbnailUrl, clicked, submit],
     true
   );
@@ -217,17 +203,10 @@ const PostCreateModal = ({
         &times;
       </span>
       <StyledDiv>
-        <input
-          placeholder="제목을 입력해주세요"
-          value={title}
-          onChange={handleInput}
-        ></input>
+        <input placeholder="제목을 입력해주세요" value={title} onChange={handleInput}></input>
         <hr className="middle_line" />
         <div className={title.length <= 0 ? "disabled" : ""}>
-          <MatEditor
-            htmlContent={htmlContent}
-            setHtmlContent={setHtmlContent}
-          />
+          <MatEditor htmlContent={htmlContent} setHtmlContent={setHtmlContent} />
         </div>
         <StyledStarsWrapper>
           <StyledRatingtxt>평점</StyledRatingtxt>
@@ -238,9 +217,7 @@ const PostCreateModal = ({
                   key={idx}
                   size="50"
                   onClick={() => handleStarClick(el)}
-                  className={
-                    imageContained ? (clicked[el] ? "yellow" : "") : "disabled"
-                  }
+                  className={imageContained ? (clicked[el] ? "yellow" : "") : "disabled"}
                 />
               );
             })}

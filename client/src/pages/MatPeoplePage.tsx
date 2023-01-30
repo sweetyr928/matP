@@ -53,7 +53,8 @@ const UserInfo = styled.div`
 
 const Follow = styled(HowToRegIcon)`
   color: #505050;
-  margin: 50px 0px 10px 0px;
+  position: absolute;
+  right: 13px;
   cursor: pointer;
 
   &:hover {
@@ -63,7 +64,8 @@ const Follow = styled(HowToRegIcon)`
 
 const UnFollow = styled(PersonAddAlt1Icon)`
   color: #505050;
-  margin: 50px 0px 10px 0px;
+  position: absolute;
+  right: 13px;
   cursor: pointer;
 
   &:hover {
@@ -74,12 +76,13 @@ const UnFollow = styled(PersonAddAlt1Icon)`
 const UserNickname = styled.h2`
   color: #373737;
   font-size: 23px;
-  margin: 52px 10px 10px 0px;
+  margin-top: 52px;
+  margin-bottom: 10px;
 `;
 
 const UserRemainder = styled.span`
-  color: #373737;
   font-size: 15px;
+  color: #373737;
   margin: 10px 0;
 `;
 
@@ -121,6 +124,12 @@ const StyledPosts = styled.div`
   }
 `;
 
+const Nothing = styled.span`
+  display: flex;
+  font-size: 1.5rem;
+  margin-top: 10vh;
+`;
+
 const MatPeople: React.FC = () => {
   const { id } = useParams();
   const [followReload, setFollowReload] = useState<boolean>(false);
@@ -159,11 +168,8 @@ const MatPeople: React.FC = () => {
     true
   );
 
-  const { axiosData: unfollow } = useAxios(
-    () => unfollowMatPeople(Number(id)),
-    [],
-    true
-  );
+
+  const { axiosData: unfollow } = useAxios(() => unfollowMatPeople(Number(id)), [], true);
 
   const { axiosData: getAllPosts } = useAxios(getPosts, [], false);
 
@@ -203,6 +209,10 @@ const MatPeople: React.FC = () => {
     navigate("/matPickers", { state: pickerGroupInfos });
   };
 
+  const postInfosFiltered = postInfos.filter((item: IPosts) => {
+    item.id !== null;
+  });
+
   return (
     <FeedContainer>
       <div className="userInfo_header_container">
@@ -230,6 +240,10 @@ const MatPeople: React.FC = () => {
           </div>
         </TabContainer>
       </ContentContainer>
+      {postInfosFiltered && postInfosFiltered.length !== 0 ? (
+        <StyledPosts>
+          {postInfosFiltered.map((post: IPosts) => (
+            <PostRead key={post.id} post={post} />
       <StyledPosts>
         {postInfos &&
           postInfos.map((post: IPosts) => (
@@ -239,7 +253,10 @@ const MatPeople: React.FC = () => {
               getAllPostsReload={getAllPostsReload}
             />
           ))}
-      </StyledPosts>
+        </StyledPosts>
+      ) : (
+        <Nothing>작성한 글이 없습니다!</Nothing>
+      )}
     </FeedContainer>
   );
 };

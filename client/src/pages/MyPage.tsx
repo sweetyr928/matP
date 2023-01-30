@@ -12,8 +12,8 @@ import {
   convertImageUrl,
 } from "../api/axiosAPI/members/myPageAPI";
 import { ModalPortal } from "../components";
-import { userInfoState } from "../store/userInfoAtoms";
-import { useSetRecoilState } from "recoil";
+import LogoutModal from "../components/LogoutModal";
+import MyPagePostInfo from "../components/MyPagePostInfo";
 
 const FeedContainer = styled.div`
   height: 100%;
@@ -126,25 +126,21 @@ const ModalBackdrop = styled.div`
   z-index: 1000;
   background-color: rgba(0, 0, 0, 0.2);
 `;
-const ModalView = styled.div.attrs(() => ({
-  role: "dialog",
-}))`
-  opacity: 1;
-  transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
-  position: absolute;
-  bottom: 22vh;
-  left: 70px;
-  background-color: #fff;
-  border-radius: 7px;
-  padding: 24px;
-  width: 394px;
-  height: 55vh;
-  box-shadow: 1px 0px 86px -17px rgba(0, 0, 0, 0.75);
+const ModalView = styled.dialog`
+  top: 140px;
+  left: 79px;
+  margin: 0;
+  width: 370px;
+  height: 440px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  z-index: 1002;
+  border: none;
+  border-radius: 3px;
+  box-sizing: border-box;
+  background-color: white;
+  position: fixed;
+  z-index: 10020;
   overflow-y: scroll;
   .button-container {
     margin-top: 24px;
@@ -163,13 +159,14 @@ const Header = styled.h1`
   font-weight: normal;
   line-height: calc((13+2) / 13);
   text-align: center;
+  margin-top: 10px;
 `;
 const EditUserImg = styled.img`
   width: 110px;
   height: 110px;
   border-radius: 100%;
   border: 1px solid #a6a6a6;
-  margin: 10px 0;
+  margin: 30px 0;
   cursor: pointer;
   &:hover {
     filter: brightness(0.6);
@@ -257,6 +254,12 @@ const NickName = styled.span`
   color: #874356;
 `;
 
+
+const Nothing = styled.span`
+  font-size: 1.5rem;
+  margin-top: 2rem;
+`;
+
 const LogoutModal = styled.div`
   position: absolute;
   bottom: 40vh;
@@ -314,20 +317,16 @@ const MyPage: React.FC = () => {
   const { responseData: followingData } = useAxios(getMyFollowings);
   const { responseData: followerData } = useAxios(getMyFollowers);
 
-  const { nickname, memo, followers, followings, profileUrl } =
-    memberData || {};
+  const { nickname, memo, followers, followings, profileUrl } = memberData || {};
 
   const [isOpenEditModal, setOpenEditModal] = useState<boolean>(false);
-  const [isOpenFollowingModal, setOpenFollowingModal] =
-    useState<boolean>(false);
+  const [isOpenFollowingModal, setOpenFollowingModal] = useState<boolean>(false);
   const [isOpenFollowerModal, setOpenFollowerModal] = useState<boolean>(false);
   const [isOpenLogoutModal, setOpenLogoutModal] = useState<boolean>(false);
 
   const [revisedName, setRevisedName] = useState(nickname);
   const [revisedMemo, setRevisedMemo] = useState(memo);
   const [revisedImage, setRevisedImage] = useState(profileUrl);
-
-  const setUserInfo = useSetRecoilState(userInfoState);
 
   // 프로필 이미지 수정을 위한 ref
   const fileInput = useRef<HTMLInputElement>(null);
@@ -375,7 +374,6 @@ const MyPage: React.FC = () => {
     formData.append("file", uploadFile);
     const responseUrl = await convertImageUrl(formData);
     // response 형태에 맞추어 변경
-    console.log(responseUrl);
     setRevisedImage(responseUrl);
   };
 
@@ -391,13 +389,6 @@ const MyPage: React.FC = () => {
     onClickToggleEditModal();
   };
 
-  const logoutHandler = () => {
-    localStorage.removeItem("Authorization");
-    setUserInfo({});
-    navigate("/");
-    window.location.reload();
-  };
-
   return (
     <FeedContainer>
       <div className="userInfo_header_container">
@@ -406,12 +397,8 @@ const MyPage: React.FC = () => {
           <UserNickname>{nickname}</UserNickname>
           {memo && <UserRemainder>{memo}</UserRemainder>}
           <UserRemainder>
-            <FollowButton onClick={onClickToggleFollowingModal}>
-              팔로잉 {followings}
-            </FollowButton>
-            <FollowButton onClick={onClickToggleFollowerModal}>
-              팔로워 {followers}
-            </FollowButton>
+            <FollowButton onClick={onClickToggleFollowingModal}>팔로잉 {followings}</FollowButton>
+            <FollowButton onClick={onClickToggleFollowerModal}>팔로워 {followers}</FollowButton>
           </UserRemainder>
         </UserInfo>
         <EditIconStyled onClick={onClickToggleEditModal} />
@@ -427,17 +414,25 @@ const MyPage: React.FC = () => {
           </div>
         </TabContainer>
       </ContentContainer>
+      <MyPagePostInfo />
 
       {isOpenFollowingModal && (
         <ModalPortal>
           <ModalContainer>
             <FollowModalView>
-              {followingData.map((item) => (
-                <FollowContainer key={item.memberId}>
-                  <ImageContainer src={item.profileUrl} alt="프로필 사진" />
-                  <NickName>{item.nickname}</NickName>
-                </FollowContainer>
-              ))}
+              {followingData.length !== 0 ? (
+                followingData.map((item) => (
+                  <FollowContainer
+                    key={item.memberId}
+                    onClick={() => navigate(`/people/${item.memberId}`)}
+                  >
+                    <ImageContainer src={item.profileUrl} alt="프로필 사진" />
+                    <NickName>{item.nickname}</NickName>
+                  </FollowContainer>
+                ))
+              ) : (
+                <Nothing>팔로우가 없습니다!</Nothing>
+              )}
             </FollowModalView>
           </ModalContainer>
           <ModalBackdrop onClick={onClickToggleFollowingModal} />
@@ -447,12 +442,19 @@ const MyPage: React.FC = () => {
         <ModalPortal>
           <ModalContainer>
             <FollowModalView>
-              {followerData.map((item) => (
-                <FollowContainer key={item.memberId}>
-                  <ImageContainer src={item.profileUrl} alt="프로필 사진" />
-                  <NickName>{item.nickname}</NickName>
-                </FollowContainer>
-              ))}
+              {followingData.length !== 0 ? (
+                followerData.map((item) => (
+                  <FollowContainer
+                    key={item.memberId}
+                    onClick={() => navigate(`/people/${item.memberId}`)}
+                  >
+                    <ImageContainer src={item.profileUrl} alt="프로필 사진" />
+                    <span>{item.nickname}</span>
+                  </FollowContainer>
+                ))
+              ) : (
+                <Nothing>팔로우가 없습니다!</Nothing>
+              )}
             </FollowModalView>
           </ModalContainer>
           <ModalBackdrop onClick={onClickToggleFollowerModal} />
@@ -479,16 +481,8 @@ const MyPage: React.FC = () => {
                   ref={fileInput}
                 />
               </div>
-              <Input
-                type="text"
-                value={revisedName || ""}
-                onChange={onChangeName}
-              ></Input>
-              <Input
-                type="text"
-                value={revisedMemo || ""}
-                onChange={onChangeMemo}
-              ></Input>
+              <Input type="text" value={revisedName || ""} onChange={onChangeName}></Input>
+              <Input type="text" value={revisedMemo || ""} onChange={onChangeMemo}></Input>
               <div className="button_container">
                 <ModalBtn onClick={onRevise}>제출</ModalBtn>
                 <ModalBtn onClick={onClickToggleEditModal}>취소</ModalBtn>
@@ -498,20 +492,11 @@ const MyPage: React.FC = () => {
           <ModalBackdrop onClick={onClickToggleEditModal} />
         </ModalPortal>
       )}
+
       {isOpenLogoutModal && (
         <ModalPortal>
           <ModalContainer>
-            <LogoutModal>
-              <span>정말 로그아웃 하시겠습니까?</span>
-              <ButtonContainer>
-                <button className="yes" onClick={logoutHandler}>
-                  예
-                </button>
-                <button className="no" onClick={onClickToggleLogoutModal}>
-                  아니오
-                </button>
-              </ButtonContainer>
-            </LogoutModal>
+            <LogoutModal onClickToggleLogoutModal={onClickToggleLogoutModal} />
           </ModalContainer>
           <ModalBackdrop onClick={onClickToggleLogoutModal} />
         </ModalPortal>
