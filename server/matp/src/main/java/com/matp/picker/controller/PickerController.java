@@ -1,17 +1,16 @@
 package com.matp.picker.controller;
 
-import com.matp.auth.jwt.JwtTokenProvider;
 import com.matp.picker.dto.PickerRequestDto;
 import com.matp.picker.dto.PickerResponseDto;
 import com.matp.picker.service.PickerService;
 import com.matp.place.dto.PlaceResponseDto;
 import com.matp.utils.Function;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
@@ -45,4 +44,8 @@ public class PickerController {
         return pickerService.findPickersByGroup(groupId, function.extractId(jwt));
     }
 
+    @GetMapping
+    public Flux<PlaceResponseDto> findAllPickers(ServerHttpRequest jwt) {
+        return pickerService.findAllPickers(function.extractId(jwt));
+    }
 }
