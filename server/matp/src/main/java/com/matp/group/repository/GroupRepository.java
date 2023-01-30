@@ -8,11 +8,6 @@ import reactor.core.publisher.Mono;
 
 public interface GroupRepository extends ReactiveCrudRepository<Group, Long> {
 
-    @Query("""
-        SELECT id, name, group_img_index
-        FROM picker_group
-        WHERE member_id = :memberId
-    """)
     Flux<Group> findAllByMemberId(long memberId);
 
     @Query("""
