@@ -20,6 +20,7 @@ const SearchWrapper = styled.div`
     font-weight: 500;
     margin-top: 120px;
     margin-bottom: 80px;
+    color: #373737;
   }
 `;
 
@@ -87,7 +88,7 @@ const lists = [
 const SearchPage: React.FC = () => {
   return (
     <SearchWrapper>
-      <h1>검색하고 싶은 주제를 골라주세요!</h1>
+      <h1>검색하고 싶은 주제를 골라 봐요!</h1>
       <SearchTab>
         {lists.map((el) => (
           <Link to={`/search/${el.name}`} key={el.index}>
