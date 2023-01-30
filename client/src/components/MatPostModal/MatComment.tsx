@@ -28,6 +28,7 @@ const StyledDiv = styled.div`
     border: none;
     background-color: transparent;
     color: #727272;
+    cursor: pointer;
   }
 
   button:hover {
@@ -69,26 +70,24 @@ const StyledEdit = styled.div`
   margin: 0px 0px 10px 0px;
 
   input {
-    width: 1080px;
-    line-height: 25px;
+    width: 93%;
+    height: 30px;
     border: none;
-    border-bottom: 1px solid;
-    font-size: 15px;
     color: #373737;
     font-size: 1rem;
-  }
-
-  input:focus {
-    outline: none;
+    margin: 0px 0px 0px 5px;
+    border-radius: 10px;
+    outline: rgb(241, 133, 137, 0.4) solid 3px;
   }
 
   button {
-    width: 100px;
+    width: 5%;
     background-color: #874356;
     color: #ffffff;
     border: none;
     border-radius: 30px;
     font-size: 15px;
+    cursor: pointer;
   }
 
   button:hover {

@@ -9,25 +9,27 @@ const StyledComment = styled.div`
   justify-content: space-between;
 
   input {
-    width: 1080px;
+    width: 93%;
     height: 30px;
     border: none;
-    border-bottom: 1px solid;
     color: #373737;
     font-size: 1rem;
+    margin: 0px 0px 0px 5px;
+    border-radius: 10px;
   }
 
   input:focus {
-    outline: none;
+    outline: rgb(241, 133, 137, 0.4) solid 3px;
   }
 
   button {
-    width: 100px;
+    width: 5%;
     background-color: #874356;
     color: #ffffff;
     border: none;
     border-radius: 30px;
     font-size: 15px;
+    cursor: pointer;
   }
 
   button:hover {

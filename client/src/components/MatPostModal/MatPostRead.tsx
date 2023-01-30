@@ -53,8 +53,13 @@ const StyledDiv = styled.div`
     border: 0;
     width: 100%;
     height: 1.3px;
-    background: #b8b8b8;
+    background: #dcdcdc;
     margin: 5px 0px 10px 0px;
+  }
+
+  .post_like {
+    width: 40px;
+    cursor: pointer;
   }
 `;
 
@@ -78,6 +83,7 @@ const StyledMid = styled.div`
     border: none;
     background-color: transparent;
     color: #727272;
+    cursor: pointer;
   }
 
   button:hover {
