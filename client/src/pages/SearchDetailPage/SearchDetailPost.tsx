@@ -59,16 +59,18 @@ const TabButton = styled.li`
   font-size: 18px;
   height: 37px;
   width: 100%;
+  height: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
   line-height: 30px;
   list-style: none;
+  border-top: 1px solid #dbdbdb;
   font-weight: ${(props) => (props.id === "focused" ? "600" : "400")};
   border-bottom: ${(props) =>
     props.id === "focused" ? "2px solid #373737" : "1px solid #adadad"};
   &:hover {
-    background-color: rgb(236, 236, 236);
+    font-weight: 700;
   }
 `;
 

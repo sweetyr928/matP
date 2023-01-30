@@ -18,7 +18,7 @@ const SearchWrapper = styled.div`
   h1 {
     font-size: 28px;
     font-weight: 500;
-    margin-top: 150px;
+    margin-top: 10px;
     margin-bottom: 80px;
   }
 `;

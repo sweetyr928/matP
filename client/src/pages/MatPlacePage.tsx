@@ -130,6 +130,11 @@ const ButtonBox = styled.div`
     color: white;
     background-color: #874356;
   }
+
+  button:hover {
+    background-color: #efefef;
+    font-weight: 700;
+  }
 `;
 
 const PageContainer = styled.div`
@@ -204,9 +209,6 @@ const TabContainer = styled.div`
     padding: 14px 0;
     color: #a6a6a6;
     border-bottom: 2px solid #dbdbdb;
-    &:hover {
-      background-color: rgb(236, 236, 236);
-    }
   }
   .present {
     color: #373737;
@@ -494,7 +496,7 @@ const MatPlacePost: React.FC = () => {
                 onClick={pickMenuHandler}
               >
                 Pick <span className={!isPick ? "unchecking" : ""}>✓</span>
-              </button>{" "}
+              </button>
               <p>{pickCount}</p>
             </div>
             <div className="post-box">
