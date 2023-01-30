@@ -4,7 +4,6 @@ import styled from "styled-components";
 import { MatPickerUpdate, MatPickerDelete, ModalPortal } from ".";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { PickersData } from "../api/axiosAPI/groups/PickersAxios";
 
 const MatPickerSingleBox = styled.div`
   display: flex;
@@ -13,14 +12,14 @@ const MatPickerSingleBox = styled.div`
   width: 100%;
   height: 50px;
   padding: 15px;
-  border-bottom: 1px solid #a6a6a6;
+  border-bottom: 1px solid #ececec;
 
   button {
     color: #373737;
     background-color: transparent;
     border: none;
     padding: 0;
-    font-size: 16px;
+    font-size: 17px;
   }
 `;
 
