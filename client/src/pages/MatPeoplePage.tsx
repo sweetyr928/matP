@@ -1,8 +1,10 @@
+/* eslint-disable */
 import { useNavigate, useParams } from "react-router";
 import styled from "styled-components";
 import {
   followMatPeople,
   getMatPeople,
+  getMatPeopleInfoForUser,
   unfollowMatPeople,
 } from "../api/axiosAPI/people/PeopleAxios";
 import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
@@ -120,9 +122,21 @@ const StyledPosts = styled.div`
 const MatPeople: React.FC = () => {
   const { id } = useParams();
   const [followReload, setFollowReload] = useState<boolean>(false);
+  const [jwtToken, setJwtToken] = useState(false);
 
   useEffect(() => {
-    getMatPeopleInfo();
+    !!localStorage.getItem("Authorization")
+      ? setJwtToken(true)
+      : setJwtToken(false);
+  }, []);
+
+  useEffect(() => {
+    if (jwtToken) {
+      getMatPeopleInfo();
+      getMatPeopleInfoUser();
+    } else if (!jwtToken) {
+      getMatPeopleInfo();
+    }
   }, [followReload]);
 
   const navigate = useNavigate();
@@ -132,6 +146,9 @@ const MatPeople: React.FC = () => {
     responseData: matPeople,
     status,
   } = useAxios(() => getMatPeople(Number(id)), [followReload], false);
+
+  const { axiosData: getMatPeopleInfoUser, responseData: matPeopleUser } =
+    useAxios(() => getMatPeopleInfoForUser(Number(id)), [followReload], false);
 
   const { axiosData: follow } = useAxios(
     () => followMatPeople(Number(id)),
@@ -152,9 +169,11 @@ const MatPeople: React.FC = () => {
     followers = 0,
     followings = 0,
     postInfos = [],
-    isFollowing = false,
+
     pickerGroupInfos = [],
   } = matPeople || {};
+
+  const { isFollowing = false } = matPeopleUser || {};
 
   const handleFollow = () => {
     if (status === "Idle" || status === "Success") {
