@@ -53,9 +53,13 @@ public class MemberController {
     }
 
     @GetMapping
-    public Flux<MemberSearchResponse> findMembers(@RequestParam("nickname") String nickname) {
+    public Flux<MemberSearchResponse> findMembers(@RequestParam("nickname") String nickname,
+                                                  @RequestParam(defaultValue = "0") long page,
+                                                  @RequestParam(defaultValue = "30") long size) {
         return memberService.findAllWithInfo()
                 .filter(member -> member.nickname().equals(nickname))
+                .skip(page * size)
+                .take(size)
                 .map(MemberSearchResponse::from);
     }
 
