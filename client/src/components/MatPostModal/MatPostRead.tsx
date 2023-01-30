@@ -368,13 +368,13 @@ const PostReadModal = ({
               <div>
                 <button
                   onClick={handleEdit}
-                  className={nickname !== userInfo.nickname ? "disabled" : ""}
+                  className={nickname !== userInfo.id ? "disabled" : ""}
                 >
                   수정
                 </button>
                 <button
                   onClick={handleClick}
-                  className={nickname !== userInfo.nickname ? "disabled" : ""}
+                  className={nickname !== userInfo.id ? "disabled" : ""}
                 >
                   삭제
                 </button>

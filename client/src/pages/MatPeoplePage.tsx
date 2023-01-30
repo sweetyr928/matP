@@ -169,7 +169,6 @@ const MatPeople: React.FC = () => {
     followers = 0,
     followings = 0,
     postInfos = [],
-
     pickerGroupInfos = [],
   } = matPeople || {};
 
@@ -191,6 +190,7 @@ const MatPeople: React.FC = () => {
     navigate("/matPickers", { state: pickerGroupInfos });
   };
 
+  console.log(postInfos);
   return (
     <FeedContainer>
       <div className="userInfo_header_container">
