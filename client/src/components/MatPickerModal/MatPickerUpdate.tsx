@@ -127,12 +127,6 @@ const MatPickerUpdate = ({
   );
   const [newNameValue, setNewNameValue] = useState<string>(name);
 
-  const { axiosData } = useAxios(
-    () => updatePickers(id, newNameValue, newColorValue),
-    [newNameValue, newColorValue],
-    true
-  );
-
   const closeModal = (e: React.MouseEvent) => {
     e.preventDefault();
     if (onClickToggleModal) {
@@ -140,7 +134,6 @@ const MatPickerUpdate = ({
       onClickToggleModal();
     }
   };
-
 
   const { axiosData } = useAxios(
     () => updatePickers(id, newNameValue, newColorValue),

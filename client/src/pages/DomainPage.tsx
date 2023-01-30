@@ -37,13 +37,18 @@ const StyledPosts = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
   grid-gap: 4px;
-  overflow: scroll;
+  overflow-y: scroll;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const Domain: React.FC = () => {
   const token = localStorage.getItem("Authorization");
   const setUserInfo = useSetRecoilState(userInfoState);
-  const { axiosData: getUserInfo, responseData: memberData } = useAxios(getMyData);
+  const { axiosData: getUserInfo, responseData: memberData } =
+    useAxios(getMyData);
   useEffect(() => {
     if (token) {
       getUserInfo();
@@ -98,11 +103,19 @@ const Domain: React.FC = () => {
       <StyledPosts onScroll={handleScroll}>
         {posts &&
           posts.map((post: IPosts) => (
-            <PostRead key={post.id} post={post} getAllPostsReload={getAllPostsReload} />
+            <PostRead
+              key={post.id}
+              post={post}
+              getAllPostsReload={getAllPostsReload}
+            />
           ))}
         {postData &&
           postData.map((post: IPosts) => (
-            <PostRead key={post.id} post={post} getAllPostsReload={getAllPostsReload} />
+            <PostRead
+              key={post.id}
+              post={post}
+              getAllPostsReload={getAllPostsReload}
+            />
           ))}
       </StyledPosts>
     </StyledFeed>

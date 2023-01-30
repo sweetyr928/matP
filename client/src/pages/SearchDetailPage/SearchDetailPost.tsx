@@ -3,12 +3,12 @@ import { useState, useEffect } from "react";
 import { PostRead } from "../../components";
 import useAxios from "../../hooks/useAxios";
 import { getPosts } from "../../api/axiosAPI/posts/PostsAxios";
-import { searchStatusState } from "../../store/searchAtoms";
+import { searchStatusState } from "../../store/searchPlaceAtoms";
 import { useRecoilState } from "recoil";
 import {
   getSearchContentData,
   getSearchTitleData,
-} from "../../api/axiosAPI/search/postSearchAxios";
+} from "../../api/axiosAPI/search/PostSearchAxios";
 
 const SearchWrapper = styled.div`
   height: 100%;

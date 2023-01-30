@@ -16,9 +16,8 @@ export const getPickersDetail = async (id: number) => {
   return response.data;
 };
 
-
 export const getAllPickersPlaces = async () => {
-  const response = await axios.get(url2);
+  const response = await axios.get("/groups");
   return response.data;
 };
 
@@ -55,13 +54,11 @@ export const createPick = async (
   pickerGroupId: number
 ): Promise<void> => {
   const response = await axios.post("/pickers", {
-
     placeId,
     pickerGroupId,
   });
   return response.data;
 };
-
 
 export const updatePick = async (
   placeId: number,

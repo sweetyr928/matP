@@ -6,7 +6,10 @@ import {
   getSearchPeople,
   IPeopleSearch,
 } from "../../api/axiosAPI/search/PeopleSearchAxios";
-import { searchResultsState, searchStatusState } from "../../store/searchAtoms";
+import {
+  searchResultsState,
+  searchStatusState,
+} from "../../store/searchPlaceAtoms";
 import { useRecoilState } from "recoil";
 
 const SearchWrapper = styled.div`
