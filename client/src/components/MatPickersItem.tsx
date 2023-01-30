@@ -10,9 +10,9 @@ const MatPickerSingleBox = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  height: 50px;
+  height: 70px;
   padding: 15px;
-  border-bottom: 1px solid #ececec;
+  border-bottom: 1px solid #adadad;
 
   button {
     color: #373737;
@@ -21,6 +21,9 @@ const MatPickerSingleBox = styled.div`
     padding: 0;
     font-size: 17px;
   }
+  &:hover {
+    background-color: #eeeeee;
+  }
 `;
 
 const NameBox = styled.div`
@@ -28,6 +31,7 @@ const NameBox = styled.div`
   flex-direction: row;
   align-items: center;
   width: 300px;
+  cursor: pointer;
   button {
     background-color: transparent;
   }
@@ -38,6 +42,9 @@ const NameBox = styled.div`
     margin-right: 20px;
     background: url(${(props) => props.color || "gray"});
     background-size: 100%;
+  }
+  &:hover {
+    font-weight: 700;
   }
 `;
 
@@ -56,10 +63,16 @@ const ButtonBox = styled.div`
 const EditIconStyled = styled(EditIcon)`
   color: #505050;
   cursor: pointer;
+  &:hover {
+    filter: brightness(0.6);
+  }
 `;
 const DeleteIconStyeld = styled(DeleteIcon)`
   color: #505050;
   cursor: pointer;
+  &:hover {
+    filter: brightness(0.6);
+  }
 `;
 
 interface ModalDefaultType {
