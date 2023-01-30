@@ -53,7 +53,6 @@ const PickerMarker = () => {
   useEffect(() => {
     if (token && pickerPlaces) {
       getPickerPlace();
-      console.log(pickerPlaces);
     }
   }, [token]);
 
