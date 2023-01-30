@@ -13,7 +13,7 @@ const ResultList = styled.div`
   justify-content: center;
   padding: 10px;
   padding-left: 40px;
-  border-bottom: 1px solid #cdcdcd;
+  border-bottom: 1px solid #ececec;
   &:hover {
     background-color: #efefef;
   }

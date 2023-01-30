@@ -12,12 +12,16 @@ const UserWrapper = styled.div`
     align-items: center;
     padding: 10px;
     padding-left: 20px;
-    border-bottom: 1px solid #adadad;
+    border-bottom: 1px solid #ececec;
+
+    &:hover {
+      background-color: #efefef;
+    }
   }
 
   .user_thumbnail {
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     margin-right: 10px;
   }
@@ -25,10 +29,13 @@ const UserWrapper = styled.div`
   .text-box {
     width: 80%;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    cursor: pointer;
   }
+
   p {
-    margin: 10px;
+    margin: 10px 10px 10px 10px;
+    font-size: 1.1rem;
   }
 `;
 
@@ -49,8 +56,7 @@ const PeopleSearchResult = ({ people }: { people: IPeopleSearch }) => {
           />
           <div className="text-box">
             <p>{people.nickname}</p>
-            <p>{people.memo}</p>
-            <p>{people.followers}</p>
+            {people.memo && <p>{people.memo}</p>}
           </div>
         </div>
       </UserWrapper>
