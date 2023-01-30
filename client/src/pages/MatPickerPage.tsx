@@ -80,11 +80,11 @@ const MatPicker: React.FC = () => {
   const [dataReload, setDataReload] = useState<boolean>(false);
   const [pickers, setPickers] = useState<PickersData[]>([]);
 
-  const {
-    axiosData: getAllPickers,
-    responseData: pickersList,
-    status,
-  } = useAxios(getPickers, [dataReload], false);
+  const { axiosData: getAllPickers, responseData: pickersList } = useAxios(
+    getPickers,
+    [dataReload],
+    false
+  );
 
   useEffect(() => {
     axios
@@ -112,9 +112,7 @@ const MatPicker: React.FC = () => {
   }, [isOpenModal]);
 
   const dataReloadHandler = () => {
-    if (status === "Idle" || status === "Success") {
-      setDataReload(!dataReload);
-    }
+    setDataReload(!dataReload);
   };
 
   return (
