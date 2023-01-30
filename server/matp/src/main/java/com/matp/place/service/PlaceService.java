@@ -41,16 +41,7 @@ public class PlaceService {
         return mapping(placeRepository.searchPlaces(search).skip(page * size).take(size));
     }
 
-    private Flux<PlaceResponseDto> mapping(Flux<Place> places) {
-        return places.publishOn(Schedulers.boundedElastic())
-                .map(place -> {
-                    var posts = postService.findPlacePosts(place.getId()).block();
-                    return PlaceResponseDto.of(place, posts);
-                });
-    }
 
-    // 포스트 페이지네이션 해야됨
-    // 피커 매핑해서 픽했는지 여부 확인 및 피커한 사람들 수, 피커 그룹 이름 가져와야됨
     /**
      * @return Mono < PlaceDetailResponseDto >
      * @apiNote Place를 상세 조회하는 메서드
@@ -81,5 +72,26 @@ public class PlaceService {
     @Transactional(readOnly = true)
     public Flux<PlaceResponseDto> findByPlaceId(long placeId) {
         return mapping(placeRepository.findByPlaceId(placeId));
+    }
+
+    @Transactional(readOnly = true)
+    public Flux<PlaceResponseDto> findByPlaceId(long placeId, int groupImgIndex) {
+        return mapping(placeRepository.findByPlaceId(placeId), groupImgIndex);
+    }
+
+    private Flux<PlaceResponseDto> mapping(Flux<Place> places) {
+        return places.publishOn(Schedulers.boundedElastic())
+                .map(place -> {
+                    var posts = postService.findPlacePosts(place.getId()).block();
+                    return PlaceResponseDto.of(place, posts, 4);
+                });
+    }
+
+    private Flux<PlaceResponseDto> mapping(Flux<Place> places, int groupImgIndex) {
+        return places.publishOn(Schedulers.boundedElastic())
+                .map(place -> {
+                    var posts = postService.findPlacePosts(place.getId()).block();
+                    return PlaceResponseDto.of(place, posts, groupImgIndex);
+                });
     }
 }
