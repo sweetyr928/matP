@@ -17,14 +17,11 @@ export const getPickersDetail = async (id: number) => {
 };
 
 export const getAllPickersPlaces = async () => {
-  const response = await axios.get("/groups");
+  const response = await axios.get("/pickers");
   return response.data;
 };
 
-export const createPickers = async (
-  name: string,
-  groupImgIndex: number
-): Promise<void> => {
+export const createPickers = async (name: string, groupImgIndex: number): Promise<void> => {
   const response = await axios.post("/groups", {
     name,
     groupImgIndex,
@@ -49,10 +46,7 @@ export const deletePickers = async (id: number): Promise<void> => {
   return response.data;
 };
 
-export const createPick = async (
-  placeId: number,
-  pickerGroupId: number
-): Promise<void> => {
+export const createPick = async (placeId: number, pickerGroupId: number): Promise<void> => {
   const response = await axios.post("/pickers", {
     placeId,
     pickerGroupId,
@@ -60,10 +54,7 @@ export const createPick = async (
   return response.data;
 };
 
-export const updatePick = async (
-  placeId: number,
-  pickerGroupId: number
-): Promise<void> => {
+export const updatePick = async (placeId: number, pickerGroupId: number): Promise<void> => {
   const response = await axios.patch("/pickers", {
     placeId,
     pickerGroupId,
