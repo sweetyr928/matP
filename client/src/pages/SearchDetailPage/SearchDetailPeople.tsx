@@ -43,6 +43,11 @@ const SearchResultPeoPleBox = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
+  overflow-y: scroll;
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const NoneResultMessage = styled.div`

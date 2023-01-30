@@ -2,12 +2,13 @@ import styled from "styled-components";
 import { useState, useEffect } from "react";
 import { PostRead } from "../../components";
 import useAxios from "../../hooks/useAxios";
-import {
-  getSearchTitleData,
-  getSearchContentData,
-} from "../../api/axiosAPI/search/PostSearchAxios";
+
 import { searchStatusState } from "../../store/searchAtoms";
 import { useRecoilState } from "recoil";
+import {
+  getSearchContentData,
+  getSearchTitleData,
+} from "../../api/axiosAPI/search/postSearchAxios";
 
 const SearchWrapper = styled.div`
   height: 100%;
@@ -158,19 +159,18 @@ const SearchDetailPost: React.FC = () => {
       </SearchTab>
       {!currentMenu && searchTitleData ? (
         <SearchResultBox>
-          {" "}
           {searchTitleData.map((post) => (
             <PostRead key={post.id} post={post} />
           ))}
         </SearchResultBox>
-      ) : null}{" "}
+      ) : null}
       {currentMenu && searchContentData ? (
         <SearchResultBox>
           {searchContentData.map((post) => (
             <PostRead key={post.id} post={post} />
           ))}
         </SearchResultBox>
-      ) : null}{" "}
+      ) : null}
       {!currentMenu && !searchTitleData && isTitleSearching ? (
         <NoneResultMessage>검색 결과가 없습니다!</NoneResultMessage>
       ) : null}
