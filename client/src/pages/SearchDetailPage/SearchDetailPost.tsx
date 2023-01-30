@@ -75,6 +75,7 @@ const TabButton = styled.li`
 `;
 
 const SearchResultBox = styled.div`
+  padding-top: 10px;
   width: 100%;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));

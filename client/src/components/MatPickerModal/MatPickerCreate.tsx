@@ -29,7 +29,8 @@ const DialogBox = styled.dialog`
   flex-direction: column;
   align-items: center;
   border: none;
-  border-radius: 3px;
+  border-radius: 7px;
+  box-shadow: 1px 0px 86px -17px rgba(127, 127, 127, 0.75);
   box-sizing: border-box;
   background-color: white;
   position: fixed;

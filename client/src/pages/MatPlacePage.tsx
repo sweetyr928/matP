@@ -113,8 +113,8 @@ const ButtonBox = styled.div`
   button {
     color: #373737;
     font-size: 17px;
-    width: 50px;
-    height: 33px;
+    width: 60px;
+    height: 34px;
     border: none;
     background-color: transparent;
     border-radius: 20px;
@@ -224,9 +224,14 @@ const PlaceDetailInfo = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
+  padding-top: 70px;
   font-size: 19px;
   overflow-y: scroll;
-  padding-top: 70px;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
   h2 {
     font-size: 23px;
     margin-bottom: 30px;
@@ -393,7 +398,7 @@ const MatPlacePost: React.FC = () => {
     posts = [],
   } = placeData || {};
 
-  const { isPick = true, groupName = "" } = placeUserData || {};
+  const { isPick = false, groupName = "" } = placeUserData || {};
 
   const pickHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
     const target = e.target as HTMLDivElement;

@@ -20,7 +20,7 @@ const Backdrop = styled.div`
 `;
 
 const DialogBox = styled.dialog`
-  top: 200px;
+  top: 250px;
   left: 79px;
   margin: 0;
   width: 370px;
@@ -29,7 +29,8 @@ const DialogBox = styled.dialog`
   flex-direction: column;
   align-items: center;
   border: none;
-  border-radius: 3px;
+  border-radius: 7px;
+  box-shadow: 1px 0px 86px -17px rgba(127, 127, 127, 0.75);
   box-sizing: border-box;
   background-color: white;
   position: fixed;
@@ -130,7 +131,9 @@ const MatPickerUpdate = ({
   name,
   groupImgIndex,
 }: ModalDefaultType) => {
-  const [newColorValue, setNewColorValue] = useState<number>(Number(groupImgIndex));
+  const [newColorValue, setNewColorValue] = useState<number>(
+    Number(groupImgIndex)
+  );
   const [newNameValue, setNewNameValue] = useState<string>(name);
 
   const closeModal = (e: React.MouseEvent) => {

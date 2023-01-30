@@ -30,7 +30,8 @@ const DialogBox = styled.dialog`
   align-items: center;
   justify-content: center;
   border: none;
-  border-radius: 3px;
+  border-radius: 7px;
+  box-shadow: 1px 0px 86px -17px rgba(127, 127, 127, 0.75);
   box-sizing: border-box;
   background-color: white;
   position: fixed;
@@ -72,7 +73,11 @@ interface ModalDefaultType {
   id: number;
 }
 
-const MatPickerDelete = ({ dataReloadHandler, onClickToggleModal, id }: ModalDefaultType) => {
+const MatPickerDelete = ({
+  dataReloadHandler,
+  onClickToggleModal,
+  id,
+}: ModalDefaultType) => {
   const [deleteClicked, setDeleteClicked] = useState<boolean>(false);
 
   const closeModal = (e: React.MouseEvent) => {
@@ -83,7 +88,11 @@ const MatPickerDelete = ({ dataReloadHandler, onClickToggleModal, id }: ModalDef
     }
   };
 
-  const { axiosData } = useAxios(() => deletePickers(id), [deleteClicked], true);
+  const { axiosData } = useAxios(
+    () => deletePickers(id),
+    [deleteClicked],
+    true
+  );
 
   const handleMatPickDelete = (e: React.MouseEvent) => {
     setDeleteClicked(!deleteClicked);

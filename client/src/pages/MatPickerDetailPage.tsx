@@ -17,8 +17,9 @@ const MatPickPlaceWrapper = styled.div`
   h1 {
     font-size: 28px;
     font-weight: 500;
-    margin-top: 200px;
+    margin-top: 120px;
     margin-bottom: 80px;
+    color: #373737;
   }
 `;
 

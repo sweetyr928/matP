@@ -33,13 +33,21 @@ const UserWrapper = styled.div`
     cursor: pointer;
   }
 
-  p {
-    margin: 10px 10px 10px 10px;
+  .name {
+    margin: 10px 10px 0px 10px;
     font-size: 1.1rem;
+    font-weight: 600;
     color: #874356;
     &:hover {
       color: #c65d7b;
     }
+  }
+
+  .memo {
+    margin: 10px 10px 10px 10px;
+    font-size: 16px;
+    font-weight: 400;
+    color: #373737;
   }
 `;
 
@@ -59,8 +67,8 @@ const PeopleSearchResult = ({ people }: { people: IPeopleSearch }) => {
             className="user_thumbnail"
           />
           <div className="text-box">
-            <p>{people.nickname}</p>
-            {people.memo && <p>{people.memo}</p>}
+            <p className="name">{people.nickname}</p>
+            {people.memo && <p className="memo">{people.memo}</p>}
           </div>
         </div>
       </UserWrapper>

@@ -127,16 +127,17 @@ const ModalBackdrop = styled.div`
   background-color: rgba(0, 0, 0, 0.2);
 `;
 const ModalView = styled.dialog`
-  top: 140px;
+  top: 250px;
   left: 79px;
   margin: 0;
   width: 370px;
-  height: 440px;
+  height: 410px;
   display: flex;
   flex-direction: column;
   align-items: center;
   border: none;
-  border-radius: 3px;
+  border-radius: 7px;
+  box-shadow: 1px 0px 86px -17px rgba(127, 127, 127, 0.75);
   box-sizing: border-box;
   background-color: white;
   position: fixed;
@@ -155,7 +156,7 @@ const ModalView = styled.dialog`
   }
 `;
 const Header = styled.h1`
-  font-size: 2.07692308rem;
+  font-size: 25px;
   font-weight: normal;
   line-height: calc((13+2) / 13);
   text-align: center;
@@ -215,11 +216,11 @@ const FollowModalView = styled.div.attrs(() => ({
   bottom: 22vh;
   left: 70px;
   background-color: #fff;
-  border-radius: 7px;
   padding: 6px 12px;
   width: 394px;
   height: 50vh;
-  box-shadow: 1px 0px 86px -17px rgba(0, 0, 0, 0.75);
+  border-radius: 7px;
+  box-shadow: 1px 0px 86px -17px rgba(127, 127, 127, 0.75);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -269,10 +270,12 @@ const MyPage: React.FC = () => {
   const { responseData: followingData } = useAxios(getMyFollowings);
   const { responseData: followerData } = useAxios(getMyFollowers);
 
-  const { nickname, memo, followers, followings, profileUrl } = memberData || {};
+  const { nickname, memo, followers, followings, profileUrl } =
+    memberData || {};
 
   const [isOpenEditModal, setOpenEditModal] = useState<boolean>(false);
-  const [isOpenFollowingModal, setOpenFollowingModal] = useState<boolean>(false);
+  const [isOpenFollowingModal, setOpenFollowingModal] =
+    useState<boolean>(false);
   const [isOpenFollowerModal, setOpenFollowerModal] = useState<boolean>(false);
   const [isOpenLogoutModal, setOpenLogoutModal] = useState<boolean>(false);
 
@@ -349,8 +352,12 @@ const MyPage: React.FC = () => {
           <UserNickname>{nickname}</UserNickname>
           {memo && <UserRemainder>{memo}</UserRemainder>}
           <UserRemainder>
-            <FollowButton onClick={onClickToggleFollowingModal}>팔로잉 {followings}</FollowButton>
-            <FollowButton onClick={onClickToggleFollowerModal}>팔로워 {followers}</FollowButton>
+            <FollowButton onClick={onClickToggleFollowingModal}>
+              팔로잉 {followings}
+            </FollowButton>
+            <FollowButton onClick={onClickToggleFollowerModal}>
+              팔로워 {followers}
+            </FollowButton>
           </UserRemainder>
         </UserInfo>
         <EditIconStyled onClick={onClickToggleEditModal} />
@@ -433,8 +440,16 @@ const MyPage: React.FC = () => {
                   ref={fileInput}
                 />
               </div>
-              <Input type="text" value={revisedName || ""} onChange={onChangeName}></Input>
-              <Input type="text" value={revisedMemo || ""} onChange={onChangeMemo}></Input>
+              <Input
+                type="text"
+                value={revisedName || ""}
+                onChange={onChangeName}
+              ></Input>
+              <Input
+                type="text"
+                value={revisedMemo || ""}
+                onChange={onChangeMemo}
+              ></Input>
               <div className="button_container">
                 <ModalBtn onClick={onRevise}>제출</ModalBtn>
                 <ModalBtn onClick={onClickToggleEditModal}>취소</ModalBtn>
