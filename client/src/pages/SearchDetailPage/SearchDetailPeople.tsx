@@ -2,7 +2,10 @@ import { useState, useEffect } from "react";
 import styled from "styled-components";
 import PeopleSearchResult from "../../components/PeopleSearchResult";
 import useAxios from "../../hooks/useAxios";
-import { getSearchPeople } from "../../api/axiosAPI/search/PeopleSearchAxios";
+import {
+  getSearchPeople,
+  IPeopleSearch,
+} from "../../api/axiosAPI/search/PeopleSearchAxios";
 import { searchResultsState, searchStatusState } from "../../store/searchAtoms";
 import { useRecoilState } from "recoil";
 
@@ -50,33 +53,27 @@ const NoneResultMessage = styled.div`
 
 const SearchDetailPeople: React.FC = () => {
   const [nickname, setNickname] = useState<string>("");
-  const [isSearching, setIsSearching] = useState<boolean>(false);
+
   const { axiosData: getSearch, responseData: searchData } = useAxios(
     () => getSearchPeople(nickname),
-    [nickname],
-    true
+    [nickname]
   );
-
   const [searchStatus, setSearchStatus] = useRecoilState(searchStatusState);
 
   useEffect(() => {
     if (searchStatus === "Loading") {
       setSearchStatus("Success");
     }
-  }, [searchStatus, searchData, isSearching]);
+  }, [searchStatus, searchData, setSearchStatus]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNickname(e.target.value);
-    setIsSearching(true);
   };
 
   const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    setIsSearching(true);
     if (nickname.length !== 0) {
       getSearch();
-      setIsSearching(false);
     } else if (event.key === "Enter" && nickname.length === 0) {
-      setIsSearching(false);
       return alert("검색어를 입력해주세요!");
     }
   };
@@ -93,15 +90,17 @@ const SearchDetailPeople: React.FC = () => {
         onChange={handleChange}
         onKeyDown={handleKeyPress}
       />
-      {searchData && (
+      {searchData ? (
         <SearchResultPeoPleBox>
           {searchData.map((people) => (
             <PeopleSearchResult key={people.id} people={people} />
           ))}
         </SearchResultPeoPleBox>
-      )}
-      {(!isSearching && searchData === null) || searchData.length === 0 ? (
-        <NoneResultMessage>검색 결과가 없습니다!</NoneResultMessage>
+      ) : null}
+      {searchData !== null ? (
+        searchData.length === 0 ? (
+          <NoneResultMessage>검색 결과가 없습니다!</NoneResultMessage>
+        ) : null
       ) : null}
     </SearchWrapper>
   );
