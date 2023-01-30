@@ -53,7 +53,13 @@ const StyledDiv = styled.div`
     opacity: calc(0.4);
   }
   .ql-container.ql-snow {
-    height: 450px;
+    height: 55vh;
+    @media screen and (max-height: 720px) {
+      height: 50vh;
+    }
+    @media screen and (max-height: 560px) {
+      height: 45vh;
+    }
   }
   .ql-editor p strong {
     font-weight: bold;
@@ -62,7 +68,12 @@ const StyledDiv = styled.div`
     font-style: italic;
   }
   .buttons {
-    margin: 30px 0px 15px 500px;
+    position: absolute;
+    bottom: 3vh;
+    left: 33vw;
+    @media screen and (max-width: 1080px) {
+      left: 35vw;
+    }
     button {
       width: 100px;
       height: 35px;
@@ -89,6 +100,8 @@ const StyledStarsWrapper = styled.div`
   display: flex;
   flex-direction: column;
   padding: 15px 0px 0px 0px;
+  position: absolute;
+  bottom: 4vh;
 `;
 
 const StyledRatingtxt = styled.div`
