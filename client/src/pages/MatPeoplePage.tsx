@@ -1,8 +1,11 @@
+/* eslint-disable */
 import { useNavigate, useParams } from "react-router";
 import styled from "styled-components";
+import { getPosts } from "../api/axiosAPI/posts/PostsAxios";
 import {
   followMatPeople,
   getMatPeople,
+  getMatPeopleInfoForUser,
   unfollowMatPeople,
 } from "../api/axiosAPI/people/PeopleAxios";
 import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
@@ -21,20 +24,21 @@ const FeedContainer = styled.div`
   border-right: 1px solid #d7d9dc;
   display: flex;
   flex-direction: column;
-  align-items: center;
   position: absolute;
 
   .userInfo_header_container {
     display: flex;
     margin-bottom: 32px;
+    justify-content: flex-start;
+    align-items: center;
   }
 `;
 
 const UserImg = styled.img`
-  width: 132px;
-  height: 132px;
+  width: 110px;
+  height: 110px;
   border-radius: 100%;
-  margin: 32px 25px 0 0;
+  margin: 32px 25px 0 30px;
   border: 1px solid #a6a6a6;
 `;
 
@@ -129,9 +133,22 @@ const Nothing = styled.span`
 const MatPeople: React.FC = () => {
   const { id } = useParams();
   const [followReload, setFollowReload] = useState<boolean>(false);
+  const [jwtToken, setJwtToken] = useState(false);
+  const [postsReload, setPostsReload] = useState<boolean>(false);
 
   useEffect(() => {
-    getMatPeopleInfo();
+    !!localStorage.getItem("Authorization")
+      ? setJwtToken(true)
+      : setJwtToken(false);
+  }, []);
+
+  useEffect(() => {
+    if (jwtToken) {
+      getMatPeopleInfo();
+      getMatPeopleInfoUser();
+    } else if (!jwtToken) {
+      getMatPeopleInfo();
+    }
   }, [followReload]);
 
   const navigate = useNavigate();
@@ -142,9 +159,27 @@ const MatPeople: React.FC = () => {
     status,
   } = useAxios(() => getMatPeople(Number(id)), [followReload], false);
 
-  const { axiosData: follow } = useAxios(() => followMatPeople(Number(id)), [], true);
+  const { axiosData: getMatPeopleInfoUser, responseData: matPeopleUser } =
+    useAxios(() => getMatPeopleInfoForUser(Number(id)), [followReload], false);
+
+  const { axiosData: follow } = useAxios(
+    () => followMatPeople(Number(id)),
+    [],
+    true
+  );
+
 
   const { axiosData: unfollow } = useAxios(() => unfollowMatPeople(Number(id)), [], true);
+
+  const { axiosData: getAllPosts } = useAxios(getPosts, [], false);
+
+  useEffect(() => {
+    getAllPosts();
+  }, [postsReload]);
+
+  const getAllPostsReload = () => {
+    setPostsReload(!postsReload);
+  };
 
   const {
     nickname = "",
@@ -153,9 +188,10 @@ const MatPeople: React.FC = () => {
     followers = 0,
     followings = 0,
     postInfos = [],
-    isFollowing = false,
     pickerGroupInfos = [],
   } = matPeople || {};
+
+  const { isFollowing = false } = matPeopleUser || {};
 
   const handleFollow = () => {
     if (status === "Idle" || status === "Success") {
@@ -208,6 +244,14 @@ const MatPeople: React.FC = () => {
         <StyledPosts>
           {postInfosFiltered.map((post: IPosts) => (
             <PostRead key={post.id} post={post} />
+      <StyledPosts>
+        {postInfos &&
+          postInfos.map((post: IPosts) => (
+            <PostRead
+              key={post.id}
+              post={post}
+              getAllPostsReload={getAllPostsReload}
+            />
           ))}
         </StyledPosts>
       ) : (

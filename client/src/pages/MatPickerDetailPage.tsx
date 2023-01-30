@@ -25,7 +25,11 @@ const MatPickPlaceWrapper = styled.div`
 const MatPickPlaceList = styled.div`
   width: 100%;
   height: 100%;
-  overflow: scroll;
+  overflow-y: scroll;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
   .notice {
     margin-top: 170px;
     text-align: center;
@@ -39,15 +43,25 @@ const MatPickPlaceItem = styled.div`
   flex-direction: column;
   justify-content: center;
   height: 90px;
-  border-bottom: 1px solid #adadad;
+  border-bottom: 1px solid #ececec;
   color: #373737;
   font-size: 16px;
-  padding: 10px 0;
+  padding: 10px 30px;
   cursor: pointer;
+  &:hover {
+    background-color: #efefef;
+  }
   h2 {
-    margin-bottom: 10px;
-    font-size: 20px;
-    font-weight: 500;
+    font-size: 1.2rem;
+    margin: 7px 0;
+    color: #874356;
+    &:hover {
+      color: #c65d7b;
+    }
+  }
+  p {
+    font-size: 0.8rem;
+    margin-top: 5px;
   }
 `;
 
@@ -56,7 +70,11 @@ const MatPickPlaceItem = styled.div`
 const MatPickerDetail: React.FC = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { responseData } = useAxios(() => getPickersDetail(Number(id)), [], false);
+  const { responseData } = useAxios(
+    () => getPickersDetail(Number(id)),
+    [],
+    false
+  );
 
   const location = useLocation();
   const name = location.state.name;

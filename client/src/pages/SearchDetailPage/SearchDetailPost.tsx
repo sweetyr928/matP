@@ -24,7 +24,7 @@ const SearchWrapper = styled.div`
   h1 {
     font-size: 28px;
     font-weight: 500;
-    margin-top: 120px;
+    margin-top: 100px;
     margin-bottom: 30px;
   }
   input {
@@ -37,6 +37,10 @@ const SearchWrapper = styled.div`
     border-radius: 12px;
     color: #373737;
     font-size: 1rem;
+
+    &:hover {
+      outline: rgb(241, 133, 137, 0.4) solid 3px;
+    }
   }
 `;
 
@@ -55,14 +59,18 @@ const TabButton = styled.li`
   font-size: 18px;
   height: 37px;
   width: 100%;
+  height: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
   line-height: 30px;
   list-style: none;
-  border-bottom: ${(props) => (props.id === "focused" ? "2px solid #373737" : "1px solid #adadad")};
+  border-top: 1px solid #dbdbdb;
+  font-weight: ${(props) => (props.id === "focused" ? "600" : "400")};
+  border-bottom: ${(props) =>
+    props.id === "focused" ? "2px solid #373737" : "1px solid #adadad"};
   &:hover {
-    background-color: rgb(236, 236, 236);
+    font-weight: 700;
   }
 `;
 
@@ -92,7 +100,7 @@ const SearchDetailPost: React.FC = () => {
     setPostsReload(!postsReload);
   };
 
-  const { axiosData: getAllPosts, responseData: posts } = useAxios(getPosts, [], false);
+  const { axiosData: getAllPosts } = useAxios(getPosts, [], false);
 
   useEffect(() => {
     getAllPosts();
@@ -104,11 +112,8 @@ const SearchDetailPost: React.FC = () => {
     true
   );
 
-  const { axiosData: getContentSearch, responseData: searchContentData } = useAxios(
-    () => getSearchContentData(keyword),
-    [keyword],
-    true
-  );
+  const { axiosData: getContentSearch, responseData: searchContentData } =
+    useAxios(() => getSearchContentData(keyword), [keyword], true);
 
   const [searchStatus, setSearchStatus] = useRecoilState(searchStatusState);
 
@@ -173,14 +178,22 @@ const SearchDetailPost: React.FC = () => {
       {!currentMenu && searchTitleData ? (
         <SearchResultBox>
           {searchTitleData.map((post) => (
-            <PostRead key={post.id} post={post} />
+            <PostRead
+              key={post.id}
+              post={post}
+              getAllPostsReload={getAllPostsReload}
+            />
           ))}
         </SearchResultBox>
       ) : null}
       {currentMenu && searchContentData ? (
         <SearchResultBox>
           {searchContentData.map((post) => (
-            <PostRead key={post.id} post={post} getAllPostsReload={getAllPostsReload} />
+            <PostRead
+              key={post.id}
+              post={post}
+              getAllPostsReload={getAllPostsReload}
+            />
           ))}
         </SearchResultBox>
       ) : null}

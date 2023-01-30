@@ -18,8 +18,9 @@ const SearchWrapper = styled.div`
   h1 {
     font-size: 28px;
     font-weight: 500;
-    margin-top: 150px;
+    margin-top: 120px;
     margin-bottom: 80px;
+    color: #373737;
   }
 `;
 
@@ -46,10 +47,20 @@ const TabButton = styled.li`
   .info {
     margin-top: 20px;
     font-size: 14px;
-    color: #474747;
+    font-weight: 500;
+    color: #505050;
   }
   .icon {
     font-size: 55px;
+    color: #505050;
+    &:hover {
+      filter: brightness(0.6);
+    }
+  }
+
+  &:hover {
+    background-color: #efefef;
+    font-weight: 700;
   }
 `;
 
@@ -69,7 +80,7 @@ const lists = [
   {
     index: 3,
     name: "맛피플",
-    info: "소문의 맛피플을 찾고 싶을 때 클릭!",
+    info: "소문으로만 듣던 맛피플을 찾고 싶을 때 클릭!",
     icon: <SentimentSatisfiedAltIcon className="icon" color="inherit" />,
   },
 ];
@@ -77,7 +88,7 @@ const lists = [
 const SearchPage: React.FC = () => {
   return (
     <SearchWrapper>
-      <h1>검색하고 싶은 주제를 골라주세요!</h1>
+      <h1>검색하고 싶은 주제를 골라 봐요!</h1>
       <SearchTab>
         {lists.map((el) => (
           <Link to={`/search/${el.name}`} key={el.index}>

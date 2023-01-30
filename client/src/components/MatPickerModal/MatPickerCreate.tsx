@@ -49,6 +49,10 @@ const DialogBox = styled.dialog`
     border-radius: 12px;
     color: #373737;
     font-size: 1rem;
+
+    &:hover {
+      outline: rgb(241, 133, 137, 0.4) solid 3px;
+    }
   }
 `;
 
@@ -70,19 +74,26 @@ const TabButton = styled.li`
   background: url(${(props) => props.color || "gray"});
   background-size: 100%;
   filter: ${(props) => (props.id === "focused" ? "brightness(0.8)" : "none")};
+  cursor: pointer;
 `;
 
 const ButtonContainer = styled.div`
   display: flex;
   margin-top: 40px;
   button {
-    background-color: #fff;
     cursor: pointer;
     font-size: 20px;
     height: 40px;
     width: 60px;
-    margin: 0 20px;
+    margin: 0 10px;
     border: none;
+    background-color: #874356;
+    color: #ffffff;
+    border-radius: 30px;
+  }
+
+  button:hover {
+    font-weight: 700;
   }
 `;
 

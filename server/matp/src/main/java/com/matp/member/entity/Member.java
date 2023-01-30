@@ -46,7 +46,7 @@ public class Member {
      */
     @Transient private Long followings;
     @Transient private Long followers;
-    @Transient private List<SimplePostResponse> postInfos;
+    @Transient private Set<SimplePostResponse> postInfos;
     @Transient private Set<GroupResponseDto> pickerGroupInfos;
     @Transient private boolean isFollowing;
 

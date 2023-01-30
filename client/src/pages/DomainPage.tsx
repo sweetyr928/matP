@@ -65,7 +65,7 @@ const Domain: React.FC = () => {
   const [page, setPage] = useState(1);
   const [limit] = useState(15);
   const [postData, setPostData] = useState([]);
-  const { responseData: posts } = useAxios(getPosts, [], false);
+  const { responseData: posts } = useAxios(getPosts, [postsReload], false);
   const { axiosData: getPageAxios, responseData: pagePosts } = useAxios(
     () => getPagePosts(page, limit),
     [page],

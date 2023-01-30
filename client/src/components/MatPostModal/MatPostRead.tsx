@@ -1,3 +1,4 @@
+/* eslint-disable */
 import styled from "styled-components";
 import useAxios from "../../hooks/useAxios";
 import { useEffect, useState } from "react";
@@ -12,6 +13,7 @@ import { Popover, Typography } from "@mui/material";
 import moment from "moment";
 import "moment/locale/ko";
 import axios from "axios";
+import instance from "../../api/CustomAxios";
 import { IComments } from "../../api/axiosAPI/comments/commentsAxios";
 import { useRecoilValue } from "recoil";
 import { userInfoState } from "../../store/userInfoAtoms";
@@ -52,8 +54,13 @@ const StyledDiv = styled.div`
     border: 0;
     width: 100%;
     height: 1.3px;
-    background: #b8b8b8;
+    background: #dcdcdc;
     margin: 5px 0px 10px 0px;
+  }
+
+  .post_like {
+    width: 40px;
+    cursor: pointer;
   }
 `;
 
@@ -77,6 +84,7 @@ const StyledMid = styled.div`
     border: none;
     background-color: transparent;
     color: #727272;
+    cursor: pointer;
   }
 
   button:hover {
@@ -170,41 +178,50 @@ const PostReadModal = ({ onClickToggleModal, id }: ModalDefaultType): JSX.Elemen
 
   // 단일 Post data get
   useEffect(() => {
-    axios
-      .get(
-        `http://ec2-15-165-163-251.ap-northeast-2.compute.amazonaws.com:8080/places/1/posts/${id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${jwtToken}`,
-          },
-        }
-      )
-      .then((res) => {
-        setNickname(res.data.postInfo.memberInfo.nickname);
-        setProfileUrl(res.data.postInfo.memberInfo.profileUrl);
-        setTitle(res.data.postInfo.title);
-        setContent(res.data.postInfo.content);
-        setCreatedAt(res.data.postInfo.createdAt);
-        setStar(res.data.postInfo.star);
-        setPlaceId(res.data.postInfo.placeId);
-        setComments(res.data.comments);
-        setIsLikesCheck(res.data.isLikesCheck);
-      })
-      .catch(function (error) {
-        throw error;
-      });
+    if (jwtToken) {
+      instance
+        .get(`/places/1/posts/${id}`)
+        .then((res) => {
+          setNickname(res.data.postInfo.memberInfo.nickname);
+          setProfileUrl(res.data.postInfo.memberInfo.profileUrl);
+          setTitle(res.data.postInfo.title);
+          setContent(res.data.postInfo.content);
+          setCreatedAt(res.data.postInfo.createdAt);
+          setStar(res.data.postInfo.star);
+          setPlaceId(res.data.postInfo.placeId);
+          setComments(res.data.comments);
+          setIsLikesCheck(res.data.isLikesCheck);
+        })
+        .catch(function (error) {
+          throw error;
+        });
+    } else if (!jwtToken) {
+      axios
+        .get(
+          `http://ec2-15-165-163-251.ap-northeast-2.compute.amazonaws.com:8080/places/1/posts/${id}`
+        )
+        .then((res) => {
+          setNickname(res.data.postInfo.memberInfo.nickname);
+          setProfileUrl(res.data.postInfo.memberInfo.profileUrl);
+          setTitle(res.data.postInfo.title);
+          setContent(res.data.postInfo.content);
+          setCreatedAt(res.data.postInfo.createdAt);
+          setStar(res.data.postInfo.star);
+          setPlaceId(res.data.postInfo.placeId);
+          setComments(res.data.comments);
+          setIsLikesCheck(res.data.isLikesCheck);
+        })
+        .catch(function (error) {
+          throw error;
+        });
+    }
   }, []);
 
   // comment list update
   useEffect(() => {
     axios
       .get(
-        `http://ec2-15-165-163-251.ap-northeast-2.compute.amazonaws.com:8080/places/1/posts/${id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${jwtToken}`,
-          },
-        }
+        `http://ec2-15-165-163-251.ap-northeast-2.compute.amazonaws.com:8080/places/1/posts/${id}`
       )
       .then((res) => {
         setComments(res.data.comments);
@@ -283,7 +300,7 @@ const PostReadModal = ({ onClickToggleModal, id }: ModalDefaultType): JSX.Elemen
   };
   // popover styling
   const PopoverTStyle = {
-    backgroundColor: "#e1e1e1",
+    backgroundColor: "#e9e9e9",
     fontSize: "15px",
   };
   // popover styling
@@ -341,13 +358,23 @@ const PostReadModal = ({ onClickToggleModal, id }: ModalDefaultType): JSX.Elemen
               <div>
                 <button
                   onClick={handleEdit}
-                  className={nickname !== userInfo.nickname ? "disabled" : ""}
+                  className={
+                    nickname !== userInfo.nickname &&
+                    profileUrl !== userInfo.profileUrl
+                      ? "disabled"
+                      : ""
+                  }
                 >
                   수정
                 </button>
                 <button
                   onClick={handleClick}
-                  className={nickname !== userInfo.nickname ? "disabled" : ""}
+                  className={
+                    nickname !== userInfo.nickname &&
+                    profileUrl !== userInfo.profileUrl
+                      ? "disabled"
+                      : ""
+                  }
                 >
                   삭제
                 </button>

@@ -2,14 +2,8 @@ import { useState, useEffect } from "react";
 import styled from "styled-components";
 import PeopleSearchResult from "../../components/PeopleSearchResult";
 import useAxios from "../../hooks/useAxios";
-import {
-  getSearchPeople,
-  IPeopleSearch,
-} from "../../api/axiosAPI/search/PeopleSearchAxios";
-import {
-  searchResultsState,
-  searchStatusState,
-} from "../../store/searchPlaceAtoms";
+import { getSearchPeople } from "../../api/axiosAPI/search/PeopleSearchAxios";
+import { searchStatusState } from "../../store/searchPlaceAtoms";
 import { useRecoilState } from "recoil";
 
 const SearchWrapper = styled.div`
@@ -26,7 +20,7 @@ const SearchWrapper = styled.div`
   h1 {
     font-size: 28px;
     font-weight: 500;
-    margin-top: 120px;
+    margin-top: 100px;
     margin-bottom: 30px;
   }
   input {
@@ -39,6 +33,10 @@ const SearchWrapper = styled.div`
     border-radius: 12px;
     color: #373737;
     font-size: 1rem;
+
+    &:hover {
+      outline: rgb(241, 133, 137, 0.4) solid 3px;
+    }
   }
 `;
 

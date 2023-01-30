@@ -20,11 +20,11 @@ const MatPickerWrapper = styled.div`
   align-items: center;
   position: absolute;
   h1 {
-    color: #373737;
     font-size: 28px;
     font-weight: 500;
-    margin-top: 150px;
+    margin-top: 120px;
     margin-bottom: 80px;
+    color: #373737;
   }
 `;
 
@@ -37,12 +37,15 @@ const MatPickerBox = styled.div`
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    height: 50px;
+    height: 70px;
     background-color: #f8f8f8;
     padding: 15px;
     border: none;
     border-bottom: 1px solid #adadad;
     cursor: pointer;
+    &:hover {
+      filter: brightness(0.95);
+    }
   }
 `;
 
@@ -50,14 +53,22 @@ const MatPickerCreateBox = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  width: 200px;
+  width: 100%;
+
   .icon {
     width: 30px;
     height: 30px;
     margin-right: 20px;
+    color: #505050;
+    &:hover {
+      filter: brightness(0.6);
+    }
   }
   div {
-    font-size: 16px;
+    font-size: 17px;
+  }
+  &:hover {
+    font-weight: 700;
   }
 `;
 const AddCircleOutlineIconStyled = styled(AddCircleOutlineIcon)`

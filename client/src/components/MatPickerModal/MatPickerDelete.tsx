@@ -39,17 +39,30 @@ const DialogBox = styled.dialog`
     color: #c65d7b;
     font-size: 20px;
   }
+
+  p {
+    font-size: 21px;
+  }
 `;
 
 const ButtonContainer = styled.div`
   display: flex;
   margin-top: 40px;
   button {
-    background-color: #fff;
     cursor: pointer;
-    font-size: 20px;
+    font-size: 17px;
     margin: 0 20px;
     border: none;
+    height: 35px;
+    width: 80px;
+    margin: 0 10px;
+    background-color: #874356;
+    color: #ffffff;
+    border-radius: 30px;
+  }
+
+  button:hover {
+    font-weight: 700;
   }
 `;
 
@@ -88,7 +101,7 @@ const MatPickerDelete = ({ dataReloadHandler, onClickToggleModal, id }: ModalDef
   return (
     <ModalContainer>
       <DialogBox>
-        정말 삭제하시겠습니까?
+        <p> 정말 삭제하시겠습니까?</p>
         <ButtonContainer>
           <button onClick={handleMatPickDelete}>예</button>
           <button onClick={hadleCancle}>아니오</button>

@@ -24,19 +24,19 @@ const FeedContainer = styled.div`
   border-right: 1px solid #d7d9dc;
   display: flex;
   flex-direction: column;
-  align-items: center;
   position: absolute;
   .userInfo_header_container {
     display: flex;
+    justify-content: flex-start;
     margin-bottom: 32px;
   }
 `;
 
 const UserImg = styled.img`
-  width: 132px;
-  height: 132px;
+  width: 110px;
+  height: 110px;
   border-radius: 100%;
-  margin: 32px 25px 0 0;
+  margin: 32px 25px 0 30px;
   border: 1px solid #a6a6a6;
 `;
 const UserInfo = styled.div`
@@ -162,8 +162,8 @@ const Header = styled.h1`
   margin-top: 10px;
 `;
 const EditUserImg = styled.img`
-  width: 132px;
-  height: 132px;
+  width: 110px;
+  height: 110px;
   border-radius: 100%;
   border: 1px solid #a6a6a6;
   margin: 30px 0;
@@ -182,26 +182,29 @@ const Input = styled.input`
   border: 1px solid #e3e6e8;
   background-color: #fff;
   border-radius: 5px;
+  outline: none;
 
-  &:focus {
-    outline: none;
+  &:hover {
+    outline: rgb(241, 133, 137, 0.4) solid 3px;
   }
 `;
+
 const ModalBtn = styled.button`
-  background-color: #fff;
-  color: #7d858d;
+  background-color: #874356;
+  color: #ffffff;
   text-decoration: none;
   border: none;
   border-radius: 3px;
   margin: 4px;
   padding: 10px;
-  margin: 10px 20px;
+  margin: 10px 10px;
   font-size: 20px;
   text-align: center;
+  border-radius: 20px;
+  cursor: pointer;
   text-decoration: none;
   :hover {
-    background-color: #f8f9f9;
-    cursor: pointer;
+    font-weight: 700;
   }
 `;
 
@@ -241,18 +244,67 @@ const FollowContainer = styled.div`
   }
 `;
 const ImageContainer = styled.img`
-  width: 3.5rem;
-  height: 3.5rem;
+  width: 3rem;
+  height: 3rem;
   border-radius: 100%;
-  margin: 0 30px;
+  margin: 0 25px;
 `;
 const NickName = styled.span`
   font-size: 1.1rem;
+  color: #874356;
 `;
+
 
 const Nothing = styled.span`
   font-size: 1.5rem;
   margin-top: 2rem;
+`;
+
+const LogoutModal = styled.div`
+  position: absolute;
+  bottom: 40vh;
+  left: 70px;
+  background-color: #fff;
+  border-radius: 7px;
+  padding: 24px;
+  width: 394px;
+  height: 30vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  span {
+    font-size: 1.5rem;
+  }
+`;
+const ButtonContainer = styled.div`
+  margin-top: 30px;
+  button {
+    cursor: pointer;
+    background-color: #fff;
+    text-decoration: none;
+    border: none;
+    font-size: 15px;
+    border-radius: 20px;
+    background-color: #874356;
+    color: #fff;
+    width: 110px;
+    height: 40px;
+  }
+  .yes {
+    margin: 0px 10px 0px 0px;
+    &:hover {
+      color: #fff;
+      font-weight: 700;
+    }
+  }
+
+  .no {
+    &:hover {
+      color: #fff;
+      font-weight: 700;
+    }
+  }
 `;
 
 const MyPage: React.FC = () => {

@@ -1,6 +1,8 @@
+/* eslint-disable */
 import { useState, useEffect, useCallback } from "react";
 import styled from "styled-components";
 import useAxios from "../hooks/useAxios";
+import { getPosts } from "../api/axiosAPI/posts/PostsAxios";
 import { useParams } from "react-router-dom";
 import {
   getPickers,
@@ -8,7 +10,10 @@ import {
   updatePick,
   deletePick,
 } from "../api/axiosAPI/groups/PickersAxios";
-import { getPlaceDetail } from "../api/axiosAPI/places/PlacesAxios";
+import {
+  getPlaceDetail,
+  getPlaceDetailForUser,
+} from "../api/axiosAPI/places/PlacesAxios";
 import { PostRead, MatPostCreate, ModalPortal } from "../components";
 import { useSetRecoilState } from "recoil";
 import { placeInfoState, placeInfoStatusState } from "../store/placeInfoAtoms";
@@ -128,6 +133,10 @@ const ButtonBox = styled.div`
     color: white;
     background-color: #874356;
   }
+
+  button:hover {
+    font-weight: 700;
+  }
 `;
 
 const PageContainer = styled.div`
@@ -202,9 +211,6 @@ const TabContainer = styled.div`
     padding: 14px 0;
     color: #a6a6a6;
     border-bottom: 2px solid #dbdbdb;
-    &:hover {
-      background-color: rgb(236, 236, 236);
-    }
   }
   .present {
     color: #373737;
@@ -325,14 +331,33 @@ const MatPlacePost: React.FC = () => {
   const [isPickers, setIsPickers] = useState<boolean>(false);
   const [isOpenModal, setOpenModal] = useState<boolean>(false);
   const [dataReload, setDataReload] = useState<boolean>(false);
+  const [jwtToken, setJwtToken] = useState(false);
+  const [postsReload, setPostsReload] = useState<boolean>(false);
 
   useEffect(() => {
-    getPickersData();
-    getPlaceData();
+    !!localStorage.getItem("Authorization")
+      ? setJwtToken(true)
+      : setJwtToken(false);
+  }, []);
+
+  useEffect(() => {
+    if (jwtToken) {
+      getPlaceData();
+      getPickersData();
+      getPlaceDataUser();
+    } else if (!jwtToken) {
+      getPlaceData();
+    }
   }, [dataReload]);
 
   const { axiosData: getPickersData, responseData: pickersData } = useAxios(
     () => getPickers(),
+    [dataReload],
+    false
+  );
+
+  const { axiosData: getPlaceDataUser, responseData: placeUserData } = useAxios(
+    () => getPlaceDetailForUser(Number(placeId)),
     [dataReload],
     false
   );
@@ -342,6 +367,16 @@ const MatPlacePost: React.FC = () => {
     [dataReload, placeId],
     false
   );
+
+  const { axiosData: getAllPosts } = useAxios(getPosts, [], false);
+
+  useEffect(() => {
+    getAllPosts();
+  }, [postsReload]);
+
+  const getAllPostsReload = () => {
+    setPostsReload(!postsReload);
+  };
 
   const {
     id = 0,
@@ -353,12 +388,12 @@ const MatPlacePost: React.FC = () => {
     category = "",
     starAvg = 0,
     starCount = [],
-    isPick = true,
     postCount = 0,
     pickCount = 0,
-    groupName = "",
     posts = [],
   } = placeData || {};
+
+  const { isPick = true, groupName = "" } = placeUserData || {};
 
   const pickHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
     const target = e.target as HTMLDivElement;
@@ -383,7 +418,10 @@ const MatPlacePost: React.FC = () => {
   }, [dataReload]);
 
   // 평점 매긴 유저 수 총합
-  const ratingsTotal = starCount.reduce((acc: number, cur: number) => (acc += cur), 0);
+  const ratingsTotal = starCount.reduce(
+    (acc: number, cur: number) => (acc += cur),
+    0
+  );
 
   // star rating percentage 계산 후 style로 반영
   const ratingToPercent = {
@@ -451,13 +489,19 @@ const MatPlacePost: React.FC = () => {
           </StarBox>
           <ButtonBox>
             <div className="pick-box">
-              <button className={isPick ? "checking" : ""} onClick={pickMenuHandler}>
+              <button
+                disabled={!jwtToken}
+                className={isPick ? "checking" : ""}
+                onClick={pickMenuHandler}
+              >
                 Pick <span className={!isPick ? "unchecking" : ""}>✓</span>
               </button>
               <p>{pickCount}</p>
             </div>
             <div className="post-box">
-              <button onClick={onClickToggleModal}>Post</button>
+              <button disabled={!jwtToken} onClick={onClickToggleModal}>
+                Post
+              </button>
               <p>{postCount}</p>
             </div>
           </ButtonBox>
@@ -501,7 +545,14 @@ const MatPlacePost: React.FC = () => {
           </TabContainer>
           {isPost ? (
             <PageContainer>
-              {posts && posts.map((post: any) => <PostRead key={post.id} post={post} />)}
+              {posts &&
+                posts.map((post: any) => (
+                  <PostRead
+                    key={post.id}
+                    post={post}
+                    getAllPostsReload={getAllPostsReload}
+                  />
+                ))}
             </PageContainer>
           ) : (
             <PlaceDetailInfo>

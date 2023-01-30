@@ -23,6 +23,11 @@ export interface pickerGroupInfo {
   groupImgIndex: number;
 }
 
+export const getMatPeopleInfoForUser = async (id: number) => {
+  const response = await instance.get(`/members/${id}`);
+  return response.data;
+};
+
 export const getMatPeople = async (id: number) => {
   const response = await axios.get(`${url}/${id}`);
   return response.data;
