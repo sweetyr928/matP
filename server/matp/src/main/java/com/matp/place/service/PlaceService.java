@@ -36,9 +36,9 @@ public class PlaceService {
     }
 
     @Transactional(readOnly = true)
-    public Flux<PlaceResponseDto> findPlaces(String search) {
-        if (search.contains("_")) return mapping(placeRepository.searchPlaces(search.split("_")[0], search.split("_")[1]));
-        return mapping(placeRepository.searchPlaces(search));
+    public Flux<PlaceResponseDto> findPlaces(String search, long page, long size) {
+        if (search.contains("_")) return mapping(placeRepository.searchPlaces(search.split("_")[0], search.split("_")[1]).skip(page * size).take(size));
+        return mapping(placeRepository.searchPlaces(search).skip(page * size).take(size));
     }
 
     private Flux<PlaceResponseDto> mapping(Flux<Place> places) {
