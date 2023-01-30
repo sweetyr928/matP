@@ -20,7 +20,7 @@ const Backdrop = styled.div`
 `;
 
 const DialogBox = styled.dialog`
-  top: 400px;
+  top: 280px;
   left: 79px;
   margin: 0;
   width: 370px;
@@ -59,11 +59,7 @@ interface ModalDefaultType {
   id: number;
 }
 
-const MatPickerDelete = ({
-  dataReloadHandler,
-  onClickToggleModal,
-  id,
-}: ModalDefaultType) => {
+const MatPickerDelete = ({ dataReloadHandler, onClickToggleModal, id }: ModalDefaultType) => {
   const [deleteClicked, setDeleteClicked] = useState<boolean>(false);
 
   const closeModal = (e: React.MouseEvent) => {
@@ -74,11 +70,7 @@ const MatPickerDelete = ({
     }
   };
 
-  const { axiosData } = useAxios(
-    () => deletePickers(id),
-    [deleteClicked],
-    true
-  );
+  const { axiosData } = useAxios(() => deletePickers(id), [deleteClicked], true);
 
   const handleMatPickDelete = (e: React.MouseEvent) => {
     setDeleteClicked(!deleteClicked);

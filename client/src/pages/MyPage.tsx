@@ -126,25 +126,21 @@ const ModalBackdrop = styled.div`
   z-index: 1000;
   background-color: rgba(0, 0, 0, 0.2);
 `;
-const ModalView = styled.div.attrs(() => ({
-  role: "dialog",
-}))`
-  opacity: 1;
-  transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
-  position: absolute;
-  bottom: 22vh;
-  left: 70px;
-  background-color: #fff;
-  border-radius: 7px;
-  padding: 24px;
-  width: 394px;
-  height: 55vh;
-  box-shadow: 1px 0px 86px -17px rgba(0, 0, 0, 0.75);
+const ModalView = styled.dialog`
+  top: 140px;
+  left: 79px;
+  margin: 0;
+  width: 370px;
+  height: 440px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  z-index: 1002;
+  border: none;
+  border-radius: 3px;
+  box-sizing: border-box;
+  background-color: white;
+  position: fixed;
+  z-index: 10020;
   overflow-y: scroll;
   .button-container {
     margin-top: 24px;
@@ -163,13 +159,14 @@ const Header = styled.h1`
   font-weight: normal;
   line-height: calc((13+2) / 13);
   text-align: center;
+  margin-top: 10px;
 `;
 const EditUserImg = styled.img`
   width: 132px;
   height: 132px;
   border-radius: 100%;
   border: 1px solid #a6a6a6;
-  margin: 10px 0;
+  margin: 30px 0;
   cursor: pointer;
   &:hover {
     filter: brightness(0.6);

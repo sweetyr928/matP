@@ -20,7 +20,7 @@ const Backdrop = styled.div`
 `;
 
 const DialogBox = styled.dialog`
-  top: 250px;
+  top: 200px;
   left: 79px;
   margin: 0;
   width: 370px;

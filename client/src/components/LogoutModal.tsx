@@ -4,18 +4,21 @@ import styled from "styled-components";
 import { userInfoState } from "../store/userInfoAtoms";
 
 const LogoutModalContainer = styled.div`
-  position: absolute;
-  bottom: 40vh;
-  left: 70px;
-  background-color: #fff;
-  border-radius: 7px;
-  padding: 24px;
-  width: 394px;
-  height: 30vh;
+  top: 250px;
+  left: 79px;
+  margin: 0;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  flex-direction: column;
+  border: none;
+  position: fixed;
+  background-color: #fff;
+  border-radius: 3px;
+  padding: 24px;
+  width: 370px;
+  height: 200px;
+
   span {
     font-size: 1.5rem;
   }
