@@ -2,7 +2,6 @@ package com.matp.picker.service;
 
 import com.matp.exception.CustomErrorCode;
 import com.matp.exception.CustomException;
-import com.matp.group.entity.Group;
 import com.matp.group.repository.GroupRepository;
 import com.matp.picker.dto.PickerResponseDto;
 import com.matp.picker.entity.Picker;
@@ -16,7 +15,6 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -54,14 +52,10 @@ public class PickerService {
     }
 
     @Transactional(readOnly = true)
-    public Mono<List<PlaceResponseDto>> findPickersByGroup(long pickerGroupId, long memberId) {
-        return groupRepository.findById(pickerGroupId)
-                .map(Group::getMemberId)
-                .flatMap(isPick -> {
-                    if (isPick != memberId) return Mono.error(new CustomException(CustomErrorCode.NOT_ALLOWED_MEMBER_ID));
-                    return pickerRepository.findByPickerGroupId(pickerGroupId)
-                            .concatMap(picker -> placeService.findByPlaceId(picker.getPlaceId())).collectList();
-                }).switchIfEmpty(Mono.error(new CustomException(CustomErrorCode.GROUP_NOT_FOUND)));
+    public Flux<PlaceResponseDto> findPickersByGroup(long pickerGroupId) {
+        return pickerRepository.findByPickerGroupId(pickerGroupId)
+                .concatMap(picker -> placeService.findByPlaceId(picker.getPlaceId()))
+                .switchIfEmpty(Mono.error(new CustomException(CustomErrorCode.GROUP_NOT_FOUND)));
     }
 
     @Transactional(readOnly = true)

@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.util.List;
 
 @RestController
 @RequestMapping("/pickers")
@@ -40,8 +39,8 @@ public class PickerController {
     }
 
     @GetMapping("/{group-id}")
-    public Mono<List<PlaceResponseDto>> findPickPlaces(@PathVariable("group-id") long groupId, ServerHttpRequest jwt) {
-        return pickerService.findPickersByGroup(groupId, function.extractId(jwt));
+    public Flux<PlaceResponseDto> findPickPlaces(@PathVariable("group-id") long groupId) {
+        return pickerService.findPickersByGroup(groupId);
     }
 
     @GetMapping
