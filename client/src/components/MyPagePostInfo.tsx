@@ -28,7 +28,7 @@ const MyPagePostInfo = () => {
   const { postInfos = [] } = memberData || {};
 
   const postInfosFiltered = postInfos.filter((item) => {
-    item.id !== null;
+    return item.id !== null;
   });
 
   return (
