@@ -36,7 +36,7 @@ const KakaoMap = () => {
         >
           <PlaceDetailMarker />
           <SearchMarker />
-          <PickerMarker />
+          {/* <PickerMarker /> */}
         </MapContainer>
       )}
     </>

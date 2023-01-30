@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import PostRead from "../components/PostRead";
-import { getPosts } from "../api/axiosAPI/posts/PostsAxios";
+import { getPagePosts, getPosts } from "../api/axiosAPI/posts/PostsAxios";
 import useAxios from "../hooks/useAxios";
 import type { IPosts } from "../api/axiosAPI/posts/PostsAxios";
 import { useEffect, useState } from "react";
@@ -56,13 +56,35 @@ const Domain: React.FC = () => {
     }
   }, [memberData]);
 
+  const [hasMore, setHasMore] = useState<boolean>(true);
   const [postsReload, setPostsReload] = useState<boolean>(false);
-  const [page, setPage] = useState(0);
-  const { axiosData: getAllPosts, responseData: posts } = useAxios(() => getPosts(page), [], false);
+  const [page, setPage] = useState(1);
+  const [limit] = useState(15);
+  const [postData, setPostData] = useState([]);
+  const { responseData: posts } = useAxios(getPosts, [], false);
+  const { axiosData: getPageAxios, responseData: pagePosts } = useAxios(
+    () => getPagePosts(page, limit),
+    [page],
+    false
+  );
 
-  useEffect(() => {
-    getAllPosts();
-  }, [postsReload]);
+  const handleScroll = (event: React.UIEvent<HTMLDivElement>) => {
+    const target = event.target as HTMLDivElement;
+    const { scrollTop, clientHeight, scrollHeight } = target;
+    if (scrollTop + clientHeight >= scrollHeight && hasMore) {
+      setPage(page + 1);
+      loadData();
+      if (pagePosts.length < limit) {
+        setHasMore(false);
+        console.log(hasMore);
+      }
+    }
+  };
+
+  const loadData = () => {
+    getPageAxios();
+    setPostData([...postData, ...pagePosts]);
+  };
 
   const getAllPostsReload = () => {
     setPostsReload(!postsReload);
@@ -73,9 +95,13 @@ const Domain: React.FC = () => {
       <HeaderContainer>
         <h1>오늘의 맛 Post</h1>
       </HeaderContainer>
-      <StyledPosts>
+      <StyledPosts onScroll={handleScroll}>
         {posts &&
           posts.map((post: IPosts) => (
+            <PostRead key={post.id} post={post} getAllPostsReload={getAllPostsReload} />
+          ))}
+        {postData &&
+          postData.map((post: IPosts) => (
             <PostRead key={post.id} post={post} getAllPostsReload={getAllPostsReload} />
           ))}
       </StyledPosts>

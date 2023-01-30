@@ -44,8 +44,13 @@ export interface IPlacesPost {
   comments: IComments[];
 }
 
-export const getPosts = async (page: number) => {
-  const response = await axios.get(`${url}/places/posts?page=${page}&size=30`);
+export const getPosts = async () => {
+  const response = await axios.get(`${url}/places/posts?page=0&size=15`);
+  return response.data;
+};
+
+export const getPagePosts = async (page: number, limit: number) => {
+  const response = await axios.get(`${url}/places/posts?page=${page}&size=${limit}`);
   return response.data;
 };
 
