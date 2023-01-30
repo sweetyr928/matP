@@ -37,7 +37,7 @@ const PlaceImg = styled.img`
   width: 132px;
   height: 132px;
   border-radius: 100%;
-  margin: 32px 25px 0 0;
+  margin: 32px 25px 0 25px;
   border: 1px solid #a6a6a6;
   flex: 0 0 132px;
 `;
@@ -91,7 +91,7 @@ const StarBox = styled.span`
 
 const ButtonBox = styled.div`
   display: flex;
-  width: 210px;
+  width: 150px;
   margin-top: 13px;
   justify-content: space-between;
   div {
@@ -108,12 +108,15 @@ const ButtonBox = styled.div`
   button {
     color: #373737;
     font-size: 17px;
-    width: 70px;
+    width: 50px;
     height: 33px;
     border: none;
     background-color: transparent;
     border-radius: 20px;
     cursor: pointer;
+    &:hover {
+      color: #858585;
+    }
     span {
       color: white;
     }
@@ -216,10 +219,10 @@ const PlaceDetailInfo = styled.div`
   align-items: center;
   width: 100%;
   font-size: 19px;
-  overflow: scroll;
+  overflow-y: scroll;
+  padding-top: 70px;
   h2 {
     font-size: 23px;
-    margin-top: 50px;
     margin-bottom: 30px;
   }
 `;
@@ -450,7 +453,7 @@ const MatPlacePost: React.FC = () => {
             <div className="pick-box">
               <button className={isPick ? "checking" : ""} onClick={pickMenuHandler}>
                 Pick <span className={!isPick ? "unchecking" : ""}>✓</span>
-              </button>{" "}
+              </button>
               <p>{pickCount}</p>
             </div>
             <div className="post-box">

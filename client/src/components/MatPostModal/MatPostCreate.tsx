@@ -29,9 +29,6 @@ const StyledModal = styled.div`
 
 const StyledDiv = styled.div`
   margin: 7vh 10vw;
-  @media screen and (max-width: 1080px) {
-    margin: 5vh 7vw;
-  }
   height: auto;
   display: flex;
   flex-direction: column;

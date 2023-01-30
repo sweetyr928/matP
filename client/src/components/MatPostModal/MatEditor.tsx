@@ -116,7 +116,7 @@ const MatEditor = ({ htmlContent, setHtmlContent }: QuillEditorProps) => {
       modules={modules}
       theme="snow"
       placeholder="이미지를 한 개 이상 첨부하여 작성해주세요"
-      style={{ width: "1200px", height: "500px" }}
+      style={{ width: "60vw", height: "45vh" }}
     />
   );
 };
