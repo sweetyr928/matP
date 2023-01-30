@@ -12,6 +12,7 @@ import { getPlaceDetail } from "../api/axiosAPI/places/PlacesAxios";
 import { PostRead, MatPostCreate, ModalPortal } from "../components";
 import { useSetRecoilState } from "recoil";
 import { placeInfoState, placeInfoStatusState } from "../store/placeInfoAtoms";
+import basicLogoImg from "../assets/images/matLogo_fill.png";
 
 const FeedContainer = styled.div`
   height: 100%;
@@ -391,7 +392,6 @@ const MatPlacePost: React.FC = () => {
       setPlaceInfo(placeData);
       setPlaceInfoStatus("Success");
     }
-    console.log(placeId);
   }, [placeData, placeId]);
 
   return (
@@ -403,7 +403,7 @@ const MatPlacePost: React.FC = () => {
         </ModalPortal>
       )}
       <div className="userInfo_header_container">
-        <PlaceImg src={img} alt="프로필사진" />
+        <PlaceImg src={img || basicLogoImg} alt="프로필사진" />
         <PlaceInfo>
           <h1>{name}</h1>
           <StarBox>
