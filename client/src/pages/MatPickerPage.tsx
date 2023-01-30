@@ -89,7 +89,7 @@ const MatPicker: React.FC = () => {
       .catch(function (error) {
         throw error;
       });
-  }, [pickers]);
+  }, [dataReload]);
 
   useEffect(() => {
     getAllPickers();
