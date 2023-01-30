@@ -63,6 +63,7 @@ export const createPost = async (
   placeId: number
 ): Promise<void> => {
   const response = await axios.post(`${url}/places/${placeId}/posts`, {
+    placeId,
     title,
     content,
     thumbnailUrl,

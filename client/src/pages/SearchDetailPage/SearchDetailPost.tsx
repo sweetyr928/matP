@@ -69,6 +69,7 @@ const SearchResultBox = styled.div`
 
 const SearchDetailPost: React.FC = () => {
   const [currentMenu, setCurrentMenu] = useState(0);
+  const [result, setResult] = useState([]);
 
   const selectMenuHandler = (idx: number) => {
     setCurrentMenu(idx);
@@ -77,65 +78,6 @@ const SearchDetailPost: React.FC = () => {
   const tabs = [
     { index: 1, name: "제목" },
     { index: 2, name: "내용" },
-  ];
-
-  const result = [
-    {
-      id: 1,
-      likes: 24,
-      commentcount: 2,
-      thumbnailUrl:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShvWN6FLgG2lpiFwoT3zNUq9FMCyZiyaXXbA&usqp=CAU",
-      title: "수정수정수정수정",
-      content: "콘텐츠수정콘텐츠수정콘텐츠수정콘텐츠수정",
-      createdAt: "2023-01-19T10:55:37",
-      modifiedAt: "2023-01-19T10:55:49",
-      star: 3,
-      memberId: 2,
-      placeId: 1,
-    },
-    {
-      id: 2,
-      likes: 3,
-      commentcount: 4,
-      thumbnailUrl:
-        "https://i.pinimg.com/550x/41/90/b4/4190b4283d11cf6934251698fa1b2e64.jpg",
-      title: "수정수정수정수정",
-      content: "콘텐츠수정콘텐츠수정콘텐츠수정콘텐츠수정",
-      createdAt: "2023-01-19T10:55:37",
-      modifiedAt: "2023-01-19T10:55:49",
-      star: 3,
-      memberId: 2,
-      placeId: 1,
-    },
-    {
-      id: 3,
-      likes: 34,
-      commentcount: 4,
-      thumbnailUrl:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQDuqH-2EX6uJe9UIR8lRz5ql8dSwDl1BJAzrxUNdEut8GVP6RtZVdWk4IwCIst4Jk-Rpg&usqp=CAU",
-      title: "수정수정수정수정",
-      content: "콘텐츠수정콘텐츠수정콘텐츠수정콘텐츠수정",
-      createdAt: "2023-01-19T10:55:37",
-      modifiedAt: "2023-01-19T10:55:49",
-      star: 3,
-      memberId: 2,
-      placeId: 1,
-    },
-    {
-      id: 4,
-      likes: 5,
-      commentcount: 43,
-      thumbnailUrl:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRh-tTdRm7D2U_IVczw3DxrexUbDL3CLOXEKjf1fNCa2dEYnGDSfG3WhrvWQVFRhcMg05c&usqp=CAU",
-      title: "수정수정수정수정",
-      content: "콘텐츠수정콘텐츠수정콘텐츠수정콘텐츠수정",
-      createdAt: "2023-01-19T10:55:37",
-      modifiedAt: "2023-01-19T10:55:49",
-      star: 3,
-      memberId: 2,
-      placeId: 1,
-    },
   ];
 
   return (
@@ -156,13 +98,14 @@ const SearchDetailPost: React.FC = () => {
           </TabButton>
         ))}
       </SearchTab>
-      {result ? (
-        <SearchResultBox>
-          {result.map((post) => (
-            <PostRead key={post.id} post={post} />
-          ))}
-        </SearchResultBox>
-      ) : null}
+
+      <SearchResultBox>
+        {result ? (
+          result.map((post) => <PostRead key={post.id} post={post} />)
+        ) : (
+          <p>검색 결과가 없습니다.</p>
+        )}
+      </SearchResultBox>
     </SearchWrapper>
   );
 };

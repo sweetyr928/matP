@@ -111,7 +111,6 @@ const StyledPosts = styled.div`
   grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
   grid-gap: 4px;
   margin: 0px 0px 0px 0px;
-
   overflow-y: scroll;
   ::-webkit-scrollbar {
     display: none;

@@ -63,7 +63,7 @@ const DeleteIconStyeld = styled(DeleteIcon)`
 `;
 
 interface ModalDefaultType {
-  getAllPickers: () => void;
+  dataReloadHandler: () => void;
   id: number;
   name: string;
   groupImgIndex: number;
@@ -77,7 +77,7 @@ const groupImg = [
 ];
 
 const MatPickersItem = ({
-  getAllPickers,
+  dataReloadHandler,
   id,
   name,
   groupImgIndex,
@@ -113,7 +113,7 @@ const MatPickersItem = ({
               groupImgIndex={groupImgIndex}
               name={name}
               onClickToggleModal={onClickToggleUpdateModal}
-              getAllPickers={getAllPickers}
+              dataReloadHandler={dataReloadHandler}
             />
           </ModalPortal>
         )}
@@ -122,7 +122,7 @@ const MatPickersItem = ({
             <MatPickerDelete
               id={id}
               onClickToggleModal={onClickToggleDeleteModal}
-              getAllPickers={getAllPickers}
+              dataReloadHandler={dataReloadHandler}
             />
           </ModalPortal>
         )}
