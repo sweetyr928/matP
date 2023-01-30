@@ -2,12 +2,13 @@ import axios from "axios";
 const jwtToken = localStorage.getItem("Authorization");
 axios.defaults.headers.common["Authorization"] = `Bearer ${jwtToken}`;
 const url =
-  "http://ec2-15-165-163-251.ap-northeast-2.compute.amazonaws.com:8080/search";
+  "http://ec2-15-165-163-251.ap-northeast-2.compute.amazonaws.com:8080/places/posts/search";
 
 interface PostData {
   id: number;
   title: string;
   content: string;
+  commentcount: number;
   likes: number;
   thumbnailUrl: string;
   createdAt: string;
@@ -20,13 +21,17 @@ interface PostData {
 export const getSearchTitleData = async (
   keyword: string
 ): Promise<PostData[]> => {
-  const response = await axios.get(`${url}/title?query=${keyword}`);
+  const response = await axios.get(
+    `${url}/title?keyword=${keyword}&page=0&size=15`
+  );
   return response.data;
 };
 
 export const getSearchContentData = async (
   keyword: string
 ): Promise<PostData[]> => {
-  const response = await axios.get(`${url}/content?query=${keyword}`);
+  const response = await axios.get(
+    `${url}/content?keyword=${keyword}&page=0&size=15`
+  );
   return response.data;
 };
