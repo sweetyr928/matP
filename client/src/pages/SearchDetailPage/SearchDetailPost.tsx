@@ -107,7 +107,8 @@ const SearchDetailPost: React.FC = () => {
     getAllPosts();
     if (isTitleSearching) {
       getTitleSearch();
-    } else if (isContentSearching) {
+    }
+    if (isContentSearching) {
       getContentSearch();
     }
   }, [postsReload]);
