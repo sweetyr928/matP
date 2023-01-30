@@ -16,7 +16,6 @@ const MapContainer = styled(Map)`
 const KakaoMap = () => {
   const placeInfo = useRecoilValue(placeInfoState);
   const placeInfoStatus = useRecoilValue(placeInfoStatusState);
-  useEffect(() => {}, [placeInfo]);
   const readjustLat = placeInfo.latitude - 0.0003;
   const readjustLng = placeInfo.longitude - 0.0009;
 
@@ -36,7 +35,7 @@ const KakaoMap = () => {
         >
           <PlaceDetailMarker />
           <SearchMarker />
-          {/* <PickerMarker /> */}
+          <PickerMarker />
         </MapContainer>
       )}
     </>

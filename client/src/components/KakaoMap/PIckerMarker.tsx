@@ -1,94 +1,86 @@
 import { useEffect, useState } from "react";
 import { MapMarker } from "react-kakao-maps-sdk";
 import styled from "styled-components";
-import { useRecoilValue } from "recoil";
-import { searchResultsState, searchStatusState } from "../../store/searchPlaceAtoms";
-import { placeInfoState, placeInfoStatusState } from "../../store/placeInfoAtoms";
 import { useNavigate } from "react-router";
-import CloseIcon from "@mui/icons-material/Close";
-import { userInfoState } from "../../store/userInfoAtoms";
-import { getPickersDetail } from "../../api/axiosAPI/groups/PickersAxios";
+import { getAllPickersPlaces } from "../../api/axiosAPI/groups/PickersAxios";
 import useAxios from "../../hooks/useAxios";
 
 const InfoWindowContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  /* min-width: 200px; */
-  width: 100%;
+  width: 2000%;
   height: 100%;
-  background-color: #f8f8f8;
-  /* border-radius: 10px; */
-  border: 1px soild #505050;
-  z-index: 10000;
-
-  .close-btn {
-    position: absolute;
-    right: 0;
-    cursor: pointer;
-  }
+  display: flex;
+  align-items: center;
 `;
 
+const PlaceName = styled.div`
+  padding: 5px;
+  font-size: 15px;
+  text-align: center;
+`;
+
+interface Place {
+  id: number;
+  name: string;
+  latitude: number;
+  longitude: number;
+  groupImgIndex: number;
+}
 const markerImg = [
-  "https://user-images.githubusercontent.com/94962427/214733213-a2c51280-6525-49ed-b60c-5e7e248890f8.svg",
+  "https://user-images.githubusercontent.com/94962427/215420707-f35b10a7-f81f-40e7-a975-f7938089555f.svg",
   "https://user-images.githubusercontent.com/94962427/214733289-7588880b-0492-429f-9e7e-8dbc883a88a3.svg",
   "https://user-images.githubusercontent.com/94962427/214733318-efc109a4-439d-4b3a-b17e-ab478ff16102.svg",
   "https://user-images.githubusercontent.com/94962427/214733548-640ad950-b4ce-42cd-ad04-7b37eb4eaf8f.svg",
 ];
 
 const PickerMarker = () => {
+  const navigate = useNavigate();
   const token = localStorage.getItem("Authorization");
-  const userInfo = useRecoilValue(userInfoState);
-  const groupInfo = userInfo.pickerGroupInfos;
-  const [id, setId] = useState(-1);
-  const [skip, setSkip] = useState(true);
-  const [wholePickerPlace, setWholePickerPlace] = useState({});
-  const { axiosData: getPickerDetail, responseData: pickersData } = useAxios(
-    () => getPickersDetail(id),
-    [],
-    skip
-  );
+  const {
+    axiosData: getPickerPlace,
+    responseData: pickerPlaces,
+    status,
+  } = useAxios(getAllPickersPlaces);
+
+  const [isVisible, setIsVisible] = useState({
+    id: -1,
+    isVisible: false,
+  });
+
+  const clickHandler = (id: number) => {
+    navigate(`/places/${id}`);
+  };
 
   useEffect(() => {
-    if (token && userInfo) {
-      setSkip(false);
-      console.log(groupInfo);
-      for (let i = 0; i < groupInfo.length; i++) {
-        setId(groupInfo[i].id);
-        // getPickerDetail();
-        console.log(groupInfo[i].id);
-
-        // setWholePickerPlace(Object.assign()wholePickerPlace.assign)
-      }
+    if (token && pickerPlaces) {
+      getPickerPlace();
+      console.log(pickerPlaces);
     }
-    setSkip(true);
-  }, [token, userInfo]);
+  }, [token]);
 
-  const [isVisible, setIsVisible] = useState(false);
-
-  // image={{
-  //   src: markerImg[result.postCount],
-  //   size: { width: 25, height: 25 },
-  // }}
   return (
     <>
-      {/* {token && userInfo.groupImgIndex === 0
-        ? searchResults.map((result) => (
+      {token && status === "Success"
+        ? pickerPlaces.map((place: Place) => (
             <MapMarker
-              key={result.id}
-              position={{ lat: result.latitude, lng: result.longitude }}
+              key={place.id}
+              image={{
+                src: markerImg[place.groupImgIndex],
+                size: { width: 25, height: 25 },
+              }}
+              position={{ lat: place.latitude, lng: place.longitude }}
               clickable={true}
-              onMouseOver={() => setIsVisible({ id: result.id, isVisible: true })}
+              onMouseOver={() => setIsVisible({ id: place.id, isVisible: true })}
               onMouseOut={() => setIsVisible({ id: -1, isVisible: false })}
-              onClick={() => clickHandler(result.id)}
+              onClick={() => clickHandler(place.id)}
             >
-              {isVisible.isVisible && isVisible.id === result.id && (
+              {isVisible.isVisible && isVisible.id === place.id && (
                 <InfoWindowContainer>
-                  <PlaceName>{result.name}</PlaceName>
+                  <PlaceName>{place.name}</PlaceName>
                 </InfoWindowContainer>
               )}
             </MapMarker>
           ))
-        : null} */}
+        : null}
     </>
   );
 };

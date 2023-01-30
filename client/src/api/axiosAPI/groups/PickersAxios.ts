@@ -2,11 +2,9 @@ import axios from "axios";
 const jwtToken = localStorage.getItem("Authorization");
 axios.defaults.headers.common["Authorization"] = `Bearer ${jwtToken}`;
 
-const url1 =
-  "http://ec2-15-165-163-251.ap-northeast-2.compute.amazonaws.com:8080/groups";
+const url1 = "http://ec2-15-165-163-251.ap-northeast-2.compute.amazonaws.com:8080/groups";
 
-const url2 =
-  "http://ec2-15-165-163-251.ap-northeast-2.compute.amazonaws.com:8080/pickers";
+const url2 = "http://ec2-15-165-163-251.ap-northeast-2.compute.amazonaws.com:8080/pickers";
 
 export interface PickersData {
   id: number;
@@ -24,10 +22,12 @@ export const getPickersDetail = async (id: number) => {
   return response.data;
 };
 
-export const createPickers = async (
-  name: string,
-  groupImgIndex: number
-): Promise<void> => {
+export const getAllPickersPlaces = async () => {
+  const response = await axios.get(url2);
+  return response.data;
+};
+
+export const createPickers = async (name: string, groupImgIndex: number): Promise<void> => {
   const response = await axios.post(url1, {
     name,
     groupImgIndex,
@@ -52,10 +52,7 @@ export const deletePickers = async (id: number): Promise<void> => {
   return response.data;
 };
 
-export const createPick = async (
-  placeId: number,
-  pickerGroupId: number
-): Promise<void> => {
+export const createPick = async (placeId: number, pickerGroupId: number): Promise<void> => {
   const response = await axios.post(url2, {
     placeId,
     pickerGroupId,
@@ -63,10 +60,7 @@ export const createPick = async (
   return response.data;
 };
 
-export const updatePick = async (
-  placeId: number,
-  pickerGroupId: number
-): Promise<void> => {
+export const updatePick = async (placeId: number, pickerGroupId: number): Promise<void> => {
   const response = await axios.patch(url2, {
     placeId,
     pickerGroupId,
