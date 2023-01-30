@@ -373,7 +373,10 @@ const MyPage: React.FC = () => {
             <FollowModalView>
               {followingData.length !== 0 ? (
                 followingData.map((item) => (
-                  <FollowContainer key={item.memberId}>
+                  <FollowContainer
+                    key={item.memberId}
+                    onClick={() => navigate(`/people/${item.memberId}`)}
+                  >
                     <ImageContainer src={item.profileUrl} alt="프로필 사진" />
                     <NickName>{item.nickname}</NickName>
                   </FollowContainer>
@@ -392,7 +395,10 @@ const MyPage: React.FC = () => {
             <FollowModalView>
               {followingData.length !== 0 ? (
                 followerData.map((item) => (
-                  <FollowContainer key={item.memberId}>
+                  <FollowContainer
+                    key={item.memberId}
+                    onClick={() => navigate(`/people/${item.memberId}`)}
+                  >
                     <ImageContainer src={item.profileUrl} alt="프로필 사진" />
                     <span>{item.nickname}</span>
                   </FollowContainer>

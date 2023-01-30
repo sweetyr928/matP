@@ -49,7 +49,8 @@ const UserInfo = styled.div`
 
 const Follow = styled(HowToRegIcon)`
   color: #505050;
-  margin: 50px 0px 10px 0px;
+  position: absolute;
+  right: 13px;
   cursor: pointer;
 
   &:hover {
@@ -59,7 +60,8 @@ const Follow = styled(HowToRegIcon)`
 
 const UnFollow = styled(PersonAddAlt1Icon)`
   color: #505050;
-  margin: 50px 0px 10px 0px;
+  position: absolute;
+  right: 13px;
   cursor: pointer;
 
   &:hover {
@@ -70,12 +72,13 @@ const UnFollow = styled(PersonAddAlt1Icon)`
 const UserNickname = styled.h2`
   color: #373737;
   font-size: 23px;
-  margin: 52px 10px 10px 0px;
+  margin-top: 52px;
+  margin-bottom: 10px;
 `;
 
 const UserRemainder = styled.span`
-  color: #373737;
   font-size: 15px;
+  color: #373737;
   margin: 10px 0;
 `;
 
