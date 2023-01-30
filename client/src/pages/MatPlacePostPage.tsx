@@ -15,12 +15,12 @@ const MatPlacePostWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   position: absolute;
-  overflow: scroll;
+
   h1 {
     color: #373737;
     font-size: 25px;
     font-weight: 500;
-    margin-top: 150px;
+    margin-top: 100px;
     margin-bottom: 60px;
   }
   h2 {
@@ -38,6 +38,10 @@ const MatPlacePostWrapper = styled.div`
     color: #373737;
     font-size: 1rem;
     margin-bottom: 10px;
+
+    &:focus {
+      outline: rgb(241, 133, 137, 0.4) solid 3px;
+    }
   }
   input::placeholder {
     color: #373737;
@@ -49,13 +53,19 @@ const ButtonContainer = styled.div`
   margin-top: 40px;
   margin-bottom: 40px;
   button {
-    background-color: transparent;
+    width: 100px;
+    background-color: #874356;
+    color: #ffffff;
+    border: none;
+    border-radius: 30px;
     cursor: pointer;
     font-size: 20px;
     height: 40px;
-    width: 60px;
     margin: 0 20px;
-    border: none;
+  }
+
+  button:hover {
+    font-weight: 700;
   }
 `;
 
@@ -70,6 +80,10 @@ const CategoryMenuBox = styled.div`
   color: #373737;
   font-size: 1rem;
   background-color: white;
+
+  &:hover {
+    outline: rgb(241, 133, 137, 0.4) solid 3px;
+  }
 `;
 
 const DropDownBoxWrap = styled.div`
@@ -100,6 +114,12 @@ const ListItem = styled.li`
   font-size: 1rem;
   list-style: none;
   padding: 12px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #efefef;
+    font-weight: 700;
+  }
 `;
 
 const list = [

@@ -24,7 +24,7 @@ const SearchWrapper = styled.div`
   h1 {
     font-size: 28px;
     font-weight: 500;
-    margin-top: 120px;
+    margin-top: 100px;
     margin-bottom: 30px;
   }
   input {
@@ -37,6 +37,10 @@ const SearchWrapper = styled.div`
     border-radius: 12px;
     color: #373737;
     font-size: 1rem;
+
+    &:hover {
+      outline: rgb(241, 133, 137, 0.4) solid 3px;
+    }
   }
 `;
 
@@ -60,6 +64,7 @@ const TabButton = styled.li`
   align-items: center;
   line-height: 30px;
   list-style: none;
+  font-weight: ${(props) => (props.id === "focused" ? "600" : "400")};
   border-bottom: ${(props) =>
     props.id === "focused" ? "2px solid #373737" : "1px solid #adadad"};
   &:hover {

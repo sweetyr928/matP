@@ -46,10 +46,20 @@ const TabButton = styled.li`
   .info {
     margin-top: 20px;
     font-size: 14px;
-    color: #474747;
+    font-weight: 500;
+    color: #505050;
   }
   .icon {
     font-size: 55px;
+    color: #505050;
+    &:hover {
+      filter: brightness(0.6);
+    }
+  }
+
+  &:hover {
+    background-color: #efefef;
+    font-weight: 700;
   }
 `;
 
@@ -69,7 +79,7 @@ const lists = [
   {
     index: 3,
     name: "맛피플",
-    info: "소문의 맛피플을 찾고 싶을 때 클릭!",
+    info: "소문으로만 듣던 맛피플을 찾고 싶을 때 클릭!",
     icon: <SentimentSatisfiedAltIcon className="icon" color="inherit" />,
   },
 ];
