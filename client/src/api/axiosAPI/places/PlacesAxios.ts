@@ -20,6 +20,11 @@ export const getPlaceDetail = async (id: number) => {
   return response.data;
 };
 
+export const getPlaceDetailForUser = async (id: number) => {
+  const response = await instance.get(`/places/${id}`);
+  return response.data;
+};
+
 export const createPlaces = async (
   name: string,
   address: string,
