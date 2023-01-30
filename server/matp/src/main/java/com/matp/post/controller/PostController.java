@@ -64,9 +64,11 @@ public class PostController {
      * @author 임준건
      **/
     @GetMapping("/search/title")
-    public Flux<PostResponse> getSearchMatPostByTitle(@RequestParam("keyword") String keyword) {
-
-        return postService.findPostByTitleKeyword(keyword)
+    public Flux<PostResponse> getSearchMatPostByTitle(@RequestParam("keyword") String keyword1,
+                                                      @RequestParam(defaultValue = "0") int page,
+                                                      @RequestParam(defaultValue = "30")  int size) {
+        String keyword = keyword1.replace("\"", "");
+        return postService.findPostByTitleKeyword(keyword, page, size)
                 .switchIfEmpty(Mono.defer(() -> Mono.error(new CustomException(CustomErrorCode.POST_NOT_FOUND))));
     }
     /**
@@ -74,9 +76,11 @@ public class PostController {
      * @author 임준건
      **/
     @GetMapping("/search/content")
-    public Flux<PostResponse> getSearchMatPostByContent(@RequestParam("keyword") String keyword) {
-
-        return postService.findPostByContentKeyword(keyword)
+    public Flux<PostResponse> getSearchMatPostByContent(@RequestParam("keyword") String keyword1,
+                                                        @RequestParam(defaultValue = "0") int page,
+                                                        @RequestParam(defaultValue = "30")  int size) {
+        String keyword = keyword1.replace("\"", "");
+        return postService.findPostByContentKeyword(keyword, page, size)
                 .switchIfEmpty(Mono.defer(() -> Mono.error(new CustomException(CustomErrorCode.POST_NOT_FOUND))));
     }
 

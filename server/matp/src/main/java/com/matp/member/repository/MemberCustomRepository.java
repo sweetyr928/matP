@@ -15,6 +15,7 @@ import reactor.core.scheduler.Schedulers;
 
 import java.time.LocalDateTime;
 import java.util.Comparator;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -69,7 +70,7 @@ public class MemberCustomRepository {
                                     .thumbnailUrl((String) row.get("thumbnailUrl"))
                                     .likes((Integer) row.get("likes"))
                                     .build())
-                            .toList();
+                            .collect(Collectors.toSet());
 
                     var pickerGroupInfos = result.stream()
                             .map(row -> GroupResponseDto.builder()
@@ -102,7 +103,7 @@ public class MemberCustomRepository {
                             .build());
                 });
     }
-    public Flux<MemberResponse> findWithInfo() {
+    public Flux<MemberResponse> findWithInfo2() {
         var sqlWithFollow = """
                     SELECT
                         m.member_id as memberId, m.email as email, m.nickname as nickname,
@@ -133,13 +134,17 @@ public class MemberCustomRepository {
                     var followings = followingObj != null ? Long.parseLong(followingObj.toString()) : 0L;
 
                     var postInfos = result.stream()
-                            .map(row -> SimplePostResponse.builder()
+                            .map(row -> {
+                                if (row.get("postId") == null){
+                                    return null;
+                                }
+                                return SimplePostResponse.builder()
                                     .id((Long) row.get("postId"))
                                     .title((String) row.get("title"))
                                     .thumbnailUrl((String) row.get("thumbnailUrl"))
                                     .likes((Integer) row.get("likes"))
-                                    .build())
-                            .toList();
+                                    .build();})
+                            .collect(Collectors.toSet());
 
                     var pickerGroupInfos = result.stream()
                             .map(row -> GroupResponseDto.builder()

@@ -42,7 +42,8 @@ public interface PostRepository extends ReactiveCrudRepository<Post, Long> {
             p.created_at,
             p.modified_at,
             m.nickname,
-            m.profile_url
+            m.profile_url,
+            (SELECT COUNT(c.comment_content) FROM comment c WHERE c.post_id = :postId) as comment_count
             FROM post p
             INNER JOIN member m
             ON p.member_id = m.member_id
