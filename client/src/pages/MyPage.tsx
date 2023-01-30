@@ -393,7 +393,7 @@ const MyPage: React.FC = () => {
         <UserImg src={profileUrl} alt="프로필사진" />
         <UserInfo>
           <UserNickname>{nickname}</UserNickname>
-          <UserRemainder>{memo}</UserRemainder>
+          {memo && <UserRemainder>{memo}</UserRemainder>}
           <UserRemainder>
             <FollowButton onClick={onClickToggleFollowingModal}>
               팔로잉 {followings}
