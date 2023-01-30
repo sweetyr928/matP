@@ -50,6 +50,7 @@ const NoneResultMessage = styled.div`
 
 const SearchDetailPeople: React.FC = () => {
   const [nickname, setNickname] = useState<string>("");
+  const [isSearching, setIsSearching] = useState<boolean>(false);
   const { axiosData: getSearch, responseData: searchData } = useAxios(
     () => getSearchPeople(nickname),
     [nickname],
@@ -62,16 +63,20 @@ const SearchDetailPeople: React.FC = () => {
     if (searchStatus === "Loading") {
       setSearchStatus("Success");
     }
-  }, [searchStatus, searchData]);
+  }, [searchStatus, searchData, isSearching]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNickname(e.target.value);
+    setIsSearching(true);
   };
 
   const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    setIsSearching(true);
     if (nickname.length !== 0) {
       getSearch();
+      setIsSearching(false);
     } else if (event.key === "Enter" && nickname.length === 0) {
+      setIsSearching(false);
       return alert("검색어를 입력해주세요!");
     }
   };
@@ -95,7 +100,7 @@ const SearchDetailPeople: React.FC = () => {
           ))}
         </SearchResultPeoPleBox>
       )}
-      {searchData === null ? (
+      {(!isSearching && searchData === null) || searchData.length === 0 ? (
         <NoneResultMessage>검색 결과가 없습니다!</NoneResultMessage>
       ) : null}
     </SearchWrapper>
