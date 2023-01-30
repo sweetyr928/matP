@@ -41,7 +41,7 @@ const MatPickerBox = styled.div`
     background-color: #f8f8f8;
     padding: 15px;
     border: none;
-    border-bottom: 1px solid #adadad;
+    border-bottom: 1px solid #ececec;
     cursor: pointer;
   }
 `;
