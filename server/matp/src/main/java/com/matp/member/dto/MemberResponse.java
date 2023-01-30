@@ -23,7 +23,7 @@ public record MemberResponse(
 
         boolean isFollowing,
 
-        List<SimplePostResponse> postInfos,
+        Set<SimplePostResponse> postInfos,
         Set<GroupResponseDto> pickerGroupInfos
 
 ) {

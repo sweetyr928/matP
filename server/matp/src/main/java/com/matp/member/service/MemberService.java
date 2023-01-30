@@ -31,8 +31,8 @@ public class MemberService {
         return memberCustomRepository.findWithInfo(myId, id);
     }
     @Transactional(readOnly = true)
-    public Flux<MemberResponse> findAllWithInfo() {
-        return memberCustomRepository.findWithInfo();
+    public Flux<MemberResponse> findAllWithInfo2() {
+        return memberCustomRepository.findWithInfo2();
     }
 
     @Transactional(readOnly = true)

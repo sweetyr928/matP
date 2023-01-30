@@ -31,7 +31,7 @@ public class GroupService {
                         Group.builder()
                                 .id(groupId)
                                 .name(groupRequestDto.name() == null ? group.getName() : groupRequestDto.name())
-                                .groupImgIndex(groupRequestDto.groupImgIndex() == 0 ? group.getGroupImgIndex() : groupRequestDto.groupImgIndex())
+                                .groupImgIndex(groupRequestDto.groupImgIndex())
                                 .createdAt(group.getCreatedAt())
                                 .modifiedAt(LocalDateTime.now())
                                 .memberId(group.getMemberId())
