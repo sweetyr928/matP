@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { MatPickerUpdate, MatPickerDelete, ModalPortal } from ".";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { PickersData } from "../api/axiosAPI/groups/PickersAxios";
 
 const MatPickerSingleBox = styled.div`
   display: flex;

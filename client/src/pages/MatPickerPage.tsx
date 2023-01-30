@@ -2,8 +2,11 @@ import styled from "styled-components";
 import { useState, useEffect, useCallback } from "react";
 import { MatPickersItem, MatPickerCreate, ModalPortal } from "../components";
 import useAxios from "../hooks/useAxios";
-import { getPickers } from "../api/axiosAPI/groups/PickersAxios";
+import { getPickers, PickersData } from "../api/axiosAPI/groups/PickersAxios";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import axios from "axios";
+
+const jwtToken = localStorage.getItem("Authorization");
 
 const MatPickerWrapper = styled.div`
   height: 100%;
@@ -64,20 +67,44 @@ const AddCircleOutlineIconStyled = styled(AddCircleOutlineIcon)`
 const MatPicker: React.FC = () => {
   const [isOpenModal, setOpenModal] = useState<boolean>(false);
   const [dataReload, setDataReload] = useState<boolean>(false);
+  const [pickers, setPickers] = useState<PickersData[]>([]);
 
-  const { axiosData, responseData } = useAxios(getPickers, [dataReload], false);
+  const {
+    axiosData: getAllPickers,
+    responseData: pickersList,
+    status,
+  } = useAxios(getPickers, [dataReload], false);
 
   useEffect(() => {
-    axiosData();
+    axios
+      .get(
+        "http://ec2-15-165-163-251.ap-northeast-2.compute.amazonaws.com:8080/groups",
+        {
+          headers: {
+            Authorization: `Bearer ${jwtToken}`,
+          },
+        }
+      )
+      .then((res) => setPickers(res.data))
+      .catch(function (error) {
+        throw error;
+      });
+  }, [pickers]);
+
+  useEffect(() => {
+    getAllPickers();
+    setPickers(pickersList);
   }, [dataReload]);
 
   const onClickToggleModal = useCallback(() => {
     setOpenModal(!isOpenModal);
   }, [isOpenModal]);
 
-  const dataReloadHandler = useCallback(() => {
-    setDataReload(!dataReload);
-  }, [dataReload]);
+  const dataReloadHandler = () => {
+    if (status === "Idle" || status === "Success") {
+      setDataReload(!dataReload);
+    }
+  };
 
   return (
     <MatPickerWrapper>
@@ -91,8 +118,8 @@ const MatPicker: React.FC = () => {
       )}
       <h1>맛픽커즈</h1>
       <MatPickerBox>
-        {responseData &&
-          responseData.map((picker: any) => (
+        {pickers &&
+          pickers.map((picker: PickersData) => (
             <MatPickersItem
               key={picker.id}
               id={picker.id}
