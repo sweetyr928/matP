@@ -310,7 +310,7 @@ const PostReadModal = ({
   };
   // popover styling
   const PopoverTStyle = {
-    backgroundColor: "#e1e1e1",
+    backgroundColor: "#e9e9e9",
     fontSize: "15px",
   };
   // popover styling

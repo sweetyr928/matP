@@ -244,13 +244,14 @@ const FollowContainer = styled.div`
   }
 `;
 const ImageContainer = styled.img`
-  width: 3.5rem;
-  height: 3.5rem;
+  width: 3rem;
+  height: 3rem;
   border-radius: 100%;
-  margin: 0 30px;
+  margin: 0 25px;
 `;
 const NickName = styled.span`
   font-size: 1.1rem;
+  color: #874356;
 `;
 
 const LogoutModal = styled.div`
@@ -277,18 +278,25 @@ const ButtonContainer = styled.div`
     background-color: #fff;
     text-decoration: none;
     border: none;
-    font-size: 20px;
-    padding: 10px 30px;
+    font-size: 15px;
+    border-radius: 20px;
+    background-color: #874356;
+    color: #fff;
+    width: 110px;
+    height: 40px;
   }
   .yes {
-    color: #ad0000;
+    margin: 0px 10px 0px 0px;
     &:hover {
-      color: #ff8b8b;
+      color: #fff;
+      font-weight: 700;
     }
   }
+
   .no {
     &:hover {
-      color: #7c7c7c;
+      color: #fff;
+      font-weight: 700;
     }
   }
 `;
@@ -439,7 +447,7 @@ const MyPage: React.FC = () => {
               {followerData.map((item) => (
                 <FollowContainer key={item.memberId}>
                   <ImageContainer src={item.profileUrl} alt="프로필 사진" />
-                  <span>{item.nickname}</span>
+                  <NickName>{item.nickname}</NickName>
                 </FollowContainer>
               ))}
             </FollowModalView>
