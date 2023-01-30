@@ -138,7 +138,9 @@ const MatPeople: React.FC = () => {
   const [postsReload, setPostsReload] = useState<boolean>(false);
 
   useEffect(() => {
-    !!localStorage.getItem("Authorization") ? setJwtToken(true) : setJwtToken(false);
+    !!localStorage.getItem("Authorization")
+      ? setJwtToken(true)
+      : setJwtToken(false);
   }, []);
 
   useEffect(() => {
@@ -152,21 +154,33 @@ const MatPeople: React.FC = () => {
 
   const navigate = useNavigate();
 
-  const {
-    axiosData: getMatPeopleInfo,
-    responseData: matPeople,
-    status,
-  } = useAxios(() => getMatPeople(Number(id)), [followReload], false);
+  const { axiosData: getMatPeopleInfo, responseData: matPeople } = useAxios(
+    () => getMatPeople(Number(id)),
+    [followReload],
+    false
+  );
 
-  const { axiosData: getMatPeopleInfoUser, responseData: matPeopleUser } = useAxios(
+  const {
+    axiosData: getMatPeopleInfoUser,
+    responseData: matPeopleUser,
+    status,
+  } = useAxios(
     () => getMatPeopleInfoForUser(Number(id)),
     [followReload],
     false
   );
 
-  const { axiosData: follow } = useAxios(() => followMatPeople(Number(id)), [], true);
+  const { axiosData: follow } = useAxios(
+    () => followMatPeople(Number(id)),
+    [],
+    true
+  );
 
-  const { axiosData: unfollow } = useAxios(() => unfollowMatPeople(Number(id)), [], true);
+  const { axiosData: unfollow } = useAxios(
+    () => unfollowMatPeople(Number(id)),
+    [],
+    true
+  );
 
   const { axiosData: getAllPosts } = useAxios(getPosts, [], false);
 
@@ -241,7 +255,11 @@ const MatPeople: React.FC = () => {
         <StyledPosts>
           {postInfosFiltered &&
             postInfosFiltered.map((post: IPosts) => (
-              <PostRead key={post.id} post={post} getAllPostsReload={getAllPostsReload} />
+              <PostRead
+                key={post.id}
+                post={post}
+                getAllPostsReload={getAllPostsReload}
+              />
             ))}
         </StyledPosts>
       ) : (
