@@ -7,15 +7,15 @@ const url = "http://ec2-15-165-163-251.ap-northeast-2.compute.amazonaws.com:8080
 export interface IPosts {
   id: number;
   likes: number;
-  commentcount: number;
+  commentcount?: number;
   thumbnailUrl: string;
   title: string;
-  content: string;
-  createdAt: string;
-  modifiedAt: string;
-  star: number;
-  memberId: number;
-  placeId: number;
+  content?: string;
+  createdAt?: string;
+  modifiedAt?: string;
+  star?: number;
+  memberId?: number;
+  placeId?: number;
 }
 
 export interface IMemberInfo {
@@ -34,6 +34,13 @@ export interface IPostInfo {
   star: number;
   memberInfo: IMemberInfo;
   placeId: number;
+}
+
+export interface IMyPostInfo {
+  id: number;
+  title: string;
+  likes: number;
+  thumbnailUrl: string;
 }
 
 export interface IPlacesPost {
@@ -92,11 +99,7 @@ export const updatePost = async (
   return response.data;
 };
 
-
-export const deletePost = async (
-  id: number,
-  placeId: number
-): Promise<void> => {
+export const deletePost = async (id: number, placeId: number): Promise<void> => {
   const response = await instance.delete(`/places/${placeId}/posts/${id}`);
   return response.data;
 };
@@ -108,13 +111,8 @@ export const likePost = async (id: number, placeId: number): Promise<void> => {
   return response.data;
 };
 
-export const dislikePost = async (
-  id: number,
-  placeId: number
-): Promise<void> => {
-  const response = await instance.delete(
-    `/places/${placeId}/posts/${id}/likes`
-  );
+export const dislikePost = async (id: number, placeId: number): Promise<void> => {
+  const response = await instance.delete(`/places/${placeId}/posts/${id}/likes`);
 
   return response.data;
 };

@@ -13,6 +13,7 @@ import {
 } from "../api/axiosAPI/members/myPageAPI";
 import { ModalPortal } from "../components";
 import LogoutModal from "../components/LogoutModal";
+import MyPagePostInfo from "../components/MyPagePostInfo";
 
 const FeedContainer = styled.div`
   height: 100%;
@@ -365,6 +366,7 @@ const MyPage: React.FC = () => {
           </div>
         </TabContainer>
       </ContentContainer>
+      <MyPagePostInfo />
 
       {isOpenFollowingModal && (
         <ModalPortal>
@@ -436,6 +438,7 @@ const MyPage: React.FC = () => {
           <ModalBackdrop onClick={onClickToggleEditModal} />
         </ModalPortal>
       )}
+
       {isOpenLogoutModal && (
         <ModalPortal>
           <ModalContainer>
