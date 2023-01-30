@@ -20,9 +20,13 @@ const StyledFeed = styled.div`
   flex-direction: column;
   align-items: center;
   position: absolute;
+`;
 
+const HeaderContainer = styled.div`
+  border-bottom: 1px solid #bbbbbb;
+  margin-bottom: 4px;
   h1 {
-    margin: 20px 70px 20px 70px;
+    margin: 24px 129px;
     font-size: 23px;
     font-weight: 600;
   }
@@ -33,14 +37,13 @@ const StyledPosts = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
   grid-gap: 4px;
-  margin: 0px 0px 0px 0px;
+  overflow: scroll;
 `;
 
 const Domain: React.FC = () => {
   const token = localStorage.getItem("Authorization");
   const setUserInfo = useSetRecoilState(userInfoState);
-  const { axiosData: getUserInfo, responseData: memberData } =
-    useAxios(getMyData);
+  const { axiosData: getUserInfo, responseData: memberData } = useAxios(getMyData);
   useEffect(() => {
     if (token) {
       getUserInfo();
@@ -54,11 +57,7 @@ const Domain: React.FC = () => {
   }, [memberData]);
 
   const [postsReload, setPostsReload] = useState<boolean>(false);
-  const { axiosData: getAllPosts, responseData: posts } = useAxios(
-    getPosts,
-    [],
-    false
-  );
+  const { axiosData: getAllPosts, responseData: posts } = useAxios(getPosts, [], false);
 
   useEffect(() => {
     getAllPosts();
@@ -70,15 +69,13 @@ const Domain: React.FC = () => {
 
   return (
     <StyledFeed>
-      <h1>오늘의 맛 Post</h1>
+      <HeaderContainer>
+        <h1>오늘의 맛 Post</h1>
+      </HeaderContainer>
       <StyledPosts>
         {posts &&
           posts.map((post: IPosts) => (
-            <PostRead
-              key={post.id}
-              post={post}
-              getAllPostsReload={getAllPostsReload}
-            />
+            <PostRead key={post.id} post={post} getAllPostsReload={getAllPostsReload} />
           ))}
       </StyledPosts>
     </StyledFeed>
