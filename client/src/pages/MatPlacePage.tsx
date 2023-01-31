@@ -10,7 +10,10 @@ import {
   updatePick,
   deletePick,
 } from "../api/axiosAPI/groups/PickersAxios";
-import { getPlaceDetail, getPlaceDetailForUser } from "../api/axiosAPI/places/PlacesAxios";
+import {
+  getPlaceDetail,
+  getPlaceDetailForUser,
+} from "../api/axiosAPI/places/PlacesAxios";
 import { PostRead, MatPostCreate, ModalPortal } from "../components";
 import { useSetRecoilState } from "recoil";
 import { placeInfoState, placeInfoStatusState } from "../store/placeInfoAtoms";
@@ -304,6 +307,12 @@ const RatingsChart = styled.div`
 const InfoBox = styled.div`
   width: 100%;
   margin-top: 25px;
+
+  .five-pro {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 25px;
+  }
   p {
     display: flex;
     margin: 18px;
@@ -348,7 +357,9 @@ const MatPlacePost: React.FC = () => {
   const [postsReload, setPostsReload] = useState<boolean>(false);
 
   useEffect(() => {
-    !!localStorage.getItem("Authorization") ? setJwtToken(true) : setJwtToken(false);
+    !!localStorage.getItem("Authorization")
+      ? setJwtToken(true)
+      : setJwtToken(false);
   }, []);
 
   useEffect(() => {
@@ -399,6 +410,7 @@ const MatPlacePost: React.FC = () => {
     category = "",
     starAvg = 0,
     starCount = [],
+    fiveStarProbability = 0,
     postCount = 0,
     pickCount = 0,
     posts = [],
@@ -429,7 +441,10 @@ const MatPlacePost: React.FC = () => {
   }, [dataReload]);
 
   // 평점 매긴 유저 수 총합
-  const ratingsTotal = starCount.reduce((acc: number, cur: number) => (acc += cur), 0);
+  const ratingsTotal = starCount.reduce(
+    (acc: number, cur: number) => (acc += cur),
+    0
+  );
 
   // star rating percentage 계산 후 style로 반영
   const ratingToPercent = {
@@ -565,7 +580,11 @@ const MatPlacePost: React.FC = () => {
             posts && posts.length !== 0 ? (
               <PageContainer>
                 {posts.map((post: IPosts) => (
-                  <PostRead key={post.id} post={post} getAllPostsReload={getAllPostsReload} />
+                  <PostRead
+                    key={post.id}
+                    post={post}
+                    getAllPostsReload={getAllPostsReload}
+                  />
                 ))}
               </PageContainer>
             ) : (
@@ -662,6 +681,10 @@ const MatPlacePost: React.FC = () => {
                 <div>{`(${starAvg.toFixed(1)})`}</div>
               </StarBox>
               <InfoBox>
+                <div className="five-pro">
+                  당신이 {name}에 5점을 줄 확률은 <br />{" "}
+                  {Math.floor(fiveStarProbability)}%입니다!
+                </div>
                 <p>
                   <div className="info-title">카테고리 </div>
                   <div className="info">{category}</div>
