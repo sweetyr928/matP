@@ -3,10 +3,7 @@ package com.matp.place.service;
 
 import com.matp.group.service.GroupService;
 import com.matp.picker.repository.PickerRepository;
-import com.matp.place.dto.PlaceDetailResponseDto;
-import com.matp.place.dto.PlaceEnrollmentRequest;
-import com.matp.place.dto.PlaceEnrollmentResponse;
-import com.matp.place.dto.PlaceResponseDto;
+import com.matp.place.dto.*;
 import com.matp.place.entity.Place;
 import com.matp.place.repository.PlaceRepository;
 import com.matp.post.service.PostService;
@@ -36,9 +33,9 @@ public class PlaceService {
     }
 
     @Transactional(readOnly = true)
-    public Flux<PlaceResponseDto> findPlaces(String search, long page, long size) {
-        if (search.contains(" ")) return mapping(placeRepository.searchPlaces(search.split(" ")[0], search.split(" ")[1]).skip(page * size).take(size));
-        return mapping(placeRepository.searchPlaces(search).skip(page * size).take(size));
+    public Flux<PlaceSearchResponseDto> findPlaces(String search, long page, long size) {
+        Flux<Place> places = (search.contains(" ")) ? placeRepository.searchPlaces(search.split(" ")[0], search.split(" ")[1]).skip(page * size).take(size) : placeRepository.searchPlaces(search).skip(page * size).take(size);
+        return places.map(PlaceSearchResponseDto::of);
     }
 
 
