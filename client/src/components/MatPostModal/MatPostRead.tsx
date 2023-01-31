@@ -101,13 +101,6 @@ const StyledInfo = styled.div`
   justify-content: center;
   align-items: center;
 
-  img {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    margin: 0px 10px 0px 0px;
-  }
-
   .post_nickname {
     font-size: 15px;
     margin: 0px 10px 0px 0px;
@@ -117,14 +110,23 @@ const StyledInfo = styled.div`
     font-size: 14px;
   }
 `;
+const ImgContainer = styled.div`
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  margin: 0px 10px 0px 0px;
+  overflow: hidden;
+  img {
+    width: 32px;
+    height: 32px;
+    object-fit: cover;
+  }
+`;
 
 const StyledContent = styled.div`
   margin: 0px 0px 5px 0px;
   padding: 1px 0px 0px 0px;
-  min-height: 270px;
-  max-height: 270px;
-  overflow-y: scroll;
-
+  line-height: 23px;
   &::-webkit-scrollbar {
     display: none;
   }
@@ -350,7 +352,9 @@ const PostReadModal = ({ onClickToggleModal, id }: ModalDefaultType): JSX.Elemen
             <div className="post_title">{title}</div>
             <StyledMid>
               <StyledInfo>
-                <img src={profileUrl} alt="profileImg"></img>
+                <ImgContainer>
+                  <img src={profileUrl} alt="profileImg" />
+                </ImgContainer>
                 <div className="post_nickname">{nickname}</div>
                 <div className="post_createdAt">
                   {moment(createdAt, "YYYY-MM-DDTHH:mm:ss").format("YYYY년 MMM Do")}

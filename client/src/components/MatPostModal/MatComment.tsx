@@ -12,7 +12,7 @@ const StyledComment = styled.div`
   display: flex;
   flex-direction: column;
   border-bottom: 1.4px solid #dcdcdc;
-  margin: 0px 0px 5px 0px;
+  margin: 0px 0px 10px 0px;
 `;
 
 const StyledDiv = styled.div`
@@ -53,6 +53,19 @@ const StyledInfo = styled.div`
   .comment_createdAt {
     font-size: 13.5px;
     margin: 2.13px 0px 0px 0px;
+  }
+`;
+
+const ImgContainer = styled.div`
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  margin: 0px 10px 0px 0px;
+  overflow: hidden;
+  img {
+    width: 32px;
+    height: 32px;
+    object-fit: cover;
   }
 `;
 
@@ -200,7 +213,9 @@ const MatComment = ({
     <StyledComment>
       <StyledDiv>
         <StyledInfo>
-          <img src={newSingleComment.memberInfo.profileUrl} alt="profileImg"></img>
+          <ImgContainer>
+            <img src={newSingleComment.memberInfo.profileUrl} alt="profileImg" />
+          </ImgContainer>
           <div className="comment_nickname">{newSingleComment.memberInfo.nickname}</div>
           <div className="comment_createdAt">
             {moment(createdAt, "YYYY-MM-DDTHH:mm:ss").format("YYYY년 MMM Do")}

@@ -2,7 +2,7 @@
 import { useState, useEffect, useCallback } from "react";
 import styled from "styled-components";
 import useAxios from "../hooks/useAxios";
-import { getPosts } from "../api/axiosAPI/posts/PostsAxios";
+import { getPosts, IPosts } from "../api/axiosAPI/posts/PostsAxios";
 import { useParams } from "react-router-dom";
 import {
   getPickers,
@@ -35,13 +35,19 @@ const FeedContainer = styled.div`
   }
 `;
 
-const PlaceImg = styled.img`
+const ImgContainer = styled.div`
   width: 132px;
   height: 132px;
   border-radius: 100%;
   margin: 32px 25px 0 25px;
   border: 1px solid #a6a6a6;
   flex: 0 0 132px;
+  overflow: hidden;
+`;
+const PlaceImg = styled.img`
+  width: 132px;
+  height: 132px;
+  object-fit: cover;
 `;
 const PlaceInfo = styled.div`
   display: flex;
@@ -143,6 +149,12 @@ const PageContainer = styled.div`
   ::-webkit-scrollbar {
     display: none;
   }
+`;
+const Nothing = styled.div`
+  display: flex;
+  justify-content: center;
+  font-size: 1.5rem;
+  margin-top: 10vh;
 `;
 
 const PickContainer = styled.div`
@@ -468,7 +480,10 @@ const MatPlacePost: React.FC = () => {
         </ModalPortal>
       )}
       <div className="userInfo_header_container">
-        <PlaceImg src={img || basicLogoImg} alt="프로필사진" />
+        <ImgContainer>
+          <PlaceImg src={img || basicLogoImg} alt="프로필사진" />
+        </ImgContainer>
+
         <PlaceInfo>
           <h1>{name}</h1>
           <StarBox>
@@ -547,12 +562,15 @@ const MatPlacePost: React.FC = () => {
             </div>
           </TabContainer>
           {isPost ? (
-            <PageContainer>
-              {posts &&
-                posts.map((post: any) => (
+            posts && posts.length !== 0 ? (
+              <PageContainer>
+                {posts.map((post: IPosts) => (
                   <PostRead key={post.id} post={post} getAllPostsReload={getAllPostsReload} />
                 ))}
-            </PageContainer>
+              </PageContainer>
+            ) : (
+              <Nothing>작성한 글이 없습니다!</Nothing>
+            )
           ) : (
             <PlaceDetailInfo>
               <h2>{name}</h2>

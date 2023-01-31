@@ -31,11 +31,28 @@ const IconContainer = styled.div`
   }
 `;
 
-const ImgContainer = styled.img`
+const ImgContainer = styled.div`
+  position: absolute;
+  right: 0;
+  width: 55px;
+  height: 55px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  &:hover {
+    filter: brightness(0.6);
+  }
+
+  overflow: hidden;
+`;
+
+const ProfileImg = styled.img`
   color: #505050;
   width: 40px;
   height: 40px;
   border-radius: 50%;
+  object-fit: cover;
 `;
 const EmptyImg = styled.div`
   color: #505050;
@@ -75,9 +92,9 @@ const Header: React.FC = () => {
     return (
       <HeaderContainer>
         <Link to={"/mypage"}>
-          <IconContainer>
-            {profileUrl ? <ImgContainer src={profileUrl} alt="프로필사진" /> : <EmptyImg />}
-          </IconContainer>
+          <ImgContainer>
+            {profileUrl ? <ProfileImg src={profileUrl} alt="프로필사진" /> : <EmptyImg />}
+          </ImgContainer>
         </Link>
       </HeaderContainer>
     );

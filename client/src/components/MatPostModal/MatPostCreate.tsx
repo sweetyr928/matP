@@ -37,6 +37,9 @@ const StyledDiv = styled.div`
     line-height: 25px;
     border: none;
     font-size: 20px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #c8c8c8;
+    margin-bottom: 15px;
   }
   input:focus {
     outline: none;
