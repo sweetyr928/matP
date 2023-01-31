@@ -1,7 +1,6 @@
 import axios from "axios";
 
-const url =
-  "http://ec2-15-165-163-251.ap-northeast-2.compute.amazonaws.com:8080/search";
+const url = "https://matp.o-r.kr/search";
 
 interface PlaceData {
   id: number;
