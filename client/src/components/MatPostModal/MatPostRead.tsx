@@ -7,11 +7,6 @@ import {
   likePost,
   dislikePost,
 } from "../../api/axiosAPI/posts/PostsAxios";
-import {
-  deletePost,
-  likePost,
-  dislikePost,
-} from "../../api/axiosAPI/posts/PostsAxios";
 import StarRate from "./StarRate";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -169,12 +164,9 @@ interface ModalDefaultType {
 }
 
 const PostReadModal = ({
- 
   onClickToggleModal,
- 
   id,
- ,
-getAllPostsReload,
+  getAllPostsReload,
 }: ModalDefaultType): JSX.Element => {
   const userInfo = useRecoilValue(userInfoState);
   const [nickname, setNickname] = useState<string>("");
@@ -254,21 +246,11 @@ getAllPostsReload,
     [deleteClicked],
     true
   );
-  const { axiosData: deleteP } = useAxios(
-    () => deletePost(id, placeId),
-    [deleteClicked],
-    true
-  );
 
   //'좋아요'
   const { axiosData: likeP } = useAxios(() => likePost(id, placeId), [], true);
 
   // '좋아요' 취소
-  const { axiosData: dislikeP } = useAxios(
-    () => dislikePost(id, placeId),
-    [],
-    true
-  );
   const { axiosData: dislikeP } = useAxios(
     () => dislikePost(id, placeId),
     [],
