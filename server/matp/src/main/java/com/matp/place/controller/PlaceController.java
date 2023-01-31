@@ -2,10 +2,7 @@ package com.matp.place.controller;
 
 
 
-import com.matp.place.dto.PlaceDetailResponseDto;
-import com.matp.place.dto.PlaceEnrollmentRequest;
-import com.matp.place.dto.PlaceEnrollmentResponse;
-import com.matp.place.dto.PlaceResponseDto;
+import com.matp.place.dto.*;
 import com.matp.place.service.PlaceService;
 import com.matp.utils.Function;
 import lombok.RequiredArgsConstructor;
@@ -32,8 +29,8 @@ public class PlaceController {
     }
 
     @GetMapping("/search")
-    public Flux<PlaceResponseDto> searchPlaces(@RequestParam("query") String search, @RequestParam(defaultValue = "0") long page,
-    @RequestParam(defaultValue = "15") long size) {
+    public Flux<PlaceSearchResponseDto> searchPlaces(@RequestParam("query") String search, @RequestParam(defaultValue = "0") long page,
+                                                     @RequestParam(defaultValue = "15") long size) {
         return placeService.findPlaces(search, page, size);
     }
 

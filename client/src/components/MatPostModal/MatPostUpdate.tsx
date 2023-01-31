@@ -8,7 +8,7 @@ import StarRate from "./StarRate";
 import useAxios from "../../hooks/useAxios";
 
 const StyledDiv = styled.div`
-  margin: 7vh 10vw;
+  margin: 5vh 10vw;
   height: auto;
   display: flex;
   flex-direction: column;
@@ -16,15 +16,10 @@ const StyledDiv = styled.div`
     width: 100%;
     line-height: 25px;
     border: none;
-    font-size: 20px;
-  }
-
-  .middle_line {
-    border: 0;
-    width: 100%;
-    height: 1.3px;
-    background: #b8b8b8;
-    margin: 20px 0px 20px 0px;
+    font-size: 30px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #c8c8c8;
+    margin-bottom: 15px;
   }
 
   input:focus {
@@ -133,12 +128,7 @@ interface ModalDefaultType {
   placeId: number;
 }
 
-const PostUpdateModal = ({
-  onClickToggleModal,
-  id,
-  state,
-  placeId,
-}: ModalDefaultType) => {
+const PostUpdateModal = ({ onClickToggleModal, id, state, placeId }: ModalDefaultType) => {
   // 모달 닫기
   const closeModal = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -149,12 +139,8 @@ const PostUpdateModal = ({
 
   // 기존 데이터 받아오기
   const [newTitle, setNewTitle] = useState<string>(state.postInfo.title);
-  const [htmlContent, setHtmlContent] = useState<string>(
-    state.postInfo.content
-  );
-  const [thumbnailUrl, setThumbnailUrl] = useState<string>(
-    state.postInfo.thumbnailUrl
-  );
+  const [htmlContent, setHtmlContent] = useState<string>(state.postInfo.content);
+  const [thumbnailUrl, setThumbnailUrl] = useState<string>(state.postInfo.thumbnailUrl);
   const [clicked, setClicked] = useState<boolean[]>(
     new Array(5).fill(true, 0, state.postInfo.star)
   );
@@ -174,14 +160,7 @@ const PostUpdateModal = ({
 
   const { axiosData, status } = useAxios(
     () =>
-      updatePost(
-        newTitle,
-        htmlContent,
-        thumbnailUrl,
-        clicked.filter(Boolean).length,
-        placeId,
-        id
-      ),
+      updatePost(newTitle, htmlContent, thumbnailUrl, clicked.filter(Boolean).length, placeId, id),
     [newTitle, htmlContent, clicked, thumbnailUrl],
     true
   );
@@ -225,12 +204,7 @@ const PostUpdateModal = ({
 
   return (
     <StyledDiv>
-      <input
-        placeholder="제목을 입력해주세요"
-        value={newTitle}
-        onChange={handleInput}
-      ></input>
-      <hr className="middle_line" />
+      <input placeholder="제목을 입력해주세요" value={newTitle} onChange={handleInput}></input>
       <div className={newTitle.length <= 0 ? "disabled" : ""}>
         <MatEditor htmlContent={htmlContent} setHtmlContent={setHtmlContent} />
       </div>
@@ -243,9 +217,7 @@ const PostUpdateModal = ({
                 key={idx}
                 size="50"
                 onClick={() => handleStarClick(el)}
-                className={
-                  imageContained ? (clicked[el] ? "yellow" : "") : "disabled"
-                }
+                className={imageContained ? (clicked[el] ? "yellow" : "") : "disabled"}
               />
             );
           })}
@@ -255,9 +227,7 @@ const PostUpdateModal = ({
         <button
           onClick={handleSubmit}
           className={
-            newTitle.length > 0 && htmlContent.length > 0 && imageContained
-              ? ""
-              : "disabled"
+            newTitle.length > 0 && htmlContent.length > 0 && imageContained ? "" : "disabled"
           }
         >
           수정

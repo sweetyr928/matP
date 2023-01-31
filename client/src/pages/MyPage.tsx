@@ -35,6 +35,19 @@ const FeedContainer = styled.div`
 const UserImg = styled.img`
   width: 110px;
   height: 110px;
+  object-fit: cover;
+`;
+const ImgContainer = styled.div`
+  width: 110px;
+  height: 110px;
+  border-radius: 100%;
+  margin: 32px 25px 0 30px;
+  border: 1px solid #a6a6a6;
+  overflow: hidden;
+`;
+const EmptyImg = styled.div`
+  width: 110px;
+  height: 110px;
   border-radius: 100%;
   margin: 32px 25px 0 30px;
   border: 1px solid #a6a6a6;
@@ -341,7 +354,9 @@ const MyPage: React.FC = () => {
   return (
     <FeedContainer>
       <div className="userInfo_header_container">
-        <UserImg src={profileUrl} alt="프로필사진" />
+        <ImgContainer>
+          {profileUrl ? <UserImg src={profileUrl} alt="프로필사진" /> : <EmptyImg />}
+        </ImgContainer>
         <UserInfo>
           <UserNickname>{nickname}</UserNickname>
           {memo && <UserRemainder>{memo}</UserRemainder>}
@@ -391,7 +406,7 @@ const MyPage: React.FC = () => {
         <ModalPortal>
           <ModalContainer>
             <FollowModalView>
-              {followingData.length !== 0 ? (
+              {followerData.length !== 0 ? (
                 followerData.map((item) => (
                   <FollowContainer
                     key={item.memberId}

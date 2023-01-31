@@ -6,12 +6,9 @@ import MatCommentAdd from "./MatCommentAdd";
 const StyledCommentContainer = styled.div`
   display: flex;
   flex-direction: column;
-  max-height: 260px;
 `;
 
 const StyledCommentList = styled.div`
-  overflow-y: scroll;
-
   &::-webkit-scrollbar {
     display: none;
   }

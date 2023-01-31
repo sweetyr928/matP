@@ -85,7 +85,7 @@ const MatPicker: React.FC = () => {
 
   useEffect(() => {
     axios
-      .get("http://ec2-15-165-163-251.ap-northeast-2.compute.amazonaws.com:8080/groups", {
+      .get("https://matp.o-r.kr/groups", {
         headers: {
           Authorization: `Bearer ${jwtToken}`,
         },

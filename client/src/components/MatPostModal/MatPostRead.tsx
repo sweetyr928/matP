@@ -7,6 +7,11 @@ import {
   likePost,
   dislikePost,
 } from "../../api/axiosAPI/posts/PostsAxios";
+import {
+  deletePost,
+  likePost,
+  dislikePost,
+} from "../../api/axiosAPI/posts/PostsAxios";
 import StarRate from "./StarRate";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -58,18 +63,16 @@ const StyledDiv = styled.div`
     display: none;
   }
 
-  .post_middle_line {
-    border: 0;
-    width: 100%;
-    height: 1.3px;
-    background: #dcdcdc;
-    margin: 5px 0px 10px 0px;
-  }
-
   .post_like {
-    width: 40px;
     cursor: pointer;
+    padding: 7px 9px 0 0;
   }
+`;
+const FavoriteIconStyled = styled(FavoriteIcon)`
+  color: #c65d7b;
+`;
+const FavoriteBorderIconStyled = styled(FavoriteBorderIcon)`
+  color: #c65d7b;
 `;
 
 const StyledContentWrapper = styled.div`
@@ -78,7 +81,7 @@ const StyledContentWrapper = styled.div`
   flex-direction: column;
 
   .post_title {
-    font-size: 40px;
+    font-size: 35px;
     margin: 0px 0px 15px 0px;
   }
 `;
@@ -86,7 +89,9 @@ const StyledContentWrapper = styled.div`
 const StyledMid = styled.div`
   display: flex;
   justify-content: space-between;
-  margin: 0px 0px 15px 0px;
+  padding: 0px 0px 20px 0px;
+  margin: 0px 0px 20px 0px;
+  border-bottom: 1px solid #cacaca;
 
   button {
     border: none;
@@ -105,13 +110,6 @@ const StyledInfo = styled.div`
   justify-content: center;
   align-items: center;
 
-  img {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    margin: 0px 10px 0px 0px;
-  }
-
   .post_nickname {
     font-size: 15px;
     margin: 0px 10px 0px 0px;
@@ -121,14 +119,23 @@ const StyledInfo = styled.div`
     font-size: 14px;
   }
 `;
+const ImgContainer = styled.div`
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  margin: 0px 10px 0px 0px;
+  overflow: hidden;
+  img {
+    width: 32px;
+    height: 32px;
+    object-fit: cover;
+  }
+`;
 
 const StyledContent = styled.div`
   margin: 0px 0px 5px 0px;
   padding: 1px 0px 0px 0px;
-  min-height: 270px;
-  max-height: 270px;
-  overflow-y: scroll;
-
+  line-height: 23px;
   &::-webkit-scrollbar {
     display: none;
   }
@@ -136,7 +143,8 @@ const StyledContent = styled.div`
 
 const StyledStarsWrapper = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: space-between;
 `;
 
 const StyledStar = styled.div`
@@ -161,9 +169,12 @@ interface ModalDefaultType {
 }
 
 const PostReadModal = ({
+ 
   onClickToggleModal,
+ 
   id,
-  getAllPostsReload,
+ ,
+getAllPostsReload,
 }: ModalDefaultType): JSX.Element => {
   const userInfo = useRecoilValue(userInfoState);
   const [nickname, setNickname] = useState<string>("");
@@ -206,9 +217,7 @@ const PostReadModal = ({
         });
     } else if (!jwtToken) {
       axios
-        .get(
-          `http://ec2-15-165-163-251.ap-northeast-2.compute.amazonaws.com:8080/places/1/posts/${id}`
-        )
+        .get(`https://matp.o-r.kr/places/1/posts/${id}`)
         .then((res) => {
           setNickname(res.data.postInfo.memberInfo.nickname);
           setProfileUrl(res.data.postInfo.memberInfo.profileUrl);
@@ -229,9 +238,7 @@ const PostReadModal = ({
   // comment list update
   useEffect(() => {
     axios
-      .get(
-        `http://ec2-15-165-163-251.ap-northeast-2.compute.amazonaws.com:8080/places/1/posts/${id}`
-      )
+      .get(`https://matp.o-r.kr/places/1/posts/${id}`)
       .then((res) => {
         setComments(res.data.comments);
         setCommentReload(false);
@@ -247,11 +254,21 @@ const PostReadModal = ({
     [deleteClicked],
     true
   );
+  const { axiosData: deleteP } = useAxios(
+    () => deletePost(id, placeId),
+    [deleteClicked],
+    true
+  );
 
   //'좋아요'
   const { axiosData: likeP } = useAxios(() => likePost(id, placeId), [], true);
 
   // '좋아요' 취소
+  const { axiosData: dislikeP } = useAxios(
+    () => dislikePost(id, placeId),
+    [],
+    true
+  );
   const { axiosData: dislikeP } = useAxios(
     () => dislikePost(id, placeId),
     [],
@@ -371,7 +388,9 @@ const PostReadModal = ({
             <div className="post_title">{title}</div>
             <StyledMid>
               <StyledInfo>
-                <img src={profileUrl} alt="profileImg"></img>
+                <ImgContainer>
+                  <img src={profileUrl} alt="profileImg" />
+                </ImgContainer>
                 <div className="post_nickname">{nickname}</div>
                 <div className="post_createdAt">
                   {moment(createdAt, "YYYY-MM-DDTHH:mm:ss").format(
@@ -438,12 +457,19 @@ const PostReadModal = ({
                   );
                 })}
               </StyledStar>
+              <div
+                className="post_like"
+                onClick={handleLike}
+                role="presentation"
+              >
+                {isLikesCheck ? (
+                  <FavoriteIconStyled />
+                ) : (
+                  <FavoriteBorderIconStyled />
+                )}
+              </div>
             </StyledStarsWrapper>
           </StyledContentWrapper>
-          <hr className="post_middle_line" />
-          <div className="post_like" onClick={handleLike} role="presentation">
-            {isLikesCheck ? <FavoriteIcon /> : <FavoriteBorderIcon />}
-          </div>
           <MatCommentList
             comments={comments}
             placeId={placeId}

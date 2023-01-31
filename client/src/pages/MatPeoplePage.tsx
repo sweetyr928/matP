@@ -41,6 +41,13 @@ const UserImg = styled.img`
   margin: 32px 25px 0 30px;
   border: 1px solid #a6a6a6;
 `;
+const EmptyImg = styled.div`
+  width: 110px;
+  height: 110px;
+  border-radius: 100%;
+  margin: 32px 25px 0 30px;
+  border: 1px solid #a6a6a6;
+`;
 
 const UserInfo = styled.div`
   display: flex;
@@ -138,9 +145,7 @@ const MatPeople: React.FC = () => {
   const [postsReload, setPostsReload] = useState<boolean>(false);
 
   useEffect(() => {
-    !!localStorage.getItem("Authorization")
-      ? setJwtToken(true)
-      : setJwtToken(false);
+    !!localStorage.getItem("Authorization") ? setJwtToken(true) : setJwtToken(false);
   }, []);
 
   useEffect(() => {
@@ -164,23 +169,11 @@ const MatPeople: React.FC = () => {
     axiosData: getMatPeopleInfoUser,
     responseData: matPeopleUser,
     status,
-  } = useAxios(
-    () => getMatPeopleInfoForUser(Number(id)),
-    [followReload],
-    false
-  );
+  } = useAxios(() => getMatPeopleInfoForUser(Number(id)), [followReload], false);
 
-  const { axiosData: follow } = useAxios(
-    () => followMatPeople(Number(id)),
-    [],
-    true
-  );
+  const { axiosData: follow } = useAxios(() => followMatPeople(Number(id)), [], true);
 
-  const { axiosData: unfollow } = useAxios(
-    () => unfollowMatPeople(Number(id)),
-    [],
-    true
-  );
+  const { axiosData: unfollow } = useAxios(() => unfollowMatPeople(Number(id)), [], true);
 
   const { axiosData: getAllPosts } = useAxios(getPosts, [], false);
 
@@ -227,7 +220,7 @@ const MatPeople: React.FC = () => {
   return (
     <FeedContainer>
       <div className="userInfo_header_container">
-        <UserImg src={profileUrl} alt="프로필사진" />
+        {profileUrl ? <UserImg src={profileUrl} alt="프로필사진" /> : <EmptyImg />}
         <UserInfo>
           <div className="matPeople_follow">
             <UserNickname>{nickname}</UserNickname>
@@ -255,11 +248,7 @@ const MatPeople: React.FC = () => {
         <StyledPosts>
           {postInfosFiltered &&
             postInfosFiltered.map((post: IPosts) => (
-              <PostRead
-                key={post.id}
-                post={post}
-                getAllPostsReload={getAllPostsReload}
-              />
+              <PostRead key={post.id} post={post} getAllPostsReload={getAllPostsReload} />
             ))}
         </StyledPosts>
       ) : (

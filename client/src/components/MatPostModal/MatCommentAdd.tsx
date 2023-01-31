@@ -15,16 +15,16 @@ const StyledComment = styled.div`
     color: #373737;
     font-size: 1rem;
     margin: 0px 0px 0px 5px;
-    border-radius: 10px;
+    border-radius: 5px;
     padding: 0px 10px;
   }
 
   input:focus {
-    outline: rgb(241, 133, 137, 0.4) solid 3px;
+    outline: #adadad solid 1px;
   }
 
   button {
-    width: 5%;
+    width: 40px;
     background-color: #874356;
     color: #ffffff;
     border: none;
