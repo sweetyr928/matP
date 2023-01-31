@@ -8,7 +8,7 @@ import StarRate from "./StarRate";
 import useAxios from "../../hooks/useAxios";
 
 const StyledDiv = styled.div`
-  margin: 7vh 10vw;
+  margin: 5vh 10vw;
   height: auto;
   display: flex;
   flex-direction: column;
@@ -16,7 +16,10 @@ const StyledDiv = styled.div`
     width: 100%;
     line-height: 25px;
     border: none;
-    font-size: 20px;
+    font-size: 30px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #c8c8c8;
+    margin-bottom: 15px;
   }
 
   input:focus {
