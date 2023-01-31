@@ -398,7 +398,7 @@ const MyPage: React.FC = () => {
         <ModalPortal>
           <ModalContainer>
             <FollowModalView>
-              {followingData.length !== 0 ? (
+              {followerData.length !== 0 ? (
                 followerData.map((item) => (
                   <FollowContainer
                     key={item.memberId}
