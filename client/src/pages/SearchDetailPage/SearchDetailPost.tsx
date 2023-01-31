@@ -47,7 +47,7 @@ const SearchTab = styled.div`
   width: 100%;
   height: 120px;
   border: none;
-  margin-bottom: -6px;
+  margin-bottom: -25px;
 `;
 
 const TabButton = styled.li`
@@ -73,8 +73,11 @@ const SearchResultBox = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
   grid-gap: 4px;
-  margin: 10px 0px 0px 0px;
-  overflow: scroll;
+  overflow-y: scroll;
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const NoneResultMessage = styled.div`
@@ -113,11 +116,8 @@ const SearchDetailPost: React.FC = () => {
     true
   );
 
-  const { axiosData: getContentSearch, responseData: searchContentData } = useAxios(
-    () => getSearchContentData(keyword),
-    [keyword],
-    true
-  );
+  const { axiosData: getContentSearch, responseData: searchContentData } =
+    useAxios(() => getSearchContentData(keyword), [keyword], true);
 
   const [searchStatus, setSearchStatus] = useRecoilState(searchStatusState);
 
@@ -182,14 +182,22 @@ const SearchDetailPost: React.FC = () => {
       {!currentMenu && searchTitleData ? (
         <SearchResultBox>
           {searchTitleData.map((post) => (
-            <PostRead key={post.id} post={post} getAllPostsReload={getAllPostsReload} />
+            <PostRead
+              key={post.id}
+              post={post}
+              getAllPostsReload={getAllPostsReload}
+            />
           ))}
         </SearchResultBox>
       ) : null}
       {currentMenu && searchContentData ? (
         <SearchResultBox>
           {searchContentData.map((post) => (
-            <PostRead key={post.id} post={post} getAllPostsReload={getAllPostsReload} />
+            <PostRead
+              key={post.id}
+              post={post}
+              getAllPostsReload={getAllPostsReload}
+            />
           ))}
         </SearchResultBox>
       ) : null}
