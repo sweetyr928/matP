@@ -39,15 +39,11 @@ const MatEditor = ({ htmlContent, setHtmlContent }: QuillEditorProps) => {
 
       try {
         // file 데이터 담아서 서버에 전달하여 이미지 업로드
-        const res = await axios.post(
-          "https://matp.p-e.kr:8080/upload",
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        );
+        const res = await axios.post("https://matp.p-e.kr/upload", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
 
         // 이미지 url
         url = res.data.data.path;

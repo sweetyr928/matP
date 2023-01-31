@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const url = "https://matp.p-e.kr:8080/search";
+const url = "https://matp.p-e.kr/search";
 
 interface PlaceData {
   id: number;

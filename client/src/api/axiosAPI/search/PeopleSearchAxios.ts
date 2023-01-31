@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const url = "https://matp.p-e.kr:8080/members";
+const url = "https://matp.p-e.kr/members";
 
 export interface IPeopleSearch {
   id: number;
