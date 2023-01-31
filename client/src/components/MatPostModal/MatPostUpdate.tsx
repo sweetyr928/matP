@@ -87,7 +87,13 @@ const StyledStarsWrapper = styled.div`
   flex-direction: column;
   padding: 15px 0px 0px 0px;
   position: absolute;
-  bottom: 4vh;
+  bottom: 6.5vh;
+  @media screen and (max-height: 750px) {
+    bottom: 4.5vh;
+  }
+  @media screen and (max-height: 560px) {
+    bottom: 3vh;
+  }
 `;
 
 const StyledRatingtxt = styled.div`
@@ -127,7 +133,12 @@ interface ModalDefaultType {
   placeId: number;
 }
 
-const PostUpdateModal = ({ onClickToggleModal, id, state, placeId }: ModalDefaultType) => {
+const PostUpdateModal = ({
+  onClickToggleModal,
+  id,
+  state,
+  placeId,
+}: ModalDefaultType) => {
   // 모달 닫기
   const closeModal = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -138,8 +149,12 @@ const PostUpdateModal = ({ onClickToggleModal, id, state, placeId }: ModalDefaul
 
   // 기존 데이터 받아오기
   const [newTitle, setNewTitle] = useState<string>(state.postInfo.title);
-  const [htmlContent, setHtmlContent] = useState<string>(state.postInfo.content);
-  const [thumbnailUrl, setThumbnailUrl] = useState<string>(state.postInfo.thumbnailUrl);
+  const [htmlContent, setHtmlContent] = useState<string>(
+    state.postInfo.content
+  );
+  const [thumbnailUrl, setThumbnailUrl] = useState<string>(
+    state.postInfo.thumbnailUrl
+  );
   const [clicked, setClicked] = useState<boolean[]>(
     new Array(5).fill(true, 0, state.postInfo.star)
   );
@@ -159,7 +174,14 @@ const PostUpdateModal = ({ onClickToggleModal, id, state, placeId }: ModalDefaul
 
   const { axiosData, status } = useAxios(
     () =>
-      updatePost(newTitle, htmlContent, thumbnailUrl, clicked.filter(Boolean).length, placeId, id),
+      updatePost(
+        newTitle,
+        htmlContent,
+        thumbnailUrl,
+        clicked.filter(Boolean).length,
+        placeId,
+        id
+      ),
     [newTitle, htmlContent, clicked, thumbnailUrl],
     true
   );
@@ -203,7 +225,11 @@ const PostUpdateModal = ({ onClickToggleModal, id, state, placeId }: ModalDefaul
 
   return (
     <StyledDiv>
-      <input placeholder="제목을 입력해주세요" value={newTitle} onChange={handleInput}></input>
+      <input
+        placeholder="제목을 입력해주세요"
+        value={newTitle}
+        onChange={handleInput}
+      ></input>
       <hr className="middle_line" />
       <div className={newTitle.length <= 0 ? "disabled" : ""}>
         <MatEditor htmlContent={htmlContent} setHtmlContent={setHtmlContent} />
@@ -217,7 +243,9 @@ const PostUpdateModal = ({ onClickToggleModal, id, state, placeId }: ModalDefaul
                 key={idx}
                 size="50"
                 onClick={() => handleStarClick(el)}
-                className={imageContained ? (clicked[el] ? "yellow" : "") : "disabled"}
+                className={
+                  imageContained ? (clicked[el] ? "yellow" : "") : "disabled"
+                }
               />
             );
           })}
@@ -227,7 +255,9 @@ const PostUpdateModal = ({ onClickToggleModal, id, state, placeId }: ModalDefaul
         <button
           onClick={handleSubmit}
           className={
-            newTitle.length > 0 && htmlContent.length > 0 && imageContained ? "" : "disabled"
+            newTitle.length > 0 && htmlContent.length > 0 && imageContained
+              ? ""
+              : "disabled"
           }
         >
           수정
