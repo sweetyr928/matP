@@ -2,7 +2,11 @@
 import styled from "styled-components";
 import useAxios from "../../hooks/useAxios";
 import { useEffect, useState } from "react";
-import { deletePost, likePost, dislikePost } from "../../api/axiosAPI/posts/PostsAxios";
+import {
+  deletePost,
+  likePost,
+  dislikePost,
+} from "../../api/axiosAPI/posts/PostsAxios";
 import StarRate from "./StarRate";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -156,7 +160,10 @@ interface ModalDefaultType {
   id: number;
 }
 
-const PostReadModal = ({ onClickToggleModal, id }: ModalDefaultType): JSX.Element => {
+const PostReadModal = ({
+  onClickToggleModal,
+  id,
+}: ModalDefaultType): JSX.Element => {
   const userInfo = useRecoilValue(userInfoState);
   const [nickname, setNickname] = useState<string>("");
   const [profileUrl, setProfileUrl] = useState<string>("");
@@ -198,9 +205,7 @@ const PostReadModal = ({ onClickToggleModal, id }: ModalDefaultType): JSX.Elemen
         });
     } else if (!jwtToken) {
       axios
-        .get(
-          `http://ec2-15-165-163-251.ap-northeast-2.compute.amazonaws.com:8080/places/1/posts/${id}`
-        )
+        .get(`https://matp.p-e.kr:8080/places/1/posts/${id}`)
         .then((res) => {
           setNickname(res.data.postInfo.memberInfo.nickname);
           setProfileUrl(res.data.postInfo.memberInfo.profileUrl);
@@ -221,9 +226,7 @@ const PostReadModal = ({ onClickToggleModal, id }: ModalDefaultType): JSX.Elemen
   // comment list update
   useEffect(() => {
     axios
-      .get(
-        `http://ec2-15-165-163-251.ap-northeast-2.compute.amazonaws.com:8080/places/1/posts/${id}`
-      )
+      .get(`https://matp.p-e.kr:8080/places/1/posts/${id}`)
       .then((res) => {
         setComments(res.data.comments);
         setCommentReload(false);
@@ -234,13 +237,21 @@ const PostReadModal = ({ onClickToggleModal, id }: ModalDefaultType): JSX.Elemen
   }, [commentReload]);
 
   // post 삭제
-  const { axiosData: deleteP } = useAxios(() => deletePost(id, placeId), [deleteClicked], true);
+  const { axiosData: deleteP } = useAxios(
+    () => deletePost(id, placeId),
+    [deleteClicked],
+    true
+  );
 
   //'좋아요'
   const { axiosData: likeP } = useAxios(() => likePost(id, placeId), [], true);
 
   // '좋아요' 취소
-  const { axiosData: dislikeP } = useAxios(() => dislikePost(id, placeId), [], true);
+  const { axiosData: dislikeP } = useAxios(
+    () => dislikePost(id, placeId),
+    [],
+    true
+  );
 
   // matPostUpdate 컴포넌트로 post data 넘겨줌
   const postData = {
@@ -334,7 +345,11 @@ const PostReadModal = ({ onClickToggleModal, id }: ModalDefaultType): JSX.Elemen
 
   return (
     <StyledModal>
-      <span role="presentation" onClick={onClickToggleModal} className="close-btn">
+      <span
+        role="presentation"
+        onClick={onClickToggleModal}
+        className="close-btn"
+      >
         &times;
       </span>
       {isEdit ? (
@@ -353,14 +368,17 @@ const PostReadModal = ({ onClickToggleModal, id }: ModalDefaultType): JSX.Elemen
                 <img src={profileUrl} alt="profileImg"></img>
                 <div className="post_nickname">{nickname}</div>
                 <div className="post_createdAt">
-                  {moment(createdAt, "YYYY-MM-DDTHH:mm:ss").format("YYYY년 MMM Do")}
+                  {moment(createdAt, "YYYY-MM-DDTHH:mm:ss").format(
+                    "YYYY년 MMM Do"
+                  )}
                 </div>
               </StyledInfo>
               <div>
                 <button
                   onClick={handleEdit}
                   className={
-                    nickname !== userInfo.nickname && profileUrl !== userInfo.profileUrl
+                    nickname !== userInfo.nickname &&
+                    profileUrl !== userInfo.profileUrl
                       ? "disabled"
                       : ""
                   }
@@ -370,7 +388,8 @@ const PostReadModal = ({ onClickToggleModal, id }: ModalDefaultType): JSX.Elemen
                 <button
                   onClick={handleClick}
                   className={
-                    nickname !== userInfo.nickname && profileUrl !== userInfo.profileUrl
+                    nickname !== userInfo.nickname &&
+                    profileUrl !== userInfo.profileUrl
                       ? "disabled"
                       : ""
                   }
@@ -404,11 +423,25 @@ const PostReadModal = ({ onClickToggleModal, id }: ModalDefaultType): JSX.Elemen
             <StyledStarsWrapper>
               <StyledStar>
                 {array.map((el, idx) => {
-                  return <StarRate key={idx} size="50" className={clicked[el] ? "yellow" : ""} />;
+                  return (
+                    <StarRate
+                      key={idx}
+                      size="50"
+                      className={clicked[el] ? "yellow" : ""}
+                    />
+                  );
                 })}
               </StyledStar>
-              <div className="post_like" onClick={handleLike} role="presentation">
-                {isLikesCheck ? <FavoriteIconStyled /> : <FavoriteBorderIconStyled />}
+              <div
+                className="post_like"
+                onClick={handleLike}
+                role="presentation"
+              >
+                {isLikesCheck ? (
+                  <FavoriteIconStyled />
+                ) : (
+                  <FavoriteBorderIconStyled />
+                )}
               </div>
             </StyledStarsWrapper>
           </StyledContentWrapper>

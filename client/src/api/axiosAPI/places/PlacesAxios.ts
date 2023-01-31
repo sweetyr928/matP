@@ -1,8 +1,7 @@
 import axios from "axios";
 import instance from "../../CustomAxios";
 
-const url =
-  "http://ec2-15-165-163-251.ap-northeast-2.compute.amazonaws.com:8080/places";
+const url = "https://matp.p-e.kr:8080/places";
 
 export interface IMatPlace {
   id: number;

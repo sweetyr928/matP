@@ -40,7 +40,7 @@ const MatEditor = ({ htmlContent, setHtmlContent }: QuillEditorProps) => {
       try {
         // file 데이터 담아서 서버에 전달하여 이미지 업로드
         const res = await axios.post(
-          "http://ec2-15-165-163-251.ap-northeast-2.compute.amazonaws.com:8080/upload",
+          "https://matp.p-e.kr:8080/upload",
           formData,
           {
             headers: {
