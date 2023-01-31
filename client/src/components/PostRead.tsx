@@ -101,7 +101,11 @@ const PostRead = ({
       </ImgWrapper>
       {isOpenModal === true ? (
         <ModalPortal>
-          <MatPostRead onClickToggleModal={onClickToggleModal} id={post.id} />
+          <MatPostRead
+            onClickToggleModal={onClickToggleModal}
+            id={post.id}
+            getAllPostsReload={getAllPostsReload}
+          />
           <ModalBackdrop onClick={onClickToggleModal_BD} />
         </ModalPortal>
       ) : null}

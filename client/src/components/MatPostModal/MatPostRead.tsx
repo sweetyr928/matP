@@ -2,7 +2,11 @@
 import styled from "styled-components";
 import useAxios from "../../hooks/useAxios";
 import { useEffect, useState } from "react";
-import { deletePost, likePost, dislikePost } from "../../api/axiosAPI/posts/PostsAxios";
+import {
+  deletePost,
+  likePost,
+  dislikePost,
+} from "../../api/axiosAPI/posts/PostsAxios";
 import StarRate from "./StarRate";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -153,9 +157,14 @@ const StyledStar = styled.div`
 interface ModalDefaultType {
   onClickToggleModal: () => void;
   id: number;
+  getAllPostsReload: () => void;
 }
 
-const PostReadModal = ({ onClickToggleModal, id }: ModalDefaultType): JSX.Element => {
+const PostReadModal = ({
+  onClickToggleModal,
+  id,
+  getAllPostsReload,
+}: ModalDefaultType): JSX.Element => {
   const userInfo = useRecoilValue(userInfoState);
   const [nickname, setNickname] = useState<string>("");
   const [profileUrl, setProfileUrl] = useState<string>("");
@@ -233,13 +242,21 @@ const PostReadModal = ({ onClickToggleModal, id }: ModalDefaultType): JSX.Elemen
   }, [commentReload]);
 
   // post 삭제
-  const { axiosData: deleteP } = useAxios(() => deletePost(id, placeId), [deleteClicked], true);
+  const { axiosData: deleteP } = useAxios(
+    () => deletePost(id, placeId),
+    [deleteClicked],
+    true
+  );
 
   //'좋아요'
   const { axiosData: likeP } = useAxios(() => likePost(id, placeId), [], true);
 
   // '좋아요' 취소
-  const { axiosData: dislikeP } = useAxios(() => dislikePost(id, placeId), [], true);
+  const { axiosData: dislikeP } = useAxios(
+    () => dislikePost(id, placeId),
+    [],
+    true
+  );
 
   // matPostUpdate 컴포넌트로 post data 넘겨줌
   const postData = {
@@ -282,6 +299,7 @@ const PostReadModal = ({ onClickToggleModal, id }: ModalDefaultType): JSX.Elemen
   const handleDelete = () => {
     setDeleteClicked(!deleteClicked);
     deleteP();
+    getAllPostsReload();
     onClickToggleModal();
   };
 
@@ -333,7 +351,11 @@ const PostReadModal = ({ onClickToggleModal, id }: ModalDefaultType): JSX.Elemen
 
   return (
     <StyledModal>
-      <span role="presentation" onClick={onClickToggleModal} className="close-btn">
+      <span
+        role="presentation"
+        onClick={onClickToggleModal}
+        className="close-btn"
+      >
         &times;
       </span>
       {isEdit ? (
@@ -352,14 +374,17 @@ const PostReadModal = ({ onClickToggleModal, id }: ModalDefaultType): JSX.Elemen
                 <img src={profileUrl} alt="profileImg"></img>
                 <div className="post_nickname">{nickname}</div>
                 <div className="post_createdAt">
-                  {moment(createdAt, "YYYY-MM-DDTHH:mm:ss").format("YYYY년 MMM Do")}
+                  {moment(createdAt, "YYYY-MM-DDTHH:mm:ss").format(
+                    "YYYY년 MMM Do"
+                  )}
                 </div>
               </StyledInfo>
               <div>
                 <button
                   onClick={handleEdit}
                   className={
-                    nickname !== userInfo.nickname && profileUrl !== userInfo.profileUrl
+                    nickname !== userInfo.nickname &&
+                    profileUrl !== userInfo.profileUrl
                       ? "disabled"
                       : ""
                   }
@@ -369,7 +394,8 @@ const PostReadModal = ({ onClickToggleModal, id }: ModalDefaultType): JSX.Elemen
                 <button
                   onClick={handleClick}
                   className={
-                    nickname !== userInfo.nickname && profileUrl !== userInfo.profileUrl
+                    nickname !== userInfo.nickname &&
+                    profileUrl !== userInfo.profileUrl
                       ? "disabled"
                       : ""
                   }
@@ -403,7 +429,13 @@ const PostReadModal = ({ onClickToggleModal, id }: ModalDefaultType): JSX.Elemen
             <StyledStarsWrapper>
               <StyledStar>
                 {array.map((el, idx) => {
-                  return <StarRate key={idx} size="50" className={clicked[el] ? "yellow" : ""} />;
+                  return (
+                    <StarRate
+                      key={idx}
+                      size="50"
+                      className={clicked[el] ? "yellow" : ""}
+                    />
+                  );
                 })}
               </StyledStar>
             </StyledStarsWrapper>
