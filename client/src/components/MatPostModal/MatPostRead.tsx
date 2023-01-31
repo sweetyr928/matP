@@ -54,18 +54,16 @@ const StyledDiv = styled.div`
     display: none;
   }
 
-  .post_middle_line {
-    border: 0;
-    width: 100%;
-    height: 1.3px;
-    background: #dcdcdc;
-    margin: 5px 0px 10px 0px;
-  }
-
   .post_like {
-    width: 40px;
     cursor: pointer;
+    padding: 7px 9px 0 0;
   }
+`;
+const FavoriteIconStyled = styled(FavoriteIcon)`
+  color: #c65d7b;
+`;
+const FavoriteBorderIconStyled = styled(FavoriteBorderIcon)`
+  color: #c65d7b;
 `;
 
 const StyledContentWrapper = styled.div`
@@ -74,7 +72,7 @@ const StyledContentWrapper = styled.div`
   flex-direction: column;
 
   .post_title {
-    font-size: 40px;
+    font-size: 35px;
     margin: 0px 0px 15px 0px;
   }
 `;
@@ -82,7 +80,9 @@ const StyledContentWrapper = styled.div`
 const StyledMid = styled.div`
   display: flex;
   justify-content: space-between;
-  margin: 0px 0px 15px 0px;
+  padding: 0px 0px 20px 0px;
+  margin: 0px 0px 20px 0px;
+  border-bottom: 1px solid #cacaca;
 
   button {
     border: none;
@@ -132,7 +132,8 @@ const StyledContent = styled.div`
 
 const StyledStarsWrapper = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: space-between;
 `;
 
 const StyledStar = styled.div`
@@ -406,12 +407,11 @@ const PostReadModal = ({ onClickToggleModal, id }: ModalDefaultType): JSX.Elemen
                   return <StarRate key={idx} size="50" className={clicked[el] ? "yellow" : ""} />;
                 })}
               </StyledStar>
+              <div className="post_like" onClick={handleLike} role="presentation">
+                {isLikesCheck ? <FavoriteIconStyled /> : <FavoriteBorderIconStyled />}
+              </div>
             </StyledStarsWrapper>
           </StyledContentWrapper>
-          <hr className="post_middle_line" />
-          <div className="post_like" onClick={handleLike} role="presentation">
-            {isLikesCheck ? <FavoriteIcon /> : <FavoriteBorderIcon />}
-          </div>
           <MatCommentList
             comments={comments}
             placeId={placeId}

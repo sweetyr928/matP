@@ -37,6 +37,12 @@ const ImgContainer = styled.img`
   height: 40px;
   border-radius: 50%;
 `;
+const EmptyImg = styled.div`
+  color: #505050;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+`;
 
 const LogInButton = styled(LoginIcon)`
   color: #505050;
@@ -70,7 +76,7 @@ const Header: React.FC = () => {
       <HeaderContainer>
         <Link to={"/mypage"}>
           <IconContainer>
-            <ImgContainer src={profileUrl} alt="프로필 사진" />
+            {profileUrl ? <ImgContainer src={profileUrl} alt="프로필사진" /> : <EmptyImg />}
           </IconContainer>
         </Link>
       </HeaderContainer>

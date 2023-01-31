@@ -39,6 +39,13 @@ const UserImg = styled.img`
   margin: 32px 25px 0 30px;
   border: 1px solid #a6a6a6;
 `;
+const EmptyImg = styled.div`
+  width: 110px;
+  height: 110px;
+  border-radius: 100%;
+  margin: 32px 25px 0 30px;
+  border: 1px solid #a6a6a6;
+`;
 const UserInfo = styled.div`
   display: flex;
   flex-direction: column;
@@ -341,7 +348,7 @@ const MyPage: React.FC = () => {
   return (
     <FeedContainer>
       <div className="userInfo_header_container">
-        <UserImg src={profileUrl} alt="프로필사진" />
+        {profileUrl ? <UserImg src={profileUrl} alt="프로필사진" /> : <EmptyImg />}
         <UserInfo>
           <UserNickname>{nickname}</UserNickname>
           {memo && <UserRemainder>{memo}</UserRemainder>}

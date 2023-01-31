@@ -38,13 +38,6 @@ const StyledDiv = styled.div`
     border: none;
     font-size: 20px;
   }
-  .middle_line {
-    border: 0;
-    width: 100%;
-    height: 1.3px;
-    background: #b8b8b8;
-    margin: 20px 0px 20px 0px;
-  }
   input:focus {
     outline: none;
   }
@@ -136,11 +129,7 @@ interface ModalDefaultType {
   dataReloadHandler: () => void;
 }
 
-const PostCreateModal = ({
-  onClickToggleModal,
-  placeId,
-  dataReloadHandler,
-}: ModalDefaultType) => {
+const PostCreateModal = ({ onClickToggleModal, placeId, dataReloadHandler }: ModalDefaultType) => {
   // 모달 닫기
   const closeModal = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -155,13 +144,7 @@ const PostCreateModal = ({
   const [thumbnailUrl, setThumbnailUrl] = useState<string>("");
 
   // 별점 기본값 설정
-  const [clicked, setClicked] = useState<boolean[]>([
-    false,
-    false,
-    false,
-    false,
-    false,
-  ]);
+  const [clicked, setClicked] = useState<boolean[]>([false, false, false, false, false]);
 
   const [imageContained, setImageContained] = useState<boolean>(false);
   const [submit, setSubmit] = useState<boolean>(false);
@@ -177,14 +160,7 @@ const PostCreateModal = ({
   }, [htmlContent]);
 
   const { axiosData } = useAxios(
-    () =>
-      createPost(
-        title,
-        htmlContent,
-        thumbnailUrl,
-        clicked.filter(Boolean).length,
-        placeId
-      ),
+    () => createPost(title, htmlContent, thumbnailUrl, clicked.filter(Boolean).length, placeId),
     [title, htmlContent, thumbnailUrl, clicked, submit],
     true
   );
@@ -242,17 +218,9 @@ const PostCreateModal = ({
         &times;
       </span>
       <StyledDiv>
-        <input
-          placeholder="제목을 입력해주세요"
-          value={title}
-          onChange={handleInput}
-        ></input>
-        <hr className="middle_line" />
+        <input placeholder="제목을 입력해주세요" value={title} onChange={handleInput}></input>
         <div className={title.length <= 0 ? "disabled" : ""}>
-          <MatEditor
-            htmlContent={htmlContent}
-            setHtmlContent={setHtmlContent}
-          />
+          <MatEditor htmlContent={htmlContent} setHtmlContent={setHtmlContent} />
         </div>
         <StyledStarsWrapper>
           <StyledRatingtxt>평점</StyledRatingtxt>
@@ -263,9 +231,7 @@ const PostCreateModal = ({
                   key={idx}
                   size="50"
                   onClick={() => handleStarClick(el)}
-                  className={
-                    imageContained ? (clicked[el] ? "yellow" : "") : "disabled"
-                  }
+                  className={imageContained ? (clicked[el] ? "yellow" : "") : "disabled"}
                 />
               );
             })}

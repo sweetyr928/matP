@@ -19,14 +19,6 @@ const StyledDiv = styled.div`
     font-size: 20px;
   }
 
-  .middle_line {
-    border: 0;
-    width: 100%;
-    height: 1.3px;
-    background: #b8b8b8;
-    margin: 20px 0px 20px 0px;
-  }
-
   input:focus {
     outline: none;
   }
@@ -204,7 +196,6 @@ const PostUpdateModal = ({ onClickToggleModal, id, state, placeId }: ModalDefaul
   return (
     <StyledDiv>
       <input placeholder="제목을 입력해주세요" value={newTitle} onChange={handleInput}></input>
-      <hr className="middle_line" />
       <div className={newTitle.length <= 0 ? "disabled" : ""}>
         <MatEditor htmlContent={htmlContent} setHtmlContent={setHtmlContent} />
       </div>

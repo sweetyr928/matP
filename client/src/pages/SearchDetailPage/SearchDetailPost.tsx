@@ -45,7 +45,7 @@ const SearchTab = styled.div`
   justify-content: space-around;
   align-items: center;
   width: 100%;
-  height: 60px;
+  height: 120px;
   border: none;
   margin-bottom: -6px;
 `;
@@ -62,20 +62,19 @@ const TabButton = styled.li`
   line-height: 30px;
   list-style: none;
   border-top: 1px solid #dbdbdb;
-  font-weight: ${(props) => (props.id === "focused" ? "600" : "400")};
-  border-bottom: ${(props) => (props.id === "focused" ? "2px solid #373737" : "1px solid #adadad")};
-  &:hover {
-    font-weight: 600;
-  }
+  box-sizing: content-box;
+  font-weight: ${(props) => (props.id === "focused" ? "500" : "350")};
+  border-bottom: ${(props) =>
+    props.id === "focused" ? "1.5px solid #868686" : "1px solid #c4c4c4"};
 `;
 
 const SearchResultBox = styled.div`
-  padding-top: 10px;
   width: 100%;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
   grid-gap: 4px;
-  margin: 0px 0px 0px 0px;
+  margin: 10px 0px 0px 0px;
+  overflow: scroll;
 `;
 
 const NoneResultMessage = styled.div`

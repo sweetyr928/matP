@@ -17,20 +17,12 @@ interface PostData {
   placeId: number;
 }
 
-export const getSearchTitleData = async (
-  keyword: string
-): Promise<PostData[]> => {
-  const response = await axios.get(
-    `${url}/title?keyword=${keyword}&page=0&size=15`
-  );
+export const getSearchTitleData = async (keyword: string): Promise<PostData[]> => {
+  const response = await axios.get(`${url}/title?keyword=${keyword}&page=0&size=30`);
   return response.data;
 };
 
-export const getSearchContentData = async (
-  keyword: string
-): Promise<PostData[]> => {
-  const response = await axios.get(
-    `${url}/content?keyword=${keyword}&page=0&size=15`
-  );
+export const getSearchContentData = async (keyword: string): Promise<PostData[]> => {
+  const response = await axios.get(`${url}/content?keyword=${keyword}&page=0&size=30`);
   return response.data;
 };
