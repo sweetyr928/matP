@@ -299,7 +299,6 @@ const PostReadModal = ({
     setDeleteClicked(!deleteClicked);
     deleteP();
     getAllPostsReload();
-    onClickToggleModal();
   };
 
   /**

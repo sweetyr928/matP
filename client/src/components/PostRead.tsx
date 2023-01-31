@@ -80,6 +80,7 @@ const PostRead = ({
   };
 
   const onClickToggleModal = useCallback(() => {
+    getAllPostsReload();
     setOpenModal(!isOpenModal);
   }, [isOpenModal]);
 
