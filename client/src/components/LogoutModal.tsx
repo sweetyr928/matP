@@ -55,8 +55,8 @@ const LogoutModal = ({ onClickToggleLogoutModal }: LogoutModalProps) => {
   const setUserInfo = useSetRecoilState(userInfoState);
   const logoutHandler = () => {
     localStorage.removeItem("Authorization");
-    localStorage.removeItem("recoil-persist");
     setUserInfo({});
+    localStorage.removeItem("recoil-persist");
     navigate("/");
     window.location.reload();
   };
