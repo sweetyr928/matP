@@ -160,11 +160,13 @@ const StyledStar = styled.div`
 interface ModalDefaultType {
   onClickToggleModal: () => void;
   id: number;
+  getAllPostsReload: () => void;
 }
 
 const PostReadModal = ({
   onClickToggleModal,
   id,
+  getAllPostsReload,
 }: ModalDefaultType): JSX.Element => {
   const userInfo = useRecoilValue(userInfoState);
   const [nickname, setNickname] = useState<string>("");
@@ -296,7 +298,7 @@ const PostReadModal = ({
   const handleDelete = () => {
     setDeleteClicked(!deleteClicked);
     deleteP();
-    onClickToggleModal();
+    getAllPostsReload();
   };
 
   /**
