@@ -155,13 +155,13 @@ const MatPeople: React.FC = () => {
     } else if (!jwtToken) {
       getMatPeopleInfo();
     }
-  }, [followReload]);
+  }, [followReload, postsReload]);
 
   const navigate = useNavigate();
 
   const { axiosData: getMatPeopleInfo, responseData: matPeople } = useAxios(
     () => getMatPeople(Number(id)),
-    [followReload],
+    [followReload, postsReload],
     false
   );
 

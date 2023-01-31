@@ -94,7 +94,13 @@ const StyledStarsWrapper = styled.div`
   flex-direction: column;
   padding: 15px 0px 0px 0px;
   position: absolute;
-  bottom: 4vh;
+  bottom: 6.5vh;
+  @media screen and (max-height: 750px) {
+    bottom: 4.5vh;
+  }
+  @media screen and (max-height: 560px) {
+    bottom: 3vh;
+  }
 `;
 
 const StyledRatingtxt = styled.div`
