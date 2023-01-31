@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: "https://matp.p-e.kr",
+  baseURL: "https://matp.o-r.kr/",
   headers: {
     Authorization: `Bearer ${localStorage.getItem("Authorization")}`,
   },

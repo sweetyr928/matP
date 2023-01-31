@@ -2,7 +2,7 @@ import axios from "axios";
 import instance from "../../CustomAxios";
 import type { IComments } from "../comments/commentsAxios";
 
-const url = "https://matp.p-e.kr";
+const url = "https://matp.o-r.kr";
 
 export interface IPosts {
   id: number;

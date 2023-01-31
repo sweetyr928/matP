@@ -205,7 +205,7 @@ const PostReadModal = ({
         });
     } else if (!jwtToken) {
       axios
-        .get(`https://matp.p-e.kr/places/1/posts/${id}`)
+        .get(`https://matp.o-r.kr/places/1/posts/${id}`)
         .then((res) => {
           setNickname(res.data.postInfo.memberInfo.nickname);
           setProfileUrl(res.data.postInfo.memberInfo.profileUrl);
@@ -226,7 +226,7 @@ const PostReadModal = ({
   // comment list update
   useEffect(() => {
     axios
-      .get(`https://matp.p-e.kr/places/1/posts/${id}`)
+      .get(`https://matp.o-r.kr/places/1/posts/${id}`)
       .then((res) => {
         setComments(res.data.comments);
         setCommentReload(false);

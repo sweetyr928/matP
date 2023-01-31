@@ -2,7 +2,7 @@ import axios from "axios";
 import instance from "../../CustomAxios";
 import { IPosts } from "../posts/PostsAxios";
 
-const url = "https://matp.p-e.kr/members";
+const url = "https://matp.o-r.kr/members";
 
 export interface IMatPeopleInfo {
   memberId: number;

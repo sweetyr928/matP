@@ -1,7 +1,7 @@
 import axios from "axios";
 import instance from "../../CustomAxios";
 
-const url = "https://matp.p-e.kr/places";
+const url = "https://matp.o-r.kr/places";
 
 export interface IMatPlace {
   id: number;
