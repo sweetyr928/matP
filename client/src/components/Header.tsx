@@ -84,14 +84,13 @@ const Header: React.FC = () => {
   const { responseData: memberData, status: accountStatus } = useAxios(getMyData, [], true);
 
   useEffect(() => {
-    if (accountStatus === "Success") {
-      if (jwtToken) {
-        setIsLoggedIn(true);
-      } else {
-        setIsLoggedIn(false);
-      }
+    if (jwtToken) {
+      setIsLoggedIn(true);
+    } else {
+      setIsLoggedIn(false);
     }
-    console.log(jwtToken, isLoggedIn);
+
+    console.log(jwtToken, isLoggedIn, 0);
   }, [jwtToken, accountStatus, isLoggedIn]);
 
   const { profileUrl } = memberData || {};
