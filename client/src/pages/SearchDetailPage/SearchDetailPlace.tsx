@@ -50,12 +50,11 @@ const SearchResultPlaceBox = styled.div`
 
 const PostPlaceBox = styled.div`
   width: 100%;
-  height: 16px;
-  margin-top: 20px;
+  margin: 10px 0;
   display: flex;
   justify-content: center;
   button {
-    color: #939393;
+    color: #7c7c7c;
     border: none;
     font-size: 16px;
     background-color: transparent;
