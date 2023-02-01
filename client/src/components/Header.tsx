@@ -81,6 +81,7 @@ const Header: React.FC = () => {
         setIsLoggedIn(false);
       }
     }
+    console.log(jwtToken, isLoggedIn);
   }, [jwtToken, accountStatus]);
 
   return (
