@@ -14,6 +14,8 @@ import {
 import { ModalPortal } from "../components";
 import LogoutModal from "../components/LogoutModal";
 import MyPagePostInfo from "../components/MyPagePostInfo";
+import { useRecoilValue } from "recoil";
+import { isLoggedInState } from "../store/userInfoAtoms";
 
 const FeedContainer = styled.div`
   height: 100%;
@@ -273,6 +275,7 @@ const MyPage: React.FC = () => {
   };
 
   const [isChange, setIsChange] = useState<boolean>(false);
+  const isLoggedIn = useRecoilValue(isLoggedInState);
 
   const { axiosData: getMemberAxios, responseData: memberData } = useAxios(getMyData, [isChange]);
   const { responseData: followingData } = useAxios(getMyFollowings);
@@ -300,7 +303,7 @@ const MyPage: React.FC = () => {
 
   useEffect(() => {
     getMemberAxios();
-  }, [isChange]);
+  }, [isChange, isLoggedIn]);
 
   const onClickToggleEditModal = () => {
     setOpenEditModal(!isOpenEditModal);

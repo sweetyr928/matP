@@ -9,4 +9,9 @@ const userInfoState = atom({
   effects_UNSTABLE: [persistAtom],
 });
 
-export { userInfoState };
+const isLoggedInState = atom({
+  key: "isLoggedInState",
+  default: false,
+});
+
+export { userInfoState, isLoggedInState };

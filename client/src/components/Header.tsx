@@ -4,6 +4,8 @@ import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import useAxios from "../hooks/useAxios";
 import { getMyData } from "../api/axiosAPI/members/myPageAPI";
+import { useRecoilState } from "recoil";
+import { isLoggedInState } from "../store/userInfoAtoms";
 
 const HeaderContainer = styled.div`
   background-color: #ffffff;
@@ -69,11 +71,15 @@ const LogInButton = styled(LoginIcon)`
 const Header: React.FC = () => {
   const navigate = useNavigate();
   const jwtToken = localStorage.getItem("Authorization");
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoggedInState);
   const [searchParams] = useSearchParams();
   const Authorization = searchParams.get("access_token");
 
-  const { responseData: memberData } = useAxios(getMyData, [isLoggedIn], true);
+  const { responseData: memberData, status: acoountStatus } = useAxios(
+    getMyData,
+    [isLoggedIn],
+    true
+  );
   const { profileUrl } = memberData || {};
   useEffect(() => {
     if (jwtToken || Authorization) {
@@ -81,10 +87,10 @@ const Header: React.FC = () => {
     } else {
       setIsLoggedIn(false);
     }
-    console.log(jwtToken, isLoggedIn, 1);
-  }, [jwtToken, isLoggedIn]);
+    console.log(jwtToken, isLoggedIn, 2);
+  }, [jwtToken, isLoggedIn, acoountStatus]);
 
-  if (jwtToken) {
+  if (isLoggedIn) {
     return (
       <HeaderContainer>
         <Link to={"/mypage"}>
