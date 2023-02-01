@@ -46,10 +46,6 @@ const KakaoMap = () => {
     }
   }, [placeInfoStatus, latitude, longitude]);
 
-  useEffect(() => {
-    console.log(curruntLocation.center.lat, curruntLocation.center.lng);
-  }, [curruntLocation.center.lat, curruntLocation.center.lng]);
-
   return (
     <>
       <MapContainer

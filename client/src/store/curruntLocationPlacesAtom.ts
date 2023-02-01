@@ -8,7 +8,7 @@ export const curruntLocationPlacesState = atom({
 export const curruntLocationState = atom({
   key: "curruntLocationState",
   default: {
-    level: 0,
+    level: 8,
     center: {
       lat: 0,
       lng: 0,

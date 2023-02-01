@@ -39,12 +39,12 @@ const CurrentLocaionSearchButton = styled.button`
   position: absolute;
   right: -42vw;
   bottom: 10vh;
-  font-size: 1.57rem;
+  font-size: 20px;
   color: #fbfbfb;
   width: 210px;
   height: 50px;
   border: none;
-  background-color: rgba(198, 93, 123, 0.85);
+  background-color: rgba(198, 93, 123, 0.75);
   border-radius: 10px;
   cursor: pointer;
 `;
@@ -53,7 +53,7 @@ const CurruntLocationPlacesButton = () => {
   const curruntLocation = useRecoilValue(curruntLocationState);
   const { center, level } = curruntLocation;
   const { lng, lat } = center;
-  const levelMeter = [0, 0.1, 0.25, 0.55, 0.8, 2.0, 3.5, 9.5, 20, 20, 20];
+  const levelMeter = [0, 0.1, 0.25, 0.55, 0.8, 2.0, 3.5];
 
   const setSearchResults = useSetRecoilState(searchResultsState);
   const setSearchStatus = useSetRecoilState(searchStatusState);
@@ -77,14 +77,12 @@ const CurruntLocationPlacesButton = () => {
     if (curruntLocationStatus === "Loading") {
       setCurruntLocationPlaces(CurrentLocaionPlaceData);
       setCurruntLocationStatus("Success");
-      console.log(lat, lng, level);
-      console.log(CurrentLocaionPlaceData);
     }
   }, [curruntLocationStatus]);
 
   return (
     <>
-      {level < 8 ? (
+      {level < 7 ? (
         <CurrentLocaionSearchButton onClick={CurrentLocaionSearchHandler}>
           현재 위치에서 검색
         </CurrentLocaionSearchButton>
