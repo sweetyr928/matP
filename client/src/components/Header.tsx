@@ -4,8 +4,6 @@ import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import useAxios from "../hooks/useAxios";
 import { getMyData } from "../api/axiosAPI/members/myPageAPI";
-import { useRecoilState } from "recoil";
-import { isLoggedInState } from "../store/userInfoAtoms";
 
 const HeaderContainer = styled.div`
   background-color: #ffffff;
@@ -70,45 +68,47 @@ const LogInButton = styled(LoginIcon)`
 
 const Header: React.FC = () => {
   const navigate = useNavigate();
-  const jwtToken = localStorage.getItem("Authorization");
-  const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoggedInState);
+
   const [searchParams] = useSearchParams();
   const Authorization = searchParams.get("access_token");
-
-  const { responseData: memberData, status: acoountStatus } = useAxios(
-    getMyData,
-    [isLoggedIn],
-    true
-  );
-  const { profileUrl } = memberData || {};
   useEffect(() => {
-    if (jwtToken || Authorization) {
+    if (Authorization || jwtToken) {
       setIsLoggedIn(true);
     } else {
       setIsLoggedIn(false);
     }
-    console.log(jwtToken, isLoggedIn, 2);
-  }, [jwtToken, isLoggedIn, acoountStatus]);
+  }, []);
 
-  if (isLoggedIn) {
-    return (
-      <HeaderContainer>
-        <Link to={"/mypage"}>
+  const jwtToken = localStorage.getItem("Authorization");
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const { responseData: memberData, status: accountStatus } = useAxios(getMyData, [], true);
+  const { profileUrl } = memberData || {};
+
+  useEffect(() => {
+    if (jwtToken) {
+      setIsLoggedIn(true);
+    } else {
+      setIsLoggedIn(false);
+    }
+
+    console.log(jwtToken, isLoggedIn, 0);
+  }, [jwtToken, accountStatus, isLoggedIn]);
+
+  return (
+    <HeaderContainer>
+      {isLoggedIn ? (
+        <Link to="/mypage">
           <ImgContainer>
-            {profileUrl ? <ProfileImg src={profileUrl} alt="프로필사진" /> : <EmptyImg />}
+            {profileUrl ? <ProfileImg src={profileUrl} alt="Profile Picture" /> : <EmptyImg />}
           </ImgContainer>
         </Link>
-      </HeaderContainer>
-    );
-  } else {
-    return (
-      <HeaderContainer>
+      ) : (
         <IconContainer>
           <LogInButton onClick={() => navigate("/login")} />
         </IconContainer>
-      </HeaderContainer>
-    );
-  }
+      )}
+    </HeaderContainer>
+  );
 };
 
 export default Header;

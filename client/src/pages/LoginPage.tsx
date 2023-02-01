@@ -92,6 +92,7 @@ const LoginPage = () => {
     if (Authorization) {
       localStorage.setItem("Authorization", Authorization);
       navigate("/");
+      window.location.reload();
     }
   }, []);
 
