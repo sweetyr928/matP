@@ -27,11 +27,11 @@ interface getCenterType {
 const KakaoMap = () => {
   const placeInfoStatus = useRecoilValue(placeInfoStatusState);
   const { latitude, longitude } = useRecoilValue(placeInfoState);
-  const [curruntLocation, setCurruntLocation] = useRecoilState(curruntLocationState);
+  const setCurruntLocation = useSetRecoilState(curruntLocationState);
 
   const [centerMove, setCenterMove] = useState({
-    lat: 37.566206959342374,
-    lng: 126.8997819104286,
+    lat: 37.56667437551163,
+    lng: 126.95764417493172,
   });
 
   useEffect(() => {
@@ -50,10 +50,10 @@ const KakaoMap = () => {
     <>
       <MapContainer
         center={{
-          lat: centerMove.lat || 37.566206959342374,
-          lng: centerMove.lng || 126.8997819104286,
+          lat: centerMove.lat || 37.56667437551163,
+          lng: centerMove.lng || 126.95764417493172,
         }}
-        level={8}
+        level={7}
         isPanto={true}
         onCenterChanged={(map: getCenterType) =>
           setCurruntLocation({

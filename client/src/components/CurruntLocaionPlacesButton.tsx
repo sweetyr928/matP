@@ -82,7 +82,7 @@ const CurruntLocationPlacesButton = () => {
 
   return (
     <>
-      {level < 7 ? (
+      {level < 8 ? (
         <CurrentLocaionSearchButton onClick={CurrentLocaionSearchHandler}>
           현재 위치에서 검색
         </CurrentLocaionSearchButton>
