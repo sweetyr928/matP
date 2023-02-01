@@ -1,11 +1,12 @@
 import { useEffect } from "react";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import styled from "styled-components";
 import { CurrentLocaionSearchAxios } from "../api/axiosAPI/places/PlacesAxios";
 import { PlaceData } from "../api/axiosAPI/search/placeSearchAxios";
 import useAxios from "../hooks/useAxios";
 import {
   curruntLocationPlacesState,
+  curruntLocationState,
   curruntLocationStatusState,
 } from "../store/curruntLocationPlacesAtom";
 import { searchResultsState, searchStatusState } from "../store/searchPlaceAtoms";
@@ -40,7 +41,7 @@ const CurrentLocaionSearchButton = styled.button`
   bottom: 10vh;
   font-size: 1.57rem;
   color: #fbfbfb;
-  width: 200px;
+  width: 210px;
   height: 50px;
   border: none;
   background-color: rgba(198, 93, 123, 0.85);
@@ -49,17 +50,21 @@ const CurrentLocaionSearchButton = styled.button`
 `;
 
 const CurruntLocationPlacesButton = () => {
-  const { axiosData: getCurrentLocaionPlace, responseData: CurrentLocaionPlaceData } = useAxios<
-    PlaceData[]
-  >(() => CurrentLocaionSearchAxios(), []);
+  const curruntLocation = useRecoilValue(curruntLocationState);
+  const { center, level } = curruntLocation;
+  const { lng, lat } = center;
+  const levelMeter = [0, 0.1, 0.25, 0.55, 0.8, 2.0, 3.5, 9.5, 20, 20, 20];
 
+  const setSearchResults = useSetRecoilState(searchResultsState);
+  const setSearchStatus = useSetRecoilState(searchStatusState);
   const setCurruntLocationPlaces = useSetRecoilState(curruntLocationPlacesState);
   const [curruntLocationStatus, setCurruntLocationStatus] = useRecoilState(
     curruntLocationStatusState
   );
 
-  const setSearchResults = useSetRecoilState(searchResultsState);
-  const setSearchStatus = useSetRecoilState(searchStatusState);
+  const { axiosData: getCurrentLocaionPlace, responseData: CurrentLocaionPlaceData } = useAxios<
+    PlaceData[]
+  >(() => CurrentLocaionSearchAxios(lng, lat, levelMeter[level]), [curruntLocationStatus]);
 
   const CurrentLocaionSearchHandler = () => {
     setSearchStatus("Idle");
@@ -72,13 +77,19 @@ const CurruntLocationPlacesButton = () => {
     if (curruntLocationStatus === "Loading") {
       setCurruntLocationPlaces(CurrentLocaionPlaceData);
       setCurruntLocationStatus("Success");
+      console.log(lat, lng, level);
+      console.log(CurrentLocaionPlaceData);
     }
   }, [curruntLocationStatus]);
 
   return (
-    <CurrentLocaionSearchButton onClick={CurrentLocaionSearchHandler}>
-      현재 위치에서 검색
-    </CurrentLocaionSearchButton>
+    <>
+      {level < 8 ? (
+        <CurrentLocaionSearchButton onClick={CurrentLocaionSearchHandler}>
+          현재 위치에서 검색
+        </CurrentLocaionSearchButton>
+      ) : null}
+    </>
   );
 };
 

@@ -1,8 +1,9 @@
 /* eslint-disable */
 import { useEffect, useState } from "react";
 import { Map } from "react-kakao-maps-sdk";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import styled from "styled-components";
+import { curruntLocationState } from "../../store/curruntLocationPlacesAtom";
 import { placeInfoState, placeInfoStatusState } from "../../store/placeInfoAtoms";
 import PickerMarker from "./PIckerMarker";
 import PlaceDetailMarker from "./PlaceDetailMarker";
@@ -26,18 +27,15 @@ interface getCenterType {
 const KakaoMap = () => {
   const placeInfoStatus = useRecoilValue(placeInfoStatusState);
   const { latitude, longitude } = useRecoilValue(placeInfoState);
+  const [curruntLocation, setCurruntLocation] = useRecoilState(curruntLocationState);
 
   const [centerMove, setCenterMove] = useState({
-    lat: 37.55867270361961,
-    lng: 126.86212630618877,
+    lat: 37.566206959342374,
+    lng: 126.8997819104286,
   });
-
-  const [centerInfo, setCenterInfo] = useState({ level: 0, center: { lat: null, lng: null } });
 
   useEffect(() => {
     if (placeInfoStatus === "Success") {
-      console.log(latitude, longitude);
-
       setCenterMove({
         lat: latitude,
         lng: longitude,
@@ -48,17 +46,21 @@ const KakaoMap = () => {
     }
   }, [placeInfoStatus, latitude, longitude]);
 
+  useEffect(() => {
+    console.log(curruntLocation.center.lat, curruntLocation.center.lng);
+  }, [curruntLocation.center.lat, curruntLocation.center.lng]);
+
   return (
     <>
       <MapContainer
         center={{
-          lat: centerMove.lat || 37.55867270361961,
-          lng: centerMove.lng || 126.86212630618877,
+          lat: centerMove.lat || 37.566206959342374,
+          lng: centerMove.lng || 126.8997819104286,
         }}
-        level={9}
+        level={8}
         isPanto={true}
         onCenterChanged={(map: getCenterType) =>
-          setCenterInfo({
+          setCurruntLocation({
             level: map.getLevel(),
             center: {
               lat: map.getCenter().getLat(),
