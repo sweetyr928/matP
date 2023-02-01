@@ -1,7 +1,6 @@
-/* eslint-disable */
 import { useNavigate, useParams } from "react-router";
 import styled from "styled-components";
-import { getPosts } from "../api/axiosAPI/posts/PostsAxios";
+import { getPosts, IPosts } from "../api/axiosAPI/posts/PostsAxios";
 import {
   followMatPeople,
   getMatPeople,
@@ -12,7 +11,6 @@ import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
 import HowToRegIcon from "@mui/icons-material/HowToReg";
 import { useEffect, useState } from "react";
 import useAxios from "../hooks/useAxios";
-import { IPosts } from "../api/axiosAPI/posts/PostsAxios";
 import PostRead from "../components/PostRead";
 
 const FeedContainer = styled.div`
@@ -145,7 +143,7 @@ const MatPeople: React.FC = () => {
   const [postsReload, setPostsReload] = useState<boolean>(false);
 
   useEffect(() => {
-    !!localStorage.getItem("Authorization") ? setJwtToken(true) : setJwtToken(false);
+    localStorage.getItem("Authorization") ? setJwtToken(true) : setJwtToken(false);
   }, []);
 
   useEffect(() => {
