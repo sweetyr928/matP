@@ -16,7 +16,7 @@
 | [윤태연](https://github.com/rhino-ty) | [이희진](https://github.com/h1em0n1m) | [전예린](https://github.com/sweetyr928) | [이종희](https://github.com/hie6953) | [임준건](https://github.com/ke2007) | [임준오](https://github.com/dlawnsdh) |
 | :-----------------------------------: | :-----------------------------------: | :----------------------------------: | :----------------------------------: | :------------------------------------: | :-------------------------------------: |
 |<img src="https://avatars.githubusercontent.com/u/94962427?v=4" width="150" height="150">|<img src="https://avatars.githubusercontent.com/u/111138420?v=4" width="150" height="150">|<img src="https://avatars.githubusercontent.com/u/39157466?v=4" width="150" height="150">|<img src="https://avatars.githubusercontent.com/u/68373532?v=4" width="150" height="150">|<img src="https://avatars.githubusercontent.com/u/73016277?v=4" width="150" height="150">|<img src="https://avatars.githubusercontent.com/u/77203609?v=4" width="150" height="150">|
-|             👑팀장<br>FE              |                  FE                   |                  FE                  |                  BE                  |                   BE                   |                   BE                    |
+|            부팀장<br>FE              |                  FE                   |                  FE                  |                  👑팀장<br>BE                  |                   BE                   |                   BE                    |
   
 </div>
   
