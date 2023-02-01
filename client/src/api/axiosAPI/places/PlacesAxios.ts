@@ -1,5 +1,6 @@
 import axios from "axios";
 import instance from "../../CustomAxios";
+import { PlaceData } from "../search/placeSearchAxios";
 
 const url = "https://matp.o-r.kr/places";
 
@@ -38,5 +39,10 @@ export const createPlaces = async (
     tel,
     category,
   });
+  return response.data;
+};
+
+export const CurrentLocaionSearchAxios = async (): Promise<PlaceData[]> => {
+  const response = await axios.get(`${url}?longitude=126.9019532&latitude=37.5170112&round=1`);
   return response.data;
 };

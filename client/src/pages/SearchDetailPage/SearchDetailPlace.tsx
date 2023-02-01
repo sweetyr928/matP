@@ -5,7 +5,12 @@ import { useEffect, useState } from "react";
 import { searchResultsState, searchStatusState } from "../../store/searchPlaceAtoms";
 import { useRecoilState } from "recoil";
 import useAxios from "../../hooks/useAxios";
-import { getSearchPlaceData } from "../../api/axiosAPI/search/placeSearchAxios";
+import { getSearchPlaceAxios } from "../../api/axiosAPI/search/placeSearchAxios";
+import CurruntLocationPlacesButton from "../../components/CurruntLocaionPlacesButton";
+import {
+  curruntLocationPlacesState,
+  curruntLocationStatusState,
+} from "../../store/curruntLocationPlacesAtom";
 
 const SearchWrapper = styled.div`
   height: 100%;
@@ -27,7 +32,7 @@ const SearchWrapper = styled.div`
   input {
     margin-bottom: 30px;
     width: 80%;
-    height: 50px;
+    height: 40px;
     padding: 9px;
     border: 1px solid #adadad;
     outline: none;
@@ -50,12 +55,11 @@ const SearchResultPlaceBox = styled.div`
 
 const PostPlaceBox = styled.div`
   width: 100%;
-  height: 16px;
-  margin-top: 20px;
+  margin: 10px 0;
   display: flex;
   justify-content: center;
   button {
-    color: #939393;
+    color: #7c7c7c;
     border: none;
     font-size: 16px;
     background-color: transparent;
@@ -89,7 +93,7 @@ const SearchDetailPlace: React.FC = () => {
   const [keyword, setKeyword] = useState("");
 
   const { axiosData: getSearch, responseData: searchData } = useAxios<PlaceData[]>(
-    () => getSearchPlaceData(keyword),
+    () => getSearchPlaceAxios(keyword),
     [keyword]
   );
   const [searchResults, setSearchResults] = useRecoilState(searchResultsState);
@@ -100,7 +104,7 @@ const SearchDetailPlace: React.FC = () => {
       setSearchResults(searchData);
       setSearchStatus("Success");
     }
-  }, [searchStatus, searchData, setSearchResults, setSearchStatus]);
+  }, [searchStatus]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setKeyword(e.target.value);
@@ -108,12 +112,21 @@ const SearchDetailPlace: React.FC = () => {
 
   const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter" && keyword.length !== 0) {
+      setCurruntLocationStatus("Idle");
+      setCurruntLocationPlaces([]);
       getSearch();
       setSearchStatus("Loading");
     } else if (event.key === "Enter" && keyword.length === 0) {
       return alert("검색어를 입력해주세요!");
     }
   };
+
+  const [curruntLocationPlaces, setCurruntLocationPlaces] = useRecoilState(
+    curruntLocationPlacesState
+  );
+  const [curruntLocationStatus, setCurruntLocationStatus] = useRecoilState(
+    curruntLocationStatusState
+  );
 
   return (
     <SearchWrapper>
@@ -127,6 +140,18 @@ const SearchDetailPlace: React.FC = () => {
         onChange={handleChange}
         onKeyUp={handleKeyPress}
       />
+
+      {curruntLocationPlaces && curruntLocationStatus === "Success" ? (
+        <SearchResultPlaceBox>
+          {curruntLocationPlaces.map((place) => (
+            <PlaceSearchResult key={place.id} place={place} />
+          ))}
+        </SearchResultPlaceBox>
+      ) : null}
+      {curruntLocationPlaces.length === 0 && curruntLocationStatus === "Success" ? (
+        <NoneResultMessage>검색 결과가 없습니다!</NoneResultMessage>
+      ) : null}
+
       {searchResults && searchStatus === "Success" ? (
         <SearchResultPlaceBox>
           {searchResults.map((place) => (
@@ -137,6 +162,9 @@ const SearchDetailPlace: React.FC = () => {
       {searchResults.length === 0 && searchStatus === "Success" ? (
         <NoneResultMessage>검색 결과가 없습니다!</NoneResultMessage>
       ) : null}
+
+      <CurruntLocationPlacesButton />
+
       <PostPlaceBox>
         <button
           onClick={() => {
