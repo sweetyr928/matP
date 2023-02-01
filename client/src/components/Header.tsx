@@ -74,14 +74,16 @@ const Header: React.FC = () => {
   const { profileUrl } = memberData || {};
 
   useEffect(() => {
-    if (!jwtToken) {
-      setJwtToken(null);
-      setIsLoggedIn(false);
-    } else {
-      setJwtToken(localStorage.getItem("Authorization"));
-      setIsLoggedIn(true);
+    if (accountStatus === "Success") {
+      if (!jwtToken) {
+        setJwtToken(null);
+        setIsLoggedIn(false);
+      } else {
+        setJwtToken(localStorage.getItem("Authorization"));
+        setIsLoggedIn(true);
+      }
     }
-  }, [accountStatus, isLoggedIn]);
+  }, [accountStatus]);
 
   return (
     <HeaderContainer>
