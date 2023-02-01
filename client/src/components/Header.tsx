@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import LoginIcon from "@mui/icons-material/Login";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import useAxios from "../hooks/useAxios";
 import { getMyData } from "../api/axiosAPI/members/myPageAPI";
@@ -68,10 +68,20 @@ const LogInButton = styled(LoginIcon)`
 
 const Header: React.FC = () => {
   const navigate = useNavigate();
+
+  const [searchParams] = useSearchParams();
+  const Authorization = searchParams.get("access_token");
+  useEffect(() => {
+    if (Authorization) {
+      setIsLoggedIn(true);
+    } else {
+      setIsLoggedIn(false);
+    }
+  }, []);
+
   const jwtToken = localStorage.getItem("Authorization");
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const { responseData: memberData, status: accountStatus } = useAxios(getMyData, [], true);
-  const { profileUrl } = memberData || {};
 
   useEffect(() => {
     if (accountStatus === "Success") {
@@ -83,6 +93,8 @@ const Header: React.FC = () => {
     }
     console.log(jwtToken, isLoggedIn, accountStatus);
   }, [jwtToken, accountStatus, isLoggedIn]);
+
+  const { profileUrl } = memberData || {};
 
   return (
     <HeaderContainer>
