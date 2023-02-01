@@ -89,9 +89,9 @@
 </details>
 
 
-## 개발 관련 기술
+## 🧑🏻‍💻 개발 관련 기술
 
-### 👩‍💻 **기술 스택**
+### 👩🏻‍🔧 **기술 스택**
 
 #### **Front-end**
   <div> 
@@ -138,24 +138,138 @@
   <img src="https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=Postman&logoColor=white" height="35">
 </div>
 
-### 사용자 요구사항 정의서
+### [🍦 사용자 요구사항 정의서](https://docs.google.com/spreadsheets/d/1AgdlF1oqkkuDqs2wced36P0N3TJo_kuogahM_R_khtA/edit#gid=0)
 
-### 화면 설계서: Figma
-https://www.figma.com/file/6s0mZYCyyfvWVfatnZmExU/%EB%A7%9B%ED%94%BC%F0%9F%91%85-%ED%99%94%EB%A9%B4%EC%A0%95%EC%9D%98%EC%84%9C?node-id=0%3A1&t=edT6PJwDQoxWPjfw-1
+### [📺 화면 설계서](https://www.figma.com/file/6s0mZYCyyfvWVfatnZmExU/%EB%A7%9B%ED%94%BC%F0%9F%91%85-%ED%99%94%EB%A9%B4%EC%A0%95%EC%9D%98%EC%84%9C?node-id=0%3A1&t=edT6PJwDQoxWPjfw-1)
+<img width="890" alt="image" src="https://user-images.githubusercontent.com/94962427/216000140-39fd59c2-a721-4b10-bd43-424fc13b7410.png">
 
-### ERD
+### 🚧 아키텍쳐
+![Web App Reference Architecture V2 (2)](https://user-images.githubusercontent.com/94962427/215998062-cb0ea846-3f4b-42e7-8373-70002c792061.png)
 
+### [📄 API 명세서](https://documenter.getpostman.com/view/12973857/2s935hQn8w)
+<img width="1440" alt="image" src="https://user-images.githubusercontent.com/94962427/216000533-c7d49535-0183-4571-b4ed-c3ae4522a28c.png">
 
+### 📚 테이블명세서
+#### member 테이블
+| 키 | 논리 컬럼명 | 논리 컬럼명 | 물리 컬럼명 | 타입 | Null 허용 | 기본값 | 코멘트 |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| PK | Key | Key | member_id | bigint | N |  | auto_increment |
+|  | 이메일 | 이메일 | email | varchar(100) | N |  | unique 조건 걸어줘야함 |
+|  | 닉네임 | 닉네임 | nickname | varchar(100) | N |  | 유저가 서비스에서 설정한 닉네임 |
+|  | api별 닉네임 | api별 닉네임 | member_name | varchar(15) | N |  | Oauth 로 인증한 각 api별 실명이 들어감 |
+|  | 생년월일 | 생년월일 | birthday | varchar(50) | Y |  |  |
+|  | 프로필사진 | 프로필사진 | profile_url | varchar(100) | N |  |  |
+|  | 성별 | 성별 | gender | tinyint(1) | Y |  |  |
+|  | 소개글 | 소개글 | memo | varchar(255) | Y |  |  |
+|  | registrationID | registrationID | registration_id | varchar(50) | N |  |  |
+|  | 생성날짜 | 생성날짜 | created_at | Datetime | N |  |  |
+|  | 수정날짜 | 수정날짜 | modified_at | Datetime | N |  |  |
 
+#### follow 테이블
+| 키 | 논리 | 물리 | 타입 | Null 허용 | 기본값 | 코멘트 |
+| --- | --- | --- | --- | --- | --- | --- |
+| PK | PK | id | bigint | N |  |  |
+|  | 팔로워 email | follower_id | varchar(100) | N |  | unique 조건 걸어줘야함 |
+|  | 팔로잉 email | following_id | varchar(100) | N |  | unique 조건 걸어줘야함 |
+|  | 생성날짜 | created_at | Datetime | N |  |  |
+|  | 수정날짜 | modified_at | Datetime | N |  |  |
 
+#### picker 테이블
+| 키 | 논리 | 물리 | 타입 | Null 허용 | 기본값 | 코멘트 |
+| --- | --- | --- | --- | --- | --- | --- |
+| PK, FK | 그룹id | picker_group_id | bigint | N |  |  |
+| PK, FK | Key | member_id | bigint | N |  |  |
+| PK | 마커id | id | bigint | N |  |  |
+| FK | 마커한 음식점id | place_id | bigint | N |  |  |
+|  | 작성일자 | created_at | Datetime | N |  |  |
+|  | 수정일자 | modified_at | Datetime | N |  |  |
 
+#### place 테이블
+| 키 | 논리 | 물리 | 타입 | Null 허용 | 기본값 | 코멘트 |
+| --- | --- | --- | --- | --- | --- | --- |
+| PK | 음식점id | id | bigint | N |  |  |
+|  | 전화번호 | tel | varchar(15) | Y |  |  |
+|  | 도로명주소 | address | varchar(100) | Y |  |  |
+|  | 우편번호 | zonecode | varchar(5) | Y |  |  |
+|  | 음식점이름 | name | varchar(255) | N |  |  |
+|  | 카테고리 | category | varchar(25) | N |  |  |
+|  | 음식점 좌표 | point | point | N |  | 음식점 위치 |
+|  | 메모 | memo | varchar(100) | Y |  |  |
+|  | 작성날짜 | created_at | Datetime | N |  | 작성날짜 |
+|  | 수정날짜 | modified_at | Datetime | N |  | 수정날짜 |
 
-## 커밋 규칙
+#### post 테이블
+| 키 | 논리 | 물리 | 타입 | Null 허용 | 기본값 | 코멘트 |
+| --- | --- | --- | --- | --- | --- | --- |
+| PK, FK | 음식점id | place_id | bigint | N |  |  |
+| PK, FK | Memberid | member_id | bigint | N |  |  |
+| PK | 포스트id | id | bigint | N |  |  |
+|  | 제목 | title | varchar(25) | N |  |  |
+|  | 본문 | content | text | N |  |  |
+|  | 좋아요 개수 | likes | int | Y |  |  |
+|  | 썸네일주소 | thumbnail_url | varchar(255) | N |  | 유저가 지정한 사진을 썸네일 크기로 리사이징해서 저장 |
+|  | 작성날짜 | created_at | Datetime | N |  |  |
+|  | 수정날짜 | modified_at | Datetime | N |  |  |
+|  | 평점 | star | int | N |  |  |
 
-### 이슈 작성 규칙
+#### comment 테이블
+| 키 | 논리 | 물리 | 타입 | Null 허용 | 기본값 | 코멘트 |
+| --- | --- | --- | --- | --- | --- | --- |
+| PK | 댓글id | id | bigint | N |  |  |
+| FK | 포스트id | post_id | bigint | N |  |  |
+| FK | 음식점id | place_id | bigint | N |  |  |
+|  | memberID | comment_member_id | bigint | N |  |  |
+|  | 댓글내용 | comment_content | varchar(255) | N |  |  |
+|  | 작성날짜 | comment_created_at | Datetime | N |  |  |
+|  | 수정날짜 | comment_modified_at | Datetime | N |  |  |
+
+#### picker_group 테이블
+| 키 | 논리 | 물리 | 타입 | Null 허용 | 기본값 | 코멘트 |
+| --- | --- | --- | --- | --- | --- | --- |
+| PK | 그룹id | id | bigint | N |  |  |
+|  | 그룹이름 | name | varchar(255) | N |  | 그룹이름은 그루비룸이에요 |
+|  | 그룹이미지 인덱스 | group_img_index | INT(10) | N |  | 협의 |
+|  | 사용자 id | member_id | bigint | N |  |  |
+|  | createdAt | created_at | DATETIME | N |  |  |
+|  | ModifiedAt | modified_at | DATETIME | N |  |  |
+
+#### post_likes 테이블
+| 키 | 논리 | 물리 | 타입 | Null 허용 | 기본값 | 코멘트 |
+| --- | --- | --- | --- | --- | --- | --- |
+| PK | 좋아요id | id | bigint | N |  |  |
+| FK | 포스트id | post_id | bigint | N |  |  |
+|  | memberId | likes_member_id | bigint | Y |  |  |
+|  | likesCheck | likes_check | TINYINT(1) | Y |  |  |
+
+#### likes_count 테이블
+| 키 | 논리 | 물리 | 타입 | Null 허용 | 기본값 | 코멘트 |
+| --- | --- | --- | --- | --- | --- | --- |
+|  | likesCount | count_likes | int | Y |  |  |
+| FK | 포스트id | likes_post_id | bigint | N |  |  |
+
+#### place_add_request 테이블
+| 키 | 논리 | 물리 | 타입 | Null 허용 | 기본값 | 코멘트 |
+| --- | --- | --- | --- | --- | --- | --- |
+| PK | 음식점id | id | bigint | N |  |  |
+|  | 전화번호 | tel | varchar(15) | Y |  |  |
+|  | 도로명주소 | address | varchar(100) | Y |  |  |
+|  | 우편번호 | zonecode | varchar(5) | Y |  |  |
+|  | 음식점이름 | name | varchar(255) | N |  |  |
+|  | 카테고리 | category | varchar(25) | N |  |  |
+|  | 음식점 좌표 | point | point | N |  | 음식점 위치 |
+|  | 메모 | memo | varchar(100) | Y |  |  |
+|  | 작성날짜 | created_at | Datetime | N |  | 작성날짜 |
+|  | 수정날짜 | modified_at | Datetime | N |  | 수정날짜 |
+
+### ⚡️ ERD
+[ERD](https://www.erdcloud.com/d/hg5fRmrBSdd8oWAxz)
+![Copy of main](https://user-images.githubusercontent.com/94962427/215998193-337c89a8-e192-4867-b215-3c0b7c6cd6aa.png)
+
+## ✔️ 커밋 규칙
+#### 이슈 작성 규칙
 기본 형식 : [#이슈번호 -] [commit type]: [commit message]
 예시 : #1 - feat: 로그인
-### 깃 커밋 규칙
+#### 깃 커밋 규칙
 - feat: 새로운 기능 추가
 - fix: 버그 수정
 - docs: 문서 수정
