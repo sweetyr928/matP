@@ -91,14 +91,14 @@ const Header: React.FC = () => {
         setIsLoggedIn(false);
       }
     }
-    console.log(jwtToken, isLoggedIn, accountStatus);
+    console.log(jwtToken, isLoggedIn);
   }, [jwtToken, accountStatus, isLoggedIn]);
 
   const { profileUrl } = memberData || {};
 
   return (
     <HeaderContainer>
-      {isLoggedIn && accountStatus === "Success" ? (
+      {isLoggedIn ? (
         <Link to="/mypage">
           <ImgContainer>
             {profileUrl ? <ProfileImg src={profileUrl} alt="Profile Picture" /> : <EmptyImg />}
