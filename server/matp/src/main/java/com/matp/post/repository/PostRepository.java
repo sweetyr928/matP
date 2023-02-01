@@ -19,6 +19,7 @@ public interface PostRepository extends ReactiveCrudRepository<Post, Long> {
             FROM post p
             WHERE p.title
             LIKE CONCAT('%', :keyword, '%')
+            order by created_at desc
             """)
     Flux<Post> searchPostByTitleKeyword(String keyword);
 
@@ -27,6 +28,7 @@ public interface PostRepository extends ReactiveCrudRepository<Post, Long> {
             FROM post p
             WHERE p.content
             LIKE CONCAT('%', :keyword, '%')
+            order by created_at desc
             """)
     Flux<Post> searchPostByContentKeyword(String keyword);
 
@@ -90,4 +92,9 @@ public interface PostRepository extends ReactiveCrudRepository<Post, Long> {
             WHERE place_id = :placeId
             """)
     Flux<Post> findPlaceDetailPosts(Long placeId);
+
+    @Query("""
+            SELECT  * FROM post p order by created_at desc
+            """)
+    Flux<Post> findPostOrderByDeSc();
 }

@@ -64,16 +64,13 @@ public class MemberCustomRepository {
                     var followings = followingObj != null ? Long.parseLong(followingObj.toString()) : 0L;
 
                     var postInfos = result.stream()
-                            .map(row -> {
-                                if (row.get("postId") == null) {
-                                    return null;
-                                }
-                                return SimplePostResponse.builder()
+                            .map(row ->
+                                    SimplePostResponse.builder()
                                     .id((Long) row.get("postId"))
                                     .title((String) row.get("title"))
                                     .thumbnailUrl((String) row.get("thumbnailUrl"))
                                     .likes((Integer) row.get("likes"))
-                                    .build();})
+                                    .build())
                             .collect(Collectors.toSet());
 
                     var pickerGroupInfos = result.stream()
@@ -138,16 +135,13 @@ public class MemberCustomRepository {
                     var followings = followingObj != null ? Long.parseLong(followingObj.toString()) : 0L;
 
                     var postInfos = result.stream()
-                            .map(row -> {
-                                if (row.get("postId") == null){
-                                    return null;
-                                }
-                                return SimplePostResponse.builder()
+                            .map(row ->
+                                    SimplePostResponse.builder()
                                     .id((Long) row.get("postId"))
                                     .title((String) row.get("title"))
                                     .thumbnailUrl((String) row.get("thumbnailUrl"))
                                     .likes((Integer) row.get("likes"))
-                                    .build();})
+                                    .build())
                             .collect(Collectors.toSet());
 
                     var pickerGroupInfos = result.stream()

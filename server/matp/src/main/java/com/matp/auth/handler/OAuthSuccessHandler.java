@@ -82,9 +82,8 @@ public class OAuthSuccessHandler implements ServerAuthenticationSuccessHandler {
 
         return UriComponentsBuilder
                 .newInstance()
-                .scheme("http")
-                .host("localhost")
-                .port(3000)
+                .scheme("https")
+                .host("matp-git-dev-mat-p.vercel.app")
                 .path("/login")
                 .queryParams(queryParams)
                 .build()
