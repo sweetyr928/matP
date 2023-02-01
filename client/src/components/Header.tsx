@@ -72,7 +72,7 @@ const Header: React.FC = () => {
   const [searchParams] = useSearchParams();
   const Authorization = searchParams.get("access_token");
   useEffect(() => {
-    if (Authorization) {
+    if (Authorization || jwtToken) {
       setIsLoggedIn(true);
     } else {
       setIsLoggedIn(false);
