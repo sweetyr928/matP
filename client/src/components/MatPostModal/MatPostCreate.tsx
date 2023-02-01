@@ -1,3 +1,4 @@
+/* eslint-disable */
 import styled from "styled-components";
 import { useEffect, useState } from "react";
 import { createPost } from "../../api/axiosAPI/posts/PostsAxios";
@@ -157,7 +158,7 @@ const PostCreateModal = ({ onClickToggleModal, placeId, dataReloadHandler }: Mod
   const [imageContained, setImageContained] = useState<boolean>(false);
   const [submit, setSubmit] = useState<boolean>(false);
 
-  let thumbnail = "";
+  let thumbnail: string = "";
 
   // 항상 별이 총 5개(더미 array)
   const array: Array<number> = [0, 1, 2, 3, 4];

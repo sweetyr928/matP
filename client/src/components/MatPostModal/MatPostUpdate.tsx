@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import styled from "styled-components";
 import { useEffect, useState } from "react";
 import { updatePost } from "../../api/axiosAPI/posts/PostsAxios";
@@ -156,7 +158,7 @@ const PostUpdateModal = ({ onClickToggleModal, id, state, placeId }: ModalDefaul
     thumbnail.length > 0 ? setImageContained(true) : setImageContained(false);
   }, [htmlContent]);
 
-  const { axiosData } = useAxios(
+  const { axiosData, status } = useAxios(
     () =>
       updatePost(newTitle, htmlContent, thumbnailUrl, clicked.filter(Boolean).length, placeId, id),
     [newTitle, htmlContent, clicked, thumbnailUrl],

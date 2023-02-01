@@ -50,12 +50,14 @@ export interface IPlacesPost {
 }
 
 export const getPosts = async () => {
-  const response = await axios.get(`${url}/places/posts?page=0&size=18`);
+  const response = await axios.get(`${url}/places/posts?page=0&size=21`);
   return response.data;
 };
 
 export const getPagePosts = async (page: number, limit: number) => {
-  const response = await axios.get(`${url}/places/posts?page=${page}&size=${limit}`);
+  const response = await axios.get(
+    `${url}/places/posts?page=${page}&size=${limit}`
+  );
   return response.data;
 };
 
@@ -99,7 +101,10 @@ export const updatePost = async (
   return response.data;
 };
 
-export const deletePost = async (id: number, placeId: number): Promise<void> => {
+export const deletePost = async (
+  id: number,
+  placeId: number
+): Promise<void> => {
   const response = await instance.delete(`/places/${placeId}/posts/${id}`);
   return response.data;
 };
@@ -111,8 +116,13 @@ export const likePost = async (id: number, placeId: number): Promise<void> => {
   return response.data;
 };
 
-export const dislikePost = async (id: number, placeId: number): Promise<void> => {
-  const response = await instance.delete(`/places/${placeId}/posts/${id}/likes`);
+export const dislikePost = async (
+  id: number,
+  placeId: number
+): Promise<void> => {
+  const response = await instance.delete(
+    `/places/${placeId}/posts/${id}/likes`
+  );
 
   return response.data;
 };
