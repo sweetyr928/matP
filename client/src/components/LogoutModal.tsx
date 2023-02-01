@@ -58,7 +58,6 @@ const LogoutModal = ({ onClickToggleLogoutModal }: LogoutModalProps) => {
     setUserInfo({});
     localStorage.removeItem("recoil-persist");
     navigate("/");
-    window.location.reload();
   };
   return (
     <LogoutModalContainer>

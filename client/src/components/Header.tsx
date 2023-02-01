@@ -69,36 +69,35 @@ const LogInButton = styled(LoginIcon)`
 const Header: React.FC = () => {
   const navigate = useNavigate();
   const [jwtToken, setJwtToken] = useState(localStorage.getItem("Authorization"));
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const { responseData: memberData, status: accountStatus } = useAxios(getMyData, [], true);
+  const { profileUrl } = memberData || {};
 
-  if (!jwtToken) {
-    return (
-      <HeaderContainer>
+  useEffect(() => {
+    if (!jwtToken) {
+      setJwtToken(null);
+      setIsLoggedIn(false);
+    } else {
+      setJwtToken(localStorage.getItem("Authorization"));
+      setIsLoggedIn(true);
+    }
+  }, [accountStatus, isLoggedIn]);
+
+  return (
+    <HeaderContainer>
+      {isLoggedIn ? (
+        <Link to="/mypage">
+          <ImgContainer>
+            {profileUrl ? <ProfileImg src={profileUrl} alt="Profile Picture" /> : <EmptyImg />}
+          </ImgContainer>
+        </Link>
+      ) : (
         <IconContainer>
           <LogInButton onClick={() => navigate("/login")} />
         </IconContainer>
-      </HeaderContainer>
-    );
-  } else {
-    const { responseData: memberData } = useAxios(getMyData);
-    const { profileUrl } = memberData || {};
-
-    useEffect(() => {
-      if (!jwtToken) {
-        setJwtToken(null);
-      }
-      setJwtToken(localStorage.getItem("Authorization"));
-    }, [jwtToken]);
-
-    return (
-      <HeaderContainer>
-        <Link to={"/mypage"}>
-          <ImgContainer>
-            {profileUrl ? <ProfileImg src={profileUrl} alt="프로필사진" /> : <EmptyImg />}
-          </ImgContainer>
-        </Link>
-      </HeaderContainer>
-    );
-  }
+      )}
+    </HeaderContainer>
+  );
 };
 
 export default Header;
