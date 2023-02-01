@@ -13,31 +13,64 @@ const MapContainer = styled(Map)`
   height: 100vh;
 `;
 
+interface getCenterType {
+  getLevel: () => any;
+  getCenter: () => {
+    (): any;
+    new (): any;
+    getLat: { (): any; new (): any };
+    getLng: { (): any; new (): any };
+  };
+}
+
 const KakaoMap = () => {
-  const placeInfo = useRecoilValue(placeInfoState);
   const placeInfoStatus = useRecoilValue(placeInfoStatusState);
-  const readjustLat = placeInfo.latitude - 0.0003;
-  const readjustLng = placeInfo.longitude - 0.0009;
+  const { latitude, longitude } = useRecoilValue(placeInfoState);
+
+  const [centerMove, setCenterMove] = useState({
+    lat: 37.55867270361961,
+    lng: 126.86212630618877,
+  });
+
+  const [centerInfo, setCenterInfo] = useState({ level: 0, center: { lat: null, lng: null } });
+
+  useEffect(() => {
+    if (placeInfoStatus === "Success") {
+      console.log(latitude, longitude);
+
+      setCenterMove({
+        lat: latitude,
+        lng: longitude,
+      });
+    }
+    if (placeInfoStatus === "Loading" || placeInfoStatus === "Idle") {
+      setCenterMove({ lat: null, lng: null });
+    }
+  }, [placeInfoStatus, latitude, longitude]);
 
   return (
     <>
-      {placeInfo && placeInfoStatus === "Success" ? (
-        <MapContainer center={{ lat: readjustLat, lng: readjustLng }} level={3} isPanto={true}>
-          <PlaceDetailMarker />
-          <SearchMarker />
-          <PickerMarker />
-        </MapContainer>
-      ) : (
-        <MapContainer
-          center={{ lat: 37.5554522671854, lng: 126.92415641617547 }}
-          level={8}
-          isPanto={false}
-        >
-          <PlaceDetailMarker />
-          <SearchMarker />
-          <PickerMarker />
-        </MapContainer>
-      )}
+      <MapContainer
+        center={{
+          lat: centerMove.lat || 37.55867270361961,
+          lng: centerMove.lng || 126.86212630618877,
+        }}
+        level={9}
+        isPanto={true}
+        onCenterChanged={(map: getCenterType) =>
+          setCenterInfo({
+            level: map.getLevel(),
+            center: {
+              lat: map.getCenter().getLat(),
+              lng: map.getCenter().getLng(),
+            },
+          })
+        }
+      >
+        <PlaceDetailMarker />
+        <SearchMarker />
+        <PickerMarker />
+      </MapContainer>
     </>
   );
 };

@@ -78,6 +78,8 @@ const Domain: React.FC = () => {
     if (scrollTop + clientHeight >= scrollHeight && hasMore) {
       setPage(page + 1);
       loadData();
+      console.log(pagePosts.length);
+
       if (pagePosts.length < limit) {
         setHasMore(false);
       }

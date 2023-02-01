@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { MapMarker } from "react-kakao-maps-sdk";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
