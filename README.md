@@ -261,8 +261,8 @@
 |  | 작성날짜 | created_at | Datetime | N |  | 작성날짜 |
 |  | 수정날짜 | modified_at | Datetime | N |  | 수정날짜 |
 
-### ⚡️ ERD
-[ERD](https://www.erdcloud.com/d/hg5fRmrBSdd8oWAxz)
+### ⚡️ [ERD](https://www.erdcloud.com/d/hg5fRmrBSdd8oWAxz)
+
 ![Copy of main](https://user-images.githubusercontent.com/94962427/215998193-337c89a8-e192-4867-b215-3c0b7c6cd6aa.png)
 
 ## ✔️ 커밋 규칙
