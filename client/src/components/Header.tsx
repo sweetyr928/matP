@@ -86,7 +86,7 @@ const Header: React.FC = () => {
 
   return (
     <HeaderContainer>
-      {isLoggedIn ? (
+      {jwtToken && accountStatus === "Success" ? (
         <Link to="/mypage">
           <ImgContainer>
             {profileUrl ? <ProfileImg src={profileUrl} alt="Profile Picture" /> : <EmptyImg />}
