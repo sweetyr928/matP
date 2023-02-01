@@ -2,7 +2,7 @@ import axios from "axios";
 
 const url = "https://matp.o-r.kr/search";
 
-interface PlaceData {
+export interface PlaceData {
   id: number;
   tel: string;
   address: string;
@@ -13,9 +13,7 @@ interface PlaceData {
   latitude: number;
 }
 
-export const getSearchPlaceData = async (
-  keyword: string
-): Promise<PlaceData[]> => {
+export const getSearchPlaceAxios = async (keyword: string): Promise<PlaceData[]> => {
   const response = await axios.get(`${url}?query=${keyword}`);
   return response.data;
 };
