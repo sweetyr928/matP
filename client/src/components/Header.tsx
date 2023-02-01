@@ -68,22 +68,20 @@ const LogInButton = styled(LoginIcon)`
 
 const Header: React.FC = () => {
   const navigate = useNavigate();
-  const [jwtToken, setJwtToken] = useState(localStorage.getItem("Authorization"));
+  const jwtToken = localStorage.getItem("Authorization");
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const { responseData: memberData, status: accountStatus } = useAxios(getMyData, [], true);
   const { profileUrl } = memberData || {};
 
   useEffect(() => {
     if (accountStatus === "Success") {
-      if (!jwtToken) {
-        setJwtToken(null);
-        setIsLoggedIn(false);
-      } else {
-        setJwtToken(localStorage.getItem("Authorization"));
+      if (jwtToken) {
         setIsLoggedIn(true);
+      } else {
+        setIsLoggedIn(false);
       }
     }
-  }, [accountStatus]);
+  }, [jwtToken, accountStatus]);
 
   return (
     <HeaderContainer>
