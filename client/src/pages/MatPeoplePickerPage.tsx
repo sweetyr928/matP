@@ -24,6 +24,7 @@ const MatPeoplePickerWrapper = styled.div`
 const StyledMatPickers = styled.div`
   width: 100%;
   height: 100%;
+  overflow-y: scroll;
 `;
 
 const MatPeoplePicker: React.FC = () => {
@@ -35,9 +36,7 @@ const MatPeoplePicker: React.FC = () => {
       <h1>맛픽커즈</h1>
       <StyledMatPickers>
         {state &&
-          state.map((picker: any) => (
-            <MatPeoplePickersItem key={picker.id} picker={picker} />
-          ))}
+          state.map((picker: any) => <MatPeoplePickersItem key={picker.id} picker={picker} />)}
       </StyledMatPickers>
     </MatPeoplePickerWrapper>
   );
