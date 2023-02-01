@@ -1,28 +1,14 @@
 
-
-## 팀원 소개
-윤태연, 이희진, 전예린, 이종희, 임준건, 임준오
-
-## 화면 설계서
-https://www.figma.com/file/6s0mZYCyyfvWVfatnZmExU/%EB%A7%9B%ED%94%BC%F0%9F%91%85-%ED%99%94%EB%A9%B4%EC%A0%95%EC%9D%98%EC%84%9C?node-id=0%3A1&t=edT6PJwDQoxWPjfw-1
-
-## 이슈 작성 후 커밋 규칙
-
-기본 형식 : [#이슈번호 -] [commit type]: [commit message]
-예시 : #1 - feat: 로그인
-
-## 깃 커밋 규칙
-- feat: 새로운 기능 추가
-- fix: 버그 수정
-- docs: 문서 수정
-- style: 코드 포맷 변경, 세미콜론 누락, 코드 변경 없음
-- refactor: 프로덕션 코드 리팩터링
-- test: 테스트 추가, 테스트 코드 리팩터링, 프로덕션 코드 변경 없음
-- chore: 빌드 테스크 업데이트, 패키지 매니저 환경설정, 프로덕션 코드 변경 없음
-
-# 프로젝트 맛피
+# 프로젝트 맛피👅
 ![맛피 뱃지](https://user-images.githubusercontent.com/94962427/215977870-e278f877-5965-467f-8cd0-0b098e002c29.png)
 안녕하세요, 맛집에 대한 경험을 공유하며 더 높은 차원을 느끼게 만들 수 있는 맛집 지도 앱, 맛피👅입니다!
+
+
+## 📅 **프로젝트 기간**
+
+- 2023.01.04 ~ 2023.01.31 (28일간)
+
+
 ## 🙇🏻‍♂️ **팀원소개**
 
 <div align="center">
@@ -34,82 +20,80 @@ https://www.figma.com/file/6s0mZYCyyfvWVfatnZmExU/%EB%A7%9B%ED%94%BC%F0%9F%91%85
   
 </div>
   
+## ⚒️ **기능 시연**  
+<details>
+<summary>도메인 페이지: 무한스크롤</summary>
+</details>
+
+<details>
+<summary>로그인 / 로그아웃</summary>
+  토큰을 받아오고, 계정 정보를 받아오면 헤더 이미지와 마이페이지, 로그인 시 자신이 저장한 픽 마커들 렌더링되는 기능, 로그아웃하면 초기화
+</details>
+
+<details>
+  <summary>맛포스트 조회 / 작성 / 수정 / 삭제</summary> 
+👉 조회 기능<br />
+  <img src="https://user-images.githubusercontent.com/94962427/215991184-4418f6bb-fcda-4ca0-acc8-5ddf08052e16.gif">
+👉 댓글 기능<br />
+    <img src="https://user-images.githubusercontent.com/94962427/215991260-75cdb9cc-65a1-42c5-94ed-1b208f6ca302.gif">
+👉 ‘좋아요’<br />
   
-# 🧑🏼‍🔧 **서비스 소개**
+👉 등록<br />
+    <img src="https://user-images.githubusercontent.com/94962427/215991346-7aecd336-e125-44df-a3e8-6dbb2d3a7b84.gif">
+    <img src="https://user-images.githubusercontent.com/94962427/215991585-0e3c528a-f12d-431e-b277-6cdccde9eb8b.gif">
+👉 수정<br />
+        
+👉 삭제<br />
+    <img src="https://user-images.githubusercontent.com/94962427/215991745-0eb95788-21c8-48b0-b303-df80d4ebc08a.gif">
+</details>
 
-Stack Overflow 클론 코딩입니다.<br />
-배포 주소: [맛피 홈페이지](https://matp-git-dev-mat-p.vercel.app/)
+<details>
+<summary>맛피플 검색 페이지</summary>
+<img src="https://user-images.githubusercontent.com/94962427/215991745-0eb95788-21c8-48b0-b303-df80d4ebc08a.gif">
+</details>
 
-
-## 📅 **프로젝트 기간**
-
-- 2023.01.04 ~ 2023.01.31 (28일간)
-
-
-## 👩🏻‍🔧 **기능 소개**
-
-> Account (signup & login & mypage)
-
-- [x] Create: 사용자 - 계정을 생성 가능
-- [x] Read: 사용자 - 생성한 계정을 확인 및 My Page에서 사용자가 쓴 글 확인 
-- [x] Update: 사용자 - 생성한 계정 정보를 수정 가능
-- [x] Delete: 사용자 - 생성한 계정을 삭제 가능
-
-> Question
-
-- [x] Create: 사용자 - 질문을 생성 가능
-- [x] Read: 질문 요약 리스트 및 상세 페이지 조회
-- [x] Update: 작성자 - 질문을 수정 가능
-- [x] Delete: 작성자 - 질문을 삭제 가능
-
-> Answer
-
-- [x] Create: 사용자 - 답변을 작성 가능
-- [x] Read: 작성한 답변 조회 가능
-- [x] Update: 사용자 닉네임 변경 가능
-- [x] Delete: 작성자 - 답변을 삭제 가능
-
-> Etc.🎸
-
-- [x] 에디터 작성, html로 작성한 콘텐츠를 직렬화하여 서버에 전달하고, 그 데이터를 가져오면 Viewer로 가져와 md 문법이 적용된 상태로 볼 수 있다.
-- [x] 로그인이 필요한 기능에 대하여 경고문을 주고 로그인 페이지로 리다이렉트 한다.
-- [x] 계정, 질문, 답변 삭제는 Alert를 띄워 사용자의 예기치 못한 실수를 방지한다.
-- [x] 반응형도 구현 완료!
-
-
-## **시연**  
-
-### Account (signup & login & mypage)
-
-
-https://user-images.githubusercontent.com/94962427/210202205-5715ae40-b8ae-4b2e-8c73-9fe5d288d47a.mov
-
-
-
-### Question
-
-
-https://user-images.githubusercontent.com/94962427/210202219-7f6c9a78-7582-4fd2-ae3a-6fe0b20de20b.mov
-
+<details>
+<summary>맛포스트 검색 페이지</summary>
+👉 제목 및 내용 검색
+</details>
 
   
-  
-### Answer
-
-https://user-images.githubusercontent.com/94962427/210202241-73e83356-cd88-441d-ab6f-1c1cfcf1d0f9.mp4
-
+<details>
+<summary>맛플레이스 검색 페이지</summary>
+</details>
 
 
+<details>
+<summary>마이페이지</summary>
+</details>
 
-### etc.
+<details>
+<summary>맛피플 페이지</summary>
+👉  follow/ unfollow
+    ![follow 기능.gif](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/0b76b04f-ab65-46e4-86f2-a048756361f0/follow_%E1%84%80%E1%85%B5%E1%84%82%E1%85%B3%E1%86%BC.gif)
+</details>
 
-https://user-images.githubusercontent.com/94962427/210203116-50e490ce-5c10-418f-ae3a-0569f3965be7.mov
+<details>
+<summary>맛플레이스 페이지</summary>
+👉 맛포스트 작성 및 목록 조회
+👉 맛픽 기능
+👉 맛플레이스 상세 정보 조회<br/>
+    ![ezgif.com-gif-maker.gif](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/e6836fb1-b549-40ba-b5f3-2b7f6944769a/ezgif.com-gif-maker.gif)
+</details>
 
-https://user-images.githubusercontent.com/94962427/210203122-f347ded7-72e1-4002-905c-f13da3ab025c.mov
+<details>
+<summary>맛픽커즈 페이지</summary>
+👉 맛픽커즈 조회, 생성, 수정, 삭제
+👉 현재 맛픽커즈에 소속된 맛플레이스 조회<br/>
+  <img src="https://user-images.githubusercontent.com/94962427/215992080-d19a7029-3c26-47be-8ca6-a7d39a36d57a.gif">
+</details>
 
-## 👩‍💻 **기술 스택**
 
-### **Front-end**
+## 개발 관련 기술
+
+### 👩‍💻 **기술 스택**
+
+#### **Front-end**
   <div> 
   <img src="https://img.shields.io/badge/html5-E34F26?style=for-the-badge&amp;logo=html5&amp;logoColor=white" height="35"> 
   <img src="https://img.shields.io/badge/styled_components-db7093?style=for-the-badge&amp;logo=styled-components&amp;logoColor=white" height="35">
@@ -123,7 +107,7 @@ https://user-images.githubusercontent.com/94962427/210203122-f347ded7-72e1-4002-
 </div>
 
 
-### **Back-end**
+#### **Back-end**
 <div align=left> 
   <img src="https://img.shields.io/badge/Java-ECD53F?style=for-the-badge&logo=Java&logoColor=white" height="35"> 
   <img src="https://img.shields.io/badge/Spring Boot-6DB33F?style=for-the-badge&logo=Spring Boot&logoColor=white" height="35"> 
@@ -134,7 +118,7 @@ https://user-images.githubusercontent.com/94962427/210203122-f347ded7-72e1-4002-
   <img src="https://img.shields.io/badge/Oauth2.0 -EB5424?style=for-the-badge&logo=Oauth2.0&logoColor=white" height="35">
 </div>
 
-### **DevOps**
+#### **DevOps**
 <div align=left> 
   <img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white" height="35"> 
   <img src="https://img.shields.io/badge/Amazon S3-569A31?style=for-the-badge&logo=Amazon S3&logoColor=black" height="35"> 
@@ -143,7 +127,7 @@ https://user-images.githubusercontent.com/94962427/210203122-f347ded7-72e1-4002-
 </div>
 
 
-### **Common**
+#### **Common**
 
 <div align=left> 
   <img src="https://img.shields.io/badge/Discord-5865F2?style=for-the-badge&logo=Discord&logoColor=white" height="35">
@@ -154,6 +138,28 @@ https://user-images.githubusercontent.com/94962427/210203122-f347ded7-72e1-4002-
   <img src="https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=Postman&logoColor=white" height="35">
 </div>
 
+### 사용자 요구사항 정의서
+
+### 화면 설계서: Figma
+https://www.figma.com/file/6s0mZYCyyfvWVfatnZmExU/%EB%A7%9B%ED%94%BC%F0%9F%91%85-%ED%99%94%EB%A9%B4%EC%A0%95%EC%9D%98%EC%84%9C?node-id=0%3A1&t=edT6PJwDQoxWPjfw-1
+
+### ERD
 
 
 
+
+
+
+## 커밋 규칙
+
+### 이슈 작성 규칙
+기본 형식 : [#이슈번호 -] [commit type]: [commit message]
+예시 : #1 - feat: 로그인
+### 깃 커밋 규칙
+- feat: 새로운 기능 추가
+- fix: 버그 수정
+- docs: 문서 수정
+- style: 코드 포맷 변경, 세미콜론 누락, 코드 변경 없음
+- refactor: 프로덕션 코드 리팩터링
+- test: 테스트 추가, 테스트 코드 리팩터링, 프로덕션 코드 변경 없음
+- chore: 빌드 테스크 업데이트, 패키지 매니저 환경설정, 프로덕션 코드 변경 없음
