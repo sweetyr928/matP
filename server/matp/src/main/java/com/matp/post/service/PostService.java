@@ -33,7 +33,10 @@ public class PostService {
     @Transactional(readOnly = true)
     public Flux<PostResponse> getAll(int page, int size) {
 
-        Flux<PostResponse> map = postRepository.findAll().skip(page * size).take(size).map(PostResponse::from);
+        Flux<PostResponse> map = postRepository.findPostOrderByDeSc()
+                .skip(page * size)
+                .take(size)
+                .map(PostResponse::from);
 
         return map;
     }
