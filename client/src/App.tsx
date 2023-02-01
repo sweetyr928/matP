@@ -64,7 +64,7 @@ function App() {
             <Route path="/people/:id" element={<MatPeople />} />
             <Route path="/matPickers" element={<MatPeoplePickerPage />} />
             <Route path="*" element={<NotFoundPage />} />
-            <Route path="/login" element={jwtToken ? <NotFoundPage /> : <LoginPage />} />
+            <Route path="/login" element={<LoginPage />} />
           </Routes>
         </div>
         <HeaderFeedHide visible={visible} setVisibility={setVisibility} />
