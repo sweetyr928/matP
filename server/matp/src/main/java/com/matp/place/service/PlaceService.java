@@ -28,8 +28,8 @@ public class PlaceService {
      * @author 이종희
      */
     @Transactional(readOnly = true)
-    public Flux<PlaceResponseDto> findPlaces(double longitude, double latitude, double round) {
-        return mapping(placeRepository.findPlaces(longitude, latitude, (int) (round * 1000)));
+    public Flux<PlaceSearchResponseDto> findPlaces(double longitude, double latitude, double round, long page, long size) {
+        return placeRepository.findPlaces(longitude, latitude, (int) (round * 1000)).skip(page * size).take(size).map(PlaceSearchResponseDto::of);
     }
 
     @Transactional(readOnly = true)

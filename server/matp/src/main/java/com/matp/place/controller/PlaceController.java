@@ -19,8 +19,9 @@ public class PlaceController {
     private final Function function;
 
     @GetMapping("/places")
-    public Flux<PlaceResponseDto> getPlaces(@RequestParam("lon") double lon, @RequestParam("lat") double lat, @RequestParam("round") double round) {
-        return placeService.findPlaces(lon, lat, round);
+    public Flux<PlaceSearchResponseDto> getPlaces(@RequestParam("longitude") double longitude, @RequestParam("latitude") double latitude, @RequestParam(defaultValue = "1") double round, @RequestParam(defaultValue = "0") long page,
+                                                  @RequestParam(defaultValue = "15") long size) {
+        return placeService.findPlaces(longitude, latitude, round, page, size);
     }
 
     @GetMapping("/places/{place-id}")
