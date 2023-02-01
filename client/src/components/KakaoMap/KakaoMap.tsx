@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { useEffect, useState } from "react";
 import { Map } from "react-kakao-maps-sdk";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
@@ -27,7 +26,7 @@ interface getCenterType {
 const KakaoMap = () => {
   const placeInfoStatus = useRecoilValue(placeInfoStatusState);
   const { latitude, longitude } = useRecoilValue(placeInfoState);
-  const [curruntLocation, setCurruntLocation] = useRecoilState(curruntLocationState);
+  const setCurruntLocation = useSetRecoilState(curruntLocationState);
 
   const [centerMove, setCenterMove] = useState({
     lat: 37.566206959342374,
