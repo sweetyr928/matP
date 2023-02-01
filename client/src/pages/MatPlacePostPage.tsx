@@ -137,7 +137,7 @@ const MatPlacePostPage = () => {
   const [addressValue, setAddressValue] = useState("");
   const [roadValue, setRoadValue] = useState("");
   const [telValue, setTelValue] = useState("");
-  const [category, setCategory] = useState("카데고리를 선택하세요");
+  const [category, setCategory] = useState("카테고리를 선택하세요");
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const navigate = useNavigate();
@@ -174,7 +174,7 @@ const MatPlacePostPage = () => {
       addressValue &&
       roadValue &&
       telValue &&
-      category !== "카데고리를 선택하세요"
+      category !== "카테고리를 선택하세요"
     ) {
       axiosData();
       navigate("/");
