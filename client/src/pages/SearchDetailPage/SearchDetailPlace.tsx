@@ -113,8 +113,6 @@ const SearchDetailPlace: React.FC = () => {
 
   const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter" && keyword.length !== 0) {
-      console.log(keyword);
-
       setCurruntLocationStatus("Idle");
       setCurruntLocationPlaces([]);
       getSearch();
