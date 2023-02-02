@@ -80,6 +80,7 @@ const PostRead = ({
   };
 
   const onClickToggleModal = useCallback(() => {
+    getAllPostsReload();
     setOpenModal(!isOpenModal);
   }, [isOpenModal]);
 
@@ -102,9 +103,8 @@ const PostRead = ({
       {isOpenModal === true ? (
         <ModalPortal>
           <MatPostRead
-            onClickToggleModal={onClickToggleModal}
+            onClickToggleModal={onClickToggleModal_BD}
             id={post.id}
-            getAllPostsReload={getAllPostsReload}
           />
           <ModalBackdrop onClick={onClickToggleModal_BD} />
         </ModalPortal>
