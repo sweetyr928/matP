@@ -52,7 +52,6 @@ public class PlaceService {
                     var posts = postService.findPlaceDetailPosts(placeId).block();
                     var pickers = pickerRepository.findByPlaceId(placeId).collectList().block();
                     var isPick = pickers.stream().filter(picker -> picker.getMemberId() == memberId).findFirst();
-                    System.out.println(isPick.isPresent());
                     if (isPick.isPresent()) {
                         var group = groupService.findById(isPick.orElseThrow().getPickerGroupId()).block();
                         return PlaceDetailResponseDto.of(place, posts, pickers, true, group);
