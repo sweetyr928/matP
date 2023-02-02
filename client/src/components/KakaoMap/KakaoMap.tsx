@@ -1,8 +1,9 @@
 /* eslint-disable */
 import { useEffect, useState } from "react";
 import { Map } from "react-kakao-maps-sdk";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import styled from "styled-components";
+import { curruntLocationState } from "../../store/curruntLocationPlacesAtom";
 import { placeInfoState, placeInfoStatusState } from "../../store/placeInfoAtoms";
 import PickerMarker from "./PIckerMarker";
 import PlaceDetailMarker from "./PlaceDetailMarker";
@@ -13,31 +14,61 @@ const MapContainer = styled(Map)`
   height: 100vh;
 `;
 
+interface getCenterType {
+  getLevel: () => any;
+  getCenter: () => {
+    (): any;
+    new (): any;
+    getLat: { (): any; new (): any };
+    getLng: { (): any; new (): any };
+  };
+}
+
 const KakaoMap = () => {
-  const placeInfo = useRecoilValue(placeInfoState);
   const placeInfoStatus = useRecoilValue(placeInfoStatusState);
-  const readjustLat = placeInfo.latitude - 0.0003;
-  const readjustLng = placeInfo.longitude - 0.0009;
+  const { latitude, longitude } = useRecoilValue(placeInfoState);
+  const setCurruntLocation = useSetRecoilState(curruntLocationState);
+
+  const [centerMove, setCenterMove] = useState({
+    lat: 37.56667437551163,
+    lng: 126.95764417493172,
+  });
+
+  useEffect(() => {
+    if (placeInfoStatus === "Success") {
+      setCenterMove({
+        lat: latitude,
+        lng: longitude,
+      });
+    }
+    if (placeInfoStatus === "Loading" || placeInfoStatus === "Idle") {
+      setCenterMove({ lat: null, lng: null });
+    }
+  }, [placeInfoStatus, latitude, longitude]);
 
   return (
     <>
-      {placeInfo && placeInfoStatus === "Success" ? (
-        <MapContainer center={{ lat: readjustLat, lng: readjustLng }} level={3} isPanto={true}>
-          <PlaceDetailMarker />
-          <SearchMarker />
-          <PickerMarker />
-        </MapContainer>
-      ) : (
-        <MapContainer
-          center={{ lat: 37.5554522671854, lng: 126.92415641617547 }}
-          level={8}
-          isPanto={false}
-        >
-          <PlaceDetailMarker />
-          <SearchMarker />
-          <PickerMarker />
-        </MapContainer>
-      )}
+      <MapContainer
+        center={{
+          lat: centerMove.lat || 37.56667437551163,
+          lng: centerMove.lng || 126.95764417493172,
+        }}
+        level={7}
+        isPanto={true}
+        onCenterChanged={(map: getCenterType) =>
+          setCurruntLocation({
+            level: map.getLevel(),
+            center: {
+              lat: map.getCenter().getLat(),
+              lng: map.getCenter().getLng(),
+            },
+          })
+        }
+      >
+        <PlaceDetailMarker />
+        <SearchMarker />
+        <PickerMarker />
+      </MapContainer>
     </>
   );
 };

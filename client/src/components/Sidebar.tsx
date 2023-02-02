@@ -6,6 +6,7 @@ import RoomIcon from "@mui/icons-material/Room";
 import { placeInfoState, placeInfoStatusState } from "../store/placeInfoAtoms";
 import { useSetRecoilState } from "recoil";
 import { searchResultsState, searchStatusState } from "../store/searchPlaceAtoms";
+import { curruntLocationPlacesState } from "../store/curruntLocationPlacesAtom";
 
 const SidebarContainer = styled.div`
   width: 63px;
@@ -64,6 +65,7 @@ const Sidebar = () => {
   const setPlaceInfoStatus = useSetRecoilState(placeInfoStatusState);
   const setSearchResults = useSetRecoilState(searchResultsState);
   const setSearchStatus = useSetRecoilState(searchStatusState);
+  const setCurruntLocaionPlace = useSetRecoilState(curruntLocationPlacesState);
 
   const resetStateHandler = () => {
     setPlaceInfoStatus("Idle");
@@ -84,11 +86,12 @@ const Sidebar = () => {
       isPick: false,
       groupName: null,
       groupImgIndex: 0,
-      longitude: 0,
-      latitude: 0,
+      longitude: null,
+      latitude: null,
       posts: [],
     });
     setSearchResults([]);
+    setCurruntLocaionPlace([]);
   };
 
   return (

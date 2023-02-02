@@ -1,7 +1,6 @@
-/* eslint-disable */
 import { useNavigate, useParams } from "react-router";
 import styled from "styled-components";
-import { getPosts } from "../api/axiosAPI/posts/PostsAxios";
+import { getPosts, IPosts } from "../api/axiosAPI/posts/PostsAxios";
 import {
   followMatPeople,
   getMatPeople,
@@ -12,12 +11,11 @@ import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
 import HowToRegIcon from "@mui/icons-material/HowToReg";
 import { useEffect, useState } from "react";
 import useAxios from "../hooks/useAxios";
-import { IPosts } from "../api/axiosAPI/posts/PostsAxios";
 import PostRead from "../components/PostRead";
 
 const FeedContainer = styled.div`
   height: 100%;
-  min-width: calc(1340px * 2 / 5 - 63px);
+  width: calc(1340px * 2 / 5 - 63px);
   z-index: 997;
   padding: 65px 8px 0px 70px;
   background-color: #f8f8f8;
@@ -145,7 +143,9 @@ const MatPeople: React.FC = () => {
   const [postsReload, setPostsReload] = useState<boolean>(false);
 
   useEffect(() => {
-    !!localStorage.getItem("Authorization") ? setJwtToken(true) : setJwtToken(false);
+    localStorage.getItem("Authorization")
+      ? setJwtToken(true)
+      : setJwtToken(false);
   }, []);
 
   useEffect(() => {
@@ -169,11 +169,23 @@ const MatPeople: React.FC = () => {
     axiosData: getMatPeopleInfoUser,
     responseData: matPeopleUser,
     status,
-  } = useAxios(() => getMatPeopleInfoForUser(Number(id)), [followReload], false);
+  } = useAxios(
+    () => getMatPeopleInfoForUser(Number(id)),
+    [followReload],
+    false
+  );
 
-  const { axiosData: follow } = useAxios(() => followMatPeople(Number(id)), [], true);
+  const { axiosData: follow } = useAxios(
+    () => followMatPeople(Number(id)),
+    [],
+    true
+  );
 
-  const { axiosData: unfollow } = useAxios(() => unfollowMatPeople(Number(id)), [], true);
+  const { axiosData: unfollow } = useAxios(
+    () => unfollowMatPeople(Number(id)),
+    [],
+    true
+  );
 
   const { axiosData: getAllPosts } = useAxios(getPosts, [], false);
 
@@ -220,7 +232,11 @@ const MatPeople: React.FC = () => {
   return (
     <FeedContainer>
       <div className="userInfo_header_container">
-        {profileUrl ? <UserImg src={profileUrl} alt="프로필사진" /> : <EmptyImg />}
+        {profileUrl ? (
+          <UserImg src={profileUrl} alt="프로필사진" />
+        ) : (
+          <EmptyImg />
+        )}
         <UserInfo>
           <div className="matPeople_follow">
             <UserNickname>{nickname}</UserNickname>
@@ -248,7 +264,11 @@ const MatPeople: React.FC = () => {
         <StyledPosts>
           {postInfosFiltered &&
             postInfosFiltered.map((post: IPosts) => (
-              <PostRead key={post.id} post={post} getAllPostsReload={getAllPostsReload} />
+              <PostRead
+                key={post.id}
+                post={post}
+                getAllPostsReload={getAllPostsReload}
+              />
             ))}
         </StyledPosts>
       ) : (

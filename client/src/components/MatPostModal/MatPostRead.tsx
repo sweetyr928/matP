@@ -1,4 +1,3 @@
-/* eslint-disable */
 import styled from "styled-components";
 import useAxios from "../../hooks/useAxios";
 import { useEffect, useState } from "react";
@@ -160,13 +159,11 @@ const StyledStar = styled.div`
 interface ModalDefaultType {
   onClickToggleModal: () => void;
   id: number;
-  getAllPostsReload: () => void;
 }
 
 const PostReadModal = ({
   onClickToggleModal,
   id,
-  getAllPostsReload,
 }: ModalDefaultType): JSX.Element => {
   const userInfo = useRecoilValue(userInfoState);
   const [nickname, setNickname] = useState<string>("");
@@ -298,7 +295,10 @@ const PostReadModal = ({
   const handleDelete = () => {
     setDeleteClicked(!deleteClicked);
     deleteP();
-    getAllPostsReload();
+
+    setTimeout(() => {
+      onClickToggleModal();
+    }, 100);
   };
 
   /**

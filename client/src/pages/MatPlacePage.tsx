@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { useState, useEffect, useCallback } from "react";
 import styled from "styled-components";
 import useAxios from "../hooks/useAxios";
@@ -10,10 +9,7 @@ import {
   updatePick,
   deletePick,
 } from "../api/axiosAPI/groups/PickersAxios";
-import {
-  getPlaceDetail,
-  getPlaceDetailForUser,
-} from "../api/axiosAPI/places/PlacesAxios";
+import { getPlaceDetail, getPlaceDetailForUser } from "../api/axiosAPI/places/PlacesAxios";
 import { PostRead, MatPostCreate, ModalPortal } from "../components";
 import { useSetRecoilState } from "recoil";
 import { placeInfoState, placeInfoStatusState } from "../store/placeInfoAtoms";
@@ -171,6 +167,7 @@ const PickContainer = styled.div`
     margin: 30px 0;
   }
   #pick {
+    width: 60px;
     font-weight: 700;
     background-color: rgb(200, 200, 200, 0.2);
     filter: brightness(0.8);
@@ -357,9 +354,7 @@ const MatPlacePost: React.FC = () => {
   const [postsReload, setPostsReload] = useState<boolean>(false);
 
   useEffect(() => {
-    !!localStorage.getItem("Authorization")
-      ? setJwtToken(true)
-      : setJwtToken(false);
+    localStorage.getItem("Authorization") ? setJwtToken(true) : setJwtToken(false);
   }, []);
 
   useEffect(() => {
@@ -441,10 +436,7 @@ const MatPlacePost: React.FC = () => {
   }, [dataReload]);
 
   // 평점 매긴 유저 수 총합
-  const ratingsTotal = starCount.reduce(
-    (acc: number, cur: number) => (acc += cur),
-    0
-  );
+  const ratingsTotal = starCount.reduce((acc: number, cur: number) => (acc += cur), 0);
 
   // star rating percentage 계산 후 style로 반영
   const ratingToPercent = {
@@ -580,11 +572,7 @@ const MatPlacePost: React.FC = () => {
             posts && posts.length !== 0 ? (
               <PageContainer>
                 {posts.map((post: IPosts) => (
-                  <PostRead
-                    key={post.id}
-                    post={post}
-                    getAllPostsReload={getAllPostsReload}
-                  />
+                  <PostRead key={post.id} post={post} getAllPostsReload={getAllPostsReload} />
                 ))}
               </PageContainer>
             ) : (
@@ -682,8 +670,7 @@ const MatPlacePost: React.FC = () => {
               </StarBox>
               <InfoBox>
                 <div className="five-pro">
-                  당신이 {name}에 5점을 줄 확률은 <br />{" "}
-                  {Math.floor(fiveStarProbability)}%입니다!
+                  당신이 {name}에 5점을 줄 확률은 <br /> {Math.floor(fiveStarProbability)}%입니다!
                 </div>
                 <p>
                   <div className="info-title">카테고리 </div>

@@ -48,8 +48,8 @@ const defaultPlaceInfo: PlaceInfo = {
   isPick: false,
   groupName: null,
   groupImgIndex: 0,
-  longitude: 0,
-  latitude: 0,
+  longitude: null,
+  latitude: null,
   posts: [],
 };
 

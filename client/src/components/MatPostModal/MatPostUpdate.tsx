@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 import styled from "styled-components";
 import { useEffect, useState } from "react";
 import { updatePost } from "../../api/axiosAPI/posts/PostsAxios";
@@ -128,7 +126,12 @@ interface ModalDefaultType {
   placeId: number;
 }
 
-const PostUpdateModal = ({ onClickToggleModal, id, state, placeId }: ModalDefaultType) => {
+const PostUpdateModal = ({
+  onClickToggleModal,
+  id,
+  state,
+  placeId,
+}: ModalDefaultType) => {
   // 모달 닫기
   const closeModal = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -139,8 +142,12 @@ const PostUpdateModal = ({ onClickToggleModal, id, state, placeId }: ModalDefaul
 
   // 기존 데이터 받아오기
   const [newTitle, setNewTitle] = useState<string>(state.postInfo.title);
-  const [htmlContent, setHtmlContent] = useState<string>(state.postInfo.content);
-  const [thumbnailUrl, setThumbnailUrl] = useState<string>(state.postInfo.thumbnailUrl);
+  const [htmlContent, setHtmlContent] = useState<string>(
+    state.postInfo.content
+  );
+  const [thumbnailUrl, setThumbnailUrl] = useState<string>(
+    state.postInfo.thumbnailUrl
+  );
   const [clicked, setClicked] = useState<boolean[]>(
     new Array(5).fill(true, 0, state.postInfo.star)
   );
@@ -155,12 +162,21 @@ const PostUpdateModal = ({ onClickToggleModal, id, state, placeId }: ModalDefaul
 
   useEffect(() => {
     getThumbnailUrl();
-    thumbnail.length > 0 ? setImageContained(true) : setImageContained(false);
+    if (htmlContent.length > 0) {
+      thumbnail ? setImageContained(true) : setImageContained(false);
+    }
   }, [htmlContent]);
 
-  const { axiosData, status } = useAxios(
+  const { axiosData } = useAxios(
     () =>
-      updatePost(newTitle, htmlContent, thumbnailUrl, clicked.filter(Boolean).length, placeId, id),
+      updatePost(
+        newTitle,
+        htmlContent,
+        thumbnailUrl,
+        clicked.filter(Boolean).length,
+        placeId,
+        id
+      ),
     [newTitle, htmlContent, clicked, thumbnailUrl],
     true
   );
@@ -177,6 +193,8 @@ const PostUpdateModal = ({ onClickToggleModal, id, state, placeId }: ModalDefaul
       const secondIndex = htmlContent.indexOf('" a', firstIndex);
       thumbnail = htmlContent.slice(firstIndex + 10, secondIndex);
       setThumbnailUrl(thumbnail);
+    } else if (htmlContent.length > 0) {
+      setThumbnailUrl("");
     }
   };
 
@@ -204,7 +222,11 @@ const PostUpdateModal = ({ onClickToggleModal, id, state, placeId }: ModalDefaul
 
   return (
     <StyledDiv>
-      <input placeholder="제목을 입력해주세요" value={newTitle} onChange={handleInput}></input>
+      <input
+        placeholder="제목을 입력해주세요"
+        value={newTitle}
+        onChange={handleInput}
+      ></input>
       <div className={newTitle.length <= 0 ? "disabled" : ""}>
         <MatEditor htmlContent={htmlContent} setHtmlContent={setHtmlContent} />
       </div>
@@ -217,7 +239,9 @@ const PostUpdateModal = ({ onClickToggleModal, id, state, placeId }: ModalDefaul
                 key={idx}
                 size="50"
                 onClick={() => handleStarClick(el)}
-                className={imageContained ? (clicked[el] ? "yellow" : "") : "disabled"}
+                className={
+                  imageContained ? (clicked[el] ? "yellow" : "") : "disabled"
+                }
               />
             );
           })}
@@ -227,7 +251,9 @@ const PostUpdateModal = ({ onClickToggleModal, id, state, placeId }: ModalDefaul
         <button
           onClick={handleSubmit}
           className={
-            newTitle.length > 0 && htmlContent.length > 0 && imageContained ? "" : "disabled"
+            newTitle.length > 0 && htmlContent.length > 0 && imageContained
+              ? ""
+              : "disabled"
           }
         >
           수정

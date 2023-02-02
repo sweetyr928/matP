@@ -1,6 +1,4 @@
-/* eslint-disable */
-
-import React, { useRef, useMemo } from "react";
+import { useRef, useMemo } from "react";
 import ReactQuill, { Quill } from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import ImageResize from "@looop/quill-image-resize-module-react";

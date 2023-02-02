@@ -24,6 +24,7 @@ const UserWrapper = styled.div`
     height: 40px;
     border-radius: 50%;
     margin-right: 10px;
+    object-fit: cover;
   }
 
   .text-box {
@@ -34,7 +35,8 @@ const UserWrapper = styled.div`
   }
 
   .name {
-    margin: 10px 10px 0px 10px;
+    margin-left: 10px;
+    margin-top: 5px;
     font-size: 1.1rem;
     color: #874356;
     &:hover {

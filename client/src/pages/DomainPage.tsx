@@ -11,7 +11,7 @@ import { useSetRecoilState } from "recoil";
 const StyledFeed = styled.div`
   height: 100%;
   /* height: 100vh; */
-  min-width: calc(1340px * 2 / 5 - 63px);
+  width: calc(1340px * 2 / 5 - 63px);
   z-index: 997;
   padding: 65px 8px 0px 70px;
   background-color: #f8f8f8;
@@ -47,7 +47,7 @@ const StyledPosts = styled.div`
 const Domain: React.FC = () => {
   const token = localStorage.getItem("Authorization");
   const setUserInfo = useSetRecoilState(userInfoState);
-  const { axiosData: getUserInfo, responseData: memberData } = useAxios(getMyData);
+  const { axiosData: getUserInfo, responseData: memberData } = useAxios(getMyData, [token], true);
   useEffect(() => {
     if (token) {
       getUserInfo();
@@ -63,7 +63,7 @@ const Domain: React.FC = () => {
   const [hasMore, setHasMore] = useState<boolean>(true);
   const [postsReload, setPostsReload] = useState<boolean>(false);
   const [page, setPage] = useState(1);
-  const [limit] = useState(15);
+  const [limit] = useState(24);
   const [postData, setPostData] = useState([]);
   const { responseData: posts } = useAxios(getPosts, [postsReload], false);
   const { axiosData: getPageAxios, responseData: pagePosts } = useAxios(

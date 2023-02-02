@@ -42,7 +42,11 @@ export const createPlaces = async (
   return response.data;
 };
 
-export const CurrentLocaionSearchAxios = async (): Promise<PlaceData[]> => {
-  const response = await axios.get(`${url}?longitude=126.9019532&latitude=37.5170112&round=1`);
+export const CurrentLocaionSearchAxios = async (
+  lng: number,
+  lat: number,
+  level: number
+): Promise<PlaceData[]> => {
+  const response = await axios.get(`${url}?longitude=${lng}&latitude=${lat}&round=${level}`);
   return response.data;
 };

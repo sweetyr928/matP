@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import LoginIcon from "@mui/icons-material/Login";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import useAxios from "../hooks/useAxios";
 import { getMyData } from "../api/axiosAPI/members/myPageAPI";

@@ -7,7 +7,7 @@ import { useEffect } from "react";
 const StyledFeed = styled.div`
   height: 100%;
   /* height: 100vh; */
-  min-width: calc(1340px * 2 / 5 - 63px);
+  width: calc(1340px * 2 / 5 - 63px);
   z-index: 997;
   padding: 65px 8px 0px 70px;
   background-color: #f8f8f8;
@@ -50,8 +50,7 @@ const KakaoLoginContainer = styled.button`
   cursor: pointer;
   padding: 10px;
   margin: 10px;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
-    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
   &:hover {
     background-color: #f3da00;
   }
@@ -75,8 +74,7 @@ const GoogleLoginContainer = styled.button`
   cursor: pointer;
   padding: 10px;
   margin: 10px;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
-    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
   &:hover {
     background-color: #f0f0f0;
   }

@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { MapMarker } from "react-kakao-maps-sdk";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
@@ -22,10 +21,6 @@ const PlaceName = styled.div`
 const PlaceDetailMarker = () => {
   const placeInfo = useRecoilValue(placeInfoState);
   const placeInfoStatus = useRecoilValue(placeInfoStatusState);
-  const [isVisible, setIsVisible] = useState({
-    id: -1,
-    isVisible: false,
-  });
 
   return (
     <>
@@ -34,14 +29,10 @@ const PlaceDetailMarker = () => {
           key={placeInfo.id}
           position={{ lat: placeInfo.latitude, lng: placeInfo.longitude }}
           clickable={true}
-          onMouseOver={() => setIsVisible({ id: placeInfo.id, isVisible: true })}
-          onMouseOut={() => setIsVisible({ id: -1, isVisible: false })}
         >
-          {isVisible.isVisible && isVisible.id === placeInfo.id && (
-            <InfoWindowContainer>
-              <PlaceName>{placeInfo.name}</PlaceName>
-            </InfoWindowContainer>
-          )}
+          <InfoWindowContainer>
+            <PlaceName>{placeInfo.name}</PlaceName>
+          </InfoWindowContainer>
         </MapMarker>
       ) : null}
     </>

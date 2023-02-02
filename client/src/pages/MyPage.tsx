@@ -14,10 +14,12 @@ import {
 import { ModalPortal } from "../components";
 import LogoutModal from "../components/LogoutModal";
 import MyPagePostInfo from "../components/MyPagePostInfo";
+import { useRecoilValue } from "recoil";
+import { isLoggedInState } from "../store/userInfoAtoms";
 
 const FeedContainer = styled.div`
   height: 100%;
-  min-width: calc(1340px * 2 / 5 - 63px);
+  width: calc(1340px * 2 / 5 - 63px);
   z-index: 997;
   padding: 65px 8px 0px 70px;
   background-color: #f8f8f8;
@@ -273,15 +275,21 @@ const MyPage: React.FC = () => {
   };
 
   const [isChange, setIsChange] = useState<boolean>(false);
+  const isLoggedIn = useRecoilValue(isLoggedInState);
 
-  const { axiosData: getMemberAxios, responseData: memberData } = useAxios(getMyData, [isChange]);
+  const { axiosData: getMemberAxios, responseData: memberData } = useAxios(
+    getMyData,
+    [isChange]
+  );
   const { responseData: followingData } = useAxios(getMyFollowings);
   const { responseData: followerData } = useAxios(getMyFollowers);
 
-  const { nickname, memo, followers, followings, profileUrl } = memberData || {};
+  const { nickname, memo, followers, followings, profileUrl } =
+    memberData || {};
 
   const [isOpenEditModal, setOpenEditModal] = useState<boolean>(false);
-  const [isOpenFollowingModal, setOpenFollowingModal] = useState<boolean>(false);
+  const [isOpenFollowingModal, setOpenFollowingModal] =
+    useState<boolean>(false);
   const [isOpenFollowerModal, setOpenFollowerModal] = useState<boolean>(false);
   const [isOpenLogoutModal, setOpenLogoutModal] = useState<boolean>(false);
 
@@ -300,7 +308,7 @@ const MyPage: React.FC = () => {
 
   useEffect(() => {
     getMemberAxios();
-  }, [isChange]);
+  }, [isChange, isLoggedIn]);
 
   const onClickToggleEditModal = () => {
     setOpenEditModal(!isOpenEditModal);
@@ -355,14 +363,22 @@ const MyPage: React.FC = () => {
     <FeedContainer>
       <div className="userInfo_header_container">
         <ImgContainer>
-          {profileUrl ? <UserImg src={profileUrl} alt="프로필사진" /> : <EmptyImg />}
+          {profileUrl ? (
+            <UserImg src={profileUrl} alt="프로필사진" />
+          ) : (
+            <EmptyImg />
+          )}
         </ImgContainer>
         <UserInfo>
           <UserNickname>{nickname}</UserNickname>
           {memo && <UserRemainder>{memo}</UserRemainder>}
           <UserRemainder>
-            <FollowButton onClick={onClickToggleFollowingModal}>팔로잉 {followings}</FollowButton>
-            <FollowButton onClick={onClickToggleFollowerModal}>팔로워 {followers}</FollowButton>
+            <FollowButton onClick={onClickToggleFollowingModal}>
+              팔로잉 {followings}
+            </FollowButton>
+            <FollowButton onClick={onClickToggleFollowerModal}>
+              팔로워 {followers}
+            </FollowButton>
           </UserRemainder>
         </UserInfo>
         <EditIconStyled onClick={onClickToggleEditModal} />
@@ -445,8 +461,16 @@ const MyPage: React.FC = () => {
                   ref={fileInput}
                 />
               </div>
-              <Input type="text" value={revisedName || ""} onChange={onChangeName}></Input>
-              <Input type="text" value={revisedMemo || ""} onChange={onChangeMemo}></Input>
+              <Input
+                type="text"
+                value={revisedName || ""}
+                onChange={onChangeName}
+              ></Input>
+              <Input
+                type="text"
+                value={revisedMemo || ""}
+                onChange={onChangeMemo}
+              ></Input>
               <div className="button_container">
                 <ModalBtn onClick={onRevise}>제출</ModalBtn>
                 <ModalBtn onClick={onClickToggleEditModal}>취소</ModalBtn>

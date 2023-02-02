@@ -6,8 +6,6 @@ import { getPickers, PickersData } from "../api/axiosAPI/groups/PickersAxios";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import axios from "axios";
 
-const jwtToken = localStorage.getItem("Authorization");
-
 const MatPickerWrapper = styled.div`
   height: 100%;
   width: calc(1340px * 2 / 5 - 63px);
@@ -31,7 +29,7 @@ const MatPickerWrapper = styled.div`
 const MatPickerBox = styled.div`
   width: 100%;
   height: 100%;
-
+  overflow-y: scroll;
   .default_mat_pick {
     display: flex;
     justify-content: space-between;
@@ -84,6 +82,7 @@ const MatPicker: React.FC = () => {
   );
 
   useEffect(() => {
+    const jwtToken = localStorage.getItem("Authorization");
     axios
       .get("https://matp.o-r.kr/groups", {
         headers: {
