@@ -7,7 +7,7 @@ import { useEffect } from "react";
 const StyledFeed = styled.div`
   height: 100%;
   /* height: 100vh; */
-  min-width: calc(1340px * 2 / 5 - 63px);
+  width: calc(1340px * 2 / 5 - 63px);
   z-index: 997;
   padding: 65px 8px 0px 70px;
   background-color: #f8f8f8;
