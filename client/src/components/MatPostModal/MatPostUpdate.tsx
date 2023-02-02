@@ -193,6 +193,8 @@ const PostUpdateModal = ({
       const secondIndex = htmlContent.indexOf('" a', firstIndex);
       thumbnail = htmlContent.slice(firstIndex + 10, secondIndex);
       setThumbnailUrl(thumbnail);
+    } else if (htmlContent.length > 0) {
+      setThumbnailUrl("");
     }
   };
 
