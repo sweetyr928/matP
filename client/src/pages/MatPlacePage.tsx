@@ -382,19 +382,19 @@ const MatPlacePost: React.FC = () => {
 
   const { axiosData: getPickersData, responseData: pickersData } = useAxios(
     () => getPickers(),
-    [dataReload],
+    [dataReload, postsReload],
     false
   );
 
   const { axiosData: getPlaceDataUser, responseData: placeUserData } = useAxios(
     () => getPlaceDetailForUser(Number(placeId)),
-    [dataReload],
+    [dataReload, postsReload],
     false
   );
 
   const { axiosData: getPlaceData, responseData: placeData } = useAxios(
     () => getPlaceDetail(Number(placeId)),
-    [dataReload, placeId],
+    [dataReload, placeId, postsReload],
     false
   );
 

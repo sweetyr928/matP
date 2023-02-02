@@ -25,22 +25,22 @@ const Nothing = styled.span`
 `;
 
 const MyPagePostInfo = () => {
-  const { axiosData: getMemberData, responseData: memberData } =
-    useAxios(getMyData);
+  const [postsReload, setPostsReload] = useState<boolean>(false);
+
+  const { responseData: memberData } = useAxios(
+    getMyData,
+    [postsReload],
+    false
+  );
   const { postInfos = [] } = memberData || {};
 
   const postInfosFiltered = postInfos.filter((item) => {
     return item.id !== null;
   });
 
-  const [postsReload, setPostsReload] = useState<boolean>(false);
   const getAllPostsReload = () => {
     setPostsReload(!postsReload);
   };
-
-  useEffect(() => {
-    getMemberData();
-  }, [postsReload]);
 
   return (
     <>
