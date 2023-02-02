@@ -167,6 +167,7 @@ const PickContainer = styled.div`
     margin: 30px 0;
   }
   #pick {
+    width: 60px;
     font-weight: 700;
     background-color: rgb(200, 200, 200, 0.2);
     filter: brightness(0.8);

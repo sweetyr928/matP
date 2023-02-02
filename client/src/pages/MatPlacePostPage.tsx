@@ -6,7 +6,7 @@ import { createPlaces } from "../api/axiosAPI/places/PlacesAxios";
 
 const MatPlacePostWrapper = styled.div`
   height: 100%;
-  min-width: calc(1340px * 2 / 5 - 63px);
+  width: calc(1340px * 2 / 5 - 63px);
   z-index: 997;
   padding: 0px 8px 0px 70px;
   background-color: #f8f8f8;
