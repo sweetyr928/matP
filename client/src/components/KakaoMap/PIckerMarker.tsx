@@ -56,7 +56,7 @@ const PickerMarker = () => {
 
       getPickerPlace();
     }
-  }, [token, pickerPlaces, status]);
+  }, [token, status]);
 
   return (
     <>
