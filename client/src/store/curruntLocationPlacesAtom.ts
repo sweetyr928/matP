@@ -10,8 +10,8 @@ export const curruntLocationState = atom({
   default: {
     level: 7,
     center: {
-      lat: 0,
-      lng: 0,
+      lat: 37.56667437551163,
+      lng: 126.95764417493172,
     },
   },
 });

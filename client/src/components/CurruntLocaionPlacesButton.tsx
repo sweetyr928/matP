@@ -53,7 +53,7 @@ const CurruntLocationPlacesButton = () => {
   const curruntLocation = useRecoilValue(curruntLocationState);
   const { center, level } = curruntLocation;
   const { lng, lat } = center;
-  const levelMeter = [0, 0.1, 0.25, 0.55, 0.8, 2.0, 3.5];
+  const arrLevelMeter = [0, 0.1, 0.25, 0.55, 0.8, 2.0, 3.5, 5.5];
 
   const setSearchResults = useSetRecoilState(searchResultsState);
   const setSearchStatus = useSetRecoilState(searchStatusState);
@@ -62,9 +62,15 @@ const CurruntLocationPlacesButton = () => {
     curruntLocationStatusState
   );
 
-  const { axiosData: getCurrentLocaionPlace, responseData: CurrentLocaionPlaceData } = useAxios<
-    PlaceData[]
-  >(() => CurrentLocaionSearchAxios(lng, lat, levelMeter[level]), [curruntLocationStatus], true);
+  const {
+    axiosData: getCurrentLocaionPlace,
+    responseData: CurrentLocaionPlaceData,
+    status: getCurrentLocaionStatus,
+  } = useAxios<PlaceData[]>(
+    () => CurrentLocaionSearchAxios(lng, lat, arrLevelMeter[level]),
+    [curruntLocationStatus, lng, lat, level],
+    true
+  );
 
   const CurrentLocaionSearchHandler = () => {
     setSearchStatus("Idle");
@@ -74,11 +80,13 @@ const CurruntLocationPlacesButton = () => {
   };
 
   useEffect(() => {
-    if (curruntLocationStatus === "Loading") {
+    console.log(center, level, lng, lat);
+
+    if (curruntLocationStatus === "Loading" && getCurrentLocaionStatus === "Success") {
       setCurruntLocationPlaces(CurrentLocaionPlaceData);
       setCurruntLocationStatus("Success");
     }
-  }, [curruntLocationStatus]);
+  }, [curruntLocationStatus, getCurrentLocaionStatus]);
 
   return (
     <>
