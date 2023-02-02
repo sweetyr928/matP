@@ -20,18 +20,48 @@
 
 ## ⚒️ **기능 시연**  
 <details>
-<summary>로그인 페이지</summary>
+<summary>로그인 페이지</summary><br/>
+👉 토큰을 받아오고, 계정 정보를 받아오면 헤더 이미지와 마이페이지, 로그인 시 자신이 저장한 픽 마커 호출되는 기능, 로그아웃하면 초기화<br/>
+<img width=700 src="https://user-images.githubusercontent.com/94962427/216275112-d1666a0e-d684-424c-a161-46de0ad44dd9.gif"><br/>
 </details>
 
 <details>
-<summary>마이페이지</summary>
-로그아웃, 계정 관련 정보
-토큰을 받아오고, 계정 정보를 받아오면 헤더 이미지와 마이페이지, 로그인 시 자신이 저장한 픽 마커들 렌더링되는 기능, 로그아웃하면 초기화<br/>
+<summary>마이페이지</summary><br/>
+<p>
+👉 계정 관련 정보 호출 및 계정 정보 Edit 기능 구현<br/>
+<img width=700 src="https://user-images.githubusercontent.com/94962427/216275260-b887e8a9-1739-475b-acbf-4d31a446003f.gif"><br/>
+</p>
+<p>
+👉 자신이 쓴 작성글 확인 및 자신의 맛픽커즈로 라우팅, 로그아웃 기능 구현<br/>
+<img width=700 src="https://user-images.githubusercontent.com/94962427/216275420-a0e6661e-6a59-45c1-84ca-830cec1e5f11.gif"><br/>
+</p>
 </details>
 
 <details>
-<summary>카카오맵</summary>
-마커 관련 기능은 여기에<br/>
+<summary>카카오 지도</summary><br/>
+지도 라이브러리로 카카오맵 API를 사용
+<p><br/>
+👉 기본적인 카카오맵 형태<br/>
+<img width="1080" alt="image" src="https://user-images.githubusercontent.com/94962427/216276792-79ad1acc-75f8-439e-8c08-8507c50c98e4.png">
+</p>
+DB에서 가져온 검색 및 장소 데이터의 마커 호출 관련 기능 구현<br/>
+<p><br/>
+👉 맛플레이스 디테일 페이지 관련 마커: 관련 좌표로 마커 + 카메라 액션 기능 구현 <br />
+<img width=700  src="https://user-images.githubusercontent.com/94962427/216276170-98a714cf-d7e1-4f7c-8ae4-60445664f485.gif"><br/>
+</p>
+
+<p>
+👉 맛플레이스 검색 관련 좌표에 관해 마커 호출 구현 <br />
+<img width=700  src="https://user-images.githubusercontent.com/94962427/216276188-d1381fd9-1e9f-4412-bad5-c125103ba0d1.gif"><br/>
+
+</p>
+<p>
+👉 자신이 픽한 맛플레이스 관련 맛픽커의 마커 호출 구현 <br />
+<img width=700  src="https://user-images.githubusercontent.com/94962427/216276211-1b2bb760-1a63-42c6-b84a-82a253fc0696.gif"><br/>
+</p>
+
+
+
 </details>
 
 <details>
