@@ -20,13 +20,21 @@
   
 ## ⚒️ **기능 시연**  
 <details>
-<summary>도메인 페이지: 무한스크롤</summary>
+<summary>로그인 페이지</summary>
 </details>
 
 <details>
-<summary>로그인 / 로그아웃</summary>
-  토큰을 받아오고, 계정 정보를 받아오면 헤더 이미지와 마이페이지, 로그인 시 자신이 저장한 픽 마커들 렌더링되는 기능, 로그아웃하면 초기화<br/>
+<summary>마이페이지</summary>
+로그아웃, 계정 관련 정보
+토큰을 받아오고, 계정 정보를 받아오면 헤더 이미지와 마이페이지, 로그인 시 자신이 저장한 픽 마커들 렌더링되는 기능, 로그아웃하면 초기화<br/>
 </details>
+
+
+<details>
+<summary>카카오맵</summary>
+마커 관련 기능은 여기에<br/>
+</details>
+
 
 <details>
 <summary>맛포스트 조회 / 작성 / 수정 / 삭제</summary> 
@@ -45,23 +53,33 @@
 <img width=800 src="https://user-images.githubusercontent.com/94962427/215991745-0eb95788-21c8-48b0-b303-df80d4ebc08a.gif"><br/>
 </details>
 
-<details>
-<summary>맛피플 검색 페이지</summary>
-<img width=800 src="https://user-images.githubusercontent.com/94962427/215991745-0eb95788-21c8-48b0-b303-df80d4ebc08a.gif"><br/>
-</details>
 
 <details>
-<summary>맛포스트 검색 페이지</summary>
-👉 제목 및 내용 검색<br/>
-<img width=800 src="https://user-images.githubusercontent.com/94962427/216130265-1ff46bd5-b1e8-4cf9-be49-b122471f087f.gif"><br/>
+
+<summary>검색 기능</summary>
+
+  <details>
+  <summary>맛피플 검색 페이지</summary>
+  <img width=800 src="https://user-images.githubusercontent.com/94962427/215991745-0eb95788-21c8-48b0-b303-df80d4ebc08a.gif"><br/>
+  </details>
+
+  <details>
+  <summary>맛포스트 검색 페이지</summary>
+  👉 제목 및 내용 검색<br/>
+  <img width=800 src="https://user-images.githubusercontent.com/94962427/216130265-1ff46bd5-b1e8-4cf9-be49-b122471f087f.gif"><br/>
+  </details>
+
+  <details>
+  <summary>맛플레이스 검색 페이지</summary>
+  현위치 맛집 검색, 키워드 입력 후 검색
+  </details>
+
 </details>
 
-<details>
-<summary>맛플레이스 검색 페이지</summary>
-</details>
+
 
 <details>
-<summary>마이페이지</summary>
+<summary></summary>
 </details>
 
 <details>
