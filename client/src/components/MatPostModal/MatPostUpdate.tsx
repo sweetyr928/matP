@@ -161,9 +161,9 @@ const PostUpdateModal = ({
   const array: Array<number> = [0, 1, 2, 3, 4];
 
   useEffect(() => {
+    getThumbnailUrl();
     if (htmlContent.length > 0) {
-      getThumbnailUrl();
-      thumbnail.length > 0 ? setImageContained(true) : setImageContained(false);
+      thumbnail ? setImageContained(true) : setImageContained(false);
     }
   }, [htmlContent]);
 
