@@ -29,20 +29,20 @@
 </details>
 
 <details>
-  <summary>맛포스트 조회 / 작성 / 수정 / 삭제</summary> 
+<summary>맛포스트 조회 / 작성 / 수정 / 삭제</summary> 
 👉 조회 기능<br />
-  <img width=800 src="https://user-images.githubusercontent.com/94962427/215991184-4418f6bb-fcda-4ca0-acc8-5ddf08052e16.gif"><br/>
+<img width=800 src="https://user-images.githubusercontent.com/94962427/215991184-4418f6bb-fcda-4ca0-acc8-5ddf08052e16.gif"><br/>
 👉 댓글 기능<br />
-    <img width=800 src="https://user-images.githubusercontent.com/94962427/215991260-75cdb9cc-65a1-42c5-94ed-1b208f6ca302.gif"><br/>
+<img width=800 src="https://user-images.githubusercontent.com/94962427/215991260-75cdb9cc-65a1-42c5-94ed-1b208f6ca302.gif"><br/>
 👉 ‘좋아요’<br />
-    <img width=800 src="https://user-images.githubusercontent.com/94962427/216130418-a0093d06-1d06-4dba-bd55-141b4fb0bd65.gif"><br/>
+<img width=800 src="https://user-images.githubusercontent.com/94962427/216130418-a0093d06-1d06-4dba-bd55-141b4fb0bd65.gif"><br/>
 👉 등록<br />
-    <img width=800 src="https://user-images.githubusercontent.com/94962427/215991346-7aecd336-e125-44df-a3e8-6dbb2d3a7b84.gif"><br/>
-    <img width=800 src="https://user-images.githubusercontent.com/94962427/215991585-0e3c528a-f12d-431e-b277-6cdccde9eb8b.gif"><br/>
+<img width=800 src="https://user-images.githubusercontent.com/94962427/215991346-7aecd336-e125-44df-a3e8-6dbb2d3a7b84.gif"><br/>
+<img width=800 src="https://user-images.githubusercontent.com/94962427/215991585-0e3c528a-f12d-431e-b277-6cdccde9eb8b.gif"><br/>
 👉 수정<br />
-    <img width=800 src="https://user-images.githubusercontent.com/94962427/216130546-88065ba3-ca77-4ff8-9c29-48e5d032cc1d.gif"> <br/>
+<img width=800 src="https://user-images.githubusercontent.com/94962427/216130546-88065ba3-ca77-4ff8-9c29-48e5d032cc1d.gif"> <br/>
 👉 삭제<br />
-    <img width=800 src="https://user-images.githubusercontent.com/94962427/215991745-0eb95788-21c8-48b0-b303-df80d4ebc08a.gif"><br/>
+<img width=800 src="https://user-images.githubusercontent.com/94962427/215991745-0eb95788-21c8-48b0-b303-df80d4ebc08a.gif"><br/>
 </details>
 
 <details>
@@ -82,7 +82,7 @@
 <summary>맛픽커즈 페이지</summary>
 👉 맛픽커즈 조회, 생성, 수정, 삭제<br/>
 👉 현재 맛픽커즈에 소속된 맛플레이스 조회<br/>
-  <img width=800 src="https://user-images.githubusercontent.com/94962427/215992080-d19a7029-3c26-47be-8ca6-a7d39a36d57a.gif"><br/>
+<img width=800 src="https://user-images.githubusercontent.com/94962427/215992080-d19a7029-3c26-47be-8ca6-a7d39a36d57a.gif"><br/>
 </details>
 
 ## 🧑🏻‍💻 개발 관련 기술
@@ -91,48 +91,48 @@
 
 #### **Front-end**
 
-  <div> 
-  <img src="https://img.shields.io/badge/html5-E34F26?style=for-the-badge&amp;logo=html5&amp;logoColor=white" height="35"> 
-  <img src="https://img.shields.io/badge/styled_components-db7093?style=for-the-badge&amp;logo=styled-components&amp;logoColor=white" height="35">
-  <img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&amp;logo=typeScript&amp;logoColor=white" height="35"> 
-  <img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&amp;logo=react&amp;logoColor=black" height="35"> 
-  <img src="https://img.shields.io/badge/Kakao-FFCD00?style=for-the-badge&amp;logo=kakao&amp;logoColor=black" height="35"> 
-  <img src="https://img.shields.io/badge/MUI-007FFF?style=for-the-badge&amp;logo=mui&amp;logoColor=white" height="35">
-  <img src="https://img.shields.io/badge/Axios-5A29E4?style=for-the-badge&amp;logo=axios&amp;logoColor=white" height="35">
-  <img src="https://img.shields.io/badge/recoil-3578EC?style=for-the-badge&amp;logo=recoil&amp;logoColor=white" height="35">
-  <img src="https://img.shields.io/badge/eslint-4B32C3?style=for-the-badge&amp;logo=eslint&amp;logoColor=white" height="35">
+<div align=left>
+<img src="https://img.shields.io/badge/html5-E34F26?style=for-the-badge&amp;logo=html5&amp;logoColor=white" height="35"> 
+<img src="https://img.shields.io/badge/styled_components-db7093?style=for-the-badge&amp;logo=styled-components&amp;logoColor=white" height="35">
+<img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&amp;logo=typeScript&amp;logoColor=white" height="35"> 
+<img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&amp;logo=react&amp;logoColor=black" height="35"> 
+<img src="https://img.shields.io/badge/Kakao-FFCD00?style=for-the-badge&amp;logo=kakao&amp;logoColor=black" height="35"> 
+<img src="https://img.shields.io/badge/MUI-007FFF?style=for-the-badge&amp;logo=mui&amp;logoColor=white" height="35">
+<img src="https://img.shields.io/badge/Axios-5A29E4?style=for-the-badge&amp;logo=axios&amp;logoColor=white" height="35">
+<img src="https://img.shields.io/badge/recoil-3578EC?style=for-the-badge&amp;logo=recoil&amp;logoColor=white" height="35">
+<img src="https://img.shields.io/badge/eslint-4B32C3?style=for-the-badge&amp;logo=eslint&amp;logoColor=white" height="35">
 </div>
 
 #### **Back-end**
 
 <div align=left> 
-  <img src="https://img.shields.io/badge/Java-ECD53F?style=for-the-badge&logo=Java&logoColor=white" height="35"> 
-  <img src="https://img.shields.io/badge/Spring Boot-6DB33F?style=for-the-badge&logo=Spring Boot&logoColor=white" height="35"> 
-  <img src="https://img.shields.io/badge/Spring Security-6DB33F?style=for-the-badge&logo=Spring Security&logoColor=white" height="35">
-  <img src="https://img.shields.io/badge/Spring WebFlux-6DB33F?style=for-the-badge&logo=Spring WebFlux&logoColor=white" height="35"> 
-  <img src="https://img.shields.io/badge/Spring R2DBC-6DB33F?style=for-the-badge&logo=Spring R2DBC&logoColor=white" height="35">
-  <img src="https://img.shields.io/badge/JSON Web Tokens-000000?style=for-the-badge&logo=JSON Web Tokens&logoColor=white" height="35">
-  <img src="https://img.shields.io/badge/Oauth2.0 -EB5424?style=for-the-badge&logo=Oauth2.0&logoColor=white" height="35">
+<img src="https://img.shields.io/badge/Java-ECD53F?style=for-the-badge&logo=Java&logoColor=white" height="35"> 
+<img src="https://img.shields.io/badge/Spring Boot-6DB33F?style=for-the-badge&logo=Spring Boot&logoColor=white" height="35"> 
+<img src="https://img.shields.io/badge/Spring Security-6DB33F?style=for-the-badge&logo=Spring Security&logoColor=white" height="35">
+<img src="https://img.shields.io/badge/Spring WebFlux-6DB33F?style=for-the-badge&logo=Spring WebFlux&logoColor=white" height="35"> 
+<img src="https://img.shields.io/badge/Spring R2DBC-6DB33F?style=for-the-badge&logo=Spring R2DBC&logoColor=white" height="35">
+<img src="https://img.shields.io/badge/JSON Web Tokens-000000?style=for-the-badge&logo=JSON Web Tokens&logoColor=white" height="35">
+<img src="https://img.shields.io/badge/Oauth2.0 -EB5424?style=for-the-badge&logo=Oauth2.0&logoColor=white" height="35">
 </div>
 
 #### **DevOps**
 
 <div align=left> 
-  <img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white" height="35"> 
-  <img src="https://img.shields.io/badge/Amazon S3-569A31?style=for-the-badge&logo=Amazon S3&logoColor=black" height="35"> 
-  <img src="https://img.shields.io/badge/Amazon EC2-FF9900?style=for-the-badge&logo=Amazon EC2&logoColor=white" height="35">
-  <img src="https://img.shields.io/badge/Amazon AWS-232F3E?style=for-the-badge&logo=Amazon AWS&logoColor=white" height="35">
+<img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white" height="35"> 
+<img src="https://img.shields.io/badge/Amazon S3-569A31?style=for-the-badge&logo=Amazon S3&logoColor=black" height="35"> 
+<img src="https://img.shields.io/badge/Amazon EC2-FF9900?style=for-the-badge&logo=Amazon EC2&logoColor=white" height="35">
+<img src="https://img.shields.io/badge/Amazon AWS-232F3E?style=for-the-badge&logo=Amazon AWS&logoColor=white" height="35">
 </div>
 
 #### **Common**
 
 <div align=left> 
-  <img src="https://img.shields.io/badge/Discord-5865F2?style=for-the-badge&logo=Discord&logoColor=white" height="35">
-  <img src="https://img.shields.io/badge/Notion-000000?style=for-the-badge&logo=Notion&logoColor=white" height="35">
-  <img src="https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=Git&logoColor=white" height="35">
-  <img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=GitHub&logoColor=white" height="35">
-  <img src="https://img.shields.io/badge/Figma-F24E1E?style=for-the-badge&logo=Figma&logoColor=white" height="35">
-  <img src="https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=Postman&logoColor=white" height="35">
+<img src="https://img.shields.io/badge/Discord-5865F2?style=for-the-badge&logo=Discord&logoColor=white" height="35">
+<img src="https://img.shields.io/badge/Notion-000000?style=for-the-badge&logo=Notion&logoColor=white" height="35">
+<img src="https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=Git&logoColor=white" height="35">
+<img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=GitHub&logoColor=white" height="35">
+<img src="https://img.shields.io/badge/Figma-F24E1E?style=for-the-badge&logo=Figma&logoColor=white" height="35">
+<img src="https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=Postman&logoColor=white" height="35">
 </div>
 
 ### [🍦 사용자 요구사항 정의서](https://docs.google.com/spreadsheets/d/1AgdlF1oqkkuDqs2wced36P0N3TJo_kuogahM_R_khtA/edit#gid=0)
