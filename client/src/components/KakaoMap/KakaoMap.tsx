@@ -68,7 +68,7 @@ const KakaoMap = () => {
       >
         <PlaceDetailMarker />
         <SearchMarker />
-        {token ? <PickerMarker /> : null}
+        <PickerMarker />
       </MapContainer>
     </>
   );
