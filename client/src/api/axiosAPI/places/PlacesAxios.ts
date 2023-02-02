@@ -47,8 +47,6 @@ export const CurrentLocaionSearchAxios = async (
   lat: number,
   level: number
 ): Promise<PlaceData[]> => {
-  console.log(level);
-
   const response = await axios.get(`${url}?longitude=${lng}&latitude=${lat}&round=${level}`);
   return response.data;
 };

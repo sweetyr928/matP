@@ -80,8 +80,6 @@ const CurruntLocationPlacesButton = () => {
   };
 
   useEffect(() => {
-    console.log(center, level, lng, lat);
-
     if (curruntLocationStatus === "Loading" && getCurrentLocaionStatus === "Success") {
       setCurruntLocationPlaces(CurrentLocaionPlaceData);
       setCurruntLocationStatus("Success");
