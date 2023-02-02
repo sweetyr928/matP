@@ -60,57 +60,58 @@
 </details>
 
 <details>
-
-<summary>검색 기능</summary>
-
-  <details>
-  <summary>맛피플 검색 페이지</summary>
-  
-  </details>
-
-  <details>
-  <summary>맛포스트 검색 페이지</summary>
-  👉 제목 및 내용 검색<br/>
-  <img width=800 src="https://user-images.githubusercontent.com/94962427/216130265-1ff46bd5-b1e8-4cf9-be49-b122471f087f.gif"><br/>
-  </details>
-
-  <details>
-  <summary>맛플레이스 검색 페이지</summary>
-  현위치 맛집 검색, 키워드 입력 후 검색
-  </details>
-
+<summary>검색 페이지</summary>
+<br/>
+👉 맛포스트 검색 | 제목 및 내용 검색<br/>
+<img width=800 src="https://user-images.githubusercontent.com/111138420/216249503-27cf5581-655b-499a-aa97-02d3a302a9f7.gif"><br/>
+<br/>
+👉 맛플레이스 검색 | 현재 위치 기반 및 키워드 검색<br/>
+<img width=800 src="https://user-images.githubusercontent.com/111138420/216248533-25b8ed0a-b2fa-4eb9-8e0d-1979df498e0b.gif"><br/>
+<br/>
+👉 맛플레이스 검색 부가 기능 | 맛플레이스 추가<br/>
+<img width=800 src="https://user-images.githubusercontent.com/111138420/216248489-b0a62297-7003-43d2-984d-867022a21c0b.gif"><br/>
+<br/>
+👉 맛피플 검색 | 닉네임 기반 키워드 검색<br/>
+<img width=800 src="https://user-images.githubusercontent.com/111138420/216249816-8d9ec68a-668f-465b-8512-c9edf91986cf.gif"><br/>
 </details>
 
 <details>
-<summary></summary>
-</details>
-
-<details>
-<summary>맛피플</summary>
+<summary>맛피플 페이지</summary>
+<br/>
 👉 맛피플이 작성한 맛포스트 조회<br/>
 <img width=800 src="https://user-images.githubusercontent.com/39157466/216239874-5b3bb3d3-cf61-4c4a-9554-8fef6f6def5f.gif"><br/>
+<br/>
 👉 맛피플의 맛픽커즈 조회<br/>
 <img width=300 src="https://user-images.githubusercontent.com/39157466/216239884-cafc6118-8cc9-4bf4-accc-ca35bbbdac6f.gif"><br/>
 <br/>
 👉 맛피플 팔로우<br/>
 <img width=300 src="https://user-images.githubusercontent.com/39157466/216239895-0f171d68-127d-4279-b507-03efcaf5eb58.gif"><br/>
-<br/>
-
 </details>
 
 <details>
 <summary>맛플레이스 페이지</summary>
-👉 맛포스트 작성 및 목록 조회<br/>
-👉 맛픽 기능<br/>
-👉 맛플레이스 상세 정보 조회<br/>
-<img width=800 src="https://user-images.githubusercontent.com/94962427/216129965-c7be5df8-bad3-47c1-b7a9-227b29f14250.gif"><br/>
+<br/>
+👉 맛플레이스 페이지 구성<br/>
+<img width=800 src="https://user-images.githubusercontent.com/111138420/216247060-eff894e8-6134-4ba6-97d5-d2fb256a2811.gif"><br/>
+<br/>
+👉 맛플레이스 픽<br/>
+<img width=300 src="https://user-images.githubusercontent.com/111138420/216247487-e2c69b7c-bb48-4ab4-bc4a-e334ebbc8703.gif"><br/>
 </details>
 
 <details>
 <summary>맛픽커즈 페이지</summary>
-👉 맛픽커즈 조회, 생성, 수정, 삭제<br/>
-👉 현재 맛픽커즈에 소속된 맛플레이스 조회<br/>
-<img width=800 src="https://user-images.githubusercontent.com/94962427/215992080-d19a7029-3c26-47be-8ca6-a7d39a36d57a.gif"><br/>
+<br/>
+👉 맛픽커즈 조회 및 맛픽 맛플레이스 목록 조회<br/>
+<img width=300 src="https://user-images.githubusercontent.com/111138420/216248053-501de0ac-e806-43cb-ac4a-b3c4f5eaaac5.gif"><br/>
+<br/>
+👉 맛픽커즈 생성<br/>
+<img width=300 src="https://user-images.githubusercontent.com/111138420/216248026-618098b6-a6a2-4a21-948f-64079d9a26b0.gif"><br/>
+<br/>
+👉 맛픽커즈 수정<br/>
+<img width=300 src="https://user-images.githubusercontent.com/111138420/216248087-6fc7f17a-8fee-4494-aa8e-53d1481181e7.gif"><br/>
+<br/>
+👉 맛픽커즈 삭제<br/>
+<img width=300 src="https://user-images.githubusercontent.com/111138420/216248119-b38a4b8f-a34b-434b-839b-478c3b412051.gif"><br/>
 </details>
 
 ## 🧑🏻‍💻 개발 관련 기술
