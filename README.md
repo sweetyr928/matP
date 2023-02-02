@@ -27,35 +27,35 @@
 
 <details>
 <summary>로그인 / 로그아웃</summary>
-  토큰을 받아오고, 계정 정보를 받아오면 헤더 이미지와 마이페이지, 로그인 시 자신이 저장한 픽 마커들 렌더링되는 기능, 로그아웃하면 초기화
+  토큰을 받아오고, 계정 정보를 받아오면 헤더 이미지와 마이페이지, 로그인 시 자신이 저장한 픽 마커들 렌더링되는 기능, 로그아웃하면 초기화<br/>
 </details>
 
 <details>
   <summary>맛포스트 조회 / 작성 / 수정 / 삭제</summary> 
 👉 조회 기능<br />
-  <img src="https://user-images.githubusercontent.com/94962427/215991184-4418f6bb-fcda-4ca0-acc8-5ddf08052e16.gif">
+  <img width=800 src="https://user-images.githubusercontent.com/94962427/215991184-4418f6bb-fcda-4ca0-acc8-5ddf08052e16.gif"><br/>
 👉 댓글 기능<br />
-    <img src="https://user-images.githubusercontent.com/94962427/215991260-75cdb9cc-65a1-42c5-94ed-1b208f6ca302.gif">
+    <img width=800 src="https://user-images.githubusercontent.com/94962427/215991260-75cdb9cc-65a1-42c5-94ed-1b208f6ca302.gif"><br/>
 👉 ‘좋아요’<br />
-    <img src="https://user-images.githubusercontent.com/94962427/216130418-a0093d06-1d06-4dba-bd55-141b4fb0bd65.gif">
+    <img width=800 src="https://user-images.githubusercontent.com/94962427/216130418-a0093d06-1d06-4dba-bd55-141b4fb0bd65.gif"><br/>
 👉 등록<br />
-    <img src="https://user-images.githubusercontent.com/94962427/215991346-7aecd336-e125-44df-a3e8-6dbb2d3a7b84.gif">
-    <img src="https://user-images.githubusercontent.com/94962427/215991585-0e3c528a-f12d-431e-b277-6cdccde9eb8b.gif">
+    <img width=800 src="https://user-images.githubusercontent.com/94962427/215991346-7aecd336-e125-44df-a3e8-6dbb2d3a7b84.gif"><br/>
+    <img width=800 src="https://user-images.githubusercontent.com/94962427/215991585-0e3c528a-f12d-431e-b277-6cdccde9eb8b.gif"><br/>
 👉 수정<br />
-    <img src="https://user-images.githubusercontent.com/94962427/216130546-88065ba3-ca77-4ff8-9c29-48e5d032cc1d.gif"> 
+    <img width=800 src="https://user-images.githubusercontent.com/94962427/216130546-88065ba3-ca77-4ff8-9c29-48e5d032cc1d.gif"> <br/>
 👉 삭제<br />
-    <img src="https://user-images.githubusercontent.com/94962427/215991745-0eb95788-21c8-48b0-b303-df80d4ebc08a.gif">
+    <img width=800 src="https://user-images.githubusercontent.com/94962427/215991745-0eb95788-21c8-48b0-b303-df80d4ebc08a.gif"><br/>
 </details>
 
 <details>
 <summary>맛피플 검색 페이지</summary>
-<img src="https://user-images.githubusercontent.com/94962427/215991745-0eb95788-21c8-48b0-b303-df80d4ebc08a.gif">
+<img width=800 src="https://user-images.githubusercontent.com/94962427/215991745-0eb95788-21c8-48b0-b303-df80d4ebc08a.gif"><br/>
 </details>
 
 <details>
 <summary>맛포스트 검색 페이지</summary>
 👉 제목 및 내용 검색<br/>
-<img src="https://user-images.githubusercontent.com/94962427/216130265-1ff46bd5-b1e8-4cf9-be49-b122471f087f.gif">
+<img width=800 src="https://user-images.githubusercontent.com/94962427/216130265-1ff46bd5-b1e8-4cf9-be49-b122471f087f.gif"><br/>
 </details>
 
   
@@ -79,14 +79,14 @@
 👉 맛포스트 작성 및 목록 조회<br/>
 👉 맛픽 기능<br/>
 👉 맛플레이스 상세 정보 조회<br/>
-<img src="https://user-images.githubusercontent.com/94962427/216129965-c7be5df8-bad3-47c1-b7a9-227b29f14250.gif">
+<img width=800 src="https://user-images.githubusercontent.com/94962427/216129965-c7be5df8-bad3-47c1-b7a9-227b29f14250.gif"><br/>
 </details>
 
 <details>
 <summary>맛픽커즈 페이지</summary>
 👉 맛픽커즈 조회, 생성, 수정, 삭제<br/>
 👉 현재 맛픽커즈에 소속된 맛플레이스 조회<br/>
-  <img src="https://user-images.githubusercontent.com/94962427/215992080-d19a7029-3c26-47be-8ca6-a7d39a36d57a.gif">
+  <img width=800 src="https://user-images.githubusercontent.com/94962427/215992080-d19a7029-3c26-47be-8ca6-a7d39a36d57a.gif"><br/>
 </details>
 
 
