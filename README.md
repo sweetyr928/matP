@@ -35,7 +35,7 @@
 </details>
 
 <details>
-<summary>맛 Post</summary>
+<summary>맛 포스트</summary>
 👉 무한스크롤<br />
 <img width=300 src="https://user-images.githubusercontent.com/39157466/216237491-cf3619fb-96fb-41ee-928a-13e6973087b4.gif"><br/>
 <br/>
@@ -65,7 +65,7 @@
 
   <details>
   <summary>맛피플 검색 페이지</summary>
-  <img width=800 src="https://user-images.githubusercontent.com/94962427/215991745-0eb95788-21c8-48b0-b303-df80d4ebc08a.gif"><br/>
+  
   </details>
 
   <details>
@@ -86,7 +86,7 @@
 </details>
 
 <details>
-<summary>맛피플 페이지</summary>
+<summary>맛피플</summary>
 👉 맛피플이 작성한 맛포스트 조회<br/>
 <img width=800 src="https://user-images.githubusercontent.com/39157466/216239874-5b3bb3d3-cf61-4c4a-9554-8fef6f6def5f.gif"><br/>
 👉 맛피플의 맛픽커즈 조회<br/>
