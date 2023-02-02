@@ -36,50 +36,50 @@
 
 <details>
 <summary>맛 포스트</summary>
+<br />
 👉 무한스크롤<br />
 <img width=300 src="https://user-images.githubusercontent.com/39157466/216237491-cf3619fb-96fb-41ee-928a-13e6973087b4.gif"><br/>
 <br/>
 👉 조회<br />
-<img width=800 src="https://user-images.githubusercontent.com/39157466/216238776-d6d1cd70-3fd1-45af-b24a-8b742525f199.gif"><br/>
+<img width=700  src="https://user-images.githubusercontent.com/39157466/216238776-d6d1cd70-3fd1-45af-b24a-8b742525f199.gif"><br/>
 <br/>
 👉 댓글<br />
-<img width=800 src="https://user-images.githubusercontent.com/39157466/216237787-7a70683c-c049-4789-a2ec-a04a62e753db.gif"><br/>
+<img width=700  src="https://user-images.githubusercontent.com/39157466/216237787-7a70683c-c049-4789-a2ec-a04a62e753db.gif"><br/>
 <br/>
 👉 ‘좋아요’<br />
-<img width=800 src="https://user-images.githubusercontent.com/39157466/216241122-148a1895-6246-40a5-aab4-944a69b8321f.gif"><br/>
+<img width=700  src="https://user-images.githubusercontent.com/39157466/216241122-148a1895-6246-40a5-aab4-944a69b8321f.gif"><br/>
 <br/>
 👉 등록<br />
-<img width=800 src="https://user-images.githubusercontent.com/39157466/216240468-483eefc1-f019-4df6-884b-b9ea14f06bb8.gif"><br/>
+<img width=700  src="https://user-images.githubusercontent.com/39157466/216240468-483eefc1-f019-4df6-884b-b9ea14f06bb8.gif"><br/>
 <br/>
 👉 수정<br />
-<img width=800 src="https://user-images.githubusercontent.com/39157466/216239117-43fc9559-6af4-4080-a46b-9e90fb48aa39.gif"> <br/>
+<img width=700  src="https://user-images.githubusercontent.com/39157466/216239117-43fc9559-6af4-4080-a46b-9e90fb48aa39.gif"> <br/>
 <br/>
 👉 삭제<br />
-<img width=800 src="https://user-images.githubusercontent.com/39157466/216238794-1114da2f-cc9e-4a58-9b8b-e9370803665f.gif"><br/>
-<br/>
+<img width=700  src="https://user-images.githubusercontent.com/39157466/216238794-1114da2f-cc9e-4a58-9b8b-e9370803665f.gif"><br/>
 </details>
 
 <details>
 <summary>검색 페이지</summary>
 <br/>
 👉 맛포스트 검색 | 제목 및 내용 검색<br/>
-<img width=800 src="https://user-images.githubusercontent.com/111138420/216249503-27cf5581-655b-499a-aa97-02d3a302a9f7.gif"><br/>
+<img width=700  src="https://user-images.githubusercontent.com/111138420/216249503-27cf5581-655b-499a-aa97-02d3a302a9f7.gif"><br/>
 <br/>
 👉 맛플레이스 검색 | 현재 위치 기반 및 키워드 검색<br/>
-<img width=800 src="https://user-images.githubusercontent.com/111138420/216248533-25b8ed0a-b2fa-4eb9-8e0d-1979df498e0b.gif"><br/>
+<img width=700  src="https://user-images.githubusercontent.com/111138420/216248533-25b8ed0a-b2fa-4eb9-8e0d-1979df498e0b.gif"><br/>
 <br/>
 👉 맛플레이스 검색 부가 기능 | 맛플레이스 추가<br/>
-<img width=800 src="https://user-images.githubusercontent.com/111138420/216248489-b0a62297-7003-43d2-984d-867022a21c0b.gif"><br/>
+<img width=700 src="https://user-images.githubusercontent.com/111138420/216248489-b0a62297-7003-43d2-984d-867022a21c0b.gif"><br/>
 <br/>
 👉 맛피플 검색 | 닉네임 기반 키워드 검색<br/>
-<img width=800 src="https://user-images.githubusercontent.com/111138420/216249816-8d9ec68a-668f-465b-8512-c9edf91986cf.gif"><br/>
+<img width=700  src="https://user-images.githubusercontent.com/111138420/216249816-8d9ec68a-668f-465b-8512-c9edf91986cf.gif"><br/>
 </details>
 
 <details>
 <summary>맛피플 페이지</summary>
 <br/>
 👉 맛피플이 작성한 맛포스트 조회<br/>
-<img width=800 src="https://user-images.githubusercontent.com/39157466/216239874-5b3bb3d3-cf61-4c4a-9554-8fef6f6def5f.gif"><br/>
+<img width=700 src="https://user-images.githubusercontent.com/39157466/216239874-5b3bb3d3-cf61-4c4a-9554-8fef6f6def5f.gif"><br/>
 <br/>
 👉 맛피플의 맛픽커즈 조회<br/>
 <img width=300 src="https://user-images.githubusercontent.com/39157466/216239884-cafc6118-8cc9-4bf4-accc-ca35bbbdac6f.gif"><br/>
@@ -92,7 +92,7 @@
 <summary>맛플레이스 페이지</summary>
 <br/>
 👉 맛플레이스 페이지 구성<br/>
-<img width=800 src="https://user-images.githubusercontent.com/111138420/216247060-eff894e8-6134-4ba6-97d5-d2fb256a2811.gif"><br/>
+<img width=700 src="https://user-images.githubusercontent.com/111138420/216247060-eff894e8-6134-4ba6-97d5-d2fb256a2811.gif"><br/>
 <br/>
 👉 맛플레이스 픽<br/>
 <img width=300 src="https://user-images.githubusercontent.com/111138420/216247487-e2c69b7c-bb48-4ab4-bc4a-e334ebbc8703.gif"><br/>
