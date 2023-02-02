@@ -41,6 +41,7 @@ const PickerMarker = () => {
     status,
   } = useAxios(getAllPickersPlaces, [token]);
 
+  const [releaseMarker, setReleaseMarker] = useState(false);
   const [isVisible, setIsVisible] = useState({
     id: -1,
     isVisible: false,
@@ -51,12 +52,11 @@ const PickerMarker = () => {
   };
 
   useEffect(() => {
-    if (token && status === "Success") {
-      console.log("실행");
-
+    if (token && status === "Success" && !releaseMarker) {
       getPickerPlace();
+      setReleaseMarker(true);
     }
-  }, [token, status]);
+  }, [token, status, releaseMarker]);
 
   return (
     <>
