@@ -64,7 +64,7 @@ const CurruntLocationPlacesButton = () => {
 
   const { axiosData: getCurrentLocaionPlace, responseData: CurrentLocaionPlaceData } = useAxios<
     PlaceData[]
-  >(() => CurrentLocaionSearchAxios(lng, lat, levelMeter[level]), [curruntLocationStatus]);
+  >(() => CurrentLocaionSearchAxios(lng, lat, levelMeter[level]), [curruntLocationStatus], true);
 
   const CurrentLocaionSearchHandler = () => {
     setSearchStatus("Idle");
