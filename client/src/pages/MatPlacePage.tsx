@@ -362,7 +362,6 @@ const MatPlacePost: React.FC = () => {
   const [isOpenModal, setOpenModal] = useState<boolean>(false);
   const [dataReload, setDataReload] = useState<boolean>(false);
   const [jwtToken, setJwtToken] = useState(false);
-  const [postsReload, setPostsReload] = useState<boolean>(false);
 
   useEffect(() => {
     localStorage.getItem("Authorization")
@@ -400,11 +399,7 @@ const MatPlacePost: React.FC = () => {
 
   useEffect(() => {
     getPickersData();
-  }, [postsReload]);
-
-  const getAllPostsReload = () => {
-    setPostsReload(!postsReload);
-  };
+  }, [dataReload]);
 
   const {
     id = 0,
@@ -439,6 +434,7 @@ const MatPlacePost: React.FC = () => {
   };
 
   const onClickToggleModal = useCallback(() => {
+    setDataReload(!dataReload);
     setOpenModal(!isOpenModal);
   }, [isOpenModal]);
 
@@ -583,11 +579,7 @@ const MatPlacePost: React.FC = () => {
             posts && posts.length !== 0 ? (
               <PageContainer>
                 {posts.map((post: IPosts) => (
-                  <PostRead
-                    key={post.id}
-                    post={post}
-                    getAllPostsReload={getAllPostsReload}
-                  />
+                  <PostRead key={post.id} post={post} />
                 ))}
               </PageContainer>
             ) : (
