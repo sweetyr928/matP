@@ -92,19 +92,20 @@ const SearchDetailPlace: React.FC = () => {
 
   const [keyword, setKeyword] = useState("");
 
-  const { axiosData: getSearch, responseData: searchData } = useAxios<PlaceData[]>(
-    () => getSearchPlaceAxios(keyword),
-    [keyword]
-  );
+  const {
+    axiosData: getSearch,
+    responseData: searchData,
+    status: searchAxiosStatus,
+  } = useAxios<PlaceData[]>(() => getSearchPlaceAxios(keyword), [keyword], true);
   const [searchResults, setSearchResults] = useRecoilState(searchResultsState);
   const [searchStatus, setSearchStatus] = useRecoilState(searchStatusState);
 
   useEffect(() => {
-    if (searchStatus === "Loading") {
+    if (searchStatus === "Loading" && searchAxiosStatus === "Success") {
       setSearchResults(searchData);
       setSearchStatus("Success");
     }
-  }, [searchStatus]);
+  }, [searchStatus, searchAxiosStatus]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setKeyword(e.target.value);
@@ -112,6 +113,8 @@ const SearchDetailPlace: React.FC = () => {
 
   const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter" && keyword.length !== 0) {
+      console.log(keyword);
+
       setCurruntLocationStatus("Idle");
       setCurruntLocationPlaces([]);
       getSearch();
@@ -138,7 +141,7 @@ const SearchDetailPlace: React.FC = () => {
         placeholder="검색어를 입력하세요"
         value={keyword}
         onChange={handleChange}
-        onKeyUp={handleKeyPress}
+        onKeyDown={handleKeyPress}
       />
 
       {curruntLocationPlaces && curruntLocationStatus === "Success" ? (
