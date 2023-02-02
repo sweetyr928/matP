@@ -161,9 +161,9 @@ const PostUpdateModal = ({
   const array: Array<number> = [0, 1, 2, 3, 4];
 
   useEffect(() => {
+    getThumbnailUrl();
     if (htmlContent.length > 0) {
-      getThumbnailUrl();
-      thumbnail.length > 0 ? setImageContained(true) : setImageContained(false);
+      thumbnail ? setImageContained(true) : setImageContained(false);
     }
   }, [htmlContent]);
 
@@ -193,6 +193,8 @@ const PostUpdateModal = ({
       const secondIndex = htmlContent.indexOf('" a', firstIndex);
       thumbnail = htmlContent.slice(firstIndex + 10, secondIndex);
       setThumbnailUrl(thumbnail);
+    } else if (htmlContent.length > 0) {
+      setThumbnailUrl("");
     }
   };
 
