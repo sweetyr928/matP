@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { getMyData } from "../api/axiosAPI/members/myPageAPI";
 import { IMyPostInfo } from "../api/axiosAPI/posts/PostsAxios";
@@ -25,7 +25,8 @@ const Nothing = styled.span`
 `;
 
 const MyPagePostInfo = () => {
-  const { responseData: memberData } = useAxios(getMyData);
+  const { axiosData: getMemberData, responseData: memberData } =
+    useAxios(getMyData);
   const { postInfos = [] } = memberData || {};
 
   const postInfosFiltered = postInfos.filter((item) => {
@@ -36,6 +37,10 @@ const MyPagePostInfo = () => {
   const getAllPostsReload = () => {
     setPostsReload(!postsReload);
   };
+
+  useEffect(() => {
+    getMemberData();
+  }, [postsReload]);
 
   return (
     <>

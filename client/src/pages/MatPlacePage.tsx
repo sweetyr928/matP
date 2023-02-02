@@ -398,10 +398,8 @@ const MatPlacePost: React.FC = () => {
     false
   );
 
-  const { axiosData: getAllPosts } = useAxios(getPosts, [], false);
-
   useEffect(() => {
-    getAllPosts();
+    getPickersData();
   }, [postsReload]);
 
   const getAllPostsReload = () => {
