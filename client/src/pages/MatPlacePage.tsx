@@ -3,6 +3,7 @@ import styled from "styled-components";
 import useAxios from "../hooks/useAxios";
 import { getPosts, IPosts } from "../api/axiosAPI/posts/PostsAxios";
 import { useParams } from "react-router-dom";
+import CheckIcon from "@mui/icons-material/Check";
 import {
   getPickers,
   createPick,
@@ -118,14 +119,15 @@ const ButtonBox = styled.div`
   button {
     color: #373737;
     font-size: 17px;
-    width: 60px;
+    width: 74px;
     height: 34px;
+    line-height: 34px;
     border: none;
     background-color: transparent;
     border-radius: 20px;
     cursor: pointer;
     &:hover {
-      color: #858585;
+      filter: brightness(0.8);
     }
     span {
       color: white;
@@ -138,6 +140,12 @@ const ButtonBox = styled.div`
     color: white;
     background-color: #874356;
   }
+`;
+
+const CheckIconStyeld = styled(CheckIcon)`
+  color: white;
+  cursor: pointer;
+  padding-top: 5px;
 `;
 
 const PageContainer = styled.div`
@@ -440,13 +448,11 @@ const MatPlacePost: React.FC = () => {
     setDataReload(!dataReload);
   }, [dataReload]);
 
-  // 평점 매긴 유저 수 총합
   const ratingsTotal = starCount.reduce(
     (acc: number, cur: number) => (acc += cur),
     0
   );
 
-  // star rating percentage 계산 후 style로 반영
   const ratingToPercent = {
     width: `${(starAvg / 5) * 100}%`,
   };
@@ -463,7 +469,6 @@ const MatPlacePost: React.FC = () => {
     setIsPost(false);
   };
 
-  // chart bar
   const ratingsAvg = (el: number) => {
     if (el > 0) {
       return (el / ratingsTotal) * 100;
@@ -527,7 +532,7 @@ const MatPlacePost: React.FC = () => {
                 className={isPick ? "checking" : ""}
                 onClick={pickMenuHandler}
               >
-                Pick <span className={!isPick ? "unchecking" : ""}>✓</span>
+                Pick <CheckIconStyeld className={!isPick ? "unchecking" : ""} />
               </button>
               <p>{pickCount}</p>
             </div>
