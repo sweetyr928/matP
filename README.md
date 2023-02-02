@@ -35,20 +35,28 @@
 </details>
 
 <details>
-<summary>맛포스트 조회 / 작성 / 수정 / 삭제</summary> 
-👉 조회 기능<br />
-<img width=800 src="https://user-images.githubusercontent.com/94962427/215991184-4418f6bb-fcda-4ca0-acc8-5ddf08052e16.gif"><br/>
-👉 댓글 기능<br />
-<img width=800 src="https://user-images.githubusercontent.com/94962427/215991260-75cdb9cc-65a1-42c5-94ed-1b208f6ca302.gif"><br/>
+<summary>맛 Post</summary>
+👉 무한스크롤<br />
+<img width=300 src="https://user-images.githubusercontent.com/39157466/216237491-cf3619fb-96fb-41ee-928a-13e6973087b4.gif"><br/>
+<br/>
+👉 조회<br />
+<img width=800 src="https://user-images.githubusercontent.com/39157466/216238776-d6d1cd70-3fd1-45af-b24a-8b742525f199.gif"><br/>
+<br/>
+👉 댓글<br />
+<img width=800 src="https://user-images.githubusercontent.com/39157466/216237787-7a70683c-c049-4789-a2ec-a04a62e753db.gif"><br/>
+<br/>
 👉 ‘좋아요’<br />
-<img width=800 src="https://user-images.githubusercontent.com/94962427/216130418-a0093d06-1d06-4dba-bd55-141b4fb0bd65.gif"><br/>
+<img width=800 src="https://user-images.githubusercontent.com/39157466/216241122-148a1895-6246-40a5-aab4-944a69b8321f.gif"><br/>
+<br/>
 👉 등록<br />
-<img width=800 src="https://user-images.githubusercontent.com/94962427/215991346-7aecd336-e125-44df-a3e8-6dbb2d3a7b84.gif"><br/>
-<img width=800 src="https://user-images.githubusercontent.com/94962427/215991585-0e3c528a-f12d-431e-b277-6cdccde9eb8b.gif"><br/>
+<img width=800 src="https://user-images.githubusercontent.com/39157466/216240468-483eefc1-f019-4df6-884b-b9ea14f06bb8.gif"><br/>
+<br/>
 👉 수정<br />
-<img width=800 src="https://user-images.githubusercontent.com/94962427/216130546-88065ba3-ca77-4ff8-9c29-48e5d032cc1d.gif"> <br/>
+<img width=800 src="https://user-images.githubusercontent.com/39157466/216239117-43fc9559-6af4-4080-a46b-9e90fb48aa39.gif"> <br/>
+<br/>
 👉 삭제<br />
-<img width=800 src="https://user-images.githubusercontent.com/94962427/215991745-0eb95788-21c8-48b0-b303-df80d4ebc08a.gif"><br/>
+<img width=800 src="https://user-images.githubusercontent.com/39157466/216238794-1114da2f-cc9e-4a58-9b8b-e9370803665f.gif"><br/>
+<br/>
 </details>
 
 <details>
@@ -79,8 +87,15 @@
 
 <details>
 <summary>맛피플 페이지</summary>
-👉  follow/ unfollow<br/>
-    ![follow 기능.gif](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/0b76b04f-ab65-46e4-86f2-a048756361f0/follow_%E1%84%80%E1%85%B5%E1%84%82%E1%85%B3%E1%86%BC.gif)
+👉 맛피플이 작성한 맛포스트 조회<br/>
+<img width=800 src="https://user-images.githubusercontent.com/39157466/216239874-5b3bb3d3-cf61-4c4a-9554-8fef6f6def5f.gif"><br/>
+👉 맛피플의 맛픽커즈 조회<br/>
+<img width=300 src="https://user-images.githubusercontent.com/39157466/216239884-cafc6118-8cc9-4bf4-accc-ca35bbbdac6f.gif"><br/>
+<br/>
+👉 맛피플 팔로우<br/>
+<img width=300 src="https://user-images.githubusercontent.com/39157466/216239895-0f171d68-127d-4279-b507-03efcaf5eb58.gif"><br/>
+<br/>
+
 </details>
 
 <details>
