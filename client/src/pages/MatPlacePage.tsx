@@ -354,6 +354,7 @@ const MatPlacePost: React.FC = () => {
   const [isOpenModal, setOpenModal] = useState<boolean>(false);
   const [dataReload, setDataReload] = useState<boolean>(false);
   const [jwtToken, setJwtToken] = useState(false);
+  const [postsReload, setPostsReload] = useState<boolean>(false);
 
   useEffect(() => {
     localStorage.getItem("Authorization")
@@ -388,6 +389,16 @@ const MatPlacePost: React.FC = () => {
     [dataReload, placeId],
     false
   );
+
+  const { axiosData: getAllPosts } = useAxios(getPosts, [], false);
+
+  useEffect(() => {
+    getAllPosts();
+  }, [postsReload]);
+
+  const getAllPostsReload = () => {
+    setPostsReload(!postsReload);
+  };
 
   const {
     id = 0,
@@ -569,7 +580,11 @@ const MatPlacePost: React.FC = () => {
             posts && posts.length !== 0 ? (
               <PageContainer>
                 {posts.map((post: IPosts) => (
-                  <PostRead key={post.id} post={post} />
+                  <PostRead
+                    key={post.id}
+                    post={post}
+                    getAllPostsReload={getAllPostsReload}
+                  />
                 ))}
               </PageContainer>
             ) : (
