@@ -52,6 +52,8 @@ const PickerMarker = () => {
 
   useEffect(() => {
     if (token && status === "Success") {
+      console.log("실행");
+
       getPickerPlace();
     }
   }, [token, pickerPlaces, status]);
