@@ -60,7 +60,7 @@ const PickerMarker = () => {
 
   return (
     <>
-      {token && status === "Success"
+      {token && pickerPlaces
         ? pickerPlaces.map((place: Place) => (
             <MapMarker
               key={place.id}
