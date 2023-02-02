@@ -25,6 +25,7 @@ interface getCenterType {
 }
 
 const KakaoMap = () => {
+  const token = localStorage.getItem("Authorization");
   const placeInfoStatus = useRecoilValue(placeInfoStatusState);
   const { latitude, longitude } = useRecoilValue(placeInfoState);
   const setCurruntLocation = useSetRecoilState(curruntLocationState);
@@ -67,7 +68,7 @@ const KakaoMap = () => {
       >
         <PlaceDetailMarker />
         <SearchMarker />
-        <PickerMarker />
+        {token ? <PickerMarker /> : null}
       </MapContainer>
     </>
   );
