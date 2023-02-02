@@ -47,13 +47,12 @@ const SearchTab = styled.div`
   width: 100%;
   height: 120px;
   border: none;
-  margin-bottom: -25px;
+  margin-bottom: 3px;
 `;
 
 const TabButton = styled.li`
   cursor: pointer;
   font-size: 18px;
-  height: 37px;
   width: 100%;
   height: 50px;
   display: flex;
@@ -116,8 +115,11 @@ const SearchDetailPost: React.FC = () => {
     true
   );
 
-  const { axiosData: getContentSearch, responseData: searchContentData } =
-    useAxios(() => getSearchContentData(keyword), [keyword], true);
+  const { axiosData: getContentSearch, responseData: searchContentData } = useAxios(
+    () => getSearchContentData(keyword),
+    [keyword],
+    true
+  );
 
   const [searchStatus, setSearchStatus] = useRecoilState(searchStatusState);
 
@@ -182,22 +184,14 @@ const SearchDetailPost: React.FC = () => {
       {!currentMenu && searchTitleData ? (
         <SearchResultBox>
           {searchTitleData.map((post) => (
-            <PostRead
-              key={post.id}
-              post={post}
-              getAllPostsReload={getAllPostsReload}
-            />
+            <PostRead key={post.id} post={post} getAllPostsReload={getAllPostsReload} />
           ))}
         </SearchResultBox>
       ) : null}
       {currentMenu && searchContentData ? (
         <SearchResultBox>
           {searchContentData.map((post) => (
-            <PostRead
-              key={post.id}
-              post={post}
-              getAllPostsReload={getAllPostsReload}
-            />
+            <PostRead key={post.id} post={post} getAllPostsReload={getAllPostsReload} />
           ))}
         </SearchResultBox>
       ) : null}
