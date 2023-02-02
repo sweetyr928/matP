@@ -10,7 +10,6 @@ import { useSetRecoilState } from "recoil";
 
 const StyledFeed = styled.div`
   height: 100%;
-  /* height: 100vh; */
   width: calc(1340px * 2 / 5 - 63px);
   z-index: 997;
   padding: 65px 8px 0px 70px;
@@ -23,6 +22,7 @@ const StyledFeed = styled.div`
 `;
 
 const HeaderContainer = styled.div`
+  width: 100%;
   border-bottom: 1px solid #bbbbbb;
   margin-bottom: 4px;
   h1 {
@@ -47,7 +47,11 @@ const StyledPosts = styled.div`
 const Domain: React.FC = () => {
   const token = localStorage.getItem("Authorization");
   const setUserInfo = useSetRecoilState(userInfoState);
-  const { axiosData: getUserInfo, responseData: memberData } = useAxios(getMyData, [token], true);
+  const { axiosData: getUserInfo, responseData: memberData } = useAxios(
+    getMyData,
+    [token],
+    true
+  );
   useEffect(() => {
     if (token) {
       getUserInfo();
@@ -101,11 +105,19 @@ const Domain: React.FC = () => {
       <StyledPosts onScroll={handleScroll}>
         {posts &&
           posts.map((post: IPosts) => (
-            <PostRead key={post.id} post={post} getAllPostsReload={getAllPostsReload} />
+            <PostRead
+              key={post.id}
+              post={post}
+              getAllPostsReload={getAllPostsReload}
+            />
           ))}
         {postData &&
           postData.map((post: IPosts) => (
-            <PostRead key={post.id} post={post} getAllPostsReload={getAllPostsReload} />
+            <PostRead
+              key={post.id}
+              post={post}
+              getAllPostsReload={getAllPostsReload}
+            />
           ))}
       </StyledPosts>
     </StyledFeed>
