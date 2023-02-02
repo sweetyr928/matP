@@ -126,6 +126,8 @@ const ButtonBox = styled.div`
     line-height: 34px;
     border: none;
     border-radius: 20px;
+    color: #373737;
+    background-color: transparent;
     cursor: pointer;
     &:hover {
       filter: brightness(0.8);

@@ -43,7 +43,7 @@ const MatPickerBox = styled.div`
     width: 100%;
     height: 70px;
     background-color: #f8f8f8;
-    padding: 15px;
+    padding: 11px;
     border: none;
     border-bottom: 1px solid #adadad;
     cursor: pointer;
