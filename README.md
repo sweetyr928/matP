@@ -29,12 +29,10 @@
 토큰을 받아오고, 계정 정보를 받아오면 헤더 이미지와 마이페이지, 로그인 시 자신이 저장한 픽 마커들 렌더링되는 기능, 로그아웃하면 초기화<br/>
 </details>
 
-
 <details>
 <summary>카카오맵</summary>
 마커 관련 기능은 여기에<br/>
 </details>
-
 
 <details>
 <summary>맛포스트 조회 / 작성 / 수정 / 삭제</summary> 
@@ -52,7 +50,6 @@
 👉 삭제<br />
 <img width=800 src="https://user-images.githubusercontent.com/94962427/215991745-0eb95788-21c8-48b0-b303-df80d4ebc08a.gif"><br/>
 </details>
-
 
 <details>
 
@@ -75,8 +72,6 @@
   </details>
 
 </details>
-
-
 
 <details>
 <summary></summary>
