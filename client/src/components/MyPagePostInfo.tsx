@@ -32,17 +32,12 @@ const MyPagePostInfo = () => {
     return item.id !== null;
   });
 
-  const [postsReload, setPostsReload] = useState<boolean>(false);
-  const getAllPostsReload = () => {
-    setPostsReload(!postsReload);
-  };
-
   return (
     <>
       {postInfosFiltered && postInfosFiltered.length !== 0 ? (
         <StyledPosts>
           {postInfosFiltered.map((post: IMyPostInfo) => (
-            <PostRead key={post.id} post={post} getAllPostsReload={getAllPostsReload} />
+            <PostRead key={post.id} post={post} />
           ))}
         </StyledPosts>
       ) : (
