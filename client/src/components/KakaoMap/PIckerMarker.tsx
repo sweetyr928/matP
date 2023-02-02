@@ -39,7 +39,7 @@ const PickerMarker = () => {
     axiosData: getPickerPlace,
     responseData: pickerPlaces,
     status,
-  } = useAxios(getAllPickersPlaces, [token], true);
+  } = useAxios(getAllPickersPlaces, [token]);
 
   const [isVisible, setIsVisible] = useState({
     id: -1,
