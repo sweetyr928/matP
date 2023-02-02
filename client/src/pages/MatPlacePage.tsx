@@ -117,13 +117,14 @@ const ButtonBox = styled.div`
     text-align: center;
   }
   button {
-    color: #373737;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     font-size: 17px;
     width: 74px;
     height: 34px;
     line-height: 34px;
     border: none;
-    background-color: transparent;
     border-radius: 20px;
     cursor: pointer;
     &:hover {
@@ -145,7 +146,8 @@ const ButtonBox = styled.div`
 const CheckIconStyeld = styled(CheckIcon)`
   color: white;
   cursor: pointer;
-  padding-top: 5px;
+  padding-bottom: 3px;
+  padding-left: 5px;
 `;
 
 const PageContainer = styled.div`
@@ -178,7 +180,6 @@ const PickContainer = styled.div`
     margin: 30px 0;
   }
   #pick {
-    width: 60px;
     font-weight: 700;
     background-color: rgb(200, 200, 200, 0.2);
     filter: brightness(0.8);

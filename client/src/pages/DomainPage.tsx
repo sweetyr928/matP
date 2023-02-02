@@ -26,6 +26,7 @@ const HeaderContainer = styled.div`
   border-bottom: 1px solid #bbbbbb;
   margin-bottom: 4px;
   h1 {
+    width: 100%;
     margin: 24px 129px;
     font-size: 23px;
     font-weight: 600;

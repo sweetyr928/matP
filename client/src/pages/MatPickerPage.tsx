@@ -17,6 +17,7 @@ const MatPickerWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   position: absolute;
+
   h1 {
     font-size: 28px;
     font-weight: 500;
@@ -30,6 +31,11 @@ const MatPickerBox = styled.div`
   width: 100%;
   height: 100%;
   overflow-y: scroll;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
   .default_mat_pick {
     display: flex;
     justify-content: space-between;
@@ -41,6 +47,7 @@ const MatPickerBox = styled.div`
     border: none;
     border-bottom: 1px solid #adadad;
     cursor: pointer;
+
     &:hover {
       filter: brightness(0.95);
     }

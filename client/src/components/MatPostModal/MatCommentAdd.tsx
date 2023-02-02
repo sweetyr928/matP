@@ -24,7 +24,7 @@ const StyledComment = styled.div`
   }
 
   button {
-    width: 40px;
+    width: 47px;
     background-color: #874356;
     color: #ffffff;
     border: none;
@@ -45,7 +45,11 @@ const MatCommentAdd = ({
 }): JSX.Element => {
   const [comment, setComment] = useState<string>("");
 
-  const { axiosData } = useAxios(() => createComment(comment, placeId, postId), [comment], true);
+  const { axiosData } = useAxios(
+    () => createComment(comment, placeId, postId),
+    [comment],
+    true
+  );
 
   // 댓글 input 창
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {

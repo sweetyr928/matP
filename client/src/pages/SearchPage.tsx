@@ -16,7 +16,7 @@ const SearchWrapper = styled.div`
   align-items: center;
   position: absolute;
   h1 {
-    font-size: 28px;
+    font-size: 25px;
     font-weight: 500;
     margin-top: 120px;
     margin-bottom: 80px;
