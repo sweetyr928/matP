@@ -295,7 +295,10 @@ const PostReadModal = ({
   const handleDelete = () => {
     setDeleteClicked(!deleteClicked);
     deleteP();
-    onClickToggleModal();
+
+    setTimeout(() => {
+      onClickToggleModal();
+    }, 100);
   };
 
   /**
