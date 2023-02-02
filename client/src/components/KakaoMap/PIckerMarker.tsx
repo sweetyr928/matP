@@ -51,10 +51,10 @@ const PickerMarker = () => {
   };
 
   useEffect(() => {
-    if (token && pickerPlaces) {
+    if (token && status === "Success") {
       getPickerPlace();
     }
-  }, [token, pickerPlaces]);
+  }, [token, pickerPlaces, status]);
 
   return (
     <>
