@@ -45,7 +45,7 @@ const SearchTab = styled.div`
   justify-content: space-around;
   align-items: center;
   width: 100%;
-  height: 120px;
+  height: 65px;
   border: none;
   margin-bottom: 3px;
 `;
@@ -115,11 +115,8 @@ const SearchDetailPost: React.FC = () => {
     true
   );
 
-  const { axiosData: getContentSearch, responseData: searchContentData } = useAxios(
-    () => getSearchContentData(keyword),
-    [keyword],
-    true
-  );
+  const { axiosData: getContentSearch, responseData: searchContentData } =
+    useAxios(() => getSearchContentData(keyword), [keyword], true);
 
   const [searchStatus, setSearchStatus] = useRecoilState(searchStatusState);
 
@@ -184,14 +181,22 @@ const SearchDetailPost: React.FC = () => {
       {!currentMenu && searchTitleData ? (
         <SearchResultBox>
           {searchTitleData.map((post) => (
-            <PostRead key={post.id} post={post} getAllPostsReload={getAllPostsReload} />
+            <PostRead
+              key={post.id}
+              post={post}
+              getAllPostsReload={getAllPostsReload}
+            />
           ))}
         </SearchResultBox>
       ) : null}
       {currentMenu && searchContentData ? (
         <SearchResultBox>
           {searchContentData.map((post) => (
-            <PostRead key={post.id} post={post} getAllPostsReload={getAllPostsReload} />
+            <PostRead
+              key={post.id}
+              post={post}
+              getAllPostsReload={getAllPostsReload}
+            />
           ))}
         </SearchResultBox>
       ) : null}
