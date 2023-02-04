@@ -143,9 +143,7 @@ const MatPeople: React.FC = () => {
   const [postsReload, setPostsReload] = useState<boolean>(false);
 
   useEffect(() => {
-    localStorage.getItem("Authorization")
-      ? setJwtToken(true)
-      : setJwtToken(false);
+    localStorage.getItem("Authorization") ? setJwtToken(true) : setJwtToken(false);
   }, []);
 
   useEffect(() => {
@@ -169,23 +167,11 @@ const MatPeople: React.FC = () => {
     axiosData: getMatPeopleInfoUser,
     responseData: matPeopleUser,
     status,
-  } = useAxios(
-    () => getMatPeopleInfoForUser(Number(id)),
-    [followReload],
-    false
-  );
+  } = useAxios(() => getMatPeopleInfoForUser(Number(id)), [followReload], false);
 
-  const { axiosData: follow } = useAxios(
-    () => followMatPeople(Number(id)),
-    [],
-    true
-  );
+  const { axiosData: follow } = useAxios(() => followMatPeople(Number(id)), [], true);
 
-  const { axiosData: unfollow } = useAxios(
-    () => unfollowMatPeople(Number(id)),
-    [],
-    true
-  );
+  const { axiosData: unfollow } = useAxios(() => unfollowMatPeople(Number(id)), [], true);
 
   const { axiosData: getAllPosts } = useAxios(getPosts, [], false);
 
@@ -210,14 +196,19 @@ const MatPeople: React.FC = () => {
   const { isFollowing = false } = matPeopleUser || {};
 
   const handleFollow = () => {
-    if (status === "Idle" || status === "Success") {
-      if (isFollowing) {
-        unfollow();
-        setFollowReload(!followReload);
-      } else {
-        follow();
-        setFollowReload(!followReload);
+    if (jwtToken) {
+      if (status === "Idle" || status === "Success") {
+        if (isFollowing) {
+          unfollow();
+          setFollowReload(!followReload);
+        } else {
+          follow();
+          setFollowReload(!followReload);
+        }
       }
+    } else {
+      alert("로그인이 필요합니다!");
+      navigate("/login");
     }
   };
 
@@ -232,11 +223,7 @@ const MatPeople: React.FC = () => {
   return (
     <FeedContainer>
       <div className="userInfo_header_container">
-        {profileUrl ? (
-          <UserImg src={profileUrl} alt="프로필사진" />
-        ) : (
-          <EmptyImg />
-        )}
+        {profileUrl ? <UserImg src={profileUrl} alt="프로필사진" /> : <EmptyImg />}
         <UserInfo>
           <div className="matPeople_follow">
             <UserNickname>{nickname}</UserNickname>
@@ -264,11 +251,7 @@ const MatPeople: React.FC = () => {
         <StyledPosts>
           {postInfosFiltered &&
             postInfosFiltered.map((post: IPosts) => (
-              <PostRead
-                key={post.id}
-                post={post}
-                getAllPostsReload={getAllPostsReload}
-              />
+              <PostRead key={post.id} post={post} getAllPostsReload={getAllPostsReload} />
             ))}
         </StyledPosts>
       ) : (

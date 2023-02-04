@@ -9,6 +9,7 @@ const StyledMatPicker = styled.div`
   height: 70px;
   padding: 15px;
   border-bottom: 1px solid #adadad;
+  cursor: pointer;
 
   button {
     color: #373737;
@@ -16,6 +17,7 @@ const StyledMatPicker = styled.div`
     border: none;
     padding: 0;
     font-size: 17px;
+    cursor: pointer;
   }
   &:hover {
     background-color: #eeeeee;
@@ -27,7 +29,7 @@ const NameBox = styled.div`
   flex-direction: row;
   align-items: center;
   width: 300px;
-  cursor: pointer;
+
   button {
     background-color: transparent;
   }
@@ -38,9 +40,6 @@ const NameBox = styled.div`
     margin-right: 20px;
     background: url(${(props) => props.color || "gray"});
     background-size: 100%;
-  }
-  &:hover {
-    font-weight: 700;
   }
 `;
 
@@ -68,8 +67,8 @@ const MatPeoplePickersItem = ({ picker }: { picker: PickersProps }) => {
   };
 
   return (
-    <StyledMatPicker>
-      <button onClick={move}>
+    <StyledMatPicker onClick={move}>
+      <button>
         <NameBox color={groupImg[picker.groupImgIndex]}>
           <div className="icon"></div>
           <div>{picker.name}</div>
