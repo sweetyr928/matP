@@ -1,11 +1,7 @@
 import styled from "styled-components";
 import useAxios from "../../hooks/useAxios";
 import { useEffect, useState } from "react";
-import {
-  deletePost,
-  likePost,
-  dislikePost,
-} from "../../api/axiosAPI/posts/PostsAxios";
+import { deletePost, likePost, dislikePost } from "../../api/axiosAPI/posts/PostsAxios";
 import StarRate from "./StarRate";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -161,10 +157,7 @@ interface ModalDefaultType {
   id: number;
 }
 
-const PostReadModal = ({
-  onClickToggleModal,
-  id,
-}: ModalDefaultType): JSX.Element => {
+const PostReadModal = ({ onClickToggleModal, id }: ModalDefaultType): JSX.Element => {
   const userInfo = useRecoilValue(userInfoState);
   const [nickname, setNickname] = useState<string>("");
   const [profileUrl, setProfileUrl] = useState<string>("");
@@ -184,6 +177,7 @@ const PostReadModal = ({
 
   // matPostUdate로 navigate하기 위해 선언
   const navigate = useNavigate();
+  const token = localStorage.getItem("Authorization");
 
   // 단일 Post data get
   useEffect(() => {
@@ -238,21 +232,13 @@ const PostReadModal = ({
   }, [commentReload]);
 
   // post 삭제
-  const { axiosData: deleteP } = useAxios(
-    () => deletePost(id, placeId),
-    [deleteClicked],
-    true
-  );
+  const { axiosData: deleteP } = useAxios(() => deletePost(id, placeId), [deleteClicked], true);
 
   //'좋아요'
   const { axiosData: likeP } = useAxios(() => likePost(id, placeId), [], true);
 
   // '좋아요' 취소
-  const { axiosData: dislikeP } = useAxios(
-    () => dislikePost(id, placeId),
-    [],
-    true
-  );
+  const { axiosData: dislikeP } = useAxios(() => dislikePost(id, placeId), [], true);
 
   // matPostUpdate 컴포넌트로 post data 넘겨줌
   const postData = {
@@ -333,12 +319,17 @@ const PostReadModal = ({
 
   // '하트' 이모지 클릭 시 like / default 상태로 바뀜
   const handleLike = () => {
-    if (!isLikesCheck) {
-      likeP();
-      setIsLikesCheck(true);
+    if (!token) {
+      alert("로그인이 필요합니다!");
+      navigate("/login");
     } else {
-      dislikeP();
-      setIsLikesCheck(false);
+      if (!isLikesCheck) {
+        likeP();
+        setIsLikesCheck(true);
+      } else {
+        dislikeP();
+        setIsLikesCheck(false);
+      }
     }
   };
 
@@ -349,11 +340,7 @@ const PostReadModal = ({
 
   return (
     <StyledModal>
-      <span
-        role="presentation"
-        onClick={onClickToggleModal}
-        className="close-btn"
-      >
+      <span role="presentation" onClick={onClickToggleModal} className="close-btn">
         &times;
       </span>
       {isEdit ? (
@@ -374,17 +361,14 @@ const PostReadModal = ({
                 </ImgContainer>
                 <div className="post_nickname">{nickname}</div>
                 <div className="post_createdAt">
-                  {moment(createdAt, "YYYY-MM-DDTHH:mm:ss").format(
-                    "YYYY년 MMM Do"
-                  )}
+                  {moment(createdAt, "YYYY-MM-DDTHH:mm:ss").format("YYYY년 MMM Do")}
                 </div>
               </StyledInfo>
               <div>
                 <button
                   onClick={handleEdit}
                   className={
-                    nickname !== userInfo.nickname &&
-                    profileUrl !== userInfo.profileUrl
+                    nickname !== userInfo.nickname && profileUrl !== userInfo.profileUrl
                       ? "disabled"
                       : ""
                   }
@@ -394,8 +378,7 @@ const PostReadModal = ({
                 <button
                   onClick={handleClick}
                   className={
-                    nickname !== userInfo.nickname &&
-                    profileUrl !== userInfo.profileUrl
+                    nickname !== userInfo.nickname && profileUrl !== userInfo.profileUrl
                       ? "disabled"
                       : ""
                   }
@@ -429,25 +412,11 @@ const PostReadModal = ({
             <StyledStarsWrapper>
               <StyledStar>
                 {array.map((el, idx) => {
-                  return (
-                    <StarRate
-                      key={idx}
-                      size="50"
-                      className={clicked[el] ? "yellow" : ""}
-                    />
-                  );
+                  return <StarRate key={idx} size="50" className={clicked[el] ? "yellow" : ""} />;
                 })}
               </StyledStar>
-              <div
-                className="post_like"
-                onClick={handleLike}
-                role="presentation"
-              >
-                {isLikesCheck ? (
-                  <FavoriteIconStyled />
-                ) : (
-                  <FavoriteBorderIconStyled />
-                )}
+              <div className="post_like" onClick={handleLike} role="presentation">
+                {isLikesCheck ? <FavoriteIconStyled /> : <FavoriteBorderIconStyled />}
               </div>
             </StyledStarsWrapper>
           </StyledContentWrapper>

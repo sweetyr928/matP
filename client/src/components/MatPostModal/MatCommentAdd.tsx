@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { useState } from "react";
 import { createComment } from "../../api/axiosAPI/comments/commentsAxios";
 import useAxios from "../../hooks/useAxios";
+import { useNavigate } from "react-router";
 
 const StyledComment = styled.div`
   margin: 10px 0px 30px 0px;
@@ -44,12 +45,10 @@ const MatCommentAdd = ({
   getAllCommentsReload: () => void;
 }): JSX.Element => {
   const [comment, setComment] = useState<string>("");
+  const token = localStorage.getItem("Authorization");
+  const navigate = useNavigate();
 
-  const { axiosData } = useAxios(
-    () => createComment(comment, placeId, postId),
-    [comment],
-    true
-  );
+  const { axiosData } = useAxios(() => createComment(comment, placeId, postId), [comment], true);
 
   // 댓글 input 창
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -58,19 +57,29 @@ const MatCommentAdd = ({
 
   // enter 키 누를 시 댓글 업로드
   const handleKeyUp = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter" && comment.length > 0) {
+    if (!token) {
+      alert("로그인이 필요합니다!");
+      navigate("/login");
+    } else if (e.key === "Enter" && comment.length > 0) {
       axiosData();
       setComment("");
       getAllCommentsReload();
+    } else if (comment.length === 0) {
+      alert("댓글을 입력해주세요!");
     }
   };
 
   // 댓글 업로드
   const handleSumbit = () => {
-    if (comment.length > 0) {
+    if (!token) {
+      alert("로그인이 필요합니다!");
+      navigate("/login");
+    } else if (comment.length > 0) {
       axiosData();
       setComment("");
       getAllCommentsReload();
+    } else if (comment.length === 0) {
+      alert("댓글을 입력해주세요!");
     }
   };
 
