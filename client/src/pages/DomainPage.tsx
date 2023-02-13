@@ -65,33 +65,35 @@ const Domain: React.FC = () => {
     }
   }, [memberData]);
 
-  const [hasMore, setHasMore] = useState<boolean>(true);
   const [postsReload, setPostsReload] = useState<boolean>(false);
+  const [hasMore, setHasMore] = useState<boolean>(true);
   const [page, setPage] = useState(1);
   const [limit] = useState(24);
   const [postData, setPostData] = useState([]);
+
   const { responseData: posts } = useAxios(getPosts, [postsReload], false);
   const { axiosData: getPageAxios, responseData: pagePosts } = useAxios(
     () => getPagePosts(page, limit),
-    [page],
+    [page, postData],
     false
   );
+
+  const loadData = () => {
+    getPageAxios();
+    setPostData([...postData, ...pagePosts]);
+  };
 
   const handleScroll = (event: React.UIEvent<HTMLDivElement>) => {
     const target = event.target as HTMLDivElement;
     const { scrollTop, clientHeight, scrollHeight } = target;
     if (scrollTop + clientHeight >= scrollHeight && hasMore) {
+      // 페이지 끝에 도달하면 추가 데이터를 받아온다
       setPage(page + 1);
       loadData();
       if (pagePosts.length < limit) {
         setHasMore(false);
       }
     }
-  };
-
-  const loadData = () => {
-    getPageAxios();
-    setPostData([...postData, ...pagePosts]);
   };
 
   const getAllPostsReload = () => {
