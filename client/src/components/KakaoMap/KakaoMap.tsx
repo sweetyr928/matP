@@ -4,8 +4,11 @@ import { Map } from "react-kakao-maps-sdk";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import styled from "styled-components";
 import { curruntLocationState } from "../../store/curruntLocationPlacesAtom";
-import { placeInfoState, placeInfoStatusState } from "../../store/placeInfoAtoms";
-import PickerMarker from "./PIckerMarker";
+import {
+  placeInfoState,
+  placeInfoStatusState,
+} from "../../store/placeInfoAtoms";
+import PickerMarker from "./PickerMarker";
 import PlaceDetailMarker from "./PlaceDetailMarker";
 import SearchMarker from "./SearchMarker";
 
@@ -35,6 +38,7 @@ const KakaoMap = () => {
     lng: 126.95764417493172,
   });
 
+  // 맛플레이스 페이지 이동 시 해당 맛플레이스 정보 있으면 status "Success"되며 지도 해당 음식점 좌표로 이동
   useEffect(() => {
     if (placeInfoStatus === "Success") {
       setCenterMove({

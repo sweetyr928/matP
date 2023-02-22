@@ -1,7 +1,11 @@
 import styled from "styled-components";
 import useAxios from "../../hooks/useAxios";
 import { useEffect, useState } from "react";
-import { deletePost, likePost, dislikePost } from "../../api/axiosAPI/posts/PostsAxios";
+import {
+  deletePost,
+  likePost,
+  dislikePost,
+} from "../../api/axiosAPI/posts/PostsAxios";
 import StarRate from "./StarRate";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -157,7 +161,10 @@ interface ModalDefaultType {
   id: number;
 }
 
-const PostReadModal = ({ onClickToggleModal, id }: ModalDefaultType): JSX.Element => {
+const PostReadModal = ({
+  onClickToggleModal,
+  id,
+}: ModalDefaultType): JSX.Element => {
   const userInfo = useRecoilValue(userInfoState);
   const [nickname, setNickname] = useState<string>("");
   const [profileUrl, setProfileUrl] = useState<string>("");
@@ -232,13 +239,21 @@ const PostReadModal = ({ onClickToggleModal, id }: ModalDefaultType): JSX.Elemen
   }, [commentReload]);
 
   // post 삭제
-  const { axiosData: deleteP } = useAxios(() => deletePost(id, placeId), [deleteClicked], true);
+  const { axiosData: deleteP } = useAxios(
+    () => deletePost(id, placeId),
+    [deleteClicked],
+    true
+  );
 
   //'좋아요'
   const { axiosData: likeP } = useAxios(() => likePost(id, placeId), [], true);
 
   // '좋아요' 취소
-  const { axiosData: dislikeP } = useAxios(() => dislikePost(id, placeId), [], true);
+  const { axiosData: dislikeP } = useAxios(
+    () => dislikePost(id, placeId),
+    [],
+    true
+  );
 
   // matPostUpdate 컴포넌트로 post data 넘겨줌
   const postData = {
@@ -287,10 +302,7 @@ const PostReadModal = ({ onClickToggleModal, id }: ModalDefaultType): JSX.Elemen
     }, 100);
   };
 
-  /**
-   * post에 해당 하는 맛 플레이스 페이지로 이동
-   * TODO :지도 이동 기능 추가 확인
-   */
+  // post에 해당 하는 맛 플레이스 페이지로 이동
   const handleMatPlace = () => {
     navigate(`/places/${placeId}`);
   };
@@ -300,12 +312,12 @@ const PostReadModal = ({ onClickToggleModal, id }: ModalDefaultType): JSX.Elemen
     zIndex: 10000,
     top: "10px",
   };
-  // popover styling
+
   const PopoverTStyle = {
     backgroundColor: "#e9e9e9",
     fontSize: "15px",
   };
-  // popover styling
+
   const PopoverBtnStyle = {
     backgroundColor: "#874356",
     color: "#ffffff",
@@ -340,7 +352,11 @@ const PostReadModal = ({ onClickToggleModal, id }: ModalDefaultType): JSX.Elemen
 
   return (
     <StyledModal>
-      <span role="presentation" onClick={onClickToggleModal} className="close-btn">
+      <span
+        role="presentation"
+        onClick={onClickToggleModal}
+        className="close-btn"
+      >
         &times;
       </span>
       {isEdit ? (
@@ -361,14 +377,17 @@ const PostReadModal = ({ onClickToggleModal, id }: ModalDefaultType): JSX.Elemen
                 </ImgContainer>
                 <div className="post_nickname">{nickname}</div>
                 <div className="post_createdAt">
-                  {moment(createdAt, "YYYY-MM-DDTHH:mm:ss").format("YYYY년 MMM Do")}
+                  {moment(createdAt, "YYYY-MM-DDTHH:mm:ss").format(
+                    "YYYY년 MMM Do"
+                  )}
                 </div>
               </StyledInfo>
               <div>
                 <button
                   onClick={handleEdit}
                   className={
-                    nickname !== userInfo.nickname && profileUrl !== userInfo.profileUrl
+                    nickname !== userInfo.nickname &&
+                    profileUrl !== userInfo.profileUrl
                       ? "disabled"
                       : ""
                   }
@@ -378,7 +397,8 @@ const PostReadModal = ({ onClickToggleModal, id }: ModalDefaultType): JSX.Elemen
                 <button
                   onClick={handleClick}
                   className={
-                    nickname !== userInfo.nickname && profileUrl !== userInfo.profileUrl
+                    nickname !== userInfo.nickname &&
+                    profileUrl !== userInfo.profileUrl
                       ? "disabled"
                       : ""
                   }
@@ -412,11 +432,25 @@ const PostReadModal = ({ onClickToggleModal, id }: ModalDefaultType): JSX.Elemen
             <StyledStarsWrapper>
               <StyledStar>
                 {array.map((el, idx) => {
-                  return <StarRate key={idx} size="50" className={clicked[el] ? "yellow" : ""} />;
+                  return (
+                    <StarRate
+                      key={idx}
+                      size="50"
+                      className={clicked[el] ? "yellow" : ""}
+                    />
+                  );
                 })}
               </StyledStar>
-              <div className="post_like" onClick={handleLike} role="presentation">
-                {isLikesCheck ? <FavoriteIconStyled /> : <FavoriteBorderIconStyled />}
+              <div
+                className="post_like"
+                onClick={handleLike}
+                role="presentation"
+              >
+                {isLikesCheck ? (
+                  <FavoriteIconStyled />
+                ) : (
+                  <FavoriteBorderIconStyled />
+                )}
               </div>
             </StyledStarsWrapper>
           </StyledContentWrapper>

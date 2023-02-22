@@ -2,7 +2,10 @@ import { useState } from "react";
 import { MapMarker } from "react-kakao-maps-sdk";
 import styled from "styled-components";
 import { useRecoilValue } from "recoil";
-import { searchResultsState, searchStatusState } from "../../store/searchPlaceAtoms";
+import {
+  searchResultsState,
+  searchStatusState,
+} from "../../store/searchPlaceAtoms";
 import { useNavigate } from "react-router";
 import {
   curruntLocationPlacesState,
@@ -29,6 +32,7 @@ const SearchMarker = () => {
   const curruntLocationPlaces = useRecoilValue(curruntLocationPlacesState);
   const curruntLocationStatus = useRecoilValue(curruntLocationStatusState);
 
+  // 마커에 마우스 오버시 window 창 보임
   const [isVisible, setIsVisible] = useState({
     id: -1,
     isVisible: false,
@@ -46,7 +50,9 @@ const SearchMarker = () => {
               key={result.id}
               position={{ lat: result.latitude, lng: result.longitude }}
               clickable={true}
-              onMouseOver={() => setIsVisible({ id: result.id, isVisible: true })}
+              onMouseOver={() =>
+                setIsVisible({ id: result.id, isVisible: true })
+              }
               onMouseOut={() => setIsVisible({ id: -1, isVisible: false })}
               onClick={() => clickHandler(result.id)}
             >
@@ -65,7 +71,9 @@ const SearchMarker = () => {
               key={result.id}
               position={{ lat: result.latitude, lng: result.longitude }}
               clickable={true}
-              onMouseOver={() => setIsVisible({ id: result.id, isVisible: true })}
+              onMouseOver={() =>
+                setIsVisible({ id: result.id, isVisible: true })
+              }
               onMouseOut={() => setIsVisible({ id: -1, isVisible: false })}
               onClick={() => clickHandler(result.id)}
             >

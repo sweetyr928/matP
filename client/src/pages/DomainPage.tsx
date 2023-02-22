@@ -46,6 +46,7 @@ const StyledPosts = styled.div`
 `;
 
 const Domain: React.FC = () => {
+  // 로그인 시 로컬스토리지에서 토큰 가져와 로그인한 유저 정보 전역 상태로 관리
   const token = localStorage.getItem("Authorization");
   const setUserInfo = useSetRecoilState(userInfoState);
   const { axiosData: getUserInfo, responseData: memberData } = useAxios(
@@ -53,6 +54,7 @@ const Domain: React.FC = () => {
     [token],
     true
   );
+
   useEffect(() => {
     if (token) {
       getUserInfo();
@@ -71,18 +73,22 @@ const Domain: React.FC = () => {
   const [limit] = useState(24);
   const [postData, setPostData] = useState([]);
 
+  // 첫 24개 posts GET
   const { responseData: posts } = useAxios(getPosts, [postsReload], false);
+  // 첫 24개 posts 제외 나머지 posts GET(무한스크롤 위해)
   const { axiosData: getPageAxios, responseData: pagePosts } = useAxios(
     () => getPagePosts(page, limit),
     [page, postData],
     false
   );
 
+  // 무한스크롤(첫 24개 posts 제외 나머지 posts GET)
   const loadData = () => {
     getPageAxios();
     setPostData([...postData, ...pagePosts]);
   };
 
+  // 무한스크롤 로직
   const handleScroll = (event: React.UIEvent<HTMLDivElement>) => {
     const target = event.target as HTMLDivElement;
     const { scrollTop, clientHeight, scrollHeight } = target;
@@ -96,6 +102,7 @@ const Domain: React.FC = () => {
     }
   };
 
+  // posts reload 여부 체크
   const getAllPostsReload = () => {
     setPostsReload(!postsReload);
   };
@@ -106,6 +113,7 @@ const Domain: React.FC = () => {
         <h1>오늘의 맛 Post</h1>
       </HeaderContainer>
       <StyledPosts onScroll={handleScroll}>
+        {/* 처음에 렌더링되는 24개의 맛포스트 */}
         {posts &&
           posts.map((post: IPosts) => (
             <PostRead

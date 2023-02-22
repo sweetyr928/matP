@@ -35,22 +35,30 @@ const markerImg = [
 const PickerMarker = () => {
   const navigate = useNavigate();
   const token = localStorage.getItem("Authorization");
+  /**
+   * getPickerPlace -> 로그인한 유저의 맛픽커즈 목록 조회
+   * pickerPlaces -> 로그인한 유저의 맛픽커즈 목록
+   */
   const {
     axiosData: getPickerPlace,
     responseData: pickerPlaces,
     status,
   } = useAxios(getAllPickersPlaces, [token]);
 
+  // 지도에 마커 뿌리기 여부
   const [releaseMarker, setReleaseMarker] = useState(false);
+  // 마커에 마우스 누르면 상세 정보 윈도우 뜸
   const [isVisible, setIsVisible] = useState({
     id: -1,
     isVisible: false,
   });
 
+  // 마커 호버시 해당 맛플레이스 페이지로 이동
   const clickHandler = (id: number) => {
     navigate(`/places/${id}`);
   };
 
+  // 토큰이 있고(로그인된 상태 )마커가 아직 뿌려지지 않았다면 로그인한 유저의 맛픽커즈 목록 조회 후 마커 뿌려주기
   useEffect(() => {
     if (token && status === "Success" && !releaseMarker) {
       getPickerPlace();
@@ -70,7 +78,9 @@ const PickerMarker = () => {
               }}
               position={{ lat: place.latitude, lng: place.longitude }}
               clickable={true}
-              onMouseOver={() => setIsVisible({ id: place.id, isVisible: true })}
+              onMouseOver={() =>
+                setIsVisible({ id: place.id, isVisible: true })
+              }
               onMouseOut={() => setIsVisible({ id: -1, isVisible: false })}
               onClick={() => clickHandler(place.id)}
             >
