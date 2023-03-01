@@ -188,40 +188,37 @@ const PostReadModal = ({
 
   // 단일 Post data get
   useEffect(() => {
+    // 회원에게 인가된 정보
+    const getDataForUser = async () => {
+      const res = await instance.get(`/places/1/posts/${id}`);
+      setNickname(res.data.postInfo.memberInfo.nickname);
+      setProfileUrl(res.data.postInfo.memberInfo.profileUrl);
+      setTitle(res.data.postInfo.title);
+      setContent(res.data.postInfo.content);
+      setCreatedAt(res.data.postInfo.createdAt);
+      setStar(res.data.postInfo.star);
+      setPlaceId(res.data.postInfo.placeId);
+      setComments(res.data.comments);
+      setIsLikesCheck(res.data.isLikesCheck);
+    };
+
+    // 비회원에게 인가된 정보
+    const getDataForNonUser = async () => {
+      const res = await axios.get(`https://matp.o-r.kr/places/1/posts/${id}`);
+      setNickname(res.data.postInfo.memberInfo.nickname);
+      setProfileUrl(res.data.postInfo.memberInfo.profileUrl);
+      setTitle(res.data.postInfo.title);
+      setContent(res.data.postInfo.content);
+      setCreatedAt(res.data.postInfo.createdAt);
+      setStar(res.data.postInfo.star);
+      setPlaceId(res.data.postInfo.placeId);
+      setComments(res.data.comments);
+    };
+
     if (jwtToken) {
-      instance
-        .get(`/places/1/posts/${id}`)
-        .then((res) => {
-          setNickname(res.data.postInfo.memberInfo.nickname);
-          setProfileUrl(res.data.postInfo.memberInfo.profileUrl);
-          setTitle(res.data.postInfo.title);
-          setContent(res.data.postInfo.content);
-          setCreatedAt(res.data.postInfo.createdAt);
-          setStar(res.data.postInfo.star);
-          setPlaceId(res.data.postInfo.placeId);
-          setComments(res.data.comments);
-          setIsLikesCheck(res.data.isLikesCheck);
-        })
-        .catch(function (error) {
-          throw error;
-        });
+      getDataForUser();
     } else if (!jwtToken) {
-      axios
-        .get(`https://matp.o-r.kr/places/1/posts/${id}`)
-        .then((res) => {
-          setNickname(res.data.postInfo.memberInfo.nickname);
-          setProfileUrl(res.data.postInfo.memberInfo.profileUrl);
-          setTitle(res.data.postInfo.title);
-          setContent(res.data.postInfo.content);
-          setCreatedAt(res.data.postInfo.createdAt);
-          setStar(res.data.postInfo.star);
-          setPlaceId(res.data.postInfo.placeId);
-          setComments(res.data.comments);
-          setIsLikesCheck(res.data.isLikesCheck);
-        })
-        .catch(function (error) {
-          throw error;
-        });
+      getDataForNonUser();
     }
   }, []);
 
