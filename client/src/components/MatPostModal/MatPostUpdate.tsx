@@ -205,9 +205,9 @@ const PostUpdateModal = ({
   const handleStarClick = (index: number) => {
     getThumbnailUrl();
     const clickStates = [...clicked];
-    for (let i = 0; i < 5; i++) {
-      clickStates[i] = i <= index ? true : false;
-    }
+    clickStates.map((el, i) => {
+      i <= index ? true : false;
+    });
     setClicked(clickStates);
   };
 

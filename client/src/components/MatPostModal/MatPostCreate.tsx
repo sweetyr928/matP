@@ -137,7 +137,11 @@ interface ModalDefaultType {
   dataReloadHandler: () => void;
 }
 
-const PostCreateModal = ({ onClickToggleModal, placeId, dataReloadHandler }: ModalDefaultType) => {
+const PostCreateModal = ({
+  onClickToggleModal,
+  placeId,
+  dataReloadHandler,
+}: ModalDefaultType) => {
   // 모달 닫기
   const closeModal = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -152,7 +156,13 @@ const PostCreateModal = ({ onClickToggleModal, placeId, dataReloadHandler }: Mod
   const [thumbnailUrl, setThumbnailUrl] = useState<string>("");
 
   // 별점 기본값 설정
-  const [clicked, setClicked] = useState<boolean[]>([false, false, false, false, false]);
+  const [clicked, setClicked] = useState<boolean[]>([
+    false,
+    false,
+    false,
+    false,
+    false,
+  ]);
 
   const [imageContained, setImageContained] = useState<boolean>(false);
   const [submit, setSubmit] = useState<boolean>(false);
@@ -168,7 +178,14 @@ const PostCreateModal = ({ onClickToggleModal, placeId, dataReloadHandler }: Mod
   }, [htmlContent]);
 
   const { axiosData } = useAxios(
-    () => createPost(title, htmlContent, thumbnailUrl, clicked.filter(Boolean).length, placeId),
+    () =>
+      createPost(
+        title,
+        htmlContent,
+        thumbnailUrl,
+        clicked.filter(Boolean).length,
+        placeId
+      ),
     [title, htmlContent, thumbnailUrl, clicked, submit],
     true
   );
@@ -194,9 +211,9 @@ const PostCreateModal = ({ onClickToggleModal, placeId, dataReloadHandler }: Mod
    */
   const handleStarClick = (index: number) => {
     const clickStates = [...clicked];
-    for (let i = 0; i < 5; i++) {
-      clickStates[i] = i <= index ? true : false;
-    }
+    clickStates.map((el, i) => {
+      i <= index ? true : false;
+    });
     setClicked(clickStates);
   };
 
@@ -226,9 +243,16 @@ const PostCreateModal = ({ onClickToggleModal, placeId, dataReloadHandler }: Mod
         &times;
       </span>
       <StyledDiv>
-        <input placeholder="제목을 입력해주세요" value={title} onChange={handleInput}></input>
+        <input
+          placeholder="제목을 입력해주세요"
+          value={title}
+          onChange={handleInput}
+        ></input>
         <div className={title.length <= 0 ? "disabled" : ""}>
-          <MatEditor htmlContent={htmlContent} setHtmlContent={setHtmlContent} />
+          <MatEditor
+            htmlContent={htmlContent}
+            setHtmlContent={setHtmlContent}
+          />
         </div>
         <StyledStarsWrapper>
           <StyledRatingtxt>평점</StyledRatingtxt>
@@ -239,7 +263,9 @@ const PostCreateModal = ({ onClickToggleModal, placeId, dataReloadHandler }: Mod
                   key={idx}
                   size="50"
                   onClick={() => handleStarClick(el)}
-                  className={imageContained ? (clicked[el] ? "yellow" : "") : "disabled"}
+                  className={
+                    imageContained ? (clicked[el] ? "yellow" : "") : "disabled"
+                  }
                 />
               );
             })}
