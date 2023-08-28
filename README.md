@@ -14,6 +14,8 @@
 - 메인 페이지 리뷰 리스트 디자인(Grid UI) 및 기능 구현
 - 별점 통계 차트 및 별점 매기기 기능 구현
 
+### [👩‍💻 블로깅](https://bbeeyaks-moment.tistory.com/category/%EC%BD%94%EB%93%9C%EC%8A%A4%ED%85%8C%EC%9D%B4%EC%B8%A0%20SEB%20FE%2041%EA%B8%B0/Main-Project%28MatP%29)
+
 ## 📅 **프로젝트 기간**
 
 - 2023.01.04 ~ 2023.01.31
